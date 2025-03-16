@@ -4,6 +4,16 @@ import os
 import aiofiles
 from datetime import datetime
 from pydantic import BaseModel
+# from ..config import settings
+from langchain_google_genai import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-1.5-pro",
+        temperature=1,
+)
 
 class Query(BaseModel):
     query: str
@@ -17,7 +27,7 @@ app = FastAPI()
 def read_root():
     print("here")
     return {
-        2:"yo"
+        4:"yo"
     }
     
 @app.post('/upload')
@@ -45,5 +55,6 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
 @app.post('/query')
 async def create_query(query:Query):
     print(query.query)
-    
-    return query.query
+    message = llm.invoke(query.query)
+    print(message.content)
+    return message.content

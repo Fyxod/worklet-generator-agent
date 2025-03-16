@@ -8,6 +8,9 @@ uvicorn = "*"
 python-multipart = "*"
 fastapi = {extras = ["standard"], version = "*"}
 aiofiles = "*"
+langchain-google-genai = "*"
+langchain = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
