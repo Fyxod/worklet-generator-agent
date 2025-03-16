@@ -5,15 +5,7 @@ import aiofiles
 from datetime import datetime
 from pydantic import BaseModel
 # from ..config import settings
-from langchain_google_genai import ChatGoogleGenerativeAI
-from dotenv import load_dotenv
-
-load_dotenv()
-
-llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-pro",
-        temperature=1,
-)
+from llm import llm
 
 class Query(BaseModel):
     query: str
