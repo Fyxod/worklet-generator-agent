@@ -11,6 +11,9 @@ aiofiles = "*"
 langchain-google-genai = "*"
 langchain = "*"
 python-dotenv = "*"
+pandas = "*"
+tabula-py = "*"
+jpype1 = "*"
 
 [dev-packages]
 

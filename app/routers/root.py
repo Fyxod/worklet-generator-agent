@@ -1,4 +1,4 @@
-from llm import llm
+from app.llm import llm
 from typing import Annotated
 from fastapi import  UploadFile, File
 import os
@@ -6,25 +6,31 @@ import aiofiles
 from datetime import datetime
 from fastapi import APIRouter
 from pydantic import BaseModel
+from fastapi.responses import RedirectResponse
+from app.utils.parser import extract_tables_from_pdf
 
 class Query(BaseModel):
     query: str
 
-UPLOAD_DIR="../worklets"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
+
+UPLOAD_DIR = os.path.join(PROJECT_ROOT, "../worklets")
+
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-
 router=APIRouter(
-    prefix='/',
+    prefix='',
     tags=['root']
 )
 
 @router.get('/')
 def read_root():
-    print("here")
-    return {
-        4:"yo"
-    }
+    return RedirectResponse(url="http://localhost:8501")
+
+@router.get("/home")
+def frontend_redirect():
+    return RedirectResponse(url="http://localhost:8501")
     
 @router.post('/upload')
 async def upload_multiple(files: Annotated[list[UploadFile], File()]):
@@ -44,9 +50,15 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
             content = await file.read() 
             await buffer.write(content)
 
-        saved_files.append(file_path)
+        saved_files.append(new_filename)
 
-    return {"saved_files": saved_files}
+    extracted_data_all = {}
+    for index, file in enumerate(saved_files):
+        extracted_data_single = extract_tables_from_pdf(file)
+        print(extracted_data_single)
+        extracted_data_all[index] = extracted_data_single
+    return extracted_data_all
+    # return {"saved_files": saved_files}
 
 @router.post('/query')
 async def create_query(query:Query):
