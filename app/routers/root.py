@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from fastapi.responses import RedirectResponse
 from app.utils.parser import extract_tables_from_pdf
 from app.utils.parser2 import extract_document
+from app.utils.generate_worklets import generate_worklets
 
 class Query(BaseModel):
     query: str
@@ -58,8 +59,13 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
         extracted_data_single = await extract_document(file)
         print(extracted_data_single)
         extracted_data_all[index] = extracted_data_single
-    return extracted_data_all
-    # return {"saved_files": saved_files}
+
+    # call llm here with extracted_data_all
+    worklets =  await generate_worklets(extracted_data_all)
+    print("*********PRINTING THE WORKLETS WORKLETS WORKLETS WORKLETS")
+    print(worklets)
+    return {worklets.content}
+    # return extracted_data_all
 
 @router.post('/query')
 async def create_query(query:Query):
