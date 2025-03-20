@@ -55,7 +55,7 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
 
     extracted_data_all = {}
     for index, file in enumerate(saved_files):
-        extracted_data_single = extract_document(file)
+        extracted_data_single = await extract_document(file)
         print(extracted_data_single)
         extracted_data_all[index] = extracted_data_single
     return extracted_data_all
