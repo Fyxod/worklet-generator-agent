@@ -64,7 +64,6 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
     formatted_output = "\n\n".join(
         [f"--- Extracted Data from File {idx} ---\n{data}" for idx, data in extracted_data_all.items()]
     )
-
     print(formatted_output)  # Print for debugging
 
     # call llm here with extracted_data_all
