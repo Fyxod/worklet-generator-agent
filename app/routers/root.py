@@ -8,6 +8,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from fastapi.responses import RedirectResponse
 from app.utils.parser import extract_tables_from_pdf
+from app.utils.parser2 import extract_document
 
 class Query(BaseModel):
     query: str
@@ -54,7 +55,7 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
 
     extracted_data_all = {}
     for index, file in enumerate(saved_files):
-        extracted_data_single = extract_tables_from_pdf(file)
+        extracted_data_single = extract_document(file)
         print(extracted_data_single)
         extracted_data_all[index] = extracted_data_single
     return extracted_data_all
