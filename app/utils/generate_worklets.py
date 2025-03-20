@@ -1,6 +1,6 @@
 from langchain.prompts import ChatPromptTemplate
 from app.llm import llm
-from app.utils.funtes import extract_json_from_llm_response
+# from app.utils.llm_response_parser import extract_json_from_llm_response
 
 
 def get_prompt_template():
@@ -13,7 +13,7 @@ def get_prompt_template():
 
 ---
 
-### **🔹 Structure of Each Worklet Idea:**
+### ** Structure of Each Worklet Idea:**
 1. **Problem Statement**: Clearly describe the problem this worklet aims to address.
 2. **Goal**: Define the objective and intended outcome.
 3. **Expectations**: Describe what participants are expected to do or accomplish.
@@ -21,17 +21,17 @@ def get_prompt_template():
 
 ---
 
-### **🔹 Existing Worklets for Reference:**
+### ** Existing Worklets for Reference:**
 {worklet_data}
 
 ---
 
-### **🔹 Additional Guidelines:**
-✅ **Maintain originality**—do not copy or modify existing worklets too closely.  
-✅ **Keep ideas well-structured and clear** to ensure easy comprehension.  
-✅ **Avoid redundancy**—ensure each generated worklet introduces a fresh perspective.  
-✅ **Ensure coherence and practicality**—ideas should be applicable in real-world scenarios.  
-✅ **Do not introduce unrelated topics**—stick to the context of the given worklets.  
+### ** Additional Guidelines:**
+**Maintain originality**—do not copy or modify existing worklets too closely.  
+**Keep ideas well-structured and clear** to ensure easy comprehension.  
+**Avoid redundancy**—ensure each generated worklet introduces a fresh perspective.  
+**Ensure coherence and practicality**—ideas should be applicable in real-world scenarios.  
+**Do not introduce unrelated topics**—stick to the context of the given worklets.  
 
 Respond strictly in JSON format as shown below:
 
@@ -55,10 +55,11 @@ async def generate_worklets(worklet_data):
     print("*********************************************************************************************************************************************************************************************************************************************************************************")
     print("generated_worklets.content\n")
     print(generated_worklets.content)
-    # print("generated_worklets.json()\n")
-    # print(generated_worklets.json())
-    # print("generated_worklets.\n")
-    # print(generated_worklets)
+    print("generated_worklets.json()\n")
+    print(generated_worklets.json())
+    print("generated_worklets.\n")
+    print(generated_worklets)
 
 
-    return extract_json_from_llm_response(generated_worklets.content)
+    # return extract_json_from_llm_response(generated_worklets.content)
+    return generated_worklets.content

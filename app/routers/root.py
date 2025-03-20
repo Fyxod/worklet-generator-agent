@@ -70,7 +70,7 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
     # call llm here with extracted_data_all
     worklets =  await generate_worklets(extracted_data_all)
 
-    return {worklets}
+    return worklets
     # return {worklets}
     # return extracted_data_all
 

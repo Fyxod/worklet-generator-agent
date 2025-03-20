@@ -17,14 +17,16 @@ if uploaded_files:
         st.success(f"You have uploaded {len(uploaded_files)} file(s).")
         st.write("### Uploaded Files:")
         for file in uploaded_files:
-            st.write(f"- {file.name}")
-        
+            st.write(f"- {file.name} ({len(file.getvalue()) / 1024:.2f} KB)")
+
         if st.button("Generate worklets ->"):
             files_to_send = [("files", (file.name, file.getvalue(), "application/pdf")) for file in uploaded_files]
-            response = requests.post(FASTAPI_URL, files=files_to_send)
-            
-            if response.status_code == 200:
-                st.success("Files successfully uploaded!")
-                st.json(response.json())
-            else:
-                st.error("Failed to upload files. Please try again.")
+
+            with st.spinner("Uploading files and generating worklets... ⏳"):
+                try:
+                    response = requests.post(FASTAPI_URL, files=files_to_send)
+                    response.raise_for_status()  # Raises an error for HTTP failures
+                    st.success("Files successfully uploaded! 🎉")
+                    st.json(response.json())
+                except requests.exceptions.RequestException as e:
+                    st.error(f"Upload failed: {e}")
