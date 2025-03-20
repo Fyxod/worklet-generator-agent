@@ -57,14 +57,21 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
     extracted_data_all = {}
     for index, file in enumerate(saved_files):
         extracted_data_single = await extract_document(file)
-        print(extracted_data_single)
-        extracted_data_all[index] = extracted_data_single
+        # print(extracted_data_single)
+        extracted_data_all[index + 1] = extracted_data_single  # Number from 1 instead of 0
+
+    # Convert to a formatted string
+    formatted_output = "\n\n".join(
+        [f"--- Extracted Data from File {idx} ---\n{data}" for idx, data in extracted_data_all.items()]
+    )
+
+    print(formatted_output)  # Print for debugging
 
     # call llm here with extracted_data_all
     worklets =  await generate_worklets(extracted_data_all)
-    print("*********PRINTING THE WORKLETS WORKLETS WORKLETS WORKLETS")
-    print(worklets)
-    return {worklets.content}
+
+    return {worklets}
+    # return {worklets}
     # return extracted_data_all
 
 @router.post('/query')
