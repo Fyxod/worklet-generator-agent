@@ -52,7 +52,7 @@ Now, **generate 5 well-structured and distinct worklets** following these guidel
 def get_prompt_template_V2():
     return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas. Your task is to generate **five new worklets** based on the provided examples.
 
-### 🔹 **Instructions:**
+### **Instructions:**
 - Ensure that the new worklets are **unique yet thematically aligned** with the given worklets.
 - **Follow the exact format** below for each new worklet.
 - **Ensure ideas are innovative yet practically implementable.**
@@ -61,12 +61,13 @@ def get_prompt_template_V2():
 ---
 
 ### ** Structure of Each Worklet Idea:**
-1. **Problem Statement**: Clearly describe the problem this worklet aims to address.
-2. **Goal**: Define the objective and intended outcome.
-3. **Expectations**: Describe what participants are expected to do or accomplish.
-4. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed.
-5. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
-6. **Reference Work**: Provide a relevant book, article, research paper, or online resource to help participants get started.
+1. **Title**: A concise and engaging title summarizing the worklet.
+2. **Problem Statement**: Clearly describe the problem this worklet aims to address.
+3. **Goal**: Define the objective and intended outcome.
+4. **Expectations**: Describe what participants are expected to do or accomplish.
+5. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed.
+6. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
+7. **Reference Work**: Provide a relevant book, article, research paper, or online resource to help participants get started.
 
 ---
 
@@ -76,9 +77,9 @@ def get_prompt_template_V2():
 ---
 
 ### ** Additional Guidelines:**
-✅ **Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.  
-✅ **Introduce fresh perspectives**—each worklet should offer a unique angle or approach.  
-✅ **Maintain structured clarity**—ideas should be easy to understand and apply.  
+**Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.  
+**Introduce fresh perspectives**—each worklet should offer a unique angle or approach.  
+**Maintain structured clarity**—ideas should be easy to understand and apply.  
  **Stick to the context**—avoid introducing unrelated topics.  
 
 Respond **strictly in JSON format** as shown below:
@@ -87,6 +88,7 @@ Respond **strictly in JSON format** as shown below:
 {{
     "worklets": [
         {{
+            "Title": "...",
             "Problem Statement": "...",
             "Goal": "...",
             "Expectations": "...",
@@ -95,6 +97,7 @@ Respond **strictly in JSON format** as shown below:
             "Reference Work": "Book Title / Article Name / Online Course URL"
         }},
         {{
+            "Title": "...",
             "Problem Statement": "...",
             "Goal": "...",
             "Expectations": "...",
@@ -103,6 +106,7 @@ Respond **strictly in JSON format** as shown below:
             "Reference Work": "Relevant research paper / Blog post link"
         }},
         {{
+            "Title": "...",
             "Problem Statement": "...",
             "Goal": "...",
             "Expectations": "...",
@@ -111,6 +115,7 @@ Respond **strictly in JSON format** as shown below:
             "Reference Work": "Online tutorial / Industry report"
         }},
         {{
+            "Title": "...",
             "Problem Statement": "...",
             "Goal": "...",
             "Expectations": "...",
@@ -119,6 +124,7 @@ Respond **strictly in JSON format** as shown below:
             "Reference Work": "Documentation link / Workshop recording"
         }},
         {{
+            "Title": "...",
             "Problem Statement": "...",
             "Goal": "...",
             "Expectations": "...",
