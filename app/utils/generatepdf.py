@@ -55,6 +55,10 @@ json_string2={
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import landscape, letter
 from reportlab.lib.colors import lightgrey, blueviolet
+from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import Paragraph
+from reportlab.platypus import SimpleDocTemplate, Frame
 
 # might need to use when the json is passed from different dunction
 # import json
@@ -84,34 +88,37 @@ def draw_ruler(pdf, width, height):
 
 
 def generatePdf(json):
-    pdf_filename = json["Title"]+".pdf"
+    pdf_filename = "../resources/generatedPdf/"+json["Title"]+".pdf"
     pdf = canvas.Canvas(pdf_filename, pagesize=(page_width, page_height))
     draw_ruler(pdf, page_width, page_height)
     pdf.setTitle(pdf_filename)
 
 # pdf.drawString(0,0,"hi")
     x=740
-    pdf.line(0,x,1224,x)
+    pdf.line(0,x,1440,x)
     y = 792
-    pdf.line(0, y, 1224, y)
+    pdf.line(0, y, 1440, y)
 
-    q = 740
-    pdf.line(0, q, 1224, q)
-    a = 792
-    pdf.line(0, a, 1224, a)
+    q = 720
+    pdf.line(0, q, 1440, q)
+    a = 648
+    pdf.line(0, a, 1440, a)
+    # a = 1440
+    pdf.line(360, 0,360, 810)
+    pdf.line(360*3 ,0,360*3 , 810)
 
 # samsung logo
-    pdf.drawImage("../360_197_1-removebg-preview.png", 1008,690,
-                 width=250, height=150, mask='auto')
+    pdf.drawImage("../resources/Samsung_Orig_Wordmark_BLUE_RGB.png", 1190,720,
+                 width=250, height=90, mask='auto')
 # rectangles
 
  # small blue
-    pdf.setFillColorRGB(0, 0, 1)  # Pure blue (R=0, G=0, B=1)
-    pdf.rect(0, 740, 17, 792-740,  fill=1, stroke=0)
+    pdf.setFillColorRGB(18, 40, 140)
+    pdf.rect(0, 730, 17, 792-730,  fill=1, stroke=0)
 
 # small grey
     pdf.setFillColor(lightgrey)
-    pdf.rect(30, 740, 10, 792-740,  fill=1, stroke=0)
+    pdf.rect(30, 730, 10, 792-730,  fill=1, stroke=0)
 
 # big grey
     pdf.setFillColor(lightgrey)
@@ -119,8 +126,38 @@ def generatePdf(json):
 
 # title
     pdf.setFillColorRGB(0, 0, 0)
-    pdf.setFont("Times-Bold", 30)  # Font: Bold, Size: 24
-    pdf.drawString(52, 753, json["Title"].capitalize())  # Draw title
+    pdf.setFont("Times-Bold", 48)
+    pdf.drawString(52, 753, json["Title"].capitalize())
+
+    #problem statement
+    pdf.setFillColorRGB(20/255, 60/255, 140/255)
+    pdf.setFont("Times-Bold", 40)
+    pdf.drawString(220, 648, "Problem Statement")
+
+    # expecctation
+    pdf.drawString(1010, 670, "Expectation")
+
+# Paragaphs
+
+
+
+    problem_style = ParagraphStyle(
+        name="ProblemStyle",
+        fontName="Times-Roman",
+        fontSize=25,
+        textColor=colors.black,
+        leading=25,# Line spacing
+        alignment=0    # Left-aligned
+    )
+    problem_paragraph = Paragraph(json["Problem Statement"], problem_style)
+    goal_paragraph = Paragraph(json["Goal"], problem_style)
+    Expectation_paragraph = Paragraph(json["Expectations"], problem_style)
+    Training_Prerequisite_paragraph = Paragraph(json["Training/Prerequisite"], problem_style)
+
+    # frames
+    frame_problem = Frame(50, 432, 620, 216, showBoundary=1)
+    frame_problem.addFromList([problem_paragraph], pdf)
+
 
     pdf.save()
     print(f"PDF generated: {pdf_filename}")
