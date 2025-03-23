@@ -79,7 +79,7 @@ def get_prompt_template_V2():
 ✅ **Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.  
 ✅ **Introduce fresh perspectives**—each worklet should offer a unique angle or approach.  
 ✅ **Maintain structured clarity**—ideas should be easy to understand and apply.  
-✅ **Stick to the context**—avoid introducing unrelated topics.  
+ **Stick to the context**—avoid introducing unrelated topics.  
 
 Respond **strictly in JSON format** as shown below:
 
