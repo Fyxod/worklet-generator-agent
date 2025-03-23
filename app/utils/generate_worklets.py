@@ -67,7 +67,7 @@ def get_prompt_template_V2():
 4. **Expectations**: Describe what participants are expected to do or accomplish.
 5. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed.
 6. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
-7. **Reference Work**: Provide a relevant book, article, research paper, or online resource to help participants get started.
+7. **Reference Work**: Provide a relevant book, article, research paper, or online resource to help participants get started. Provide 2 if possible, if not then 1 is enough.
 
 ---
 

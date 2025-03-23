@@ -6,12 +6,16 @@ __pycache__/
 # C extensions
 *.so
 
+#ignoring pdf files
+*.pdf
+
 # Distribution / packaging
 .Python
 build/
 develop-eggs/
 dist/
 downloads/
+worklets/
 eggs/
 .eggs/
 lib/
