@@ -113,7 +113,7 @@ def generatePdf(json):
 # rectangles
 
  # small blue
-    pdf.setFillColorRGB(18, 40, 140)
+    pdf.setFillColorRGB(20/255, 60/255, 140/255)
     pdf.rect(0, 730, 17, 792-730,  fill=1, stroke=0)
 
 # small grey
@@ -132,10 +132,21 @@ def generatePdf(json):
     #problem statement
     pdf.setFillColorRGB(20/255, 60/255, 140/255)
     pdf.setFont("Times-Bold", 40)
-    pdf.drawString(220, 648, "Problem Statement")
+    pdf.drawString(220, 670, "Problem Statement")
 
     # expecctation
     pdf.drawString(1010, 670, "Expectation")
+    #Goal
+    pdf.drawString(1010, 400, "Goal")
+    #Worklet
+    pdf.drawString(220, 400, "Worklet Details")
+# normal black headings
+    pdf.setFillColorRGB(0, 0, 0)
+    pdf.setFont("Times-Bold", 25)
+    pdf.drawString(114, 200, "Duration")
+    pdf.drawString(350, 200, "Members")
+    pdf.drawString(350, 180, "Count  ")
+    pdf.drawString(572, 200, "Mentors")
 
 # Paragaphs
 
@@ -155,8 +166,15 @@ def generatePdf(json):
     Training_Prerequisite_paragraph = Paragraph(json["Training/Prerequisite"], problem_style)
 
     # frames
-    frame_problem = Frame(50, 432, 620, 216, showBoundary=1)
+    frame_problem =                       Frame(50, 432, 620, 216, showBoundary=1)
+    frame_expectations =                  Frame(770, 432, 620, 216, showBoundary=1)
+    frame_goal =                          Frame(770, 180, 620, 216, showBoundary=1)
+    # frame_Prerequisite_paragraph=         Frame(50, 432, 620, 216, showBoundary=1)
+
     frame_problem.addFromList([problem_paragraph], pdf)
+    frame_expectations.addFromList([Expectation_paragraph], pdf)
+    frame_goal.addFromList([goal_paragraph], pdf)
+    # frame_Prerequisite_paragraph.addFromList([problem_paragraph], pdf)
 
 
     pdf.save()
