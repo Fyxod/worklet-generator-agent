@@ -69,12 +69,11 @@ from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Paragraph
 from reportlab.platypus import SimpleDocTemplate, Frame
+import os
+# from reportlab.lib.colors import HexColor
 
-
-# might need to use when the json is passed from different dunction
-# import json
-# json2 = json.loads(json_string2)
-# print(json2)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
 # Define the page size in points (1 inch = 72 points)
 page_width = 20 * 72  # 1440 points
@@ -95,47 +94,33 @@ def draw_ruler(pdf, width, height):
     for i in range(0, int(height), 72):
         pdf.line(0, i, 10, i)  # Small tick marks on the left
         pdf.drawString(15, i - 3, str(i))  # Labels to the right of tick marks
-
+pdf_path = os.path.join(PROJECT_ROOT, "resources/generatedPdf/")
 
 
 def generatePdf(json):
-    pdf_filename = "../resources/generatedPdf/"+json["Title"]+".pdf"
+    pdf_filename = pdf_path+json["Title"]+".pdf"
     pdf = canvas.Canvas(pdf_filename, pagesize=(page_width, page_height))
-    draw_ruler(pdf, page_width, page_height)
+    draw_ruler(pdf, page_width,page_height)
+    pdf.setTitle(pdf_filename)
     pdf.setTitle(pdf_filename)
 
-# pdf.drawString(0,0,"hi")
-    x=740
-    pdf.line(0,x,1440,x)
-    y = 792
-    pdf.line(0, y, 1440, y)
-
-    q = 720
-    pdf.line(0, q, 1440, q)
-    a = 648
-    pdf.line(0, a, 1440, a)
-    # a = 1440
-    pdf.line(360, 0,360, 810)
-    pdf.line(360*3 ,0,360*3 , 810)
-
 # samsung logo
-    pdf.drawImage("../resources/Samsung_Orig_Wordmark_BLUE_RGB.png", 1190,720,
-                 width=250, height=90, mask='auto')
+    pdf.drawImage("../resources/Samsung_Orig_Wordmark_BLUE_RGB.png", 1190,720,width=250, height=90, mask='auto')
 # rectangles
 
- # small blue
+    # small blue
     pdf.setFillColorRGB(20/255, 60/255, 140/255)
     pdf.rect(0, 730, 17, 792-730,  fill=1, stroke=0)
 
-# small grey
+    # small grey
     pdf.setFillColor(lightgrey)
     pdf.rect(30, 730, 10, 792-730,  fill=1, stroke=0)
 
-# big grey
+    # big grey
     pdf.setFillColor(lightgrey)
     pdf.rect(0,  0, 720, 720, fill=1, stroke=0)    # remove 50 and do zero
 
-
+    # Complexity
     pdf.setFillColorRGB(0, 0, 0)
     pdf.setFont("Times-Bold", 20)
     a = 190
@@ -171,6 +156,13 @@ def generatePdf(json):
     pdf.rect(956+a, 72+y, 20, 10, fill=1, stroke=0)
     pdf.setFillColor(HexColor("#da2927"))
     pdf.rect(983+a, 72+y, 20, 10, fill=1, stroke=0)
+
+    arrX = [740, 767, 794, 821, 848, 875, 902, 929, 956, 983]
+    arrowYPosition = 48
+
+    # arrow - png
+    pdf.drawImage(f"{PROJECT_ROOT}/resources/arrow.png", arrX[json["Difficulty"]-1], arrowYPosition, width=25,
+                  height=25, mask='auto')
 # title
     pdf.setFillColorRGB(0, 0, 0)
     pdf.setFont("Times-Bold", 48)
@@ -203,7 +195,7 @@ def generatePdf(json):
     pdf.drawString(350, 180, "Count  ")
     pdf.drawString(572, 200, "Mentors")
 
-
+    pdf.drawImage(f"{PROJECT_ROOT}/resources/Samsung_Orig_Wordmark_BLUE_RGB.png", 1190,720,width=250, height=90, mask='auto')
 # Paragaphs
 
 
