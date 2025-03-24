@@ -5,11 +5,15 @@ import os
 import aiofiles
 from datetime import datetime
 from fastapi import APIRouter
+import shutil
+from pathlib import Path
 from pydantic import BaseModel
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse
 from app.utils.parser import extract_tables_from_pdf
 from app.utils.parser2 import extract_document
 from app.utils.generate_worklets import generate_worklets
+from app.utils.generatepdf import generatePdf
+
 
 class Query(BaseModel):
     query: str
@@ -18,8 +22,12 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
 UPLOAD_DIR = os.path.join(PROJECT_ROOT, "../worklets")
-
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+GENERATED_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
+DESTINATION_DIR = os.path.join(PROJECT_ROOT, "./resources/archived_worklets")
+os.makedirs(GENERATED_DIR, exist_ok=True)
+os.makedirs(DESTINATION_DIR, exist_ok=True)
 
 router=APIRouter(
     prefix='',
@@ -69,9 +77,34 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
     # call llm here with extracted_data_all
     worklets =  await generate_worklets(extracted_data_all)
 
-    return worklets
+    # moving old files
+    for filename in os.listdir(GENERATED_DIR):
+        source_path = os.path.join(GENERATED_DIR, filename)
+        destination_path = os.path.join(DESTINATION_DIR, filename)
+
+        if os.path.isfile(source_path):
+            shutil.move(source_path, destination_path)
+    
+    response = {"files":[]}
+    for worklet in worklets["worklets"]:
+        generatePdf(worklet)
+        response["files"].append({"name": f'{worklet["Title"]}.pdf', "url": f"http://localhost:8000/download/{worklet['Title']}.pdf"})
+        
+    return response
     # return {worklets}
     # return extracted_data_all
+
+@router.get('/download/{file_name}')
+async def download(file_name: str):
+    print(file_name)
+    
+    file_path = Path(GENERATED_DIR) / file_name  # Convert to Path object
+    print(file_path)
+    
+    if file_path.exists():  # Now it works
+        return FileResponse(file_path, media_type="application/pdf", filename=file_name)
+    
+    return {"error": "File not found"}
 
 @router.post('/query')
 async def create_query(query:Query):

@@ -15,6 +15,7 @@ pandas = "*"
 tabula-py = "*"
 jpype1 = "*"
 kreuzberg = "*"
+reportlab = "*"
 
 [dev-packages]
 

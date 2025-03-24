@@ -75,6 +75,10 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
+UPLOAD_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
+print(UPLOAD_DIR)
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
 # Define the page size in points (1 inch = 72 points)
 page_width = 20 * 72  # 1440 points
 page_height = 11.25 * 72  # 810 points
@@ -94,7 +98,7 @@ def draw_ruler(pdf, width, height):
     for i in range(0, int(height), 72):
         pdf.line(0, i, 10, i)  # Small tick marks on the left
         pdf.drawString(15, i - 3, str(i))  # Labels to the right of tick marks
-pdf_path = os.path.join(PROJECT_ROOT, "resources/generatedPdf/")
+pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 
 
 def generatePdf(json):
@@ -105,7 +109,8 @@ def generatePdf(json):
     pdf.setTitle(pdf_filename)
 
 # samsung logo
-    pdf.drawImage("../resources/Samsung_Orig_Wordmark_BLUE_RGB.png", 1190,720,width=250, height=90, mask='auto')
+    pdf.drawImage(f"{PROJECT_ROOT}/resources/Samsung_Orig_Wordmark_BLUE_RGB.png", 1190,720, width=250, height=90, mask='auto')
+    
 # rectangles
 
     # small blue
@@ -236,7 +241,6 @@ def generatePdf(json):
     frame_Prerequisite_paragraph.addFromList([Training_Prerequisite_paragraph], pdf)
     frame_ref.addFromList([ref_paragraph], pdf)
 
-
     pdf.save()
     print(f"PDF generated: {pdf_filename}")
-generatePdf(json_string2)
+# generatePdf(json_string2)

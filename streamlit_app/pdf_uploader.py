@@ -1,10 +1,29 @@
 import streamlit as st
 import requests
 import os
+import zipfile
+import io
+import urllib.parse  # Import URL encoding module
 
-FASTAPI_URL = os.getenv("FASTAPI_URL", "http://localhost:8000/upload")
+
+FASTAPI_URL = os.getenv("FASTAPI_URL", "http://localhost:8000")
 
 st.set_page_config(page_title="Worklet Generator", layout="centered")
+st.markdown(
+    """
+    <style>
+    a {
+        color: white !important;  /* Change link color to white */
+        text-decoration: none !important;  /* Remove underline */
+    }
+    a:hover {
+        color: lightgray !important;  /* Change hover color */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 st.title("Upload up to 5 worklets")
 
@@ -24,9 +43,23 @@ if uploaded_files:
 
             with st.spinner("Uploading files and generating worklets... ⏳"):
                 try:
-                    response = requests.post(FASTAPI_URL, files=files_to_send)
-                    response.raise_for_status()  # Raises an error for HTTP failures
-                    st.success("Files successfully uploaded! 🎉")
-                    st.json(response.json())
+                    response = requests.post(f"{FASTAPI_URL}/upload", files=files_to_send)
+                    response.raise_for_status()
+                    
+                    data = response.json()
+                    
+                    if "files" in data:
+                        st.success("Files successfully generated! 🎉")
+
+                        # Display download links with proper URL encoding
+                        st.write("### Download Generated PDFs:")
+                        for file in data["files"]:
+                            file_name_encoded = urllib.parse.quote(file["name"])  # Encode filename for URL
+                            download_url = f"{FASTAPI_URL}/download/{file_name_encoded}"
+                            st.markdown(f"[📄 {file['name']}]({download_url})")
+
+                    else:
+                        st.error("Unexpected response format.")
+                
                 except requests.exceptions.RequestException as e:
                     st.error(f"Upload failed: {e}")
