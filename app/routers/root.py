@@ -13,6 +13,7 @@ from app.utils.parser import extract_tables_from_pdf
 from app.utils.parser2 import extract_document
 from app.utils.generate_worklets import generate_worklets
 from app.utils.generatepdf import generatePdf
+import tempfile
 
 
 class Query(BaseModel):
@@ -105,6 +106,21 @@ async def download(file_name: str):
         return FileResponse(file_path, media_type="application/pdf", filename=file_name)
     
     return {"error": "File not found"}
+
+@router.get("/download_all")
+def download_all():
+    """Zips all files in the specified directory and returns the zip file."""
+    if not os.path.exists(GENERATED_DIR):
+        return {"error": "Directory not found"}
+    
+    # Create a temporary zip file
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".zip") as temp_zip:
+        zip_path = temp_zip.name
+    
+    shutil.make_archive(zip_path[:-4], 'zip', GENERATED_DIR)
+    
+    return FileResponse(zip_path, filename="worklets.zip", media_type="application/zip")
+
 
 @router.post('/query')
 async def create_query(query:Query):

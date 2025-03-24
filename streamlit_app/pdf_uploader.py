@@ -5,7 +5,6 @@ import zipfile
 import io
 import urllib.parse  # Import URL encoding module
 
-
 FASTAPI_URL = os.getenv("FASTAPI_URL", "http://localhost:8000")
 
 st.set_page_config(page_title="Worklet Generator", layout="centered")
@@ -23,7 +22,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 
 st.title("Upload up to 5 worklets")
 
@@ -58,6 +56,9 @@ if uploaded_files:
                             download_url = f"{FASTAPI_URL}/download/{file_name_encoded}"
                             st.markdown(f"[📄 {file['name']}]({download_url})")
 
+                        # Provide a ZIP download link for all files
+                        zip_download_url = f"{FASTAPI_URL}/download_all"
+                        st.markdown(f"### 📥 [Download All as ZIP]({zip_download_url})")
                     else:
                         st.error("Unexpected response format.")
                 
