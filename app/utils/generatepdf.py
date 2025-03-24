@@ -52,13 +52,24 @@ json_string2={
             "Difficulty": 9,
             "Reference Work": "“Anomaly Detection: A Survey” - Chandola et al. (2009)"
         }
+
+json_string3={
+    "Title":"Predictive Maintenance for Smart Home Devices Using Time Series Anomaly Detection",
+    "Problem Statement":"Smart home devices generate vast amounts of time-series data. Identifying anomalies in this data can enable predictive maintenance, preventing device failures and improving user experience. Traditional anomaly detection methods may not be suitable for the complex and dynamic patterns exhibited by smart home device data.",
+    "Goal":"Develop a time-series anomaly detection model to predict potential failures in smart home devices based on their historical sensor data. The model should be robust to noise and seasonality and capable of detecting subtle anomalies that precede device failures.",
+    "Expectations":"Participants will collect or simulate time-series data from smart home devices, implement and evaluate various anomaly detection algorithms (e.g., LSTM-based autoencoders, isolation forests), and develop a system for visualizing and alerting users about potential device failures. A working demo showing predicted device state would be ideal.",
+    "Training/Prerequisite":"Knowledge of time-series analysis, anomaly detection techniques, and machine learning algorithms. Familiarity with Python and relevant libraries like TensorFlow or PyTorch.",
+    "Difficulty":6,
+    "Reference Work":"Deep Learning for Anomaly Detection: A Review (https://www.researchgate.net/publication/344028491_Deep_Learning_for_Anomaly_Detection_A_Review)"}
+
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import landscape, letter
-from reportlab.lib.colors import lightgrey, blueviolet
+from reportlab.lib.colors import lightgrey, blueviolet, HexColor
 from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Paragraph
 from reportlab.platypus import SimpleDocTemplate, Frame
+
 
 # might need to use when the json is passed from different dunction
 # import json
@@ -122,8 +133,44 @@ def generatePdf(json):
 
 # big grey
     pdf.setFillColor(lightgrey)
-    pdf.rect(50,  50, 720-50, 720-50, fill=1, stroke=0)    # remove 50 and do zero
+    pdf.rect(0,  0, 720, 720, fill=1, stroke=0)    # remove 50 and do zero
 
+
+    pdf.setFillColorRGB(0, 0, 0)
+    pdf.setFont("Times-Bold", 20)
+    a = 190
+    y=-20
+    pdf.drawString(767 + 6+a, 85+y, "2")
+    pdf.drawString(794 + 6+a, 85+y, "3")
+    pdf.drawString(821 + 6+a, 85+y, "4")
+    pdf.drawString(848 + 6+a, 85+y, "5")
+    pdf.drawString(740 + 6+a, 85+y, "1")
+    pdf.drawString(875 + 6+a, 85+y, "6")
+    pdf.drawString(902 + 6+a, 85+y, "7")
+    pdf.drawString(929 + 6+a, 85+y, "8")
+    pdf.drawString(956 + 6+a, 85+y, "9")
+    pdf.drawString(978 + 6+a, 85+y, "10")
+
+    pdf.setFillColor(HexColor("#5ab43b"))
+    pdf.rect(740+a, 72+y, 20, 10, fill=1, stroke=0)
+    pdf.setFillColor(HexColor("#6fcb3b"))
+    pdf.rect(767+a, 72+y, 20, 10, fill=1, stroke=0)
+    pdf.setFillColor(HexColor("#93e041"))
+    pdf.rect(794+a, 72+y, 20, 10, fill=1, stroke=0)
+    pdf.setFillColor(HexColor("#cad442"))
+    pdf.rect(821+a, 72+y, 20, 10, fill=1, stroke=0)
+    pdf.setFillColor(HexColor("#fbc430"))
+    pdf.rect(848+a, 72+y, 20, 10, fill=1, stroke=0)
+    pdf.setFillColor(HexColor("#fcb120"))
+    pdf.rect(875+a, 72+y, 20, 10, fill=1, stroke=0)
+    pdf.setFillColor(HexColor("#ff932c"))
+    pdf.rect(902+a, 72+y, 20, 10, fill=1, stroke=0)
+    pdf.setFillColor(HexColor("#f47c1d"))
+    pdf.rect(929+a, 72+y, 20, 10, fill=1, stroke=0)
+    pdf.setFillColor(HexColor("#e64817"))
+    pdf.rect(956+a, 72+y, 20, 10, fill=1, stroke=0)
+    pdf.setFillColor(HexColor("#da2927"))
+    pdf.rect(983+a, 72+y, 20, 10, fill=1, stroke=0)
 # title
     pdf.setFillColorRGB(0, 0, 0)
     pdf.setFont("Times-Bold", 48)
@@ -136,10 +183,18 @@ def generatePdf(json):
 
     # expecctation
     pdf.drawString(1010, 670, "Expectation")
+
     #Goal
     pdf.drawString(1010, 400, "Goal")
+
     #Worklet
     pdf.drawString(220, 400, "Worklet Details")
+
+    # prereq
+    pdf.setFont("Times-Bold", 20)
+    pdf.drawString(50, 150, "Training/Prerequisite")
+    pdf.drawString(770, 60, "Complexity")
+    pdf.drawString(770, 150, "Reference Work")
 # normal black headings
     pdf.setFillColorRGB(0, 0, 0)
     pdf.setFont("Times-Bold", 25)
@@ -147,6 +202,7 @@ def generatePdf(json):
     pdf.drawString(350, 200, "Members")
     pdf.drawString(350, 180, "Count  ")
     pdf.drawString(572, 200, "Mentors")
+
 
 # Paragaphs
 
@@ -160,21 +216,32 @@ def generatePdf(json):
         leading=25,# Line spacing
         alignment=0    # Left-aligned
     )
+    ref_style = ParagraphStyle(
+        name="refStyle",
+        fontName="Times-Roman",
+        fontSize=18,
+        textColor=colors.black,
+        leading=20,# Line spacing
+        alignment=0    # Left-aligned
+    )
     problem_paragraph = Paragraph(json["Problem Statement"], problem_style)
     goal_paragraph = Paragraph(json["Goal"], problem_style)
     Expectation_paragraph = Paragraph(json["Expectations"], problem_style)
     Training_Prerequisite_paragraph = Paragraph(json["Training/Prerequisite"], problem_style)
+    ref_paragraph = Paragraph(json["Reference Work"], ref_style)
 
     # frames
     frame_problem =                       Frame(50, 432, 620, 216, showBoundary=1)
     frame_expectations =                  Frame(770, 432, 620, 216, showBoundary=1)
     frame_goal =                          Frame(770, 180, 620, 216, showBoundary=1)
-    # frame_Prerequisite_paragraph=         Frame(50, 432, 620, 216, showBoundary=1)
+    frame_Prerequisite_paragraph=         Frame(50, 0, 620, 140, showBoundary=1)
+    frame_ref=         Frame(770, 80, 620, 60, showBoundary=1)
 
     frame_problem.addFromList([problem_paragraph], pdf)
     frame_expectations.addFromList([Expectation_paragraph], pdf)
     frame_goal.addFromList([goal_paragraph], pdf)
-    # frame_Prerequisite_paragraph.addFromList([problem_paragraph], pdf)
+    frame_Prerequisite_paragraph.addFromList([Training_Prerequisite_paragraph], pdf)
+    frame_ref.addFromList([ref_paragraph], pdf)
 
 
     pdf.save()
