@@ -49,7 +49,7 @@ json_string2={
             "Goal": "Develop a robust anomaly detection system for time series data using a combination of statistical methods and machine learning techniques.",
             "Expectations": "Participants will explore different anomaly detection algorithms (e.g., ARIMA, LSTM autoencoders), implement them on a real-world time series dataset, and evaluate their performance in terms of precision, recall, and F1-score.",
             "Training/Prerequisite": "Knowledge of time series analysis, statistical modeling, and machine learning techniques. Familiarity with libraries such as Statsmodels and scikit-learn is helpful.",
-            "Difficulty": 9,
+            "Difficulty": 1,
             "Reference Work": "“Anomaly Detection: A Survey” - Chandola et al. (2009)"
         }
 
@@ -100,7 +100,7 @@ pdf_path = os.path.join(PROJECT_ROOT, "resources/generatedPdf/")
 def generatePdf(json):
     pdf_filename = pdf_path+json["Title"]+".pdf"
     pdf = canvas.Canvas(pdf_filename, pagesize=(page_width, page_height))
-    draw_ruler(pdf, page_width,page_height)
+    # draw_ruler(pdf, page_width,page_height)
     pdf.setTitle(pdf_filename)
     pdf.setTitle(pdf_filename)
 
@@ -157,12 +157,13 @@ def generatePdf(json):
     pdf.setFillColor(HexColor("#da2927"))
     pdf.rect(983+a, 72+y, 20, 10, fill=1, stroke=0)
 
-    arrX = [740, 767, 794, 821, 848, 875, 902, 929, 956, 983]
-    arrowYPosition = 48
+    x=26
+    arrX = [928, 928+x, 929+2*x, 930+3*x, 932+4*x, 934+5*x, 934+6*x, 936+7*x, 938+8*x ,938+9*x]
+    arrowYPosition = 30
 
     # arrow - png
-    pdf.drawImage(f"{PROJECT_ROOT}/resources/arrow.png", arrX[json["Difficulty"]-1], arrowYPosition, width=25,
-                  height=25, mask='auto')
+    pdf.drawImage(f"{PROJECT_ROOT}/resources/arrow.png", arrX[json["Difficulty"]-1], arrowYPosition, width=25,height=25, mask='auto')
+    # pdf.drawImage(f"{PROJECT_ROOT}/resources/arrow.png", arrX[9], arrowYPosition, width=25,height=25, mask='auto')
 # title
     pdf.setFillColorRGB(0, 0, 0)
     pdf.setFont("Times-Bold", 48)
@@ -223,11 +224,11 @@ def generatePdf(json):
     ref_paragraph = Paragraph(json["Reference Work"], ref_style)
 
     # frames
-    frame_problem =                       Frame(50, 432, 620, 216, showBoundary=1)
-    frame_expectations =                  Frame(770, 432, 620, 216, showBoundary=1)
-    frame_goal =                          Frame(770, 180, 620, 216, showBoundary=1)
-    frame_Prerequisite_paragraph=         Frame(50, 0, 620, 140, showBoundary=1)
-    frame_ref=         Frame(770, 80, 620, 60, showBoundary=1)
+    frame_problem =                       Frame(50, 432, 620, 216, showBoundary=0)
+    frame_expectations =                  Frame(770, 432, 620, 216, showBoundary=0)
+    frame_goal =                          Frame(770, 180, 620, 216, showBoundary=0)
+    frame_Prerequisite_paragraph=         Frame(50, 0, 620, 140, showBoundary=0)
+    frame_ref=         Frame(770, 80, 620, 60, showBoundary=0)
 
     frame_problem.addFromList([problem_paragraph], pdf)
     frame_expectations.addFromList([Expectation_paragraph], pdf)
