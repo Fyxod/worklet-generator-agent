@@ -4,8 +4,6 @@ import os
 import zipfile
 import io
 import urllib.parse  # Import URL encoding module
-from pdf2image import convert_from_bytes
-from PIL import Image
 
 FASTAPI_URL = os.getenv("FASTAPI_URL", "http://localhost:8000")
 
@@ -35,17 +33,8 @@ if uploaded_files:
     else:
         st.success(f"You have uploaded {len(uploaded_files)} file(s).")
         st.write("### Uploaded Files:")
-        
         for file in uploaded_files:
             st.write(f"- {file.name} ({len(file.getvalue()) / 1024:.2f} KB)")
-            
-            # Convert first page of PDF to image for preview
-            try:
-                images = convert_from_bytes(file.getvalue(), first_page=1, last_page=1)
-                if images:
-                    st.image(images[0], caption=f"Preview of {file.name}", use_column_width=True)
-            except Exception as e:
-                st.warning(f"Could not generate preview for {file.name}: {e}")
 
         if st.button("Generate worklets ->"):
             files_to_send = [("files", (file.name, file.getvalue(), "application/pdf")) for file in uploaded_files]
