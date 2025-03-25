@@ -62,12 +62,12 @@ def get_prompt_template_V2():
 
 ### ** Structure of Each Worklet Idea:**
 1. **Title**: A concise and engaging title summarizing the worklet not more than 4-6 words.
-2. **Problem Statement**: Clearly describe the problem this worklet aims to address.
-3. **Goal**: Define the objective and intended outcome.
-4. **Expectations**: Describe what participants are expected to do or accomplish.
+2. **Problem Statement**: Clearly describe the problem this worklet aims to address. between 28-33 words
+3. **Goal**: Define the objective and intended outcome. between 30 -35 words 
+4. **Expectations**: Describe what participants are expected to do or accomplish.  between 38 to 45 words 
 5. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed.
 6. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
-7. **Reference Work**: Provide a relevant book, article, research paper, or online resource to help participants get started. Provide 2 if possible, if not then 1 is enough.
+7. **Reference Work**: Include at least one reference work, preferably an academic or research paper. If two strong references are available, include both
 
 ---
 
@@ -80,7 +80,8 @@ def get_prompt_template_V2():
 **Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.  
 **Introduce fresh perspectives**—each worklet should offer a unique angle or approach.  
 **Maintain structured clarity**—ideas should be easy to understand and apply.  
- **Stick to the context**—avoid introducing unrelated topics.  
+**Stick to the context**—avoid introducing unrelated topics. 
+**Word Limit**- Strictly adhere to word limits to avoid formatting errors in PDF generation.   
 
 Respond **strictly in JSON format** as shown below:
 
