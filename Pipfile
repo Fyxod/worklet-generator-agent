@@ -16,6 +16,8 @@ tabula-py = "*"
 jpype1 = "*"
 kreuzberg = "*"
 reportlab = "*"
+pdf2image = "*"
+streamlit = "*"
 
 [dev-packages]
 
