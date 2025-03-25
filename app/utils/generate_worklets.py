@@ -90,48 +90,48 @@ Respond **strictly in JSON format** as shown below:
     "worklets": [
         {{
             "Title": "...",
-            "Problem Statement": "...",
-            "Goal": "...",
-            "Expectations": "...",
+            "Problem Statement": "... (28-33 words)",
+            "Goal": "... (30-35 words)",
+            "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 5,
-            "Reference Work": "Book Title / Article Name / Online Course URL"
+            "Reference Work": "Academic Paper / Research Study"
         }},
         {{
             "Title": "...",
-            "Problem Statement": "...",
-            "Goal": "...",
-            "Expectations": "...",
+            "Problem Statement": "... (28-33 words)",
+            "Goal": "... (30-35 words)",
+            "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 3,
-            "Reference Work": "Relevant research paper / Blog post link"
+            "Reference Work": "Academic Paper / Research Study"
         }},
         {{
             "Title": "...",
-            "Problem Statement": "...",
-            "Goal": "...",
-            "Expectations": "...",
+            "Problem Statement": "... (28-33 words)",
+            "Goal": "... (30-35 words)",
+            "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 8,
-            "Reference Work": "Online tutorial / Industry report"
+            "Reference Work": "Academic Paper / Research Study"
         }},
         {{
             "Title": "...",
-            "Problem Statement": "...",
-            "Goal": "...",
-            "Expectations": "...",
+            "Problem Statement": "... (28-33 words)",
+            "Goal": "... (30-35 words)",
+            "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 6,
-            "Reference Work": "Documentation link / Workshop recording"
+            "Reference Work": "Academic Paper / Research Study"
         }},
         {{
             "Title": "...",
-            "Problem Statement": "...",
-            "Goal": "...",
-            "Expectations": "...",
+            "Problem Statement": "... (28-33 words)",
+            "Goal": "... (30-35 words)",
+            "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 9,
-            "Reference Work": "Academic journal / Advanced technical guide"
+            "Reference Work": "Academic Paper / Research Study"
         }}
     ]
 }}
