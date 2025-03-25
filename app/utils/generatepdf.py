@@ -208,23 +208,31 @@ def generatePdf(json):
     problem_style = ParagraphStyle(
         name="ProblemStyle",
         fontName="Times-Roman",
-        fontSize=25,
+        fontSize=28,
         textColor=colors.black,
-        leading=25,# Line spacing
+        leading=28,# Line spacing
         alignment=0    # Left-aligned
     )
     ref_style = ParagraphStyle(
         name="refStyle",
         fontName="Times-Roman",
-        fontSize=18,
+        fontSize=16,
         textColor=colors.black,
-        leading=20,# Line spacing
+        leading=18,# Line spacing
+        alignment=0    # Left-aligned
+    )
+    training_style = ParagraphStyle(
+        name="refStyle",
+        fontName="Times-Roman",
+        fontSize=19,
+        textColor=colors.black,
+        leading=21,# Line spacing
         alignment=0    # Left-aligned
     )
     problem_paragraph = Paragraph(json["Problem Statement"], problem_style)
     goal_paragraph = Paragraph(json["Goal"], problem_style)
     Expectation_paragraph = Paragraph(json["Expectations"], problem_style)
-    Training_Prerequisite_paragraph = Paragraph(json["Training/Prerequisite"], problem_style)
+    Training_Prerequisite_paragraph = Paragraph(json["Training/Prerequisite"], training_style)
     ref_paragraph = Paragraph(json["Reference Work"], ref_style)
 
     # frames
