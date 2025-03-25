@@ -209,17 +209,17 @@ def generatePdf(json):
     problem_style = ParagraphStyle(
         name="ProblemStyle",
         fontName="Times-Roman",
-        fontSize=25,
+        fontSize=24,
         textColor=colors.black,
-        leading=25,# Line spacing
+        leading=24,# Line spacing
         alignment=0    # Left-aligned
     )
     ref_style = ParagraphStyle(
         name="refStyle",
         fontName="Times-Roman",
-        fontSize=18,
+        fontSize=16,
         textColor=colors.black,
-        leading=20,# Line spacing
+        leading=16,# Line spacing
         alignment=0    # Left-aligned
     )
     problem_paragraph = Paragraph(json["Problem Statement"], problem_style)

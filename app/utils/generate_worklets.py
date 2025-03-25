@@ -61,7 +61,7 @@ def get_prompt_template_V2():
 ---
 
 ### ** Structure of Each Worklet Idea:**
-1. **Title**: A concise and engaging title summarizing the worklet.
+1. **Title**: A concise and engaging title summarizing the worklet not more than 4-6 words.
 2. **Problem Statement**: Clearly describe the problem this worklet aims to address.
 3. **Goal**: Define the objective and intended outcome.
 4. **Expectations**: Describe what participants are expected to do or accomplish.
