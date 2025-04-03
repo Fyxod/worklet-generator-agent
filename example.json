@@ -1,0 +1,43 @@
+[
+    {
+      "title": "Matrix Expression of Bayesian Game",
+      "link": "http://arxiv.org/pdf/2106.12161v1"
+    },
+    {
+      "title": "Bayesian Distributionally Robust Optimization",
+      "link": "http://arxiv.org/pdf/2112.08625v2"
+    },
+    {
+      "title": "Bayesian Optimization with Shape Constraints",
+      "link": "http://arxiv.org/pdf/1612.08915v1"
+    },
+    {
+      "title": "Optimistic Optimization of Gaussian Process Samples",
+      "link": "http://arxiv.org/pdf/2209.00895v1"
+    },
+    {
+      "title": "On Batch Bayesian Optimization",
+      "link": "http://arxiv.org/pdf/1911.01032v1"
+    },
+    {
+      "title": "Cost-aware Bayesian Optimization via the Pandora's Box Gittins Index",
+      "link": "http://arxiv.org/pdf/2406.20062v3"
+    },
+    {
+      "title": "Local Nonstationarity for Efficient Bayesian Optimization",
+      "link": "http://arxiv.org/pdf/1506.02080v1"
+    },
+    {
+      "title": "Bayesian Optimization for Multi-objective Optimization and Multi-point Search",
+      "link": "http://arxiv.org/pdf/1905.02370v1"
+    },
+    {
+      "title": "Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax",
+      "link": "http://arxiv.org/pdf/1912.05686v2"
+    },
+    {
+      "title": "Topological Bayesian Optimization with Persistence Diagrams",
+      "link": "http://arxiv.org/pdf/1902.09722v1"
+    }
+  ]
+  

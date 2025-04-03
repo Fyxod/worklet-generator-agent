@@ -13,7 +13,9 @@ from app.utils.parser import extract_tables_from_pdf
 from app.utils.parser2 import extract_document
 from app.utils.generate_worklets import generate_worklets
 from app.utils.generatepdf import generatePdf
+from app.utils.generate_references import getReferenceWork
 import tempfile
+import concurrent.futures
 
 
 class Query(BaseModel):
@@ -75,8 +77,9 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
     )
     print(formatted_output)  # Print for debugging
 
-    # call llm here with extracted_data_all
+    # generate worklets' content
     worklets =  await generate_worklets(extracted_data_all)
+    print(worklets)
 
     # moving old files
     for filename in os.listdir(GENERATED_DIR):
@@ -85,6 +88,12 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
 
         if os.path.isfile(source_path):
             shutil.move(source_path, destination_path)
+            
+    def process_worklet(worklet):
+        worklet["Reference Work"] = getReferenceWork(worklet["Title"])
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        list(executor.map(process_worklet, worklets))
     
     response = {"files":[]}
     for worklet in worklets["worklets"]:
