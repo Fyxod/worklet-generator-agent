@@ -90,7 +90,9 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
             shutil.move(source_path, destination_path)
             
     def process_worklet(worklet):
-        worklet["Reference Work"] = getReferenceWork(worklet["Title"])
+        reference = getReferenceWork(worklet["Title"])
+        if reference:
+            worklet["Reference Work"] = reference
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         list(executor.map(process_worklet, worklets))
