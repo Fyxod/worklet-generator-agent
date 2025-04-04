@@ -16,6 +16,7 @@ from app.utils.generatepdf import generatePdf
 from app.utils.generate_references import getReferenceWork
 import tempfile
 import concurrent.futures
+from langchain.schema.messages import HumanMessage
 
 
 class Query(BaseModel):
@@ -95,7 +96,13 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
             worklet["Reference Work"] = reference
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        list(executor.map(process_worklet, worklets))
+        list(executor.map(process_worklet, worklets["worklets"]))
+
+    # for worklet in worklets["worklets"]:
+    #     print("TESTESTESTESTESTESTESTESTESTETESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTEST")
+    #     reference = getReferenceWork(worklet["Title"])
+    #     if reference:
+    #         worklet["Reference Work"] = reference
     
     response = {"files":[]}
     for worklet in worklets["worklets"]:
@@ -138,5 +145,6 @@ async def create_query(query:Query):
     # will add db soon for authentication and saving llm output
     print(query.query)
     message = llm.invoke(query.query)
+    # message = llm.invoke([HumanMessage(content=query.query)])
     print(message.content)
     return message.content

@@ -18,6 +18,8 @@ kreuzberg = "*"
 reportlab = "*"
 pdf2image = "*"
 streamlit = "*"
+langchain-community = "*"
+langchain-ollama = "*"
 
 [dev-packages]
 

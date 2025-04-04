@@ -1,6 +1,7 @@
 from langchain.prompts import ChatPromptTemplate
 from app.llm import llm
 from app.utils.llm_response_parser import extract_json_from_llm_response
+from langchain.schema.messages import HumanMessage
 
 
 def get_prompt_template_V1():
@@ -143,5 +144,6 @@ async def generate_worklets(worklet_data):
     prompt_template = get_prompt_template_V2()  # Fetch the latest template dynamically
     prompt = prompt_template.format(worklet_data=worklet_data)
     generated_worklets = llm.invoke(prompt)
+    # generated_worklets = llm.invoke([HumanMessage(content=prompt)])
     
     return extract_json_from_llm_response([generated_worklets.content])
