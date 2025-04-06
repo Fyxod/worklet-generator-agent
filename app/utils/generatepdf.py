@@ -62,6 +62,57 @@ json_string3={
     "Difficulty":6,
     "Reference Work":"Deep Learning for Anomaly Detection: A Review (https://www.researchgate.net/publication/344028491_Deep_Learning_for_Anomaly_Detection_A_Review)"}
 
+json_string4 = {
+    "Title": "Merging Deep Learning Models for Improved Performance",
+    "Problem Statement": "Develop a method to merge multiple deep learning models to improve their performance and reduce computational cost.",
+    "Goal": "Create an efficient algorithm that combines the strengths of various deep learning models while minimizing their weaknesses.",
+    "Expectations": "Implement the algorithm in popular deep learning frameworks like TensorFlow or PyTorch, benchmark it against existing methods, and demonstrate improved performance and reduced computational cost.",
+    "Training/Prerequisite": "Strong understanding of deep learning concepts, experience with popular deep learning libraries, knowledge of model pruning techniques.",
+    "Difficulty": 7,
+    "Reference Work": [
+        {
+            "title": "Matrix Expression of Bayesian Game",
+            "link": "http://arxiv.org/pdf/2106.12161v1"
+        },
+        {
+            "title": "Bayesian Distributionally Robust Optimization",
+            "link": "http://arxiv.org/pdf/2112.08625v2"
+        },
+        {
+            "title": "Bayesian Optimization with Shape Constraints",
+            "link": "http://arxiv.org/pdf/1612.08915v1"
+        },
+        {
+            "title": "Optimistic Optimization of Gaussian Process Samples",
+            "link": "http://arxiv.org/pdf/2209.00895v1"
+        },
+        {
+            "title": "On Batch Bayesian Optimization",
+            "link": "http://arxiv.org/pdf/1911.01032v1"
+        },
+        {
+            "title": "Cost-aware Bayesian Optimization via the Pandora's Box Gittins Index",
+            "link": "http://arxiv.org/pdf/2406.20062v3"
+        },
+        {
+            "title": "Local Nonstationarity for Efficient Bayesian Optimization",
+            "link": "http://arxiv.org/pdf/1506.02080v1"
+        },
+        {
+            "title": "Bayesian Optimization for Multi-objective Optimization and Multi-point Search",
+            "link": "http://arxiv.org/pdf/1905.02370v1"
+        },
+        {
+            "title": "Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax",
+            "link": "http://arxiv.org/pdf/1912.05686v2"
+        },
+        {
+            "title": "Topological Bayesian Optimization with Persistence Diagrams",
+            "link": "http://arxiv.org/pdf/1902.09722v1"
+        }
+    ]
+
+}
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import landscape, letter
 from reportlab.lib.colors import lightgrey, blueviolet, HexColor
@@ -70,6 +121,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Paragraph
 from reportlab.platypus import SimpleDocTemplate, Frame
 import os
+
 # from reportlab.lib.colors import HexColor
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -83,7 +135,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 page_width = 20 * 72  # 1440 points
 page_height = 11.25 * 72  # 810 points
 
-
+# used in initial desining of pdf
 def draw_ruler(pdf, width, height):
     """Draws a ruler along the top and left edges of the page."""
     pdf.setStrokeColorRGB(0, 0, 0)  # Black color
@@ -98,6 +150,8 @@ def draw_ruler(pdf, width, height):
     for i in range(0, int(height), 72):
         pdf.line(0, i, 10, i)  # Small tick marks on the left
         pdf.drawString(15, i - 3, str(i))  # Labels to the right of tick marks
+
+
 pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 
 
@@ -214,12 +268,13 @@ def generatePdf(json):
         alignment=0    # Left-aligned
     )
     ref_style = ParagraphStyle(
-        name="refStyle",
         fontName="Times-Roman",
         fontSize=16,
-        textColor=colors.black,
-        leading=18,# Line spacing
-        alignment=0    # Left-aligned
+        textColor=colors.blue,  # Set text color to blue
+        leading=18,  # Line spacing
+        alignment=0,  # Left-aligned
+        underline=True,
+        name="refStyle"
     )
     training_style = ParagraphStyle(
         name="refStyle",
@@ -233,8 +288,18 @@ def generatePdf(json):
     goal_paragraph = Paragraph(json["Goal"], problem_style)
     Expectation_paragraph = Paragraph(json["Expectations"], problem_style)
     Training_Prerequisite_paragraph = Paragraph(json["Training/Prerequisite"], training_style)
-    ref_paragraph = Paragraph(json["Reference Work"], ref_style)
-
+    # "Reference Work": [
+    #     {
+    #         "title": "Matrix Expression of Bayesian Game",
+    #         "link": "http://arxiv.org/pdf/2106.12161v1"
+    #     },
+    ref_text = f'''
+    <ul>
+        <li><u><a href="{json["Reference Work"][0]["link"]}">{json["Reference Work"][0]["title"]}</a></u></li><br/>
+        <li><u><a href="{json["Reference Work"][1]["link"]}">{json["Reference Work"][1]["title"]}</a></u></li>
+    </ul>
+    '''
+    ref_paragraph = Paragraph(ref_text, ref_style)
     # frames
     frame_problem =                       Frame(50, 432, 620, 216, showBoundary=0)
     frame_expectations =                  Frame(770, 432, 620, 216, showBoundary=0)
@@ -248,6 +313,23 @@ def generatePdf(json):
     frame_Prerequisite_paragraph.addFromList([Training_Prerequisite_paragraph], pdf)
     frame_ref.addFromList([ref_paragraph], pdf)
 
+    # Get style for paragraph
+    # styles = getSampleStyleSheet()
+    # ref_style = styles["Normal"]
+
+    # # Generate reference string with embedded links
+    # ref_text = "<b>References:</b><br/>"
+    # for idx, ref in enumerate(json["Reference Work"], start=1):
+    #     ref_text += f'{idx}. <a href="{ref["link"]}">{ref["title"]}</a><br/>'
+    #
+    # # Create paragraph
+    # ref_paragraph = Paragraph(ref_text, ref_style)
+    #
+    # # Define the frame (adjust position and size as needed)
+    # frame_ref = Frame(770, 80, 620, 100, showBoundary=0)
+    #
+    # # Add to PDF
+    # frame_ref.addFromList([ref_paragraph], pdf)
     pdf.save()
     print(f"PDF generated: {pdf_filename}")
-# generatePdf(json_string2)
+# generatePdf(json_string4)
