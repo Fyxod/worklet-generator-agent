@@ -2,6 +2,8 @@ from langchain.prompts import ChatPromptTemplate
 from app.llm import llm, llm2
 from app.utils.llm_response_parser import extract_json_from_llm_response
 from langchain.schema.messages import HumanMessage
+from concurrent.futures import ThreadPoolExecutor
+import asyncio
 
 def get_prompt_template_V2():
     return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas. Your task is to generate **five new worklets** based on the provided examples.
@@ -143,14 +145,18 @@ async def generate_worklets(worklet_data):
     prompt_template = get_prompt_template_V2()  # Fetch the latest template dynamically
     prompt = prompt_template.format(worklet_data=worklet_data)
     generated_worklets = llm.invoke(prompt)
-    # generated_worklets = llm.invoke([HumanMessage(content=prompt)])
 
     extracted_worklets = extract_json_from_llm_response([generated_worklets.content])
-    
-    for worklet in extracted_worklets["worklets"]:
-            worklet = refine_worklet(worklet)
-        
-    # return extract_json_from_llm_response([generated_worklets.content])
+
+    # Run refine_worklet in parallel using ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        loop = asyncio.get_running_loop()
+        refined_worklets = await asyncio.gather(
+            *[loop.run_in_executor(executor, refine_worklet, worklet)
+              for worklet in extracted_worklets["worklets"]]
+        )
+
+    extracted_worklets["worklets"] = refined_worklets
     return extracted_worklets
 
 def refine_worklet(worklet_data):

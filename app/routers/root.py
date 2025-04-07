@@ -17,7 +17,8 @@ from app.utils.generate_references import getReferenceWork
 import tempfile
 import concurrent.futures
 from langchain.schema.messages import HumanMessage
-
+from concurrent.futures import ThreadPoolExecutor
+import asyncio
 
 class Query(BaseModel):
     query: str
@@ -114,11 +115,30 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
     #     if reference:
     #         worklet["Reference Work"] = reference
     
-    response = {"files":[]}
-    for worklet in worklets["worklets"]:
+    # response = {"files":[]}
+    # for worklet in worklets["worklets"]:
+    #     generatePdf(worklet)
+    #     response["files"].append({"name": f'{worklet["Title"]}.pdf', "url": f"http://localhost:8000/download/{worklet['Title']}.pdf"})
+
+
+    response = {"files": []}
+
+    def process_worklet(worklet):
         generatePdf(worklet)
-        response["files"].append({"name": f'{worklet["Title"]}.pdf', "url": f"http://localhost:8000/download/{worklet['Title']}.pdf"})
-        
+        return {
+            "name": f'{worklet["Title"]}.pdf',
+            "url": f"http://localhost:8000/download/{worklet["Title"]}.pdf"
+        }
+
+    with ThreadPoolExecutor() as executor:
+        loop = asyncio.get_running_loop()
+        results = await asyncio.gather(
+            *[loop.run_in_executor(executor, process_worklet, worklet)
+            for worklet in worklets["worklets"]]
+        )
+
+    response["files"] = results
+
     return response
     # return {worklets}
     # return extracted_data_all
