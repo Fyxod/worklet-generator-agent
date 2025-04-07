@@ -1,6 +1,6 @@
 from langchain.prompts import ChatPromptTemplate
-from llm import llm
-from llm_response_parser import extract_json_from_llm_response
+from app.llm import llm
+from app.utils.llm_response_parser import extract_json_from_llm_response
 from langchain.schema.messages import HumanMessage
 
 def get_prompt_template_V2():
@@ -147,22 +147,11 @@ async def generate_worklets(worklet_data):
 
     extracted_worklets = extract_json_from_llm_response([generated_worklets.content])
     
-    # for worklet in extracted_worklets["worklets"]:
-    #         worklet = refine_worklet(worklet)
+    for worklet in extracted_worklets["worklets"]:
+            worklet = refine_worklet(worklet)
         
     # return extract_json_from_llm_response([generated_worklets.content])
     return extracted_worklets
-
-
-
-
-
-
-
-
-
-
-
 
 def refine_worklet(worklet_data):
 
