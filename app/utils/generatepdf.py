@@ -156,7 +156,7 @@ pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 
 
 def generatePdf(json):
-    print(json)
+    # print(json)
     pdf_filename = pdf_path+json["Title"]+".pdf"
     pdf = canvas.Canvas(pdf_filename, pagesize=(page_width, page_height))
     # draw_ruler(pdf, page_width,page_height)

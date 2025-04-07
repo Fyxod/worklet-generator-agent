@@ -80,6 +80,7 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
 
     # generate worklets' content
     worklets =  await generate_worklets(extracted_data_all)
+    print("PRINTING WORKLETS"*5)
     print(worklets)
 
     # moving old files
