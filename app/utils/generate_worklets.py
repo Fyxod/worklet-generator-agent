@@ -1,5 +1,5 @@
 from langchain.prompts import ChatPromptTemplate
-from app.llm import llm
+from app.llm import llm, llm2
 from app.utils.llm_response_parser import extract_json_from_llm_response
 from langchain.schema.messages import HumanMessage
 
@@ -167,7 +167,7 @@ def refine_worklet(worklet_data):
 
     while True:
         worklet_data_2 = get_new_refined_worklet(worklet_data)
-        check = llm.invoke(prompt.format(worklet_data_1=worklet_data_1, worklet_data_2=worklet_data_2))
+        check = llm2.invoke(prompt.format(worklet_data_1=worklet_data_1, worklet_data_2=worklet_data_2))
         # parsing the response to check if they are similar or not
         print(check.content)
         if check.content == "True":
@@ -200,7 +200,7 @@ def get_new_refined_worklet(worklet_data):
     return the refined worklet in JSON format same as the provided one.
     """)
 
-    refined_worklet = llm.invoke(prompt.format(worklet_data=worklet_data))
+    refined_worklet = llm2.invoke(prompt.format(worklet_data=worklet_data))
 
     return extract_json_from_llm_response([refined_worklet.content])
 
