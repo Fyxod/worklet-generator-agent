@@ -3,53 +3,6 @@ from app.llm import llm
 from app.utils.llm_response_parser import extract_json_from_llm_response
 from langchain.schema.messages import HumanMessage
 
-
-def get_prompt_template_V1():
-    return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas. Your task is to generate **five new worklets** based on the provided examples.  
-### 🔹 **Instructions:**
-- Ensure that the new worklets are **unique yet thematically aligned** with the given worklets.
-- **Follow the exact format** below for each new worklet.
-- **Do not fabricate unrealistic or fictional ideas**—keep them practical and feasible.
-- **Exclude specific names of people, organizations, or brands**.
-
----
-
-### ** Structure of Each Worklet Idea:**
-1. **Problem Statement**: Clearly describe the problem this worklet aims to address.
-2. **Goal**: Define the objective and intended outcome.
-3. **Expectations**: Describe what participants are expected to do or accomplish.
-4. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed.
-
----
-
-### ** Existing Worklets for Reference:**
-{worklet_data}
-
----
-
-### ** Additional Guidelines:**
-**Maintain originality**—do not copy or modify existing worklets too closely.  
-**Keep ideas well-structured and clear** to ensure easy comprehension.  
-**Avoid redundancy**—ensure each generated worklet introduces a fresh perspective.  
-**Ensure coherence and practicality**—ideas should be applicable in real-world scenarios.  
-**Do not introduce unrelated topics**—stick to the context of the given worklets.  
-
-Respond strictly in JSON format as shown below:
-
-{{
-    "worklets": [
-        {{
-            "Problem Statement": "...",
-            "Goal": "...",
-            "Expectations": "...",
-            "Training/Prerequisite": "..."
-        }}
-    ]
-}}
-
-Now, **generate 5 well-structured and distinct worklets** following these guidelines.""")
-
-
 def get_prompt_template_V2():
     return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas. Your task is to generate **five new worklets** based on the provided examples.
 
@@ -96,7 +49,16 @@ Respond **strictly in JSON format** as shown below:
             "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 5,
-            "Reference Work": "Academic Paper / Research Study"
+            "Reference Work": [
+                                    {{
+                                        "title": "..................",
+                                        "link": "http://arxiv.org/pdf/......."
+                                    }},
+                                    {{
+                                        "title": ".......................",
+                                        "link": "........................."
+                                    }}
+                              ]
         }},
         {{
             "Title": "...",
@@ -105,7 +67,16 @@ Respond **strictly in JSON format** as shown below:
             "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 3,
-            "Reference Work": "Academic Paper / Research Study"
+            "Reference Work":[
+                                    {{
+                                        "title": "..................",
+                                        "link": "http://arxiv.org/pdf/......."
+                                    }},
+                                    {{
+                                        "title": ".......................",
+                                        "link": "........................."
+                                    }}
+                              ]
         }},
         {{
             "Title": "...",
@@ -114,8 +85,16 @@ Respond **strictly in JSON format** as shown below:
             "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 8,
-            "Reference Work": "Academic Paper / Research Study"
-        }},
+            "Reference Work": [
+                                    {{
+                                        "title": "..................",
+                                        "link": "http://arxiv.org/pdf/......."
+                                    }},
+                                    {{
+                                        "title": ".......................",
+                                        "link": "........................."
+                                    }}
+                              ]
         {{
             "Title": "...",
             "Problem Statement": "... (28-33 words)",
@@ -123,7 +102,16 @@ Respond **strictly in JSON format** as shown below:
             "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 6,
-            "Reference Work": "Academic Paper / Research Study"
+            "Reference Work": [
+                                    {{
+                                        "title": "..................",
+                                        "link": "http://arxiv.org/pdf/......."
+                                    }},
+                                    {{
+                                        "title": ".......................",
+                                        "link": "........................."
+                                    }}
+                              ]
         }},
         {{
             "Title": "...",
@@ -132,12 +120,23 @@ Respond **strictly in JSON format** as shown below:
             "Expectations": "... (38-45 words)",
             "Training/Prerequisite": "...",
             "Difficulty": 9,
-            "Reference Work": "Academic Paper / Research Study"
+            "Reference Work": [
+                                    {{
+                                        "title": "..................",
+                                        "link": "http://arxiv.org/pdf/......."
+                                    }},
+                                    {{
+                                        "title": ".......................",
+                                        "link": "........................."
+                                    }}
+                              ]
         }}
     ]
 }}
 Now, **generate 5 well-structured and distinct worklets** following these guidelines.
 """)
+
+
 
 
 async def generate_worklets(worklet_data):

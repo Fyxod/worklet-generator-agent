@@ -156,6 +156,7 @@ pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 
 
 def generatePdf(json):
+    print(json)
     pdf_filename = pdf_path+json["Title"]+".pdf"
     pdf = canvas.Canvas(pdf_filename, pagesize=(page_width, page_height))
     # draw_ruler(pdf, page_width,page_height)
@@ -293,12 +294,20 @@ def generatePdf(json):
     #         "title": "Matrix Expression of Bayesian Game",
     #         "link": "http://arxiv.org/pdf/2106.12161v1"
     #     },
-    ref_text = f'''
-    <ul>
-        <li><u><a href="{json["Reference Work"][0]["link"]}">{json["Reference Work"][0]["title"]}</a></u></li><br/>
-        <li><u><a href="{json["Reference Work"][1]["link"]}">{json["Reference Work"][1]["title"]}</a></u></li>
-    </ul>
-    '''
+    if len(json["Reference Work"]) == 1:
+        ref_text = f'''
+        <ul>
+            <li><u><a href="{json["Reference Work"][0]["link"]}">{json["Reference Work"][0]["title"]}</a></u></li>
+        </ul>
+        '''
+    else:
+        ref_text = f'''
+        <ul>
+            <li><u><a href="{json["Reference Work"][0]["link"]}">{json["Reference Work"][0]["title"]}</a></u></li><br/>
+            <li><u><a href="{json["Reference Work"][1]["link"]}">{json["Reference Work"][1]["title"]}</a></u></li>
+        </ul>
+        '''
+
     ref_paragraph = Paragraph(ref_text, ref_style)
     # frames
     frame_problem =                       Frame(50, 432, 620, 216, showBoundary=0)
