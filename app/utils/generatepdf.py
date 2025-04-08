@@ -113,6 +113,8 @@ json_string4 = {
     ]
 
 }
+
+json_string5={'Title': 'Smart Icon Suggestion Engine', 'Problem Statement': "Icon selection for apps lacks context awareness. Current libraries don't understand user intent, hindering designers and slowing down the interface design process significantly. This impacts usability.", 'Goal': 'Build a system that intelligently suggests icons using NLP and ML. This system should learn from user input and application context to provide relevant icon recommendations improving workflow efficiency.', 'Expectations': 'Participants will create an NLP-driven icon recommendation algorithm, conduct user studies to measure its effectiveness, compare its performance against baseline methods, and prepare a detailed report of findings and analyses.', 'Training/Prerequisite': 'Natural Language Processing, Recommendation Systems, Machine Learning, Python, UI/UX Design, Information Retrieval', 'Difficulty': 7, 'Reference Work': [{'title': 'IconShop: Text-Guided Vector Icon Synthesis with Autoregressive\n  Transformers', 'link': 'http://arxiv.org/pdf/2304.14400v4'}, {'title': 'Towards Specialized Supercomputers for Climate Sciences: Computational\n  Requirements of the Icosahedral Nonhydrostatic Weather and Climate Model', 'link': 'http://arxiv.org/pdf/2405.13043v1'}, {'title': 'Probablement, Wahrscheinlich, Likely ? A Cross-Language Study of How\n  People Verbalize Probabilities in Icon Array Visualizations', 'link': 'http://arxiv.org/pdf/2207.09608v3'}, {'title': 'Inducing Mimicry Through Auditory Icons', 'link': 'http://arxiv.org/pdf/1903.07110v1'}, {'title': 'Why Combining Text and Visualization Could Improve Bayesian Reasoning: A\n  Cognitive Load Perspective', 'link': 'http://arxiv.org/pdf/2302.00707v1'}, {'title': 'What makes an Image Iconic? A Fine-Grained Case Study', 'link': 'http://arxiv.org/pdf/1408.4325v1'}, {'title': 'ICON Challenge on Algorithm Selection', 'link': 'http://arxiv.org/pdf/1511.04326v1'}, {'title': 'Deep Learning Based Cloud Cover Parameterization for ICON', 'link': 'http://arxiv.org/pdf/2112.11317v3'}, {'title': 'EvIcon: Designing High-Usability Icon with Human-in-the-loop Exploration\n  and IconCLIP', 'link': 'http://arxiv.org/pdf/2305.17609v1'}, {'title': 'Exploring complex networks with the ICON R package', 'link': 'http://arxiv.org/pdf/2010.15222v1'}]}
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import landscape, letter
 from reportlab.lib.colors import lightgrey, blueviolet, HexColor
@@ -294,6 +296,7 @@ def generatePdf(json):
     #         "title": "Matrix Expression of Bayesian Game",
     #         "link": "http://arxiv.org/pdf/2106.12161v1"
     #     },
+    json["Reference Work"]=filter_references(json["Reference Work"])
     if len(json["Reference Work"]) == 1:
         ref_text = f'''
         <ul>
@@ -341,4 +344,10 @@ def generatePdf(json):
     # frame_ref.addFromList([ref_paragraph], pdf)
     pdf.save()
     print(f"PDF generated: {pdf_filename}")
-# generatePdf(json_string4)
+def filter_references(ref):
+    for r in ref:
+        r["title"]=r["title"].replace("\n"," ")
+    ref = sorted(ref, key=lambda r: len(r["title"]))
+    return ref
+
+generatePdf(json_string5)
