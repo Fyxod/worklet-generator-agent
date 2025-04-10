@@ -1,6 +1,6 @@
 from app.llm import llm
 from typing import Annotated
-from fastapi import  UploadFile, File
+from fastapi import  UploadFile, File, Query
 import os
 import aiofiles
 from datetime import datetime
@@ -20,7 +20,7 @@ from langchain.schema.messages import HumanMessage
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
 
-class Query(BaseModel):
+class Query1(BaseModel):
     query: str
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -176,7 +176,7 @@ def download_all():
 
 
 @router.post('/query')
-async def create_query(query:Query):
+async def create_query(query:Query1):
     # will add db soon for authentication and saving llm output
     print(query.query)
     message = llm.invoke(query.query)
