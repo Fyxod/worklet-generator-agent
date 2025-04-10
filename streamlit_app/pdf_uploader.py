@@ -1,9 +1,7 @@
 import streamlit as st
 import requests
 import os
-import zipfile
-import io
-import urllib.parse  # Import URL encoding module
+import urllib.parse  # For encoding file names
 
 FASTAPI_URL = os.getenv("FASTAPI_URL", "http://localhost:8000")
 
@@ -12,11 +10,11 @@ st.markdown(
     """
     <style>
     a {
-        color: white !important;  /* Change link color to white */
-        text-decoration: none !important;  /* Remove underline */
+        color: white !important;
+        text-decoration: none !important;
     }
     a:hover {
-        color: lightgray !important;  /* Change hover color */
+        color: lightgray !important;
     }
     </style>
     """,
@@ -24,6 +22,15 @@ st.markdown(
 )
 
 st.title("Upload up to 5 worklets")
+
+# Model selection
+model_options = [
+    "gemini-flash-2.0",
+    "deepseek-r1:70b",
+    "llama3.3:latest",
+    "gemma3:27b"
+]
+selected_model = st.selectbox("Choose a model to use", model_options)
 
 uploaded_files = st.file_uploader("Choose up to 5 PDF files", type="pdf", accept_multiple_files=True)
 
@@ -41,22 +48,21 @@ if uploaded_files:
 
             with st.spinner("Uploading files and generating worklets... ⏳"):
                 try:
-                    response = requests.post(f"{FASTAPI_URL}/upload", files=files_to_send)
+                    # Include model as a query parameter
+                    model_param = urllib.parse.quote(selected_model)
+                    response = requests.post(f"{FASTAPI_URL}/upload?model={model_param}", files=files_to_send)
                     response.raise_for_status()
                     
                     data = response.json()
                     
                     if "files" in data:
                         st.success("Files successfully generated! 🎉")
-
-                        # Display download links with proper URL encoding
                         st.write("### Download Generated PDFs:")
                         for file in data["files"]:
-                            file_name_encoded = urllib.parse.quote(file["name"])  # Encode filename for URL
+                            file_name_encoded = urllib.parse.quote(file["name"])
                             download_url = f"{FASTAPI_URL}/download/{file_name_encoded}"
                             st.markdown(f"[📄 {file['name']}]({download_url})")
 
-                        # Provide a ZIP download link for all files
                         zip_download_url = f"{FASTAPI_URL}/download_all"
                         st.markdown(f"### 📥 [Download All as ZIP]({zip_download_url})")
                     else:

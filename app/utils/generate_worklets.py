@@ -141,7 +141,7 @@ Now, **generate 5 well-structured and distinct worklets** following these guidel
 
 
 
-async def generate_worklets(worklet_data):
+async def generate_worklets(worklet_data, model):
     prompt_template = get_prompt_template_V2()  # Fetch the latest template dynamically
     prompt = prompt_template.format(worklet_data=worklet_data)
     generated_worklets = llm.invoke(prompt)
@@ -149,14 +149,14 @@ async def generate_worklets(worklet_data):
     extracted_worklets = extract_json_from_llm_response([generated_worklets.content])
 
     # Run refine_worklet in parallel using ThreadPoolExecutor
-    with ThreadPoolExecutor() as executor:
-        loop = asyncio.get_running_loop()
-        refined_worklets = await asyncio.gather(
-            *[loop.run_in_executor(executor, refine_worklet, worklet)
-              for worklet in extracted_worklets["worklets"]]
-        )
+    # with ThreadPoolExecutor() as executor:
+    #     loop = asyncio.get_running_loop()
+    #     refined_worklets = await asyncio.gather(
+    #         *[loop.run_in_executor(executor, refine_worklet, worklet)
+    #           for worklet in extracted_worklets["worklets"]]
+    #     )
 
-    extracted_worklets["worklets"] = refined_worklets
+    # extracted_worklets["worklets"] = refined_worklets
     return extracted_worklets
 
 def refine_worklet(worklet_data):

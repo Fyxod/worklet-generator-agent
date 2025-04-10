@@ -48,8 +48,13 @@ def frontend_redirect():
     return RedirectResponse(url="http://localhost:8501")
     
 @router.post('/upload')
-async def upload_multiple(files: Annotated[list[UploadFile], File()]):
-    print("printong",files)
+async def upload_multiple(
+    files: Annotated[list[UploadFile], File()],
+    model: Annotated[str, Query()]
+):
+    print("Model selected:", model)
+    print("Uploaded files:", files)
+    # your processing logic
     
     saved_files = []
 
@@ -80,7 +85,7 @@ async def upload_multiple(files: Annotated[list[UploadFile], File()]):
     print(formatted_output)  # Print for debugging
 
     # generate worklets' content
-    worklets =  await generate_worklets(extracted_data_all)
+    worklets =  await generate_worklets(extracted_data_all, model)
     print("PRINTING WORKLETS"*5)
     print(worklets)
 
