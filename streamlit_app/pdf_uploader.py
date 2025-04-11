@@ -3,7 +3,7 @@ import requests
 import os
 import urllib.parse  # For encoding file names
 
-FASTAPI_URL = os.getenv("FASTAPI_URL", "http://localhost:8000")
+FASTAPI_URL = os.getenv("FASTAPI_URL", "https://api.katiyar.xyz")
 
 st.set_page_config(page_title="Worklet Generator", layout="centered")
 st.markdown(

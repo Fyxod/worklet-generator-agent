@@ -41,7 +41,7 @@ router=APIRouter(
 
 @router.get('/')
 def read_root():
-    return RedirectResponse(url="http://localhost:8501")
+    return{ "response": "API IS UP AND RUNNING"}
 
 @router.get("/home")
 def frontend_redirect():
