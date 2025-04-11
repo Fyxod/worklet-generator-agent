@@ -4,6 +4,7 @@ from app.utils.llm_response_parser import extract_json_from_llm_response
 from langchain.schema.messages import HumanMessage
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
+from app.llm import invoke_llm
 
 def get_prompt_template_V2():
     return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas. Your task is to generate **five new worklets** based on the provided examples.
@@ -144,9 +145,9 @@ Now, **generate 5 well-structured and distinct worklets** following these guidel
 async def generate_worklets(worklet_data, model):
     prompt_template = get_prompt_template_V2()  # Fetch the latest template dynamically
     prompt = prompt_template.format(worklet_data=worklet_data)
-    generated_worklets = llm.invoke(prompt)
+    generated_worklets = invoke_llm(prompt, model)
 
-    extracted_worklets = extract_json_from_llm_response([generated_worklets.content])
+    extracted_worklets = extract_json_from_llm_response([generated_worklets])
 
     # Run refine_worklet in parallel using ThreadPoolExecutor
     # with ThreadPoolExecutor() as executor:

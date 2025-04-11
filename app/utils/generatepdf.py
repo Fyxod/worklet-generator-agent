@@ -350,4 +350,4 @@ def filter_references(ref):
     ref = sorted(ref, key=lambda r: len(r["title"]))
     return ref
 
-generatePdf(json_string5)
+# generatePdf(json_string5)

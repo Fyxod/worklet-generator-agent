@@ -98,7 +98,7 @@ async def upload_multiple(
             shutil.move(source_path, destination_path)
             
     def process_worklet(worklet):
-        reference = getReferenceWork(worklet["Title"])
+        reference = getReferenceWork(worklet["Title"], model)
         print(reference)
         print("8"*200)
         if reference:

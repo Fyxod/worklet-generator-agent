@@ -1,18 +1,18 @@
 import requests
 from langchain.prompts import ChatPromptTemplate
 import xml.etree.ElementTree as ET
-from app.llm import llm
+from app.llm import llm, invoke_llm
 from langchain.schema.messages import HumanMessage
 
 prompt_template = ChatPromptTemplate.from_template(
     "I want you to give me a keyword to search in arxiv api to get me the research papers best suited for the following topic - {title}. Just give me the keyword as the answer, no extra stuff"
 )
 
-def getReferenceWork(title):
+def getReferenceWork(title, model):
     """
     Write a function description later
     """
-    keyword = getKeyword(title);
+    keyword = getKeyword(title, model);
     url = f"http://export.arxiv.org/api/query?search_query=all:{keyword}"
     response = requests.get(url)
     response.raise_for_status()
@@ -35,10 +35,10 @@ def getReferenceWork(title):
     
     return reference_work
 
-def getKeyword(title):
+def getKeyword(title, model):
     prompt = prompt_template.format_prompt(title=title)
     # prompt = prompt_template.format_prompt(title=title).to_string()
-    response = llm.invoke(prompt)
+    response = invoke_llm(prompt, model)
     # response = llm.invoke([HumanMessage(content=prompt)])
     print(response.content.strip())
     return response.content.strip()
