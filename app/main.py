@@ -4,6 +4,11 @@ import subprocess
 
 app = FastAPI()
 
-subprocess.Popen(["streamlit", "run", "streamlit_app/pdf_uploader.py", "--server.port", "8501", "--server.headless", "true"])
+subprocess.Popen([
+    "streamlit", "run", "streamlit_app/pdf_uploader.py",
+    "--server.port", "8501",
+    "--server.headless", "true",
+    "--server.address", "0.0.0.0"
+])
 
 app.include_router(root.router)
