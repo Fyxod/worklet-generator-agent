@@ -1,28 +1,21 @@
-name: Deploy FastAPI App
+- name: SSH into Droplet and deploy
+  run: |
+    ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
+      set -e
 
-on:
-  push:
-    branches:
-      - main  # or your deploy branch
+      # If directory doesn't exist, clone the repo
+      if [ ! -d "/home/bedrock/backend" ]; then
+        mkdir -p /home/bedrock
+        cd /home/bedrock
+        git clone git@github.com:bedrocksp/backend.git backend
+      else
+        cd /home/bedrock/backend
+        git pull origin main
+      fi
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+      cd /home/bedrock/backend
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      pipenv install --deploy --ignore-pipfile
 
-      - name: Set up SSH agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Deploy to droplet
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
-            cd /home/bedrock/backend
-            git pull origin main
-            pipenv install --deploy
-            sudo systemctl restart fastapi
-          EOF
+      sudo systemctl restart fastapi
+EOF
