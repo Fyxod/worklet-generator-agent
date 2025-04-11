@@ -97,28 +97,22 @@ async def upload_multiple(
         if os.path.isfile(source_path):
             shutil.move(source_path, destination_path)
             
-    def process_worklet(worklet):
+    # def process_worklet(worklet):
+    #     reference = getReferenceWork(worklet["Title"], model)
+    #     print(reference)
+    #     print("8"*200)
+    #     if reference:
+    #         worklet["Reference Work"] = reference
+
+    # with concurrent.futures.ThreadPoolExecutor() as executor:
+    #     list(executor.map(process_worklet, worklets["worklets"]))
+
+
+    for worklet in worklets["worklets"]:
+        print(worklet["Title"])
         reference = getReferenceWork(worklet["Title"], model)
-        print(reference)
-        print("8"*200)
         if reference:
             worklet["Reference Work"] = reference
-
-    # # version 2
-    # def process_worklet(worklet):
-    #     reference = getReferenceWork(worklet["Title"])
-    #     worklet["Reference Work"] = [worklet["Reference Work"]]
-    #     if reference:
-    #         worklet["Reference Work"] = reference
-
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        list(executor.map(process_worklet, worklets["worklets"]))
-
-    # for worklet in worklets["worklets"]:
-    #     print("TESTESTESTESTESTESTESTESTESTETESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTEST")
-    #     reference = getReferenceWork(worklet["Title"])
-    #     if reference:
-    #         worklet["Reference Work"] = reference
     
     # response = {"files":[]}
     # for worklet in worklets["worklets"]:
@@ -128,7 +122,7 @@ async def upload_multiple(
 
     response = {"files": []}
 
-    def process_worklet(worklet):
+    def generate(worklet):
         generatePdf(worklet)
         return {
             "name": f'{worklet["Title"]}.pdf',
@@ -138,7 +132,7 @@ async def upload_multiple(
     with ThreadPoolExecutor() as executor:
         loop = asyncio.get_running_loop()
         results = await asyncio.gather(
-            *[loop.run_in_executor(executor, process_worklet, worklet)
+            *[loop.run_in_executor(executor, generate, worklet)
             for worklet in worklets["worklets"]]
         )
 

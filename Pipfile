@@ -20,6 +20,7 @@ pdf2image = "*"
 streamlit = "*"
 langchain-community = "*"
 langchain-ollama = "*"
+gunicorn = "*"
 
 [dev-packages]
 

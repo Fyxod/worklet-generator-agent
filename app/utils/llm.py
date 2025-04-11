@@ -21,13 +21,14 @@ llm2 = ChatGoogleGenerativeAI(
 
 ollama_models = [
     "gemma3:27b",
+    "gemma3:latest",
     "deepseek-r1:70b",
     "llama3.3:latest"
 ]
 
 def invoke_llm(prompt, model):
     raw_text = ""
-    max_retries = 4
+    max_retries = 3
 
     if model in ollama_models:
         print("Using Ollama")
@@ -57,7 +58,7 @@ def invoke_llm(prompt, model):
                 time.sleep(1)
 
         if not raw_text:
-            return "LLM failed after 4 attempts."
+            return "LLM failed after 3 attempts."
 
     else:
         print("Using Google Gemini")
@@ -70,7 +71,6 @@ def invoke_llm(prompt, model):
     cleaned = re.sub(r"#", "", cleaned)       # Remove hash symbols
     cleaned = re.sub(r"\s+", " ", cleaned)    # Normalize whitespace
     cleaned = cleaned.replace('")', '"')
-    cleaned = cleaned[cleaned.find('`'):]
     cleaned = cleaned.strip()
     print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
     print(cleaned)
