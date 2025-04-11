@@ -10,23 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
       - name: SSH into Droplet and deploy
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
-          set -e
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
+            set -e
 
-          # If directory doesn't exist, clone the repo
-          if [ ! -d "/home/bedrock/backend" ]; then
-            mkdir -p /home/bedrock
-            cd /home/bedrock
-            git clone git@github.com:bedrocksp/backend.git backend
-          else
+            # If directory doesn't exist, clone the repo
+            if [ ! -d "/home/bedrock/backend" ]; then
+              mkdir -p /home/bedrock
+              cd /home/bedrock
+              git clone git@github.com:bedrocksp/backend.git backend
+            else
+              cd /home/bedrock/backend
+              git pull origin main
+            fi
+
             cd /home/bedrock/backend
-            git pull origin main
-          fi
 
-          cd /home/bedrock/backend
+            pipenv install --deploy --ignore-pipfile
 
-          pipenv install --deploy --ignore-pipfile
-          sudo systemctl restart fastapi
+            sudo systemctl restart fastapi
           EOF
