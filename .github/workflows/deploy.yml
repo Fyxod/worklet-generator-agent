@@ -1,21 +1,32 @@
-- name: SSH into Droplet and deploy
-  run: |
-    ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
-      set -e
+name: Deploy to Droplet
 
-      # If directory doesn't exist, clone the repo
-      if [ ! -d "/home/bedrock/backend" ]; then
-        mkdir -p /home/bedrock
-        cd /home/bedrock
-        git clone git@github.com:bedrocksp/backend.git backend
-      else
-        cd /home/bedrock/backend
-        git pull origin main
-      fi
+on:
+  push:
+    branches:
+      - main
 
-      cd /home/bedrock/backend
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-      pipenv install --deploy --ignore-pipfile
+    steps:
+      - name: SSH into Droplet and deploy
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
+          set -e
 
-      sudo systemctl restart fastapi
-EOF
+          # If directory doesn't exist, clone the repo
+          if [ ! -d "/home/bedrock/backend" ]; then
+            mkdir -p /home/bedrock
+            cd /home/bedrock
+            git clone git@github.com:bedrocksp/backend.git backend
+          else
+            cd /home/bedrock/backend
+            git pull origin main
+          fi
+
+          cd /home/bedrock/backend
+
+          pipenv install --deploy --ignore-pipfile
+          sudo systemctl restart fastapi
+          EOF
