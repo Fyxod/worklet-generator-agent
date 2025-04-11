@@ -4,8 +4,13 @@ import subprocess
 
 app = FastAPI()
 
+import sys
+import os
+
+streamlit_path = os.path.join(os.path.dirname(sys.executable), "streamlit")
+
 subprocess.Popen([
-    "streamlit", "run", "streamlit_app/pdf_uploader.py",
+    streamlit_path, "run", "streamlit_app/pdf_uploader.py",
     "--server.port", "8501",
     "--server.headless", "true",
     "--server.address", "0.0.0.0"
