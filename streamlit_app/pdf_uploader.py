@@ -5,8 +5,6 @@ import urllib.parse  # For encoding file names
 
 FASTAPI_URL = os.getenv("FASTAPI_URL", "https://api.katiyar.xyz")
 
-st.set_option('server.maxUploadSize', 1000)  # in MB
-
 st.set_page_config(page_title="Worklet Generator", layout="centered")
 st.markdown(
     """
