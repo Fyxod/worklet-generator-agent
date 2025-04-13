@@ -23,14 +23,19 @@ st.markdown(
 
 st.title("Upload up to 5 worklets")
 
-# Model selection
-model_options = [
-    "gemini-flash-2.0",
-    "deepseek-r1:70b",
-    "llama3.3:latest",
-    "gemma3:27b"
-]
-selected_model = st.selectbox("Choose a model to use", model_options)
+# Mapping of user-friendly display names to internal model values
+model_display_map = {
+    "Gemini Flash 2.0": "gemini-flash-2.0",
+    "DeepSeek R1 (70B)": "deepseek-r1:70b",
+    "LLaMA 3.3": "llama3.3:latest",
+    "Gemma 3 (27B)": "gemma3:27b"
+}
+
+# Display names for the selectbox
+selected_display_name = st.selectbox("Choose a model to use", list(model_display_map.keys()))
+
+# Get the internal model name for use in API call
+selected_model = model_display_map[selected_display_name]
 
 uploaded_files = st.file_uploader("Choose up to 5 PDF files", type="pdf", accept_multiple_files=True)
 
@@ -52,9 +57,9 @@ if uploaded_files:
                     model_param = urllib.parse.quote(selected_model)
                     response = requests.post(f"{FASTAPI_URL}/upload?model={model_param}", files=files_to_send)
                     response.raise_for_status()
-                    
+
                     data = response.json()
-                    
+
                     if "files" in data:
                         st.success("Files successfully generated! 🎉")
                         st.write("### Download Generated PDFs:")
@@ -67,6 +72,6 @@ if uploaded_files:
                         st.markdown(f"### 📥 [Download All as ZIP]({zip_download_url})")
                     else:
                         st.error("Unexpected response format.")
-                
+
                 except requests.exceptions.RequestException as e:
                     st.error(f"Upload failed: {e}")
