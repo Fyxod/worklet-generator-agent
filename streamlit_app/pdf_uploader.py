@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import os
 import urllib.parse  # For encoding file names
+import mimetypes
 
 FASTAPI_URL = os.getenv("FASTAPI_URL", "https://api.katiyar.xyz")
 
@@ -48,17 +49,18 @@ if st.button("🗑️ Clear uploaded files"):
     st.session_state.response_data = None
     st.rerun()
 
-# File uploader with dynamic key
+# Allowed file types and uploader
+allowed_types = ["pdf", "pptx", "docx"]
 uploaded_files = st.file_uploader(
-    "Choose up to 5 PDF files",
-    type="pdf",
+    "Choose up to 5 PDF, PPTX, or DOCX files",
+    type=allowed_types,
     accept_multiple_files=True,
     key=f"uploader_{st.session_state.uploader_key}"
 )
 
 if uploaded_files:
     if len(uploaded_files) > 5:
-        st.error("You can only upload up to 5 PDF files.")
+        st.error("You can only upload up to 5 files.")
     else:
         st.success(f"You have uploaded {len(uploaded_files)} file(s).")
         st.write("### Uploaded Files:")
@@ -66,7 +68,11 @@ if uploaded_files:
             st.write(f"- {file.name} ({len(file.getvalue()) / 1024:.2f} KB)")
 
         if st.button("Generate worklets ->"):
-            files_to_send = [("files", (file.name, file.getvalue(), "application/pdf")) for file in uploaded_files]
+            files_to_send = []
+            for file in uploaded_files:
+                mime_type, _ = mimetypes.guess_type(file.name)
+                mime_type = mime_type or "application/octet-stream"
+                files_to_send.append(("files", (file.name, file.getvalue(), mime_type)))
 
             with st.spinner("Uploading files and generating worklets... ⏳"):
                 try:
