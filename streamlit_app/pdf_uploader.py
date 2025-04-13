@@ -23,21 +23,38 @@ st.markdown(
 
 st.title("Upload up to 5 worklets")
 
-# Mapping of user-friendly display names to internal model values
+# Initialize session state
+if "uploader_key" not in st.session_state:
+    st.session_state.uploader_key = 0
+if "uploaded" not in st.session_state:
+    st.session_state.uploaded = False
+if "response_data" not in st.session_state:
+    st.session_state.response_data = None
+
+# Mapping of display name to actual model value
 model_display_map = {
     "Gemini Flash 2.0": "gemini-flash-2.0",
     "DeepSeek R1 (70B)": "deepseek-r1:70b",
     "LLaMA 3.3": "llama3.3:latest",
     "Gemma 3 (27B)": "gemma3:27b"
 }
-
-# Display names for the selectbox
 selected_display_name = st.selectbox("Choose a model to use", list(model_display_map.keys()))
-
-# Get the internal model name for use in API call
 selected_model = model_display_map[selected_display_name]
 
-uploaded_files = st.file_uploader("Choose up to 5 PDF files", type="pdf", accept_multiple_files=True)
+# Clear button
+if st.button("🗑️ Clear uploaded files"):
+    st.session_state.uploader_key += 1
+    st.session_state.uploaded = False
+    st.session_state.response_data = None
+    st.rerun()
+
+# File uploader with dynamic key
+uploaded_files = st.file_uploader(
+    "Choose up to 5 PDF files",
+    type="pdf",
+    accept_multiple_files=True,
+    key=f"uploader_{st.session_state.uploader_key}"
+)
 
 if uploaded_files:
     if len(uploaded_files) > 5:
@@ -53,25 +70,32 @@ if uploaded_files:
 
             with st.spinner("Uploading files and generating worklets... ⏳"):
                 try:
-                    # Include model as a query parameter
                     model_param = urllib.parse.quote(selected_model)
                     response = requests.post(f"{FASTAPI_URL}/upload?model={model_param}", files=files_to_send)
                     response.raise_for_status()
 
                     data = response.json()
-
-                    if "files" in data:
-                        st.success("Files successfully generated! 🎉")
-                        st.write("### Download Generated PDFs:")
-                        for file in data["files"]:
-                            file_name_encoded = urllib.parse.quote(file["name"])
-                            download_url = f"{FASTAPI_URL}/download/{file_name_encoded}"
-                            st.markdown(f"[📄 {file['name']}]({download_url})")
-
-                        zip_download_url = f"{FASTAPI_URL}/download_all"
-                        st.markdown(f"### 📥 [Download All as ZIP]({zip_download_url})")
-                    else:
-                        st.error("Unexpected response format.")
+                    st.session_state.response_data = data
+                    st.session_state.uploaded = True
 
                 except requests.exceptions.RequestException as e:
                     st.error(f"Upload failed: {e}")
+                    st.session_state.uploaded = False
+                    st.session_state.response_data = None
+
+# Display result
+if st.session_state.uploaded and st.session_state.response_data:
+    data = st.session_state.response_data
+
+    if "files" in data:
+        st.success("Files successfully generated! 🎉")
+        st.write("### Download Generated PDFs:")
+        for file in data["files"]:
+            file_name_encoded = urllib.parse.quote(file["name"])
+            download_url = f"{FASTAPI_URL}/download/{file_name_encoded}"
+            st.markdown(f"[📄 {file['name']}]({download_url})")
+
+        zip_download_url = f"{FASTAPI_URL}/download_all"
+        st.markdown(f"### 📥 [Download All as ZIP]({zip_download_url})")
+    else:
+        st.error("Unexpected response format.")
