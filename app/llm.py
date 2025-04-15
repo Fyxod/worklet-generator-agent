@@ -22,7 +22,8 @@ llm2 = ChatGoogleGenerativeAI(
 ollama_models = [
     "gemma3:27b",
     "deepseek-r1:70b",
-    "llama3.3:latest"
+    "llama3.3:latest",
+    "command-a:latest",
 ]
 
 def invoke_llm(prompt, model):

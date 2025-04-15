@@ -139,6 +139,88 @@ Respond **strictly in JSON format** as shown below:
 Now, **generate 5 well-structured and distinct worklets** following these guidelines.
 """)
 
+def get_prompt_template_V3():
+    return ChatPromptTemplate.from_template(
+        """
+You are an expert in analyzing and generating structured project ideas, also known as "worklets." Your task is to generate **five new worklets** based on the provided examples, adhering strictly to format and thematic relevance.
+
+---
+
+Core Objective:
+Generate **innovative**, **industry-relevant**, and **research-informed** worklets that are practically implementable and aligned with current technology trends.
+
+---
+
+System Behavior Rules:
+- Worklets **must be inspired by** the provided examples but offer **new perspectives**.
+- Focus on **real-world applications** and **technological relevance**.
+- Ground each worklet in **modern tech domains**, such as:
+  - On-Device AI / Smartphones
+  - Internet of Things (IoT)
+  - Generative AI (GenAI)
+  - Computer Vision
+  - Extended Reality (XR)
+  - Edge AI / Embedded ML
+- Each worklet should include either:
+  - Optimizations or enhancements **within** the referenced architecture.
+  - OR meaningful **comparisons with other technologies** or architectures (e.g., Transformers vs SSMs).
+
+---
+
+Format Requirements:
+Strictly follow the format below for **each worklet**:
+
+1. **Title**: 4-6 words summarizing the idea.
+2. **Problem Statement**: 28-33 words describing the problem.
+3. **Goal**: 30-35 words outlining the objective.
+4. **Expectations**: 38-45 words detailing what the participant is expected to do.
+5. **Training/Prerequisite**: Mention required knowledge or prior learning.
+6. **Difficulty (1-10)**: Integer from 1 (very easy) to 10 (very challenging).
+7. **Reference Work**: One or two high-quality research or academic works (with titles + links).
+
+---
+
+Output Instructions:
+- **Respond strictly in JSON format** as shown below.
+- **Do not include brand names, personal names, or organizations**.
+- **Strictly adhere to word limits** for each field to ensure downstream formatting works (e.g., PDF exports).
+- Ensure ideas are clear, innovative, and aligned with modern tech themes.
+
+---
+
+Existing Worklets for Reference:
+{worklet_data}
+
+---
+
+Respond **strictly in JSON format** as shown below:
+```json
+{{
+  "worklets": [
+    {{
+      "Title": "...",
+      "Problem Statement": "... (28-33 words)",
+      "Goal": "... (30-35 words)",
+      "Expectations": "... (38-45 words)",
+      "Training/Prerequisite": "...",
+      "Difficulty": 5,
+      "Reference Work": [
+        {{
+          "title": "..................",
+          "link": "..................."
+        }},
+        {{
+          "title": ".......................",
+          "link": "........................."
+        }}
+      ]
+    }},
+    ...
+  ]
+}}
+Now, generate 5 original and domain-relevant worklets using the above guidelines.
+""")
+
 
 
 
