@@ -110,7 +110,7 @@ async def upload_multiple(
 
     for worklet in worklets["worklets"]:
         print(worklet["Title"])
-        reference = getReferenceWork(worklet["Title"], "gemma3:27b")
+        reference = getReferenceWork(worklet["Title"], model)
         if reference:
             worklet["Reference Work"] = reference
     
