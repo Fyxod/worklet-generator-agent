@@ -9,6 +9,11 @@ __pycache__/
 #ignoring pdf files
 *.pdf
 
+
+*.png
+*.jpg
+*.jpeg
+
 # Distribution / packaging
 .Python
 build/

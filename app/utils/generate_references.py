@@ -23,31 +23,43 @@ prompt_template = ChatPromptTemplate.from_template(
 
 def getReferenceWork(title, model):
     """
-    Write a function description later
+    Fetches reference papers from arXiv based on a keyword derived from the title.
+    Returns a list of dictionaries with title and pdf link, or an empty list on failure.
     """
-    print("Inside reference work ", title)
-    keyword = getKeyword(title, model);
-    url = f"http://export.arxiv.org/api/query?search_query=all:{keyword}"
-    response = requests.get(url)
-    response.raise_for_status()
+    print("Inside reference work", title)
     
-    root = ET.fromstring(response.content)
-    ns = {'atom': 'http://www.w3.org/2005/Atom'}
+    try:
+        keyword = getKeyword(title, model)
+        url = f"http://export.arxiv.org/api/query?search_query=all:{keyword}"
 
-    reference_work = []
-    for entry in root.findall('atom:entry', ns):
-        title = entry.find('atom:title', ns).text 
-        pdf_link = None
+        headers = {
+            'User-Agent': 'MyApp/1.0 (Contact: your-email@example.com)'  # replace with your actual contact
+        }
 
-        for link in entry.findall('atom:link', ns):
-            if link.get('title') == 'pdf':
-                pdf_link = link.get('href')
-                break 
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
 
-        if pdf_link:
-            reference_work.append({"title": title, "link": pdf_link})
-    
-    return reference_work
+        root = ET.fromstring(response.content)
+        ns = {'atom': 'http://www.w3.org/2005/Atom'}
+
+        reference_work = []
+        for entry in root.findall('atom:entry', ns):
+            entry_title = entry.find('atom:title', ns).text 
+            pdf_link = None
+
+            for link in entry.findall('atom:link', ns):
+                if link.get('title') == 'pdf':
+                    pdf_link = link.get('href')
+                    break 
+
+            if pdf_link:
+                reference_work.append({"title": entry_title, "link": pdf_link})
+        
+        return reference_work
+
+    except Exception as e:
+        print(f"Error in getReferenceWork: {e}")
+        return []
 
 def getKeyword(title, model):
     print("Inside getKeyword ", title)

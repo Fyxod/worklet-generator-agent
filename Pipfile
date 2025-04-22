@@ -21,6 +21,9 @@ streamlit = "*"
 langchain-community = "*"
 langchain-ollama = "*"
 gunicorn = "*"
+pymupdf = "*"
+pytesseract = "*"
+pillow = "*"
 
 [dev-packages]
 

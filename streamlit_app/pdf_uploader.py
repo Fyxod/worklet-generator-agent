@@ -37,7 +37,8 @@ model_display_map = {
     "Gemini Flash 2.0": "gemini-flash-2.0",
     "DeepSeek R1 (70B)": "deepseek-r1:70b",
     "LLaMA 3.3": "llama3.3:latest",
-    "Gemma 3 (27B)": "gemma3:27b"
+    "Gemma 3 (27B)": "gemma3:27b",
+    "Command A": "command-a:latest"
 }
 selected_display_name = st.selectbox("Choose a model to use", list(model_display_map.keys()))
 selected_model = model_display_map[selected_display_name]

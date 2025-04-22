@@ -166,7 +166,7 @@ def generatePdf(json):
     pdf.setTitle(pdf_filename)
 
 # samsung logo
-    pdf.drawImage(f"{PROJECT_ROOT}/resources/Samsung_Orig_Wordmark_BLUE_RGB.png", 1190,720, width=250, height=90, mask='auto')
+    # pdf.drawImage(f"{PROJECT_ROOT}/resources/Samsung_Orig_Wordmark_BLUE_RGB.png", 1190,720, width=250, height=90, mask='auto')
     
 # rectangles
 
