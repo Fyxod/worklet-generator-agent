@@ -13,7 +13,8 @@ __pycache__/
 *.png
 *.jpg
 *.jpeg
-
+Pipfile
+pipfile.lock
 # Distribution / packaging
 .Python
 build/
