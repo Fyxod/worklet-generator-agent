@@ -6,486 +6,486 @@ from concurrent.futures import ThreadPoolExecutor
 import asyncio
 from app.llm import invoke_llm
 def ref():
-        # def get_prompt_template_V2():
-        #     return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas. Your task is to generate **five new worklets** based on the provided examples.
+    print("this function only stores preveious templates as commanted =block it's easy to contracct this way")
+    # df get_prompt_template_V2():
+    #    return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas. Your task is to generate **five new worklets** based on the provided examples.
+    
+    # ## **Instructions:**
+    # -Ensure that the new worklets are **unique yet thematically aligned** with the given worklets.
+    # -**Follow the exact format** below for each new worklet.
+    # - **Ensure ideas are innovative yet practically implementable.**
+    # - **Exclude specific names of people, organizations, or brands.**
+    # ---
+    # ### ** Structure of Each Worklet Idea:**
+    # 1. **Title**: A concise and engaging title summarizing the worklet not more than 4-6 words.
+    # 2. **Problem Statement**: Clearly describe the problem this worklet aims to address. between 28-33 words
+    # 3. **Goal**: Define the objective and intended outcome. between 30 -35 words 
+    # 4. **Expectations**: Describe what participants are expected to do or accomplish.  between 38 to 45 words 
+    # 5. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed.
+    # 6. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
+    # 7. **Reference Work**: Include at least one reference work, preferably an academic or research paper. If two strong references are available, include both
+    # ---
+    # ### ** Existing Worklets for Reference:**
+    # {worklet_data}
+    # ---
+    # ### ** Additional Guidelines:**
+    # **Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.  
+    # **Introduce fresh perspectives**—each worklet should offer a unique angle or approach.  
+    # **Maintain structured clarity**—ideas should be easy to understand and apply.  
+    # **Stick to the context**—avoid introducing unrelated topics. 
+    # **Word Limit**- Strictly adhere to word limits to avoid formatting errors in PDF generation.   
+    # Respond **strictly in JSON format** as shown below:
+    # ```json
+    # {{
+    #     "worklets": [
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 5,
+    #             "Reference Work": [
+    #                                     {{
+    #                                         "title": "..................",
+    #                                         "link": "..................."
+    #                                     }},
+    #                                     {{
+    #                                         "title": ".......................",
+    #                                         "link": "........................."
+    #                                     }}
+    #                               ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 3,
+    #             "Reference Work":[
+    #                                     {{
+    #                                         "title": "..................",
+    #                                         "link": "..................."
+    #                                     }},
+    #                                     {{
+    #                                         "title": ".......................",
+    #                                         "link": "........................."
+    #                                     }}
+    #                               ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 8,
+    #             "Reference Work": [
+    #                                     {{
+    #                                         "title": "..................",
+    #                                         "link": "..................."
+    #                                     }},
+    #                                     {{
+    #                                         "title": ".......................",
+    #                                         "link": "........................."
+    #                                     }}
+    #                               ]
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 6,
+    #             "Reference Work": [
+    #                                     {{
+    #                                         "title": "..................",
+    #                                         "link": "..................."
+    #                                     }},
+    #                                     {{
+    #                                         "title": ".......................",
+    #                                         "link": "........................."
+    #                                     }}
+    #                               ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 9,
+    #             "Reference Work": [
+    #                                     {{
+    #                                         "title": "..................",
+    #                                         "link": "...................."
+    #                                     }},
+    #                                     {{
+    #                                         "title": ".......................",
+    #                                         "link": "........................."
+    #                                     }}
+    #                               ]
+    #         }}
+    #     ]
+    # }}
+    # Now, **generate 5 well-structured and distinct worklets** following these guidelines.
+    # """)
+    
+    # def get_prompt_template_V3():
+    #     return ChatPromptTemplate.from_template(
+    #         """
+    # You are an expert in analyzing and generating structured project ideas, also known as "worklets." Your task is to generate **five new worklets** based on the provided examples, adhering strictly to format and thematic relevance.
+    
+    # ---
+    
+    # Core Objective:
+    # Generate **innovative**, **industry-relevant**, and **research-informed** worklets that are practically implementable and aligned with current technology trends.
+    
+    # ---
+    
+    # System Behavior Rules:
+    # - Worklets **must be inspired by** the provided examples but offer **new perspectives**.
+    # - Focus on **real-world applications** and **technological relevance**.
+    # - Ground each worklet in **modern tech domains**, such as:
+    #   - On-Device AI / Smartphones
+    #   - Internet of Things (IoT)
+    #   - Generative AI (GenAI)
+    #   - Computer Vision
+    #   - Extended Reality (XR)
+    #   - Edge AI / Embedded ML
+    # - Each worklet should include either:
+    #   - Optimizations or enhancements **within** the referenced architecture.
+    #   - OR meaningful **comparisons with other technologies** or architectures (e.g., Transformers vs SSMs).
+    
+    # ---
+    
+    # Format Requirements:
+    # Strictly follow the format below for **each worklet**:
+    
+    # 1. **Title**: 4-6 words summarizing the idea.
+    # 2. **Problem Statement**: 28-33 words describing the problem.
+    # 3. **Goal**: 30-35 words outlining the objective.
+    # 4. **Expectations**: 38-45 words detailing what the participant is expected to do.
+    # 5. **Training/Prerequisite**: Mention required knowledge or prior learning.
+    # 6. **Difficulty (1-10)**: Integer from 1 (very easy) to 10 (very challenging).
+    # 7. **Reference Work**: One or two high-quality research or academic works (with titles + links).
+    
+    # ---
+    
+    # Output Instructions:
+    # - **Respond strictly in JSON format** as shown below.
+    # - **Do not include brand names, personal names, or organizations**.
+    # - **Strictly adhere to word limits** for each field to ensure downstream formatting works (e.g., PDF exports).
+    # - Ensure ideas are clear, innovative, and aligned with modern tech themes.
+    
+    # ---
+    
+    # Existing Worklets for Reference:
+    # {worklet_data}
+    
+    # ---
+    
+    # Respond **strictly in JSON format** as shown below:
+    # ```json
+    # {{
+    #   "worklets": [
+    #     {{
+    #       "Title": "...",
+    #       "Problem Statement": "... (28-33 words)",
+    #       "Goal": "... (30-35 words)",
+    #       "Expectations": "... (38-45 words)",
+    #       "Training/Prerequisite": "...",
+    #       "Difficulty": 5,
+    #       "Reference Work": [
+    #         {{
+    #           "title": "..................",
+    #           "link": "..................."
+    #         }},
+    #         {{
+    #           "title": ".......................",
+    #           "link": "........................."
+    #         }}
+    #       ]
+    #     }},
+    #     ...
+    #   ]
+    # }}
+    # Now, generate 5 original and domain-relevant worklets using the above guidelines.
+    # """)
+    
         
-        # ### **Instructions:**
-        # - Ensure that the new worklets are **unique yet thematically aligned** with the given worklets.
-        # - **Follow the exact format** below for each new worklet.
-        # - **Ensure ideas are innovative yet practically implementable.**
-        # - **Exclude specific names of people, organizations, or brands.**
-        # ---
-        # ### ** Structure of Each Worklet Idea:**
-        # 1. **Title**: A concise and engaging title summarizing the worklet not more than 4-6 words.
-        # 2. **Problem Statement**: Clearly describe the problem this worklet aims to address. between 28-33 words
-        # 3. **Goal**: Define the objective and intended outcome. between 30 -35 words 
-        # 4. **Expectations**: Describe what participants are expected to do or accomplish.  between 38 to 45 words 
-        # 5. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed.
-        # 6. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
-        # 7. **Reference Work**: Include at least one reference work, preferably an academic or research paper. If two strong references are available, include both
-        # ---
-        # ### ** Existing Worklets for Reference:**
-        # {worklet_data}
-        # ---
-        # ### ** Additional Guidelines:**
-        # **Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.  
-        # **Introduce fresh perspectives**—each worklet should offer a unique angle or approach.  
-        # **Maintain structured clarity**—ideas should be easy to understand and apply.  
-        # **Stick to the context**—avoid introducing unrelated topics. 
-        # **Word Limit**- Strictly adhere to word limits to avoid formatting errors in PDF generation.   
-        # Respond **strictly in JSON format** as shown below:
-        # ```json
-        # {{
-        #     "worklets": [
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 5,
-        #             "Reference Work": [
-        #                                     {{
-        #                                         "title": "..................",
-        #                                         "link": "..................."
-        #                                     }},
-        #                                     {{
-        #                                         "title": ".......................",
-        #                                         "link": "........................."
-        #                                     }}
-        #                               ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 3,
-        #             "Reference Work":[
-        #                                     {{
-        #                                         "title": "..................",
-        #                                         "link": "..................."
-        #                                     }},
-        #                                     {{
-        #                                         "title": ".......................",
-        #                                         "link": "........................."
-        #                                     }}
-        #                               ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 8,
-        #             "Reference Work": [
-        #                                     {{
-        #                                         "title": "..................",
-        #                                         "link": "..................."
-        #                                     }},
-        #                                     {{
-        #                                         "title": ".......................",
-        #                                         "link": "........................."
-        #                                     }}
-        #                               ]
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 6,
-        #             "Reference Work": [
-        #                                     {{
-        #                                         "title": "..................",
-        #                                         "link": "..................."
-        #                                     }},
-        #                                     {{
-        #                                         "title": ".......................",
-        #                                         "link": "........................."
-        #                                     }}
-        #                               ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 9,
-        #             "Reference Work": [
-        #                                     {{
-        #                                         "title": "..................",
-        #                                         "link": "...................."
-        #                                     }},
-        #                                     {{
-        #                                         "title": ".......................",
-        #                                         "link": "........................."
-        #                                     }}
-        #                               ]
-        #         }}
-        #     ]
-        # }}
-        # Now, **generate 5 well-structured and distinct worklets** following these guidelines.
-        # """)
+    # def get_prompt_template_V4():
+    #     return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas, with a strong understanding of current technology trends and research. Your task is to generate **five new worklets** based on the provided examples, ensuring they address industry-relevant use cases within the domains of **Smartphones OnDevice Computing, IOT, GenAI, Computer Vision, or XR**.
+    
+    # ### **Instructions:**
+    # - Ensure that the new worklets are **unique yet thematically aligned** with the given worklets.
+    # - **Follow the exact format** below for each new worklet.
+    # - **Ensure ideas are innovative yet practically implementable.**
+    # - Each new worklet should suggest either **optimizations within a given architecture or a comparison research** with other relevant technologies within the specified domains.
+    # - **Exclude specific names of people, organizations, or brands.**
+    
+    # ---
+    
+    # ### ** Structure of Each Worklet Idea:**
+    # 1. **Title**: A concise and engaging title summarizing the worklet (4-6 words).
+    # 2. **Problem Statement**: Clearly describe an industry-relevant problem within the specified domains that this worklet aims to address (28-33 words).
+    # 3. **Goal**: Define the objective and intended outcome of the worklet, focusing on optimization or comparison (30-35 words).
+    # 4. **Expectations**: Describe what participants are expected to do or accomplish, such as analyzing, implementing, comparing, or proposing optimizations (38-45 words).
+    # 5. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed for this worklet.
+    # 6. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
+    # 7. **Reference Work**: Include at least one relevant academic or research paper that forms the basis or inspiration for the worklet. If two strong references are available, include both.
+    
+    # ---
+    
+    # ### ** Existing Worklets for Reference:**
+    # {worklet_data}
+    
+    # ---
+    
+    # ### ** Additional Guidelines:**
+    # **Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.
+    # **Introduce fresh perspectives**—each worklet should offer a unique angle or approach to optimization or comparison within the specified domains.
+    # **Maintain structured clarity**—ideas should be easy to understand and apply.
+    # **Stick to the context**—ensure all worklets are relevant to Smartphones OnDevice Computing, IOT, GenAI, Computer Vision, or XR.
+    # **Word Limit**- Strictly adhere to word limits to avoid formatting errors in PDF generation.
+    
+    # Respond **strictly in JSON format** as shown below:
+    
+    # ```json
+    # {{
+    #     "worklets": [
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 5,
+    #             "Reference Work": [
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "..................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 3,
+    #             "Reference Work":[
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "..................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 8,
+    #             "Reference Work": [
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "..................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 6,
+    #             "Reference Work": [
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "..................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 9,
+    #             "Reference Work": [
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "...................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }}
+    #     ]
+    # }}
+    # Now, **generate 5 well-structured and distinct worklets** following these guidelines, keeping in mind the constraints you've specified.
+    # """)
         
-        # def get_prompt_template_V3():
-        #     return ChatPromptTemplate.from_template(
-        #         """
-        # You are an expert in analyzing and generating structured project ideas, also known as "worklets." Your task is to generate **five new worklets** based on the provided examples, adhering strictly to format and thematic relevance.
-        
-        # ---
-        
-        # Core Objective:
-        # Generate **innovative**, **industry-relevant**, and **research-informed** worklets that are practically implementable and aligned with current technology trends.
-        
-        # ---
-        
-        # System Behavior Rules:
-        # - Worklets **must be inspired by** the provided examples but offer **new perspectives**.
-        # - Focus on **real-world applications** and **technological relevance**.
-        # - Ground each worklet in **modern tech domains**, such as:
-        #   - On-Device AI / Smartphones
-        #   - Internet of Things (IoT)
-        #   - Generative AI (GenAI)
-        #   - Computer Vision
-        #   - Extended Reality (XR)
-        #   - Edge AI / Embedded ML
-        # - Each worklet should include either:
-        #   - Optimizations or enhancements **within** the referenced architecture.
-        #   - OR meaningful **comparisons with other technologies** or architectures (e.g., Transformers vs SSMs).
-        
-        # ---
-        
-        # Format Requirements:
-        # Strictly follow the format below for **each worklet**:
-        
-        # 1. **Title**: 4-6 words summarizing the idea.
-        # 2. **Problem Statement**: 28-33 words describing the problem.
-        # 3. **Goal**: 30-35 words outlining the objective.
-        # 4. **Expectations**: 38-45 words detailing what the participant is expected to do.
-        # 5. **Training/Prerequisite**: Mention required knowledge or prior learning.
-        # 6. **Difficulty (1-10)**: Integer from 1 (very easy) to 10 (very challenging).
-        # 7. **Reference Work**: One or two high-quality research or academic works (with titles + links).
-        
-        # ---
-        
-        # Output Instructions:
-        # - **Respond strictly in JSON format** as shown below.
-        # - **Do not include brand names, personal names, or organizations**.
-        # - **Strictly adhere to word limits** for each field to ensure downstream formatting works (e.g., PDF exports).
-        # - Ensure ideas are clear, innovative, and aligned with modern tech themes.
-        
-        # ---
-        
-        # Existing Worklets for Reference:
-        # {worklet_data}
-        
-        # ---
-        
-        # Respond **strictly in JSON format** as shown below:
-        # ```json
-        # {{
-        #   "worklets": [
-        #     {{
-        #       "Title": "...",
-        #       "Problem Statement": "... (28-33 words)",
-        #       "Goal": "... (30-35 words)",
-        #       "Expectations": "... (38-45 words)",
-        #       "Training/Prerequisite": "...",
-        #       "Difficulty": 5,
-        #       "Reference Work": [
-        #         {{
-        #           "title": "..................",
-        #           "link": "..................."
-        #         }},
-        #         {{
-        #           "title": ".......................",
-        #           "link": "........................."
-        #         }}
-        #       ]
-        #     }},
-        #     ...
-        #   ]
-        # }}
-        # Now, generate 5 original and domain-relevant worklets using the above guidelines.
-        # """)
-        
-            
-        # def get_prompt_template_V4():
-        #     return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas, with a strong understanding of current technology trends and research. Your task is to generate **five new worklets** based on the provided examples, ensuring they address industry-relevant use cases within the domains of **Smartphones OnDevice Computing, IOT, GenAI, Computer Vision, or XR**.
-        
-        # ### **Instructions:**
-        # - Ensure that the new worklets are **unique yet thematically aligned** with the given worklets.
-        # - **Follow the exact format** below for each new worklet.
-        # - **Ensure ideas are innovative yet practically implementable.**
-        # - Each new worklet should suggest either **optimizations within a given architecture or a comparison research** with other relevant technologies within the specified domains.
-        # - **Exclude specific names of people, organizations, or brands.**
-        
-        # ---
-        
-        # ### ** Structure of Each Worklet Idea:**
-        # 1. **Title**: A concise and engaging title summarizing the worklet (4-6 words).
-        # 2. **Problem Statement**: Clearly describe an industry-relevant problem within the specified domains that this worklet aims to address (28-33 words).
-        # 3. **Goal**: Define the objective and intended outcome of the worklet, focusing on optimization or comparison (30-35 words).
-        # 4. **Expectations**: Describe what participants are expected to do or accomplish, such as analyzing, implementing, comparing, or proposing optimizations (38-45 words).
-        # 5. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed for this worklet.
-        # 6. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
-        # 7. **Reference Work**: Include at least one relevant academic or research paper that forms the basis or inspiration for the worklet. If two strong references are available, include both.
-        
-        # ---
-        
-        # ### ** Existing Worklets for Reference:**
-        # {worklet_data}
-        
-        # ---
-        
-        # ### ** Additional Guidelines:**
-        # **Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.
-        # **Introduce fresh perspectives**—each worklet should offer a unique angle or approach to optimization or comparison within the specified domains.
-        # **Maintain structured clarity**—ideas should be easy to understand and apply.
-        # **Stick to the context**—ensure all worklets are relevant to Smartphones OnDevice Computing, IOT, GenAI, Computer Vision, or XR.
-        # **Word Limit**- Strictly adhere to word limits to avoid formatting errors in PDF generation.
-        
-        # Respond **strictly in JSON format** as shown below:
-        
-        # ```json
-        # {{
-        #     "worklets": [
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 5,
-        #             "Reference Work": [
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "..................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 3,
-        #             "Reference Work":[
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "..................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 8,
-        #             "Reference Work": [
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "..................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 6,
-        #             "Reference Work": [
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "..................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 9,
-        #             "Reference Work": [
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "...................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }}
-        #     ]
-        # }}
-        # Now, **generate 5 well-structured and distinct worklets** following these guidelines, keeping in mind the constraints you've specified.
-        # """)
-            
-        # def get_prompt_template_V5():
-        #     return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas, with a strong understanding of current technology trends and research. Your task is to generate **five new worklets** based on the provided examples, ensuring they address industry-relevant use cases within the domains of **Smartphones OnDevice Computing, IOT, GenAI, Computer Vision, or XR**.
-        
-        # ### **Instructions:**
-        # - Ensure that the new worklets are **unique yet thematically aligned** with the given worklets.
-        # - **Follow the exact format** below for each new worklet.
-        # - **Ensure ideas are innovative yet practically implementable.**
-        # - Each new worklet should suggest either **optimizations within a given architecture or a comparison research** with other relevant technologies within the specified domains.
-        # - **Avoid making the worklets mathematically heavy.** Focus on conceptual understanding, implementation strategies, and comparative analysis rather than deep mathematical derivations.
-        # - **Exclude specific names of people, organizations, or brands.**
-        
-        # ---
-        
-        # ### ** Structure of Each Worklet Idea:**
-        # 1. **Title**: A concise and engaging title summarizing the worklet (4-6 words).
-        # 2. **Problem Statement**: Clearly describe an industry-relevant problem within the specified domains that this worklet aims to address (28-33 words).
-        # 3. **Goal**: Define the objective and intended outcome of the worklet, focusing on optimization or comparison (30-35 words).
-        # 4. **Expectations**: Describe what participants are expected to do or accomplish, such as analyzing, implementing, comparing, or proposing optimizations (38-45 words).
-        # 5. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed for this worklet.
-        # 6. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
-        # 7. **Reference Work**: Include at least one relevant academic or research paper that forms the basis or inspiration for the worklet. If two strong references are available, include both.
-        
-        # ---
-        
-        # ### ** Existing Worklets for Reference:**
-        # {worklet_data}
-        
-        # ---
-        
-        # ### ** Additional Guidelines:**
-        # **Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.
-        # **Introduce fresh perspectives**—each worklet should offer a unique angle or approach to optimization or comparison within the specified domains.
-        # **Maintain structured clarity**—ideas should be easy to understand and apply.
-        # **Stick to the context**—ensure all worklets are relevant to Smartphones OnDevice Computing, IOT, GenAI, Computer Vision, or XR.
-        # **Word Limit**- Strictly adhere to word limits to avoid formatting errors in PDF generation.
-        
-        # Respond **strictly in JSON format** as shown below:
-        
-        # ```json
-        # {{
-        #     "worklets": [
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 5,
-        #             "Reference Work": [
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "..................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 3,
-        #             "Reference Work":[
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "..................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 8,
-        #             "Reference Work": [
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "..................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 6,
-        #             "Reference Work": [
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "..................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }},
-        #         {{
-        #             "Title": "...",
-        #             "Problem Statement": "... (28-33 words)",
-        #             "Goal": "... (30-35 words)",
-        #             "Expectations": "... (38-45 words)",
-        #             "Training/Prerequisite": "...",
-        #             "Difficulty": 9,
-        #             "Reference Work": [
-        #                                  {{
-        #                                      "title": "..................",
-        #                                      "link": "...................."
-        #                                  }},
-        #                                  {{
-        #                                      "title": ".......................",
-        #                                      "link": "........................."
-        #                                  }}
-        #                              ]
-        #         }}
-        #     ]
-        # }}
-        # Now, **generate 5 well-structured and distinct worklets** following these guidelines, keeping in mind the constraints you've specified, including avoiding mathematically heavy content.
-        # """)
-        
-        
+    # def get_prompt_template_V5():
+    #     return ChatPromptTemplate.from_template("""You are an expert in analyzing and generating structured worklet ideas, with a strong understanding of current technology trends and research. Your task is to generate **five new worklets** based on the provided examples, ensuring they address industry-relevant use cases within the domains of **Smartphones OnDevice Computing, IOT, GenAI, Computer Vision, or XR**.
+    
+    # ### **Instructions:**
+    # - Ensure that the new worklets are **unique yet thematically aligned** with the given worklets.
+    # - **Follow the exact format** below for each new worklet.
+    # - **Ensure ideas are innovative yet practically implementable.**
+    # - Each new worklet should suggest either **optimizations within a given architecture or a comparison research** with other relevant technologies within the specified domains.
+    # - **Avoid making the worklets mathematically heavy.** Focus on conceptual understanding, implementation strategies, and comparative analysis rather than deep mathematical derivations.
+    # - **Exclude specific names of people, organizations, or brands.**
+    
+    # ---
+    
+    # ### ** Structure of Each Worklet Idea:**
+    # 1. **Title**: A concise and engaging title summarizing the worklet (4-6 words).
+    # 2. **Problem Statement**: Clearly describe an industry-relevant problem within the specified domains that this worklet aims to address (28-33 words).
+    # 3. **Goal**: Define the objective and intended outcome of the worklet, focusing on optimization or comparison (30-35 words).
+    # 4. **Expectations**: Describe what participants are expected to do or accomplish, such as analyzing, implementing, comparing, or proposing optimizations (38-45 words).
+    # 5. **Training/Prerequisite**: List any required knowledge, skills, or prior learning needed for this worklet.
+    # 6. **Difficulty (1-10)**: Rate the complexity of this worklet on a scale from 1 (very easy) to 10 (very challenging).
+    # 7. **Reference Work**: Include at least one relevant academic or research paper that forms the basis or inspiration for the worklet. If two strong references are available, include both.
+    
+    # ---
+    
+    # ### ** Existing Worklets for Reference:**
+    # {worklet_data}
+    
+    # ---
+    
+    # ### ** Additional Guidelines:**
+    # **Ensure originality**—new worklets should be inspired by, but not directly derivative of, the provided examples.
+    # **Introduce fresh perspectives**—each worklet should offer a unique angle or approach to optimization or comparison within the specified domains.
+    # **Maintain structured clarity**—ideas should be easy to understand and apply.
+    # **Stick to the context**—ensure all worklets are relevant to Smartphones OnDevice Computing, IOT, GenAI, Computer Vision, or XR.
+    # **Word Limit**- Strictly adhere to word limits to avoid formatting errors in PDF generation.
+    
+    # Respond **strictly in JSON format** as shown below:
+    
+    # ```json
+    # {{
+    #     "worklets": [
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 5,
+    #             "Reference Work": [
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "..................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 3,
+    #             "Reference Work":[
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "..................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 8,
+    #             "Reference Work": [
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "..................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 6,
+    #             "Reference Work": [
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "..................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }},
+    #         {{
+    #             "Title": "...",
+    #             "Problem Statement": "... (28-33 words)",
+    #             "Goal": "... (30-35 words)",
+    #             "Expectations": "... (38-45 words)",
+    #             "Training/Prerequisite": "...",
+    #             "Difficulty": 9,
+    #             "Reference Work": [
+    #                                  {{
+    #                                      "title": "..................",
+    #                                      "link": "...................."
+    #                                  }},
+    #                                  {{
+    #                                      "title": ".......................",
+    #                                      "link": "........................."
+    #                                  }}
+    #                              ]
+    #         }}
+    #     ]
+    # }}
+    # Now, **generate 5 well-structured and distinct worklets** following these guidelines, keeping in mind the constraints you've specified, including avoiding mathematically heavy content.
+    # """)
+              
 def get_prompt_template():
     return ChatPromptTemplate.from_template("""
 
