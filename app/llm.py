@@ -48,9 +48,9 @@ def invoke_llm(prompt, model):
 
                 data = json.loads(response.content)
                 raw_text = data.get("content", "")
-                print("PRINTING RAW TEXT")
-                print(raw_text)
-                print("ENDING RAW TEXT")
+                # print("PRINTING RAW TEXT")
+                # print(raw_text)
+                # print("ENDING RAW TEXT")
                 break  # Success, exit the loop
 
             except json.JSONDecodeError: 
@@ -73,8 +73,8 @@ def invoke_llm(prompt, model):
     cleaned = cleaned.replace('")', '"')
     cleaned = cleaned[cleaned.find('`'):]
     cleaned = cleaned.strip()
-    print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
-    print(cleaned)
+    # print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
+    # print(cleaned)
 
     return cleaned
 

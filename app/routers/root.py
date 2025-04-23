@@ -45,14 +45,15 @@ def read_root():
 @router.get("/home")
 def frontend_redirect():
     return RedirectResponse(url="http://localhost:8501")
-    
+
+# Generate worklets is hitting this endpoint althe function alss happen here
 @router.post('/upload')
 async def upload_multiple(
     files: Annotated[list[UploadFile], File()],
     model: Annotated[str, Query()]
 ):
-    print("Model selected:", model)
-    print("Uploaded files:", files)
+    # print("Model selected:", model)
+    # print("Uploaded files:", files)
     # your processing logic
     
     saved_files = []
@@ -81,12 +82,12 @@ async def upload_multiple(
     formatted_output = "\n\n".join(
         [f"--- Extracted Data from File {idx} ---\n{data}" for idx, data in extracted_data_all.items()]
     )
-    print(formatted_output)  # Print for debugging
+    # print(formatted_output)  # Print for debugging
 
-    # generate worklets' content
+    # generate worklet content 
     worklets =  await generate_worklets(extracted_data_all, model)
-    print("PRINTING WORKLETS"*5)
-    print(worklets)
+    # print("PRINTING WORKLETS"*5)
+    # print(worklets)
 
     # moving old files
     for filename in os.listdir(GENERATED_DIR):
@@ -107,11 +108,11 @@ async def upload_multiple(
     #     list(executor.map(process_worklet, worklets["worklets"]))
 
 
-    for worklet in worklets["worklets"]:
-        print(worklet["Title"])
-        reference = getReferenceWork(worklet["Title"], model)
-        if reference:
-            worklet["Reference Work"] = reference
+    # for worklet in worklets["worklets"]:
+    #     # print(worklet["Title"])
+    #     reference = getReferenceWork(worklet["Title"], model)
+    #     if reference:
+    #         worklet["Reference Work"] = reference
     
     # response = {"files":[]}
     # for worklet in worklets["worklets"]:
@@ -122,7 +123,7 @@ async def upload_multiple(
     response = {"files": []}
 
     def generate(worklet):
-        generatePdf(worklet)
+        # generatePdf(worklet)
         return {
             "name": f'{worklet["Title"]}.pdf',
             "url": f"http://localhost:8000/download/{worklet["Title"]}.pdf"

@@ -26,7 +26,7 @@ def getReferenceWork(title, model):
     Fetches reference papers from arXiv based on a keyword derived from the title.
     Returns a list of dictionaries with title and pdf link, or an empty list on failure.
     """
-    print("Inside reference work", title)
+    # print("Inside reference work", title)
     
     try:
         keyword = getKeyword(title, model)

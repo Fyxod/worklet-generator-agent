@@ -702,7 +702,7 @@ async def generate_worklets(worklet_data, model):
     prompt = prompt_template.format(worklet_data=worklet_data) # populte the prompt with worklet data
     generated_worklets = invoke_llm(prompt, model)
 
-    extracted_worklets = extract_json_from_llm_response(generated_worklets) # remove backticks 
+    extracted_worklets = extract_json_from_llm_response(generated_worklets)# remove back ticks
 
     # Run refine_worklet in parallel using ThreadPoolExecutor
     # with ThreadPoolExecutor() as executor:
