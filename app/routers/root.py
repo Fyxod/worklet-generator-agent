@@ -9,7 +9,6 @@ import shutil
 from pathlib import Path
 from pydantic import BaseModel
 from fastapi.responses import RedirectResponse, FileResponse
-from app.utils.parser import extract_tables_from_pdf
 from app.utils.parser import extract_document
 from app.utils.generate_worklets import generate_worklets
 from app.utils.generatepdf import generatePdf

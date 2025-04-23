@@ -692,11 +692,17 @@ def get_prompt_template():
     """)
 
 async def generate_worklets(worklet_data, model):
+    """
+    This function is used to ccommunicate with the llm model it 
+    takes  worklet data and the model name as input 
+    and return the worklets in a json format 
+
+    """
     prompt_template = get_prompt_template()  
-    prompt = prompt_template.format(worklet_data=worklet_data)
+    prompt = prompt_template.format(worklet_data=worklet_data) # populte the prompt with worklet data
     generated_worklets = invoke_llm(prompt, model)
 
-    extracted_worklets = extract_json_from_llm_response(generated_worklets)
+    extracted_worklets = extract_json_from_llm_response(generated_worklets) # remove backticks 
 
     # Run refine_worklet in parallel using ThreadPoolExecutor
     # with ThreadPoolExecutor() as executor:
@@ -707,6 +713,7 @@ async def generate_worklets(worklet_data, model):
     #     )
 
     # extracted_worklets["worklets"] = refined_worklets
+    print(extracted_worklets)
     return extracted_worklets
 
 def refine_worklet(worklet_data):
