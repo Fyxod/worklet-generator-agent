@@ -1,6 +1,6 @@
 from app.llm import llm
 from typing import Annotated
-from fastapi import  UploadFile, File, Query
+from fastapi import  UploadFile, File, Query, Form
 import os
 import aiofiles
 from datetime import datetime
@@ -50,7 +50,8 @@ def frontend_redirect():
 @router.post('/upload')
 async def upload_multiple(
     files: Annotated[list[UploadFile], File()],
-    model: Annotated[str, Query()]
+    model: Annotated[str, Query()],
+    links: Annotated[str, Form()]  # expecting JSON string from frontend
 ):
     # print("Model selected:", model)
     # print("Uploaded files:", files)
@@ -96,23 +97,24 @@ async def upload_multiple(
 
         if os.path.isfile(source_path):
             shutil.move(source_path, destination_path)
-            
-    # def process_worklet(worklet):
-    #     reference = getReferenceWork(worklet["Title"], model)
-    #     print(reference)
-    #     print("8"*200)
-    #     if reference:
-    #         worklet["Reference Work"] = reference
+
+    #get references
+    def process_worklet(worklet):
+        reference = getReferenceWork(worklet["Title"], model)
+        print(reference)
+        print("8"*200)
+        if reference:
+            worklet["Reference Work"] = reference
+
 
     # with concurrent.futures.ThreadPoolExecutor() as executor:
     #     list(executor.map(process_worklet, worklets["worklets"]))
 
-
-    # for worklet in worklets["worklets"]:
-    #     # print(worklet["Title"])
-    #     reference = getReferenceWork(worklet["Title"], model)
-    #     if reference:
-    #         worklet["Reference Work"] = reference
+    for worklet in worklets:
+        print("DEUBGGING HERE DEBIGGING HERE DEBUGGING HERE DEBBUGING HERE")
+        print(worklet)
+        print("fertchign refrences for ",worklet["Title"])
+        process_worklet(worklet)
     
     # response = {"files":[]}
     # for worklet in worklets["worklets"]:
@@ -121,7 +123,8 @@ async def upload_multiple(
 
 
     response = {"files": []}
-
+    print("final"*25)
+    print(worklets)
     def generate(worklet):
         # generatePdf(worklet)
         return {
@@ -133,7 +136,7 @@ async def upload_multiple(
         loop = asyncio.get_running_loop()
         results = await asyncio.gather(
             *[loop.run_in_executor(executor, generate, worklet)
-            for worklet in worklets["worklets"]]
+            for worklet in worklets]
         )
 
     response["files"] = results

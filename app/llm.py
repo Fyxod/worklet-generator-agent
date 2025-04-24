@@ -40,16 +40,17 @@ def invoke_llm(prompt, model):
             response = None
             try:
                 response = requests.post(url, json=payload)
-
                 if response.status_code != 200:
                     print(f"Attempt {attempt+1}: Error {response.status_code} - {response.text}")
                     time.sleep(1)
                     continue
 
                 data = json.loads(response.content)
+                print("printing response", data)
                 raw_text = data.get("content", "")
-                # print("PRINTING RAW TEXT")
-                # print(raw_text)
+                print("PRINTING RAW TEXT")
+                print(type(raw_text))
+                print(raw_text)
                 # print("ENDING RAW TEXT")
                 break  # Success, exit the loop
 
@@ -65,16 +66,17 @@ def invoke_llm(prompt, model):
         response = llm.invoke(prompt)
         raw_text = response.content
 
-    # Clean: remove markdown symbols and normalize whitespace
     cleaned = re.sub(r"<think>.*?</think>", "", raw_text, flags=re.DOTALL | re.IGNORECASE)
     cleaned = re.sub(r"\*+", "", cleaned)     # Remove markdown asterisks
     cleaned = re.sub(r"#", "", cleaned)       # Remove hash symbols
     cleaned = re.sub(r"\s+", " ", cleaned)    # Normalize whitespace
     cleaned = cleaned.replace('")', '"')
-    cleaned = cleaned[cleaned.find('`'):]
+    if '`' in cleaned:
+        cleaned = cleaned[cleaned.find('`'):]
     cleaned = cleaned.strip()
-    # print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
-    # print(cleaned)
+
+    print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
+    print(cleaned)
 
     return cleaned
 
