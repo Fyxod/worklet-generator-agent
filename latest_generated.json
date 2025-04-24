@@ -1,0 +1,567 @@
+[
+    {
+        "Title": "AI-Powered Personalized Recipe Generation from Image & Voice Input",
+        "Problem Statement": "Develop a system that generates personalized recipes based on user-provided images of available ingredients (Vision AI) and voice commands specifying dietary restrictions or preferred cuisine (Voice AI). This caters to users seeking efficient meal planning and minimizes food waste. The system should prioritize ingredients identified in the image and adapt recipes accordingly, offering substitutions when necessary.",
+        "Description": "This project combines computer vision for ingredient identification with natural language processing to understand dietary preferences. It will require a dataset of recipes, ingredient images, and voice command examples. The system will leverage generative AI to create novel recipe variations.",
+        "Deliverables": "A functional mobile application (Android/iOS) demonstrating real-time ingredient identification via camera, voice command interpretation, and personalized recipe generation. Include a REST API for recipe retrieval and generation.",
+        "KPIs": [
+            "Accuracy of ingredient recognition (85%+)",
+            "Recipe generation time (under 5 seconds)",
+            "User satisfaction (4+ star rating)"
+        ],
+        "Prerequisites": [
+            "Python, TensorFlow/PyTorch, Computer Vision, NLP, Mobile Development (Android/iOS)"
+        ],
+        "Infrastructure Requirements": [
+            "Standard workstation with GPU, access to cloud services for model training (optional)"
+        ],
+        "Value Proposition": [
+            "Commercial PoC potential for Samsung's SmartThings ecosystem (food management, automated grocery lists)",
+            "Novel research in multi-modal recipe generation",
+            "Potential patent filing for the recipe adaptation algorithm"
+        ],
+        "Milestones": {
+            "M2": "Functional image recognition module (ingredient identification accuracy >= 70%)",
+            "M4": "Voice command processing and intent recognition integrated.",
+            "M6": "End-to-end recipe generation and application deployment."
+        },
+        "Reference Work": [
+            {
+                "title": "[PDF][PDF] Chef dalle: Transforming cooking with multimodal ai",
+                "link": "https://www.preprints.org/frontend/manuscript/67aa2042779812b1e2d45d7c26b35534/download_pub",
+                "description": "\u2026 system using voice, text, or images, accommodating various dietary restrictions and \npreferences. Furthermore, the utilization of DALL-E 3 for generating recipe images enhances user \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[CITATION][C] NLPANTRY: AI-POWERED RECIPE CREATION",
+                "link": "http://periodicosulbra.org/index.php/acta/article/view/39",
+                "description": "\u2026 AI serves as the pillar of our computerized recipe generating system, allowing us to exploit \nthe power of AI for \u2026 Following, our AI tool is able to pull out the constituents from the image \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Deep Learning for Recipe Generation",
+                "link": "https://www.taylorfrancis.com/chapters/edit/10.4324/9781003195269-9/deep-learning-recipe-generation-chan-sin-wai",
+                "description": "\u2026 dishes and use an AI system to retrieve recipe text for discovery \u2026 on image-to-recipe retrieval \nfor querying recipes by food \u2026 is to distil all the information available across modalities (audio, \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Fire: Food image to recipe generation",
+                "link": "https://openaccess.thecvf.com/content/WACV2024/html/Chhikara_FIRE_Food_Image_to_REcipe_Generation_WACV_2024_paper.html",
+                "description": "\u2026 ative recipes, enabling participants to employ AI and computational creativity in exploring \ninnovative food combinations and techniques. However, we cannot use CCC directly because \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Learning and AI-Generated Recipes",
+                "link": "https://books.google.com/books?hl=en&lr=&id=eec2EQAAQBAJ&oi=fnd&pg=PA391&dq=recipe+generation+image+voice+AI&ots=lZ5VB7php4&sig=iLCK2uiZ9PPDn0aSgKouT1DBAsU",
+                "description": "\u2026 chosen language, an AI-generated recipe, and an audio version of the recipe in the user's \u2026 \nImage Case The application moves forward for generating the recipes if they received image \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Chef Dalle: Transforming Cooking with Multi-Model Multimodal AI",
+                "link": "https://www.mdpi.com/2073-431X/13/7/156",
+                "description": "\u2026 with the system using voice, text, or images, accommodating various \u2026 recipe recommendation \nsystems through a unique blend of multimodal AI integration, dynamic recipe generation, \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[PDF][PDF] Meal Master: An Innovative Ai Solution For Recipe Generation",
+                "link": "https://informatics.ue-varna.bg/ICTBE2024/ICTBE2024_262-269.pdf",
+                "description": "\u2026 previous models and supports text, image, and voice inputs, with a focus \u2026 voice interaction. \nGPT-4o can generate and interpret audio, expanding its usability beyond just text and image \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "AI-powered recipe generator using GPT-3 transformer to deliver personalized recipes based on user preferences and dietary needs",
+                "link": "https://pubs.aip.org/aip/acp/article-abstract/3279/1/020097/3341728",
+                "description": "\u2026 of creating new recipes using specified ingredients is known as \"novel recipe generation.\" \u2026 \napplications in domains like picture captioning, visual question answering, and audio-visual \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Artificial intelligence in the kitchen: can humans be replaced in recipe creation and food production?",
+                "link": "https://www.emerald.com/insight/content/doi/10.1108/ijchm-04-2024-0549/full/html",
+                "description": "\u2026 To understand AI\u2019s pivotal roles in the back-of-house \u2026 to examine the effects of AI involvement \nin recipe creation and food \u2026 AI has demonstrated a strong potential for idea generation \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Learning program representations for food images and cooking recipes",
+                "link": "http://openaccess.thecvf.com/content/CVPR2022/html/Papadopoulos_Learning_Program_Representations_for_Food_Images_and_Cooking_Recipes_CVPR_2022_paper.html",
+                "description": "\u2026 Imagine an AI agent that can look at a dish and recognize ingredients and reliably \u2026 We \nshow an interesting application of image generation conditioned on cooking programs using our \u2026",
+                "tag": "scholar"
+            }
+        ]
+    },
+    {
+        "Title": "On-Device Fall Detection and Emergency Response System",
+        "Problem Statement": "Develop an on-device (smartphone) AI-powered system for reliable fall detection, specifically targeting elderly or vulnerable individuals (On-device AI, Vision AI). The system should analyze accelerometer and gyroscope data in conjunction with optional camera input to distinguish falls from normal activities.",
+        "Description": "This project combines sensor fusion with machine learning to create a robust fall detection model. Camera input can be used to confirm a fall and provide contextual information. The system will prioritize privacy by processing data locally on the device.",
+        "Deliverables": "A functional Android/iOS application demonstrating real-time fall detection and automated emergency contact notification (SMS/call).",
+        "KPIs": [
+            "Fall detection accuracy (95%+)",
+            "False positive rate (less than 1%)",
+            "Response time (under 2 seconds)"
+        ],
+        "Prerequisites": [
+            "Python, TensorFlow Lite, Sensor Data Analysis, Machine Learning, Mobile Development (Android/iOS)"
+        ],
+        "Infrastructure Requirements": [
+            "Standard workstation, access to sensor data datasets"
+        ],
+        "Value Proposition": [
+            "Commercial PoC potential for Samsung Health/Wearables",
+            "Viable patent filing for the fall detection algorithm",
+            "Addresses a critical healthcare need, particularly for aging populations"
+        ],
+        "Milestones": {
+            "M2": "Functional sensor data processing and feature extraction.",
+            "M4": "Trained fall detection model integrated into the application.",
+            "M6": "End-to-end application deployment with emergency contact integration."
+        },
+        "Reference Work": [
+            {
+                "title": "Fall-Detection",
+                "description": "Human Fall Detection from CCTV camera feed",
+                "link": "https://github.com/harishrithish7/Fall-Detection",
+                "tag": "github"
+            },
+            {
+                "title": "HumanFallDetection",
+                "description": "Real-time, Multi-person & Multi-camera Fall Detector in Python",
+                "link": "https://github.com/taufeeque9/HumanFallDetection",
+                "tag": "github"
+            },
+            {
+                "title": "falldetection_openpifpaf",
+                "description": "Fall Detection using OpenPifPaf's Human Pose Estimation model",
+                "link": "https://github.com/cwlroda/falldetection_openpifpaf",
+                "tag": "github"
+            },
+            {
+                "title": "Fall-Detection",
+                "description": "Non-invasive Fall Detection with Keras and Tensorflow",
+                "link": "https://github.com/JJN123/Fall-Detection",
+                "tag": "github"
+            },
+            {
+                "title": "FD-CNN",
+                "description": "ADL and Fall Detection",
+                "link": "https://github.com/chizhanyuefeng/FD-CNN",
+                "tag": "github"
+            },
+            {
+                "title": "Fall-detection",
+                "description": "a very simple Fall-detection\uff08\u6454\u5012/\u8dcc\u5012\u68c0\u6d4b\uff09using yolo2",
+                "link": "https://github.com/zfxu/Fall-detection",
+                "tag": "github"
+            },
+            {
+                "title": "Fall-Detection-with-CNNs-and-Optical-Flow",
+                "description": "Repository containing the material required to reproduce the results of the paper \"Vision-Based Fall Detection with Convolutional Neural Networks\"",
+                "link": "https://github.com/AdrianNunez/Fall-Detection-with-CNNs-and-Optical-Flow",
+                "tag": "github"
+            },
+            {
+                "title": "Fall-Detection",
+                "description": "\u8001\u4eba\u8dcc\u5012\u68c0\u6d4bapp",
+                "link": "https://github.com/lwxShawn/Fall-Detection",
+                "tag": "github"
+            },
+            {
+                "title": "Realtime-Fall-Detection-for-RNN",
+                "description": "Real-time  ADLs and Fall Detection implement TensorFlow",
+                "link": "https://github.com/chizhanyuefeng/Realtime-Fall-Detection-for-RNN",
+                "tag": "github"
+            },
+            {
+                "title": "Fall-Detection",
+                "description": "A simple fall detection demo based on openpose",
+                "link": "https://github.com/kasakun/Fall-Detection",
+                "tag": "github"
+            },
+            {
+                "title": "Challenges, issues and trends in fall detection systems",
+                "link": "https://link.springer.com/article/10.1186/1475-925X-12-66",
+                "description": "\u2026 falls are a major public health problem among older people, the number of systems aimed \nat detecting \u2026 This work presents an extensive literature review of fall detection systems, \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Elderly fall detection systems: A literature survey",
+                "link": "https://www.frontiersin.org/articles/10.3389/frobt.2020.00071/full",
+                "description": "\u2026 on fall detection by countries and regions from 1945 to 2020. In this survey paper, we provide \na holistic overview of fall detection \u2026 Besides fall detection modeling techniques, this review \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "A survey on fall detection: Principles and approaches",
+                "link": "https://www.sciencedirect.com/science/article/pii/S0925231212003153",
+                "description": "\u2026 costs associated with falls. In this paper, we give a comprehensive survey of different \nsystems for fall detection and their underlying algorithms. Fall detection approaches are divided \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Fall detection-principles and methods",
+                "link": "https://ieeexplore.ieee.org/abstract/document/4352627/",
+                "description": "\u2026 on the fall detection, the physics of a fall and the means for its detection are discussed, then \n\u2026 by presenting a proposal of a common evaluation framework for the fall detection systems. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "The methods of fall detection: A literature review",
+                "link": "https://www.mdpi.com/1424-8220/23/11/5212",
+                "description": "\u2026 the challenges of fall detection methods. Sensors, algorithms, and validation methods \nrelated to fall detection are also talked over. This work found that fall detection research has \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Approaches and principles of fall detection for elderly and patient",
+                "link": "https://ieeexplore.ieee.org/abstract/document/4600107/",
+                "description": "\u2026 fall detection methods. To properly build the classification tree of the methods of fall detection \nwe first study the characteristics of fall. \u2026 the methods of fall detection into three approaches: \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[HTML][HTML] New advances and challenges of fall detection systems: A survey",
+                "link": "https://www.mdpi.com/2076-3417/8/3/418",
+                "description": "\u2026 In this section, we discuss prior surveys on the topics of fall detection briefly. Fall detection \ncannot be considered as a brand new hot field, since it has been explored in the last two \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "A smartphone-based fall detection system",
+                "link": "https://www.sciencedirect.com/science/article/pii/S1574119212000983",
+                "description": "\u2026 systems suffer from the problem of false alarms, caused by some fall-like activities of \u2026 to fall \ndetection we devoted special attention to the study of the acceleration signal produced by fall-\u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Review of fall detection techniques: A data availability perspective",
+                "link": "https://www.sciencedirect.com/science/article/pii/S1350453316302600",
+                "description": "\u2026 Due to the rarity of occurrence of falls, there may be \u2026 of fall detection from the perspective of \navailability of fall data. The \u2026 methods for the study of fall detection based on the availability of \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Research of fall detection and fall prevention technologies: A systematic review",
+                "link": "https://ieeexplore.ieee.org/abstract/document/8736227/",
+                "description": "\u2026 In section 3, we present comprehensive reviews on fall detection and fall prevention methods \nbased on sensor apparatus and analytical approaches, followed by the detailed \u2026",
+                "tag": "scholar"
+            }
+        ]
+    },
+    {
+        "Title": "AI-Powered Noise Cancellation & Voice Enhancement for Mobile Calls",
+        "Problem Statement": "Develop an on-device AI-powered noise cancellation and voice enhancement system for mobile calls (Voice AI, On-device AI). The system should effectively suppress background noise and enhance the speaker's voice in real-time, improving call quality in noisy environments.",
+        "Description": "This project leverages deep learning to separate speech from noise. The system will prioritize low latency and minimal processing power to ensure real-time performance on mobile devices. The system will also attempt to differentiate between desirable background sounds (e.g., music) and undesirable noise.",
+        "Deliverables": "A functional Android application demonstrating real-time noise cancellation and voice enhancement during phone calls. Provide metrics on noise reduction and speech intelligibility.",
+        "KPIs": [
+            "Noise reduction level (15dB+ reduction in SNR)",
+            "Speech intelligibility (measured using PESQ score)",
+            "Latency (under 100ms)"
+        ],
+        "Prerequisites": [
+            "Python, TensorFlow Lite, Signal Processing, Machine Learning, Mobile Development (Android)"
+        ],
+        "Infrastructure Requirements": [
+            "Standard workstation with audio interface, access to noise and speech datasets"
+        ],
+        "Value Proposition": [
+            "Commercial PoC potential for Samsung's communication devices",
+            "Viable patent filing for the noise cancellation algorithm",
+            "Enhances user experience in mobile communication"
+        ],
+        "Milestones": {
+            "M2": "Functional signal processing and feature extraction pipeline.",
+            "M4": "Trained noise cancellation model integrated into the application.",
+            "M6": "End-to-end application deployment and performance evaluation."
+        },
+        "Reference Work": [
+            {
+                "title": "Speech enhancement for mobile telephony",
+                "link": "https://ieeexplore.ieee.org/abstract/document/61353/",
+                "description": "\u2026 speech and noise are discussed, as are the spectral and spatial correlation properties of the \nnoise \u2026 why conventional speech enhancement by adaptive noise cancellation is ineffective. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "A noise reduction preprocessor for mobile voice communication",
+                "link": "https://link.springer.com/article/10.1155/S1110865704312138",
+                "description": "\u2026 We describe a speech enhancement algorithm which leads to significant \u2026 speech enhancement \npreprocessor which has been developed for voice communication in nonstationary noise \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "A system for speech enhancement in the context of hands-free radiotelephony with combined noise reduction and acoustic echo cancellation",
+                "link": "https://www.sciencedirect.com/science/article/pii/S0167639396000568",
+                "description": "\u2026 These observations call for a search of \u2026 speech enhancement and quality assessment of \nHansen and Deller (1995)) and we can say that the problem of speech enhancement for mobile \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[PDF][PDF] Speech enhancement algorithm to reduce the effect of background noise in mobile phones",
+                "link": "https://www.academia.edu/download/81489867/441361598e43a767d8b45341b47e3a5cda4d.pdf",
+                "description": "\u2026 The traditional noise cancellation algorithms cannot be used \u2026 The speech enhancement \nmethods today are more exploiting the \u2026 for speech enhancement in presence of near-end noise. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Enhanced speech clarity: A deep learning-based noise removal technique for real-time communication",
+                "link": "https://pubs.aip.org/aip/acp/article-abstract/3204/1/030001/3333735",
+                "description": "\u2026 noise removal in call and communication systems, employing Convolutional Neural Networks \n(CNNs) for noise detection and denoising techniques to enhance audio \u2026 speech on mobile \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "5G Conference Call Audio Enhancement Voice Equalization and Amplification",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10774620/",
+                "description": "\u2026 are employed to enhance voice quality, including echo cancellation and \u2026 and enhance \noverall QoS in mobile networks. Moreover, we address voice equalization in conference calls and \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Sensing to hear: Speech enhancement for mobile devices using acoustic signals",
+                "link": "https://dl.acm.org/doi/abs/10.1145/3478093",
+                "description": "\u2026 and collect an audio-sensory dataset, which we call WaveSpeech. The \u2026 noise reduction, in \nwhich a primary microphone is placed on the bottom of the phone to capture the target speech \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "ICA based Noise Reduction in Mobile Phone Speech Communications",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10660984/",
+                "description": "\u2026 noise reduction is a good application in humanmachine interaction. The adverse impact on a \nmobile phone call is noisy \u2026 context of noise cancellation and speech enhancement because \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Improvement of voice quality and prevention of deafness by a bone-conduction device",
+                "link": "https://www.tandfonline.com/doi/abs/10.1080/13102818.2014.949041",
+                "description": "\u2026 Phone call environments can be noisy or quiet, depending on the situation. \u2026 method for \nmore effective noise reduction and magnification of speech signals of mobile phones by installing \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "ICA based Noise Reduction in Mobile Phone Speech Communication",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10607606/",
+                "description": "\u2026 , like smartphones, video calls and conference calls. By using statistical \u2026 voice communications \nby enhancing the Signal to Noise Ratio (SNR). This feature provides noise cancellation \u2026",
+                "tag": "scholar"
+            }
+        ]
+    },
+    {
+        "Title": "Smart Plant Health Monitoring Using Image Analysis",
+        "Problem Statement": "Develop a system that uses computer vision (Vision AI) to analyze images of plants captured through a smartphone camera, identifying signs of disease, nutrient deficiencies, or pest infestations. The system will provide recommendations for treatment or preventative measures.",
+        "Description": "This project combines image processing with machine learning to identify plant diseases and deficiencies. The system will require a dataset of plant images with labeled diseases/deficiencies. The solution should include a user-friendly mobile application for image capture and analysis.",
+        "Deliverables": "A functional mobile application (Android/iOS) that can identify plant diseases/deficiencies from images and provide recommendations.",
+        "KPIs": [
+            "Accuracy of disease/deficiency identification (80%+)",
+            "Response time (under 3 seconds)",
+            "User satisfaction (4+ star rating)"
+        ],
+        "Prerequisites": [
+            "Python, TensorFlow/PyTorch, Computer Vision, Machine Learning, Mobile Development (Android/iOS)"
+        ],
+        "Infrastructure Requirements": [
+            "Standard workstation with GPU, access to plant image datasets"
+        ],
+        "Value Proposition": [
+            "Commercial PoC potential for Samsung's SmartThings ecosystem (smart gardening)",
+            "Viable patent filing for the plant health analysis algorithm",
+            "Addresses a growing interest in home gardening and plant care"
+        ],
+        "Milestones": {
+            "M2": "Functional image processing and feature extraction module.",
+            "M4": "Trained plant health analysis model integrated into the application.",
+            "M6": "End-to-end application deployment and user testing."
+        },
+        "Reference Work": [
+            {
+                "title": "UAV-for-Crop-Health-Analysis",
+                "description": "UAV (Unmanned Aerial Vehicles) can be made capable of providing a health monitoring system for plants. High end cameras gives deep insights whether it is surveillance or any broadcast of events (filming and production). The key benefits of crop analysis includes identifying for plant diseases and crop health by inspecting its colour components. This is done by studying Near Infrared and Multi-Spectral Cameras which help us in obtaining the Red, Green, Blue and Infrared components of a plant and with the help of computer vision. With computer aided image processing. The processing of the video feed captured by a NoIR camera is done with the help of an on-board micro-computer. Additionally autonomous flight, safety failsafe for landing when on low power, mission planning etc. are some of the facilities that can be incorporated in such a UAV to provide a full integrated crop monitoring and analysis system.",
+                "link": "https://github.com/gazal2708/UAV-for-Crop-Health-Analysis",
+                "tag": "github"
+            },
+            {
+                "title": "image-based-plant-disease-detection-",
+                "description": "The Smart Plant Disease Detector is an innovative application that harnesses the power of Machine learning , CNN, deep learning to revolutionize plant health management. This project focuses on providing an accessible and efficient solution for identifying plant diseases through image analysis",
+                "link": "https://github.com/garg0303/image-based-plant-disease-detection-",
+                "tag": "github"
+            },
+            {
+                "title": "plants_health_monitoring",
+                "description": "Assess plants health using image analysis methods",
+                "link": "https://github.com/szajakubiak/plants_health_monitoring",
+                "tag": "github"
+            },
+            {
+                "title": "plant-analysis",
+                "description": "A collection of experimental scripts to process multispectral images for plant health analysis",
+                "link": "https://github.com/Jmdavison/plant-analysis",
+                "tag": "github"
+            },
+            {
+                "title": "plant-health-analyzer",
+                "description": "Efficiently and reliability stores images of plants for health analysis and management",
+                "link": "https://github.com/pat8901/plant-health-analyzer",
+                "tag": "github"
+            },
+            {
+                "title": "ECE569a",
+                "description": "AI Artisans-Plant health classification based on leaf image analysis",
+                "link": "https://github.com/lily20190628/ECE569a",
+                "tag": "github"
+            },
+            {
+                "title": "PlantHealth-AI",
+                "description": "An AI-powered website for diagnosing plant diseases and monitoring plant health. Upload images, get instant analysis, and receive expert care tips. Perfect for farmers, gardeners, and plant lovers. \ud83c\udf31\ud83d\udd0d",
+                "link": "https://github.com/KatxWaemaxMitchSC/PlantHealth-AI",
+                "tag": "github"
+            },
+            {
+                "title": "Advanced-Plant-Analysis-Tool",
+                "description": "Upload an image of a plant to receive a detailed analysis of its species, health, and care recommendations.",
+                "link": "https://github.com/jain009/Advanced-Plant-Analysis-Tool",
+                "tag": "github"
+            },
+            {
+                "title": "Enhancing-Crop-Health-Image-Classification-of-Plant-Diseases",
+                "description": "This project utilizes convolutional neural networks to accurately classify and detect plant diseases through image analysis, enhancing agricultural health monitoring.",
+                "link": "https://github.com/Sreeya22/Enhancing-Crop-Health-Image-Classification-of-Plant-Diseases",
+                "tag": "github"
+            },
+            {
+                "title": "Automated-Plant-Health-Analysis-using-Parallel-Computing",
+                "description": "his project focuses on **automated plant detection, counting, and health assessment** using **NDVI (Normalized Difference Vegetation Index) and NDWI (Normalized Difference Water Index)**. By leveraging **parallel computing techniques (CUDA, OpenCL, OpenMP)**, the system significantly speeds up image processing for large datasets. ",
+                "link": "https://github.com/Hamza-Jr/Automated-Plant-Health-Analysis-using-Parallel-Computing",
+                "tag": "github"
+            },
+            {
+                "title": "Seeing is believing: imaging techniques to monitor plant health",
+                "link": "https://www.sciencedirect.com/science/article/pii/S016747810100238X",
+                "description": "\u2026 the ease of integration of imaging have opened the way to a more general application of \nreal-time image analysis of physiological changes in plants. Such imaging tools have a great \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[PDF][PDF] Remote sensing and image analysis in plant pathology",
+                "link": "https://www.tandfonline.com/doi/pdf/10.1080/07060669509500707",
+                "description": "\u2026 images we can continue down to the macroscopic, microscopic and ultramicroscopic levels \nin nondestructive analyses of plants, plant \u2026 thermography, multispectral image analysis, and \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Plant disease severity estimated visually, by digital photography and image analysis, and by hyperspectral imaging",
+                "link": "https://www.tandfonline.com/doi/abs/10.1080/07352681003617285",
+                "description": "\u2026 In this review the term plant disease severity \u201cestimate\u201d is used specifically for those \u2026 \u201d for \nthose assessments by image analysis or hyperspectral equipment. Plant disease symptoms can \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Hyperspectral image analysis techniques for the detection and classification of the early onset of plant disease and stress",
+                "link": "https://link.springer.com/article/10.1186/s13007-017-0233-z",
+                "description": "\u2026 and diseased plant classification\u2019 with an emphasis on classification accuracy, early \u2026 \nhyperspectral imaging and how this is being utilised to find additional information about plant health\u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[PDF][PDF] Analysis on digital image processing for plant health monitoring",
+                "link": "https://anapub.co.ke/journals/jcns/jcns_pdf/2021/jcns_volume_1-issue_1/JCNS202101002.pdf",
+                "description": "\u2026 To reduce the amount of user input, all pixels in the input image are labelled with an integer \n\u2026 Plant Image Analysis database) and can be used with iPlant, a web and cloud-based plant \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Plant phenomics: An overview of image acquisition technologies and image data analysis algorithms",
+                "link": "https://academic.oup.com/gigascience/article-abstract/6/11/gix092/4316962",
+                "description": "\u2026 status from satellite images allowed plant health to be \u2026 analysis, ie, imaging techniques \n[32], machine learning (ML) for high-throughput phenotyping [33], or software for image analysis [\u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "An IoT based plant health monitoring system implementing image processing",
+                "link": "https://ieeexplore.ieee.org/abstract/document/8821782/",
+                "description": "\u2026 healthy plants but also maximize the production. To monitor and classify plant diseases IoT \nis essential to send images \u2026 is proposed which sends images of plants to classify diseases \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Image-based phenotyping of plant disease symptoms",
+                "link": "https://www.frontiersin.org/articles/10.3389/fpls.2014.00734/full",
+                "description": "\u2026 information about plant health and may not be the best indicator for plant disease \u2026 Plant \nImage Analysis 5 provides an online database of image analysis software options for plant \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Modern imaging techniques in plant nutrition analysis: A review",
+                "link": "https://www.sciencedirect.com/science/article/pii/S0168169919302443",
+                "description": "\u2026 The primary functions of HTPP include data storage, data analysis and decision support \nfor powerful image analysis. Therefore, it is essential to improve key standards definition, \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "An open access repository of images on plant health to enable the development of mobile disease diagnostics",
+                "link": "https://arxiv.org/abs/1511.08060",
+                "description": "\u2026 50,000 expertly curated images on healthy and infected leaves of crops plants through the \nexisting \u2026 to help solve the problem of yield losses in crop plants due to infectious diseases. \u2026",
+                "tag": "scholar"
+            }
+        ]
+    },
+    {
+        "Title": "AI-Driven Personalized Music Recommendation from Ambient Sound",
+        "Problem Statement": "Develop a system that analyzes ambient sound (using a smartphone's microphone) and generates personalized music recommendations based on the detected environment and mood (Voice AI, Generative AI). For instance, a calm environment might suggest classical music, while a bustling city could suggest upbeat electronic music.",
+        "Description": "This project combines audio analysis with machine learning and generative AI. The system needs to classify ambient sound, infer the user's mood, and then recommend music based on these factors. It also uses a generative AI model to customize/generate music based on inferred context.",
+        "Deliverables": "A functional mobile application (Android/iOS) that analyzes ambient sound and provides personalized music recommendations. Include an API for accessing a music streaming service.",
+        "KPIs": [
+            "Accuracy of ambient sound classification (75%+)",
+            "User satisfaction with music recommendations (4+ star rating)",
+            "Response time (under 2 seconds)"
+        ],
+        "Prerequisites": [
+            "Python, TensorFlow/PyTorch, Audio Signal Processing, Machine Learning, Mobile Development (Android/iOS)"
+        ],
+        "Infrastructure Requirements": [
+            "Standard workstation with audio interface, access to music datasets"
+        ],
+        "Value Proposition": [
+            "Commercial PoC potential for Samsung Music/SmartThings ecosystem",
+            "Viable patent filing for the mood-based music recommendation algorithm",
+            "Offers a unique and personalized music listening experience"
+        ],
+        "Milestones": {
+            "M2": "Functional audio analysis and feature extraction module.",
+            "M4": "Trained mood classification and music recommendation models.",
+            "M6": "End-to-end application deployment and user testing."
+        },
+        "Reference Work": [
+            {
+                "title": "Ambient music experience in real and virtual worlds using audio similarity",
+                "link": "https://dl.acm.org/doi/abs/10.1145/1461912.1461915",
+                "description": "\u2026 The different styles of listening to music serve different purposes, from mere ambient sound \nvia choosing a specific type of music for specific purposes or settings, forming a continuum \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Sounds like a healthy retail atmospheric strategy: Effects of ambient music and background noise on food sales",
+                "link": "https://link.springer.com/article/10.1007/s11747-018-0583-8",
+                "description": "\u2026 atmospherics is ambient sound, which includes ambient music and noise. Ambient music is \n\u2026 Next, we discuss ambient music/sound volume and its effects on consumers in greater detail\u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Ambient music",
+                "link": "https://www.torrossa.com/gs/resourceProxy?an=5493798&publisher=FZ0661#page=440",
+                "description": "\u2026 Cage\u2019s use of silence in his compositions focused listeners\u2019 attention on ambient sound \noutside of instrumental performance. As a result of Cage\u2019s interest, Satie\u2019s furniture music \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "On effective location-aware music recommendation",
+                "link": "https://dl.acm.org/doi/abs/10.1145/2846092",
+                "description": "\u2026 techniques to facilitate context-aware music recommendation. However, one important \u2026 \u2019s \nmusic preferences. In this article, we present a novel venue-aware music recommender system \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Ambient addition: How to turn urban noise into music",
+                "link": "https://dspace.mit.edu/handle/1721.1/36161",
+                "description": "\u2026 system is proposed which integrates environmental sound into a personal soundscape. It \nallows one to synthesize music from environmental sound using a number of digital signal \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Music recommendation system using human activity recognition from accelerometer data",
+                "link": "https://ieeexplore.ieee.org/abstract/document/8743473/",
+                "description": "\u2026 Motivated by these observations, this paper presents an effective music recommendation \nsystem using human activity as measured by real-time accelerometer sensor data on \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[PDF][PDF] Ambient Music as Popular Genre: Historiography, Interpretation, Critique",
+                "link": "https://www.academia.edu/download/46942376/Szabo_-_Ambient_Music_as_Popular_Genre_PhD_Dissertation.pdf",
+                "description": "\u2026 music within the popular music market. This dissertation examines several key recordings in \nthe formation of the Ambient genre of popular music, with \u2026 Through music analyses of these \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Towards context-aware personalized recommendations in an ambient intelligence environment",
+                "link": "https://ruor.uottawa.ca/handle/10393/32052",
+                "description": "\u2026 user to find similar documents for music recommendations. Wang et al. [100] use the Na\u0131ve \nBayes model on annotated music contents to recommend music based on user activity. The \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Context-aware mobile music recommendation for daily activities",
+                "link": "https://dl.acm.org/doi/abs/10.1145/2393347.2393368",
+                "description": "\u2026 of mobile music devices with rich \u2026 music playing needs. We present a probabilistic model \nto integrate contextual information with music content analysis to offer music recommendation \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Background music recommendation based on latent factors and moods",
+                "link": "https://www.sciencedirect.com/science/article/pii/S0950705118303484",
+                "description": "\u2026 video soundtrack recommendation system to replace the ambient background noise of a \u2026 \nThe predicted mood tags are used by music recommendation sub-system to find the music \u2026",
+                "tag": "scholar"
+            }
+        ]
+    }
+]

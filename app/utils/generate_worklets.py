@@ -690,7 +690,7 @@ def get_prompt_template():
         Return ONLY the five fully populated problem-statement blocks in the order specified above.
     """)
 
-async def generate_worklets(worklet_data, model):
+async def generate_worklets(worklet_data, linksData, model):
     """
     This function is used to ccommunicate with the llm model it 
     takes  worklet data and the model name as input 
