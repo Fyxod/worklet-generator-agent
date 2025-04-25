@@ -1,11 +1,18 @@
 from fastapi import FastAPI
 from app.routers import root
 import subprocess
-
-app = FastAPI()
-
+from fastapi.middleware.cors import CORSMiddleware
 import sys
 import os
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 streamlit_path = os.path.join(os.path.dirname(sys.executable), "streamlit")
 

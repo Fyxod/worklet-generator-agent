@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worklet Generator Agent</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 20px;
+      color: #e2e8f0;
+    }
+    .container {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      width: 100%;
+      max-width: 700px;
+      animation: fadeSlideIn 1s ease;
+    }
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #f1f5f9;
+    }
+    label {
+      font-weight: 600;
+      margin-top: 20px;
+      display: block;
+      color: #cbd5e1;
+    }
+    input[type="file"], select, input[type="url"], textarea {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px;
+      background: #334155;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #f1f5f9;
+    }
+    textarea {
+      margin-top: 6px;
+      font-size: 0.95rem;
+      resize: vertical;
+      min-height: 60px;
+    }
+    .file-list div, .link-list div {
+      background: #334155;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+    .file-list button, .link-list button, button[type="submit"], button.add-link-btn {
+      background-color: #6366f1;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      align-self: flex-end;
+    }
+    button:hover {
+      background-color: #4f46e5;
+    }
+    .generate-btn {
+      background-color: #10b981;
+      padding: 14px 24px;
+      font-size: 1.1rem;
+      margin-top: 20px;
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      transition: background-color 0.3s;
+    }
+    .generate-btn:hover {
+      background-color: #059669;
+    }
+    .loading {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+      color: #6366f1;
+      font-weight: 600;
+    }
+    .download-list a {
+      display: block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: #60a5fa;
+      font-weight: 600;
+      transition: color 0.2s, transform 0.3s;
+    }
+    .download-list a:hover {
+      color: #3b82f6;
+      transform: translateY(-2px);
+    }
+    .remove-link-btn {
+      background-color: #f87171;
+    }
+    .remove-link-btn:hover {
+      background-color: #ef4444;
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Worklet Generator Agent</h1>
+
+    <form id="worklet-form">
+      <label>Upload Files (PDF, DOCX, PPT, TXT, Images) (Max 100MB each):</label>
+      <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,image/*">
+      <div class="file-list" id="file-list"></div>
+
+      <label>Select Model:</label>
+      <select id="model-select" name="model" required>
+        <option value="gemma3:27b">Gemma 3 (27B)</option>
+        <option value="gemini-flash-2.0">Gemini Flash 2.0</option>
+        <option value="llama3.3:latest">LLaMA 3.3</option>
+        <option value="deepseek-r1:70b">DeepSeek R1 (70B)</option>
+        <option value="command-a:latest">Command A</option>
+      </select>
+
+      <label>Add Links:</label>
+      <div id="link-fields" class="link-list">
+        <div><input type="url" name="links[]" placeholder="Enter link"> <button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button></div>
+      </div>
+      <button type="button" class="add-link-btn" onclick="addLinkField()">Add Another Link</button>
+
+      <button type="submit" class="generate-btn">Generate Worklets</button>
+      <div class="loading" id="loading">🔄 Generating Worklets...</div>
+    </form>
+
+    <div class="download-list" id="download-list"></div>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const fileList = document.getElementById('file-list');
+    const form = document.getElementById('worklet-form');
+    const loading = document.getElementById('loading');
+    const downloadList = document.getElementById('download-list');
+    let selectedFiles = [];
+
+    fileInput.addEventListener('change', (e) => {
+      selectedFiles = Array.from(e.target.files).map(file => ({ file, notes: '' }));
+      renderFileList();
+    });
+
+    function renderFileList() {
+      fileList.innerHTML = '';
+      selectedFiles.forEach((item, index) => {
+        const wrapper = document.createElement('div');
+        const fileLabel = document.createElement('div');
+        fileLabel.textContent = item.file.name + ' (' + Math.round(item.file.size/1024/1024) + ' MB)';
+
+        const notes = document.createElement('textarea');
+        notes.placeholder = 'Optional notes about this file...';
+        notes.value = item.notes;
+        notes.oninput = (e) => selectedFiles[index].notes = e.target.value;
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.textContent = '✖';
+        removeButton.onclick = () => {
+          selectedFiles.splice(index, 1);
+          renderFileList();
+        };
+
+        wrapper.appendChild(fileLabel);
+        wrapper.appendChild(notes);
+        wrapper.appendChild(removeButton);
+        fileList.appendChild(wrapper);
+      });
+    }
+
+    function addLinkField() {
+      const div = document.createElement('div');
+      div.innerHTML = '<input type="url" name="links[]" placeholder="Enter link"> <button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button>';
+      document.getElementById('link-fields').appendChild(div);
+    }
+
+    function removeLinkField(button) {
+      button.parentElement.remove();
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData();
+
+      selectedFiles.forEach(item => {
+        if (item.file.size > 100 * 1024 * 1024) {
+          alert(`File ${item.file.name} exceeds 100MB limit.`);
+          return;
+        }
+        formData.append('files', item.file);
+        formData.append('notes', item.notes);
+      });
+
+      const model = document.getElementById('model-select').value;
+
+      const linkInputs = document.querySelectorAll('input[name="links[]"]');
+      const links = [];
+      linkInputs.forEach(input => {
+        if (input.value.trim()) links.push(input.value.trim());
+      });
+      formData.append('links', JSON.stringify(links));
+
+      loading.style.display = 'block';
+      downloadList.innerHTML = '';
+
+      try {
+        // const response = await fetch('http://localhost:8000/upload/', {
+        //   method: 'POST',
+        //   body: formData
+        // });
+
+        const response = await fetch(`http://localhost:8000/upload/?model=${encodeURIComponent(model)}`, {
+        method: 'POST',
+        body: formData
+        });
+
+
+        const data = await response.json();
+
+        loading.style.display = 'none';
+
+        if (data.files && Array.isArray(data.files)) {
+          downloadList.innerHTML = '<h3>Download Generated PDFs:</h3>';
+          data.files.forEach(file => {
+            const a = document.createElement('a');
+            a.href = `http://localhost:8000/download/${encodeURIComponent(file.name)}`;
+            a.textContent = `📄 ${file.name}`;
+            a.download = file.name;
+            a.style.animation = 'fadeIn 0.6s ease forwards';
+            downloadList.appendChild(a);
+          });
+
+          const downloadAll = document.createElement('a');
+          downloadAll.href = `http://localhost:8000/download_all/`;
+          downloadAll.textContent = '⬇️ Download All as ZIP';
+          downloadAll.style.fontWeight = '700';
+          downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
+          downloadList.appendChild(downloadAll);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        loading.style.display = 'none';
+        alert('An error occurred while generating worklets.');
+      }
+    });
+  </script>
+</body>
+</html>

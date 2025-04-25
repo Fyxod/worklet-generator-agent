@@ -20,6 +20,9 @@ from concurrent.futures import ThreadPoolExecutor
 import asyncio
 from app.utils.link_extractor import get_links_data
 import json
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 class Query1(BaseModel):
     query: str
@@ -34,15 +37,22 @@ GENERATED_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
 DESTINATION_DIR = os.path.join(PROJECT_ROOT, "./resources/archived_worklets")
 os.makedirs(GENERATED_DIR, exist_ok=True)
 os.makedirs(DESTINATION_DIR, exist_ok=True)
+os.makedirs("templates", exist_ok=True)
 
 router=APIRouter(
     prefix='',
     tags=['root']
 )
 
-@router.get('/')
-def read_root():
-    return{ "response": "API IS UP AND RUNNING"}
+templates = Jinja2Templates(directory="templates")
+
+# @router.get('/')
+# def read_root():
+#     return{ "response": "API IS UP AND RUNNING"}
+
+@router.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @router.get("/home")
 def frontend_redirect():
@@ -87,9 +97,18 @@ async def upload_multiple(
     # )
     # print(formatted_output)  # Print for debugging
 
-    #get links
-    linksData = get_links_data(links)
+    linksData = {}
+    try:
+        parsed_links = json.loads(links) 
+        print("print length of links", len(parsed_links))
+        print("HEERE ARE LINKS")
+        print(parsed_links)
+        if parsed_links:
+            linksData = get_links_data(parsed_links)
+    except json.JSONDecodeError as e:
+        print("Error decoding links JSON:", e)
 
+    
     # generate worklet content 
     worklets =  await generate_worklets(extracted_data_all,linksData, model)
 
@@ -135,7 +154,7 @@ async def upload_multiple(
         json.dump(worklets, file, indent=4)
         
     def generate(worklet):
-        generatePdf(worklet)
+        # generatePdf(worklet)
         return {
             "name": f'{worklet["Title"]}.pdf',
             "url": f"http://localhost:8000/download/{worklet["Title"]}.pdf"

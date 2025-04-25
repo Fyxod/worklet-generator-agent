@@ -112,10 +112,10 @@ if st.session_state.uploaded and st.session_state.response_data:
         st.write("### Download Generated PDFs:")
         for file in data["files"]:
             file_name_encoded = urllib.parse.quote(file["name"])
-            download_url = f"{FASTAPI_URL}download/{file_name_encoded}"
+            download_url = f"{FASTAPI_URL}/download/{file_name_encoded}"
             st.markdown(f"[📄 {file['name']}]({download_url})")
 
-        zip_download_url = f"{FASTAPI_URL}download_all"
+        zip_download_url = f"{FASTAPI_URL}/download_all"
         st.markdown(f"### 📥 [Download All as ZIP]({zip_download_url})")
     else:
         st.error("Unexpected response format.")

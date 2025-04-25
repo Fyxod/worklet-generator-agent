@@ -2,19 +2,29 @@ from app.utils.reference_functions.scholar_package import CustomGoogleScholarOrg
 # from .scholar_package import CustomGoogleScholarOrganic
 
 def get_google_scholar_references(keyword):
-    print("printing google keyword inside", keyword)
-    custom_parser_get_organic_results = CustomGoogleScholarOrganic().scrape_google_scholar_organic_results(
-        query=keyword, 
-        pagination=False, 
-        save_to_csv=False,
-        save_to_json=True
-    )
-    
-    result = []
-    for i in custom_parser_get_organic_results:
-        result.append({'title': i['title'], 'link': i['title_link'], 'description': i['snippet'], 'tag':'scholar'})
-    print("google schola rinside",result)
-    return result
+    try:
+        print("printing google keyword inside", keyword)
+        custom_parser_get_organic_results = CustomGoogleScholarOrganic().scrape_google_scholar_organic_results(
+            query=keyword, 
+            pagination=False, 
+            save_to_csv=False,
+            save_to_json=True
+        )
+
+        result = []
+        for i in custom_parser_get_organic_results:
+            result.append({
+                'title': i.get('title', ''),
+                'link': i.get('title_link', ''),
+                'description': i.get('snippet', ''),
+                'tag': 'scholar'
+            })
+        print("google scholar inside", result)
+        return result
+
+    except Exception as e:
+        print(f"Error while fetching Google Scholar references: {e}")
+        return []
 
 # example_usage()
 # keywords = [

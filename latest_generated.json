@@ -1,565 +1,520 @@
 [
     {
-        "Title": "AI-Powered Personalized Recipe Generation from Image & Voice Input",
-        "Problem Statement": "Develop a system that generates personalized recipes based on user-provided images of available ingredients (Vision AI) and voice commands specifying dietary restrictions or preferred cuisine (Voice AI). This caters to users seeking efficient meal planning and minimizes food waste. The system should prioritize ingredients identified in the image and adapt recipes accordingly, offering substitutions when necessary.",
-        "Description": "This project combines computer vision for ingredient identification with natural language processing to understand dietary preferences. It will require a dataset of recipes, ingredient images, and voice command examples. The system will leverage generative AI to create novel recipe variations.",
-        "Deliverables": "A functional mobile application (Android/iOS) demonstrating real-time ingredient identification via camera, voice command interpretation, and personalized recipe generation. Include a REST API for recipe retrieval and generation.",
+        "Title": "Real-Time Video Super-Resolution using Generative AI",
+        "Problem Statement": "Develop a real-time video super-resolution model using generative AI, capable of enhancing low-resolution videos to high-definition on Samsung smartphones.",
+        "Description": "Utilize generative AI models such as GANs or transformers to improve the resolution and quality of low-resolution videos. The solution should be deployable on Samsung smartphones with moderate computational resources.",
+        "Challenge / Use Case": "Enhance low-quality video calls, social media videos, or personal recordings to high-definition, improving overall user experience.",
+        "Deliverables": [
+            "Trained generative AI model",
+            "Real-time deployment of the model on Samsung smartphones"
+        ],
         "KPIs": [
-            "Accuracy of ingredient recognition (85%+)",
-            "Recipe generation time (under 5 seconds)",
-            "User satisfaction (4+ star rating)"
+            "PSNR (Peak Signal-to-Noise Ratio)",
+            "SSIM (Structural Similarity Index Measure)"
         ],
         "Prerequisites": [
-            "Python, TensorFlow/PyTorch, Computer Vision, NLP, Mobile Development (Android/iOS)"
+            "Familiarity with deep learning frameworks such as TensorFlow or PyTorch",
+            "Knowledge of generative AI models and computer vision"
         ],
-        "Infrastructure Requirements": [
-            "Standard workstation with GPU, access to cloud services for model training (optional)"
-        ],
-        "Value Proposition": [
-            "Commercial PoC potential for Samsung's SmartThings ecosystem (food management, automated grocery lists)",
-            "Novel research in multi-modal recipe generation",
-            "Potential patent filing for the recipe adaptation algorithm"
-        ],
-        "Milestones": {
-            "M2": "Functional image recognition module (ingredient identification accuracy >= 70%)",
-            "M4": "Voice command processing and intent recognition integrated.",
-            "M6": "End-to-end recipe generation and application deployment."
+        "Infrastructure Requirements": "Moderate computational resources, including a GPU for training the model.",
+        "Milestones (6 months)": {
+            "M2": "Develop a baseline generative AI model for video super-resolution",
+            "M4": "Optimize the model for real-time deployment on Samsung smartphones",
+            "M6": "Evaluate and refine the final model, including user testing"
         },
         "Reference Work": [
             {
-                "title": "[PDF][PDF] Chef dalle: Transforming cooking with multimodal ai",
-                "link": "https://www.preprints.org/frontend/manuscript/67aa2042779812b1e2d45d7c26b35534/download_pub",
-                "description": "\u2026 system using voice, text, or images, accommodating various dietary restrictions and \npreferences. Furthermore, the utilization of DALL-E 3 for generating recipe images enhances user \u2026",
+                "title": "[HTML][HTML] A novel AI-based model for real-time flooding image recognition using super-resolution generative adversarial network",
+                "link": "https://www.sciencedirect.com/science/article/pii/S0022169424008710",
+                "description": "\u2026 Herein, we establish an effective model for real-time application by replacing the backbone \n\u2026 structure and is more suitable for real-time computation owing to lesser requirement of \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "[CITATION][C] NLPANTRY: AI-POWERED RECIPE CREATION",
-                "link": "http://periodicosulbra.org/index.php/acta/article/view/39",
-                "description": "\u2026 AI serves as the pillar of our computerized recipe generating system, allowing us to exploit \nthe power of AI for \u2026 Following, our AI tool is able to pull out the constituents from the image \u2026",
+                "title": "Rtsrgan: Real-time super-resolution generative adversarial networks",
+                "link": "https://ieeexplore.ieee.org/abstract/document/8916480/",
+                "description": "\u2026 art deep learning based image Super-Resolution (SR) and \u2026 at clients\u2019 side during video \ndelivery since SR usually uses \u2026 as GPU) and videos often require real-time playback. While \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Deep Learning for Recipe Generation",
-                "link": "https://www.taylorfrancis.com/chapters/edit/10.4324/9781003195269-9/deep-learning-recipe-generation-chan-sin-wai",
-                "description": "\u2026 dishes and use an AI system to retrieve recipe text for discovery \u2026 on image-to-recipe retrieval \nfor querying recipes by food \u2026 is to distil all the information available across modalities (audio, \u2026",
+                "title": "Live Streaming Surveillance Video Upscaling Using Generative AI With Anomaly Identification",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10503047/",
+                "description": "\u2026 the resolution and quality of real time CCTV footage using generative AI, and secondly, \u2026 \nsuper resolution\u201d, is a benchmark dataset designed for training and evaluating super-resolution \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Fire: Food image to recipe generation",
-                "link": "https://openaccess.thecvf.com/content/WACV2024/html/Chhikara_FIRE_Food_Image_to_REcipe_Generation_WACV_2024_paper.html",
-                "description": "\u2026 ative recipes, enabling participants to employ AI and computational creativity in exploring \ninnovative food combinations and techniques. However, we cannot use CCC directly because \u2026",
+                "title": "AI-Powered Multi View Face Video Super-Resolution Techniques for Real-Time Video Processing",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10859527/",
+                "description": "\u2026 , we provide an AI-driven superresolution method that enhances videos in real-time using \na \u2026 of convolutional neural networks (CNNs) and generative adversarial networks (GANs). In \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Learning and AI-Generated Recipes",
-                "link": "https://books.google.com/books?hl=en&lr=&id=eec2EQAAQBAJ&oi=fnd&pg=PA391&dq=recipe+generation+image+voice+AI&ots=lZ5VB7php4&sig=iLCK2uiZ9PPDn0aSgKouT1DBAsU",
-                "description": "\u2026 chosen language, an AI-generated recipe, and an audio version of the recipe in the user's \u2026 \nImage Case The application moves forward for generating the recipes if they received image \u2026",
+                "title": "Enhanced cell tracking using a GAN-based super-resolution video-to-video time-lapse microscopy generative model",
+                "link": "https://www.cell.com/iscience/fulltext/S2589-0042(25)00486-9",
+                "description": "\u2026 , increases computational overhead, which may hinder large-scale or real-time applications. \nFuture work could focus on improving the mask generation process, extending the model to \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Chef Dalle: Transforming Cooking with Multi-Model Multimodal AI",
-                "link": "https://www.mdpi.com/2073-431X/13/7/156",
-                "description": "\u2026 with the system using voice, text, or images, accommodating various \u2026 recipe recommendation \nsystems through a unique blend of multimodal AI integration, dynamic recipe generation, \u2026",
+                "title": "A progressive fusion generative adversarial network for realistic and consistent video super-resolution",
+                "link": "https://ieeexplore.ieee.org/abstract/document/9279273/",
+                "description": "\u2026 video superresolution with convolutional neural network (VSRnet) [8] to follow direct fusion. \nJo et al. presented a deep video super-resolution \u2026 with a real-time video super-resolution with \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "[PDF][PDF] Meal Master: An Innovative Ai Solution For Recipe Generation",
-                "link": "https://informatics.ue-varna.bg/ICTBE2024/ICTBE2024_262-269.pdf",
-                "description": "\u2026 previous models and supports text, image, and voice inputs, with a focus \u2026 voice interaction. \nGPT-4o can generate and interpret audio, expanding its usability beyond just text and image \u2026",
+                "title": "Generative AI Enables EEG Super-Resolution via Spatio-Temporal Adaptive Diffusion Learning",
+                "link": "https://arxiv.org/abs/2407.03089",
+                "description": "\u2026 can realize real-time remote monitoring of patients through the Internet of Medical Things \n(IoMT), enhance the early diagnosis and treatment, and improve the performance of real-time \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "AI-powered recipe generator using GPT-3 transformer to deliver personalized recipes based on user preferences and dietary needs",
-                "link": "https://pubs.aip.org/aip/acp/article-abstract/3279/1/020097/3341728",
-                "description": "\u2026 of creating new recipes using specified ingredients is known as \"novel recipe generation.\" \u2026 \napplications in domains like picture captioning, visual question answering, and audio-visual \u2026",
+                "title": "Generative AI Enables EEG Super-Resolution via Spatio-Temporal Adaptive Diffusion Learning",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10839074/",
+                "description": "\u2026 can realize real-time remote monitoring of patients through the Internet of Medical Things \n(IoMT), enhance the early diagnosis and treatment, and improve the performance of real-time \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Artificial intelligence in the kitchen: can humans be replaced in recipe creation and food production?",
-                "link": "https://www.emerald.com/insight/content/doi/10.1108/ijchm-04-2024-0549/full/html",
-                "description": "\u2026 To understand AI\u2019s pivotal roles in the back-of-house \u2026 to examine the effects of AI involvement \nin recipe creation and food \u2026 AI has demonstrated a strong potential for idea generation \u2026",
+                "title": "[PDF][PDF] AI-DRIVEN REAL-TIME VIDEO ENHANCEMENT USING SUPER-RESOLUTION AND OPTICAL FLOW TECHNIQUE",
+                "link": "https://ictactjournals.in/paper/IJIVP_Vol_15_Iss_3_Paper_9_3523_3528.pdf",
+                "description": "\u2026 an AI-driven real-time video enhancement framework that integrates super-resolution \ntechniques \u2026 The proposed method employs a deep learning-based Super-Resolution Generative \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Learning program representations for food images and cooking recipes",
-                "link": "http://openaccess.thecvf.com/content/CVPR2022/html/Papadopoulos_Learning_Program_Representations_for_Food_Images_and_Cooking_Recipes_CVPR_2022_paper.html",
-                "description": "\u2026 Imagine an AI agent that can look at a dish and recognize ingredients and reliably \u2026 We \nshow an interesting application of image generation conditioned on cooking programs using our \u2026",
+                "title": "Generative AI for HTTP Adaptive Streaming",
+                "link": "https://dl.acm.org/doi/abs/10.1145/3625468.3652912",
+                "description": "\u2026 , adapt in real time to individual preferences, and optimize video compression for seamless \n\u2026 AI algorithms also enhance video quality by utilizing super-resolution, denoising, and frame \u2026",
                 "tag": "scholar"
             }
         ]
     },
     {
-        "Title": "On-Device Fall Detection and Emergency Response System",
-        "Problem Statement": "Develop an on-device (smartphone) AI-powered system for reliable fall detection, specifically targeting elderly or vulnerable individuals (On-device AI, Vision AI). The system should analyze accelerometer and gyroscope data in conjunction with optional camera input to distinguish falls from normal activities.",
-        "Description": "This project combines sensor fusion with machine learning to create a robust fall detection model. Camera input can be used to confirm a fall and provide contextual information. The system will prioritize privacy by processing data locally on the device.",
-        "Deliverables": "A functional Android/iOS application demonstrating real-time fall detection and automated emergency contact notification (SMS/call).",
+        "Title": "Voice-Controlled Home Automation using Voice AI and IoT",
+        "Problem Statement": "Design a voice-controlled home automation system that leverages voice AI and IoT to control various smart devices in a home environment.",
+        "Description": "Develop a system that integrates voice recognition, natural language processing (NLP), and machine learning algorithms with IoT protocols to control smart devices such as lights, thermostats, and security cameras.",
+        "Challenge / Use Case": "Provide an intuitive and hands-free interface for users to interact with their home environment, enhancing convenience and accessibility.",
+        "Deliverables": [
+            "Functional voice-controlled home automation system",
+            "Integration with various IoT protocols and smart devices"
+        ],
         "KPIs": [
-            "Fall detection accuracy (95%+)",
-            "False positive rate (less than 1%)",
-            "Response time (under 2 seconds)"
+            "Voice recognition accuracy",
+            "User satisfaction ratings"
         ],
         "Prerequisites": [
-            "Python, TensorFlow Lite, Sensor Data Analysis, Machine Learning, Mobile Development (Android/iOS)"
+            "Familiarity with voice AI frameworks such as Alexa or Google Assistant",
+            "Knowledge of IoT protocols and device integration"
         ],
-        "Infrastructure Requirements": [
-            "Standard workstation, access to sensor data datasets"
-        ],
-        "Value Proposition": [
-            "Commercial PoC potential for Samsung Health/Wearables",
-            "Viable patent filing for the fall detection algorithm",
-            "Addresses a critical healthcare need, particularly for aging populations"
-        ],
-        "Milestones": {
-            "M2": "Functional sensor data processing and feature extraction.",
-            "M4": "Trained fall detection model integrated into the application.",
-            "M6": "End-to-end application deployment with emergency contact integration."
+        "Infrastructure Requirements": "Moderate computational resources, including a dedicated server for voice processing and IoT device integration.",
+        "Milestones (6 months)": {
+            "M2": "Develop a baseline voice recognition system using deep learning algorithms",
+            "M4": "Integrate the voice recognition system with various IoT protocols and smart devices",
+            "M6": "Conduct user testing and refine the final system, including error handling and feedback mechanisms"
         },
         "Reference Work": [
             {
-                "title": "Fall-Detection",
-                "description": "Human Fall Detection from CCTV camera feed",
-                "link": "https://github.com/harishrithish7/Fall-Detection",
+                "title": "IoT-based-Smart-Home-Automation-System",
+                "description": "\ud83d\udee0\ufe0f Build with Android apps \ud83d\udcf1, Voice command via Google voice assistant \ud83c\udfa4 and Message command via FB Messenger \ud83d\udc8c. Fan Speed control \u2622\ufe0f & Timer Set \ud83d\udd14 with an amazing live status dashboard. \ud83d\udcfa",
+                "link": "https://github.com/PriontoAbdullah/IoT-based-Smart-Home-Automation-System",
                 "tag": "github"
             },
             {
-                "title": "HumanFallDetection",
-                "description": "Real-time, Multi-person & Multi-camera Fall Detector in Python",
-                "link": "https://github.com/taufeeque9/HumanFallDetection",
+                "title": "Blynk-Home-Automation",
+                "description": "Controlling the lights in your house using your voice is a great way to dip your toes into the smart homeworld. And if you already have a smartphone you can build your own smart switch using a few bucks.",
+                "link": "https://github.com/ShahariarRabby/Blynk-Home-Automation",
                 "tag": "github"
             },
             {
-                "title": "falldetection_openpifpaf",
-                "description": "Fall Detection using OpenPifPaf's Human Pose Estimation model",
-                "link": "https://github.com/cwlroda/falldetection_openpifpaf",
+                "title": "M5ATOM-ECHO-STT-Home-Automation-using-Blynk",
+                "description": "This repo contains the code for controlling appliances using voice commands on Atom Echo via Blynk IoT Server",
+                "link": "https://github.com/techiesms/M5ATOM-ECHO-STT-Home-Automation-using-Blynk",
                 "tag": "github"
             },
             {
-                "title": "Fall-Detection",
-                "description": "Non-invasive Fall Detection with Keras and Tensorflow",
-                "link": "https://github.com/JJN123/Fall-Detection",
+                "title": "WittyServer",
+                "description": "Java server for home automation and IoT with MQTT and voice control",
+                "link": "https://github.com/RomanNosachev/WittyServer",
                 "tag": "github"
             },
             {
-                "title": "FD-CNN",
-                "description": "ADL and Fall Detection",
-                "link": "https://github.com/chizhanyuefeng/FD-CNN",
+                "title": "VOICE-CONTROLLED-HOME-AUTOMATION",
+                "description": "(IOT PROJECT) HOME AUTOMATION VIA VOICE CONTROL USING NODEMCU",
+                "link": "https://github.com/4vedi/VOICE-CONTROLLED-HOME-AUTOMATION",
                 "tag": "github"
             },
             {
-                "title": "Fall-detection",
-                "description": "a very simple Fall-detection\uff08\u6454\u5012/\u8dcc\u5012\u68c0\u6d4b\uff09using yolo2",
-                "link": "https://github.com/zfxu/Fall-detection",
+                "title": "IOT---VOICE-CONTROLLED-HOME-AUTOMATION-",
+                "description": "In this project I tried to simulate home automation in proteus using voice commands through a app.",
+                "link": "https://github.com/UtkarshHere/IOT---VOICE-CONTROLLED-HOME-AUTOMATION-",
                 "tag": "github"
             },
             {
-                "title": "Fall-Detection-with-CNNs-and-Optical-Flow",
-                "description": "Repository containing the material required to reproduce the results of the paper \"Vision-Based Fall Detection with Convolutional Neural Networks\"",
-                "link": "https://github.com/AdrianNunez/Fall-Detection-with-CNNs-and-Optical-Flow",
+                "title": "HOME-AUTOMATION-",
+                "description": "VOICE CONTROLLED IoT BASED HOME AUTOMATION ",
+                "link": "https://github.com/19BCS4520/HOME-AUTOMATION-",
                 "tag": "github"
             },
             {
-                "title": "Fall-Detection",
-                "description": "\u8001\u4eba\u8dcc\u5012\u68c0\u6d4bapp",
-                "link": "https://github.com/lwxShawn/Fall-Detection",
+                "title": "voicecontrolledhomeautomation",
+                "description": "Welcome to the Voice Controlled Home Automation System project by AStromanish! This project utilizes Internet of Things (IoT) and Natural Language Processing (NLP) technologies to enable voice commands for controlling various devices in your home.",
+                "link": "https://github.com/astromanu007/voicecontrolledhomeautomation",
                 "tag": "github"
             },
             {
-                "title": "Realtime-Fall-Detection-for-RNN",
-                "description": "Real-time  ADLs and Fall Detection implement TensorFlow",
-                "link": "https://github.com/chizhanyuefeng/Realtime-Fall-Detection-for-RNN",
+                "title": "Voice-Controlled-Home-automation",
+                "description": "Arduino code for speech controlled home automation project",
+                "link": "https://github.com/samarasimhapeyala/Voice-Controlled-Home-automation",
                 "tag": "github"
             },
             {
-                "title": "Fall-Detection",
-                "description": "A simple fall detection demo based on openpose",
-                "link": "https://github.com/kasakun/Fall-Detection",
+                "title": "IOT-Voice-Controlled-Home-Automation-System",
+                "description": "With the help of Android app and Arduino Uno I have make this voice controlled Home Automation System. The Android app sends the serial data to the connected Bluetooth Module HC-05 by clicking ON button. The Bluetooth device receives the data from the app and sends it through TX pin of Bluetooth module to RX pin of Arduino. The Arduino device read the input data and process it according to program uploaded inside it and generate the output to 4 Chanel Relay Module. When the Bluetooth application's button turns ON, it sets the home light ON, and when the Bluetooth application's button turns OFF, it sets the home light OFF.",
+                "link": "https://github.com/Shivam20233/IOT-Voice-Controlled-Home-Automation-System",
                 "tag": "github"
             },
             {
-                "title": "Challenges, issues and trends in fall detection systems",
-                "link": "https://link.springer.com/article/10.1186/1475-925X-12-66",
-                "description": "\u2026 falls are a major public health problem among older people, the number of systems aimed \nat detecting \u2026 This work presents an extensive literature review of fall detection systems, \u2026",
+                "title": "Voice controlled home automation system using natural language processing (NLP) and internet of things (IoT)",
+                "link": "https://ieeexplore.ieee.org/abstract/document/8261311/",
+                "description": "\u2026 voice commands to interact with home appliances using Arduino and a mobile device. \nThese voice commands \u2026 connection with the technology and encourages them to use it more. \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Elderly fall detection systems: A literature survey",
-                "link": "https://www.frontiersin.org/articles/10.3389/frobt.2020.00071/full",
-                "description": "\u2026 on fall detection by countries and regions from 1945 to 2020. In this survey paper, we provide \na holistic overview of fall detection \u2026 Besides fall detection modeling techniques, this review \u2026",
+                "title": "Interactive iot-based speech-controlled home automation system",
+                "link": "https://ieeexplore.ieee.org/abstract/document/9334081/",
+                "description": "\u2026 , good control, safety and savings for them. This paper presents the development of an \ninteractive Internet of Things (IoT) based Speech-Controlled Home Automation system using \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "A survey on fall detection: Principles and approaches",
-                "link": "https://www.sciencedirect.com/science/article/pii/S0925231212003153",
-                "description": "\u2026 costs associated with falls. In this paper, we give a comprehensive survey of different \nsystems for fall detection and their underlying algorithms. Fall detection approaches are divided \u2026",
+                "title": "Voice controlled home automation system",
+                "link": "https://ieeexplore.ieee.org/abstract/document/9445150/",
+                "description": "\u2026 for IoT, this can be integrated well with home automation to enhance daily lifestyle. Remote \n\u2026 this work is to create a home automation system using voice commands, smartphone and to \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Fall detection-principles and methods",
-                "link": "https://ieeexplore.ieee.org/abstract/document/4352627/",
-                "description": "\u2026 on the fall detection, the physics of a fall and the means for its detection are discussed, then \n\u2026 by presenting a proposal of a common evaluation framework for the fall detection systems. \u2026",
+                "title": "[HTML][HTML] Smart home automation\u2014use cases of a secure and integrated voice-control system",
+                "link": "https://www.mdpi.com/2079-8954/9/4/77?trk=public_post_main-feed-card-text",
+                "description": "\u2026 IoT services and wireless technologies for developing a secure smart home automation with \na voice-controlled \u2026 secure and smart voice-based system for an integrated control of several \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "The methods of fall detection: A literature review",
-                "link": "https://www.mdpi.com/1424-8220/23/11/5212",
-                "description": "\u2026 the challenges of fall detection methods. Sensors, algorithms, and validation methods \nrelated to fall detection are also talked over. This work found that fall detection research has \u2026",
+                "title": "A voice controlled smart home automation system using artificial intelligent and internet of things",
+                "link": "https://telkomnika.uad.ac.id/index.php/TELKOMNIKA/article/view/23763",
+                "description": "\u2026 IoT and voice recognition technology in addition to NLP-based AI to improve smart homes \nsystems control. The \u2026 IoT and AI are now integral components of modern systems, and doping \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Approaches and principles of fall detection for elderly and patient",
-                "link": "https://ieeexplore.ieee.org/abstract/document/4600107/",
-                "description": "\u2026 fall detection methods. To properly build the classification tree of the methods of fall detection \nwe first study the characteristics of fall. \u2026 the methods of fall detection into three approaches: \u2026",
+                "title": "IoT based voice/text controlled home appliances",
+                "link": "https://www.sciencedirect.com/science/article/pii/S1877050920300934",
+                "description": "\u2026 This work aims to automatically control the home appliances through a voice based or \ntext based control. This application is not bounded by distance constraint. A smart \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "[HTML][HTML] New advances and challenges of fall detection systems: A survey",
-                "link": "https://www.mdpi.com/2076-3417/8/3/418",
-                "description": "\u2026 In this section, we discuss prior surveys on the topics of fall detection briefly. Fall detection \ncannot be considered as a brand new hot field, since it has been explored in the last two \u2026",
+                "title": "[PDF][PDF] Voice controlled home automation system",
+                "link": "https://aipublications.com/uploads/issue_files/1IJEEC-OCT20221-VoiceControlled.pdf",
+                "description": "\u2026 voice recognition module to recognize our voice commands, but \u2026 our job, it was taking \neveryone\u2019s voice command and we had \u2026 it will not take your voice command and won\u2019t recognize it \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "A smartphone-based fall detection system",
-                "link": "https://www.sciencedirect.com/science/article/pii/S1574119212000983",
-                "description": "\u2026 systems suffer from the problem of false alarms, caused by some fall-like activities of \u2026 to fall \ndetection we devoted special attention to the study of the acceleration signal produced by fall-\u2026",
+                "title": "Development of voice control and home security for smart home automation",
+                "link": "https://ieeexplore.ieee.org/abstract/document/8539258/",
+                "description": "\u2026 Android OS has a voice recognizing feature \u2026 control the home appliances from user voice \ncommand [4]. AMR_voice app converts the user voice command into text command, and then it \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Review of fall detection techniques: A data availability perspective",
-                "link": "https://www.sciencedirect.com/science/article/pii/S1350453316302600",
-                "description": "\u2026 Due to the rarity of occurrence of falls, there may be \u2026 of fall detection from the perspective of \navailability of fall data. The \u2026 methods for the study of fall detection based on the availability of \u2026",
+                "title": "Redefining home automation through voice recognition system",
+                "link": "https://link.springer.com/chapter/10.1007/978-981-33-4367-2_16",
+                "description": "\u2026 The concept of home automation is an on growing topic in this century and it plays a vital \nrole in our daily lives as individuals, as innovators and also as a collective society. \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Research of fall detection and fall prevention technologies: A systematic review",
-                "link": "https://ieeexplore.ieee.org/abstract/document/8736227/",
-                "description": "\u2026 In section 3, we present comprehensive reviews on fall detection and fall prevention methods \nbased on sensor apparatus and analytical approaches, followed by the detailed \u2026",
+                "title": "\u2026\u00a0Evaluation of a Voice Recognition Based IoT Home Automation System for Low-Resource Languages and Resource-Constrained Edge IoT Devices: A System for\u00a0\u2026",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10151879/",
+                "description": "\u2026 Furthermore, many voicerecognition systems are only available in a limited number of \u2026 and \nvoice commands that carries out offline voice processing and that is able to interact with IoT-\u2026",
                 "tag": "scholar"
             }
         ]
     },
     {
-        "Title": "AI-Powered Noise Cancellation & Voice Enhancement for Mobile Calls",
-        "Problem Statement": "Develop an on-device AI-powered noise cancellation and voice enhancement system for mobile calls (Voice AI, On-device AI). The system should effectively suppress background noise and enhance the speaker's voice in real-time, improving call quality in noisy environments.",
-        "Description": "This project leverages deep learning to separate speech from noise. The system will prioritize low latency and minimal processing power to ensure real-time performance on mobile devices. The system will also attempt to differentiate between desirable background sounds (e.g., music) and undesirable noise.",
-        "Deliverables": "A functional Android application demonstrating real-time noise cancellation and voice enhancement during phone calls. Provide metrics on noise reduction and speech intelligibility.",
+        "Title": "On-Device Object Detection for Smartphones using Vision AI",
+        "Problem Statement": "Develop an on-device object detection model for Samsung smartphones that leverages vision AI to detect objects in real-time.",
+        "Description": "Utilize convolutional neural networks (CNNs) or other vision AI models to develop a lightweight and efficient object detection system deployable on Samsung smartphones.",
+        "Challenge / Use Case": "Enhance camera functionality, enabling users to quickly identify and classify objects in their surroundings, such as products, animals, or landmarks.",
+        "Deliverables": [
+            "Trained object detection model",
+            "Real-time deployment of the model on Samsung smartphones"
+        ],
         "KPIs": [
-            "Noise reduction level (15dB+ reduction in SNR)",
-            "Speech intelligibility (measured using PESQ score)",
-            "Latency (under 100ms)"
+            "Object detection accuracy",
+            "Model inference speed"
         ],
         "Prerequisites": [
-            "Python, TensorFlow Lite, Signal Processing, Machine Learning, Mobile Development (Android)"
+            "Familiarity with deep learning frameworks such as TensorFlow or PyTorch",
+            "Knowledge of vision AI models and computer vision"
         ],
-        "Infrastructure Requirements": [
-            "Standard workstation with audio interface, access to noise and speech datasets"
-        ],
-        "Value Proposition": [
-            "Commercial PoC potential for Samsung's communication devices",
-            "Viable patent filing for the noise cancellation algorithm",
-            "Enhances user experience in mobile communication"
-        ],
-        "Milestones": {
-            "M2": "Functional signal processing and feature extraction pipeline.",
-            "M4": "Trained noise cancellation model integrated into the application.",
-            "M6": "End-to-end application deployment and performance evaluation."
+        "Infrastructure Requirements": "Moderate computational resources, including a GPU for training the model.",
+        "Milestones (6 months)": {
+            "M2": "Develop a baseline object detection model using CNNs",
+            "M4": "Optimize the model for real-time deployment on Samsung smartphones",
+            "M6": "Evaluate and refine the final model, including user testing"
         },
         "Reference Work": [
             {
-                "title": "Speech enhancement for mobile telephony",
-                "link": "https://ieeexplore.ieee.org/abstract/document/61353/",
-                "description": "\u2026 speech and noise are discussed, as are the spectral and spatial correlation properties of the \nnoise \u2026 why conventional speech enhancement by adaptive noise cancellation is ineffective. \u2026",
+                "title": "Ultra-efficient on-device object detection on ai-integrated smart glasses with tinyissimoyolo",
+                "link": "https://arxiv.org/abs/2311.01057",
+                "description": "\u2026 on-device inference for a wide array of computer vision tasks, ranging from object detection \n\u2026 device interaction while communicating with cloud or smartphones via Bluetooth and Wi-Fi [\u2026",
                 "tag": "scholar"
             },
             {
-                "title": "A noise reduction preprocessor for mobile voice communication",
-                "link": "https://link.springer.com/article/10.1155/S1110865704312138",
-                "description": "\u2026 We describe a speech enhancement algorithm which leads to significant \u2026 speech enhancement \npreprocessor which has been developed for voice communication in nonstationary noise \u2026",
+                "title": "Optimized convolutional neural network architectures for efficient on-device vision-based object detection",
+                "link": "https://link.springer.com/article/10.1007/s00521-021-06830-w",
+                "description": "\u2026 In view of these limitations, the on-device paradigm has \u2026 vein, circumscribed to the object \ndetection problem. In particular\u2026 the existing lightweight object detection frameworks targeted to \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "A system for speech enhancement in the context of hands-free radiotelephony with combined noise reduction and acoustic echo cancellation",
-                "link": "https://www.sciencedirect.com/science/article/pii/S0167639396000568",
-                "description": "\u2026 These observations call for a search of \u2026 speech enhancement and quality assessment of \nHansen and Deller (1995)) and we can say that the problem of speech enhancement for mobile \u2026",
+                "title": "Development of an intelligent edge computing device equipped with on-device AI vision model",
+                "link": "https://koreascience.kr/article/JAKO202231159474542.page",
+                "description": "\u2026 On-Device AI(Artificial intelligence) technology is increasingly required for the widespread \napplication of intelligent vision recognition \u2026 system resources than AI services performed in the \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "[PDF][PDF] Speech enhancement algorithm to reduce the effect of background noise in mobile phones",
-                "link": "https://www.academia.edu/download/81489867/441361598e43a767d8b45341b47e3a5cda4d.pdf",
-                "description": "\u2026 The traditional noise cancellation algorithms cannot be used \u2026 The speech enhancement \nmethods today are more exploiting the \u2026 for speech enhancement in presence of near-end noise. \u2026",
+                "title": "[HTML][HTML] On-device object detection for more efficient and privacy-compliant visual perception in context-aware systems",
+                "link": "https://www.mdpi.com/2076-3417/11/19/9173",
+                "description": "\u2026 interaction (HCI), AI, and communication networks, the search for on-device lightweight \u2026 \nwe can find portable devices, such as smartphones and machinery with mobility, such as robots \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Enhanced speech clarity: A deep learning-based noise removal technique for real-time communication",
-                "link": "https://pubs.aip.org/aip/acp/article-abstract/3204/1/030001/3333735",
-                "description": "\u2026 noise removal in call and communication systems, employing Convolutional Neural Networks \n(CNNs) for noise detection and denoising techniques to enhance audio \u2026 speech on mobile \u2026",
+                "title": "Smartphone-based real-time object recognition architecture for portable and constrained systems",
+                "link": "https://link.springer.com/article/10.1007/s11554-021-01164-1",
+                "description": "\u2026 -intensive computer vision tasks, such as object recognition. \u2026 AI frameworks and the limitations \nof running AI including \u2026 and make it compatible with on-device processors including CPU, \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "5G Conference Call Audio Enhancement Voice Equalization and Amplification",
-                "link": "https://ieeexplore.ieee.org/abstract/document/10774620/",
-                "description": "\u2026 are employed to enhance voice quality, including echo cancellation and \u2026 and enhance \noverall QoS in mobile networks. Moreover, we address voice equalization in conference calls and \u2026",
+                "title": "Overviewing AI-Dedicated Hardware for On-Device AI in Smartphones",
+                "link": "https://link.springer.com/chapter/10.1007/978-3-031-22170-5_4",
+                "description": "\u2026 However, DSP is not optimized for convolution operation, which accounts for most of vision \nAI. Instead, DSP can compute matrix multiplication more efficiently than NPU, resulting in \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Sensing to hear: Speech enhancement for mobile devices using acoustic signals",
-                "link": "https://dl.acm.org/doi/abs/10.1145/3478093",
-                "description": "\u2026 and collect an audio-sensory dataset, which we call WaveSpeech. The \u2026 noise reduction, in \nwhich a primary microphone is placed on the bottom of the phone to capture the target speech \u2026",
+                "title": "[BOOK][B] AI and Machine Learning for On-Device Development: A Programmer's Guide",
+                "link": "https://books.google.com/books?hl=en&lr=&id=Ny49EAAAQBAJ&oi=fnd&pg=PT12&dq=On-device+object+detection+for+smartphones+vision+AI&ots=9WIYZODULY&sig=EEkCw23GLokoxXvYnOAyIQ6Kqm8",
+                "description": "\u2026 ML models like computer vision and text recognition, using tools \u2026 Explore the options for \nimplementing ML and AI on mobile \u2026 as cloud-based versus on-device inference and high-level \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "ICA based Noise Reduction in Mobile Phone Speech Communications",
-                "link": "https://ieeexplore.ieee.org/abstract/document/10660984/",
-                "description": "\u2026 noise reduction is a good application in humanmachine interaction. The adverse impact on a \nmobile phone call is noisy \u2026 context of noise cancellation and speech enhancement because \u2026",
+                "title": "Empowering Edge Intelligence: A Comprehensive Survey on On-Device AI Models",
+                "link": "https://dl.acm.org/doi/abs/10.1145/3724420",
+                "description": "\u2026 on-device AI models, covering areas such as smartphones, IoT devices, and edge computing \n(RQ1). Section 4 analyzes the technical challenges faced by on-device AI \u2026 object detection \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Improvement of voice quality and prevention of deafness by a bone-conduction device",
-                "link": "https://www.tandfonline.com/doi/abs/10.1080/13102818.2014.949041",
-                "description": "\u2026 Phone call environments can be noisy or quiet, depending on the situation. \u2026 method for \nmore effective noise reduction and magnification of speech signals of mobile phones by installing \u2026",
+                "title": "[PDF][PDF] Mobile AI and the future of intelligent devices",
+                "link": "https://itcafe.hu/dl/cnt/2017-12/142233/idc_white_paper.pdf",
+                "description": "\u2026 future of smartphones lies in mobile AI, the symbiosis between on-device AI and cloud AI. \u2026 \nrelated tasks, such as object recognition, image recognition, speech recognition, and natural \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "ICA based Noise Reduction in Mobile Phone Speech Communication",
-                "link": "https://ieeexplore.ieee.org/abstract/document/10607606/",
-                "description": "\u2026 , like smartphones, video calls and conference calls. By using statistical \u2026 voice communications \nby enhancing the Signal to Noise Ratio (SNR). This feature provides noise cancellation \u2026",
+                "title": "Ai benchmark: All about deep learning on smartphones in 2019",
+                "link": "https://ieeexplore.ieee.org/abstract/document/9022101/",
+                "description": "\u2026 reduced binary size and kernels optimized for on-device inference. This library also got \u2026 \nAI applications (eg multi-person pose tracking, 3D pose tracking, multiple object identification\u2026",
                 "tag": "scholar"
             }
         ]
     },
     {
-        "Title": "Smart Plant Health Monitoring Using Image Analysis",
-        "Problem Statement": "Develop a system that uses computer vision (Vision AI) to analyze images of plants captured through a smartphone camera, identifying signs of disease, nutrient deficiencies, or pest infestations. The system will provide recommendations for treatment or preventative measures.",
-        "Description": "This project combines image processing with machine learning to identify plant diseases and deficiencies. The system will require a dataset of plant images with labeled diseases/deficiencies. The solution should include a user-friendly mobile application for image capture and analysis.",
-        "Deliverables": "A functional mobile application (Android/iOS) that can identify plant diseases/deficiencies from images and provide recommendations.",
+        "Title": "Emotion Recognition from Speech using Voice AI and Classical Machine Learning",
+        "Problem Statement": "Develop an emotion recognition system that leverages voice AI and classical machine learning to identify emotions from speech.",
+        "Description": "Utilize acoustic features, such as pitch and tone, along with machine learning algorithms to develop a system capable of recognizing human emotions from spoken language.",
+        "Challenge / Use Case": "Enhance customer service chatbots or virtual assistants by enabling them to empathize with users based on their emotional state.",
+        "Deliverables": [
+            "Trained emotion recognition model",
+            "Integration with chatbot or virtual assistant platforms"
+        ],
         "KPIs": [
-            "Accuracy of disease/deficiency identification (80%+)",
-            "Response time (under 3 seconds)",
-            "User satisfaction (4+ star rating)"
+            "Emotion recognition accuracy",
+            "User engagement metrics"
         ],
         "Prerequisites": [
-            "Python, TensorFlow/PyTorch, Computer Vision, Machine Learning, Mobile Development (Android/iOS)"
+            "Familiarity with voice AI frameworks such as Alexa or Google Assistant",
+            "Knowledge of classical machine learning algorithms and acoustic feature extraction"
         ],
-        "Infrastructure Requirements": [
-            "Standard workstation with GPU, access to plant image datasets"
-        ],
-        "Value Proposition": [
-            "Commercial PoC potential for Samsung's SmartThings ecosystem (smart gardening)",
-            "Viable patent filing for the plant health analysis algorithm",
-            "Addresses a growing interest in home gardening and plant care"
-        ],
-        "Milestones": {
-            "M2": "Functional image processing and feature extraction module.",
-            "M4": "Trained plant health analysis model integrated into the application.",
-            "M6": "End-to-end application deployment and user testing."
+        "Infrastructure Requirements": "Moderate computational resources, including a dedicated server for speech processing.",
+        "Milestones (6 months)": {
+            "M2": "Develop a baseline emotion recognition system using acoustic features and machine learning algorithms",
+            "M4": "Integrate the emotion recognition system with chatbot or virtual assistant platforms",
+            "M6": "Conduct user testing and refine the final system, including error handling and feedback mechanisms"
         },
         "Reference Work": [
             {
-                "title": "UAV-for-Crop-Health-Analysis",
-                "description": "UAV (Unmanned Aerial Vehicles) can be made capable of providing a health monitoring system for plants. High end cameras gives deep insights whether it is surveillance or any broadcast of events (filming and production). The key benefits of crop analysis includes identifying for plant diseases and crop health by inspecting its colour components. This is done by studying Near Infrared and Multi-Spectral Cameras which help us in obtaining the Red, Green, Blue and Infrared components of a plant and with the help of computer vision. With computer aided image processing. The processing of the video feed captured by a NoIR camera is done with the help of an on-board micro-computer. Additionally autonomous flight, safety failsafe for landing when on low power, mission planning etc. are some of the facilities that can be incorporated in such a UAV to provide a full integrated crop monitoring and analysis system.",
-                "link": "https://github.com/gazal2708/UAV-for-Crop-Health-Analysis",
+                "title": "EmotionalRecognitionAI",
+                "description": "This project aims to improve the understanding of emotional states of individuals with autism in daily vocal dialogues and facial expressions. The study focuses on identifying emotions from audio recordings obtained from the speech of certain voice actors and facial emotion recognition using machine learning algorithms.",
+                "link": "https://github.com/osama2499/EmotionalRecognitionAI",
                 "tag": "github"
             },
             {
-                "title": "image-based-plant-disease-detection-",
-                "description": "The Smart Plant Disease Detector is an innovative application that harnesses the power of Machine learning , CNN, deep learning to revolutionize plant health management. This project focuses on providing an accessible and efficient solution for identifying plant diseases through image analysis",
-                "link": "https://github.com/garg0303/image-based-plant-disease-detection-",
+                "title": "Emotion_Recognition_from_Speech_using_ML",
+                "description": "This project detects human emotions from speech using MFCC feature extraction and machine learning models including SVM, Random Forest, CNN, and XGBoost. By analyzing voice patterns, the system classifies emotions into Angry, Sad, Neutral, and Happy, enhancing speech-based AI applications. ",
+                "link": "https://github.com/Rakib007Nabila/Emotion_Recognition_from_Speech_using_ML",
                 "tag": "github"
             },
             {
-                "title": "plants_health_monitoring",
-                "description": "Assess plants health using image analysis methods",
-                "link": "https://github.com/szajakubiak/plants_health_monitoring",
+                "title": "voice-recognition-emotion-detection",
+                "description": "Automated Music Playing System Using Emotion Detection This project is an AI-powered music player that detects emotions from voice inputs and plays music based on the user's mood. It integrates voice recognition, speech emotion analysis, and machine learning to classify emotions in real-time and generate mood-based playlists.",
+                "link": "https://github.com/koushik-siddu/voice-recognition-emotion-detection",
                 "tag": "github"
             },
             {
-                "title": "plant-analysis",
-                "description": "A collection of experimental scripts to process multispectral images for plant health analysis",
-                "link": "https://github.com/Jmdavison/plant-analysis",
+                "title": "References",
+                "description": " Poole, Mackworth & Goebel 1998, p. 1.  Russell & Norvig 2003, p. 55.  Definition of AI as the study of intelligent agents: Poole, Mackworth & Goebel (1998), which provides the version that is used in this article. These authors use the term \"computational intelligence\" as a synonym for artificial intelligence.[1] Russell & Norvig (2003) (who prefer the term \"rational agent\") and write \"The whole-agent view is now widely accepted in the field\".[2] Nilsson 1998 Legg & Hutter 2007  Russell & Norvig 2009, p. 2.  McCorduck 2004, p. 204  Maloof, Mark. \"Artificial Intelligence: An Introduction, p. 37\" (PDF). georgetown.edu. Archived (PDF) from the original on 25 August 2018.  \"How AI Is Getting Groundbreaking Changes In Talent Management And HR Tech\". Hackernoon. Archived from the original on 11 September 2019. Retrieved 14 February 2020.  Schank, Roger C. (1991). \"Where's the AI\". AI magazine. Vol. 12 no. 4. p. 38.  Russell & Norvig 2009.  \"AlphaGo \u2013 Google DeepMind\". Archived from the original on 10 March 2016.  Allen, Gregory (April 2020). \"Department of Defense Joint AI Center - Understanding AI Technology\" (PDF). AI.mil - The official site of the Department of Defense Joint Artificial Intelligence Center. Archived (PDF) from the original on 21 April 2020. Retrieved 25 April 2020.  Optimism of early AI: * Herbert Simon quote: Simon 1965, p. 96 quoted in Crevier 1993, p. 109. * Marvin Minsky quote: Minsky 1967, p. 2 quoted in Crevier 1993, p. 109.  Boom of the 1980s: rise of expert systems, Fifth Generation Project, Alvey, MCC, SCI: * McCorduck 2004, pp. 426\u2013441 * Crevier 1993, pp. 161\u2013162,197\u2013203, 211, 240 * Russell & Norvig 2003, p. 24 * NRC 1999, pp. 210\u2013211 * Newquist 1994, pp. 235\u2013248  First AI Winter, Mansfield Amendment, Lighthill report * Crevier 1993, pp. 115\u2013117 * Russell & Norvig 2003, p. 22 * NRC 1999, pp. 212\u2013213 * Howe 1994 * Newquist 1994, pp. 189\u2013201  Second AI winter: * McCorduck 2004, pp. 430\u2013435 * Crevier 1993, pp. 209\u2013210 * NRC 1999, pp. 214\u2013216 * Newquist 1994, pp. 301\u2013318  AI becomes hugely successful in the early 21st century * Clark 2015  Pamela McCorduck (2004, p. 424) writes of \"the rough shattering of AI in subfields\u2014vision, natural language, decision theory, genetic algorithms, robotics ... and these with own sub-subfield\u2014that would hardly have anything to say to each other.\"  This list of intelligent traits is based on the topics covered by the major AI textbooks, including: * Russell & Norvig 2003 * Luger & Stubblefield 2004 * Poole, Mackworth & Goebel 1998 * Nilsson 1998  Kolata 1982.  Maker 2006.  Biological intelligence vs. intelligence in general: Russell & Norvig 2003, pp. 2\u20133, who make the analogy with aeronautical engineering. McCorduck 2004, pp. 100\u2013101, who writes that there are \"two major branches of artificial intelligence: one aimed at producing intelligent behavior regardless of how it was accomplished, and the other aimed at modeling intelligent processes found in nature, particularly human ones.\" Kolata 1982, a paper in Science, which describes McCarthy's indifference to biological models. Kolata quotes McCarthy as writing: \"This is AI, so we don't care if it's psychologically real\".[19] McCarthy recently reiterated his position at the AI@50 conference where he said \"Artificial intelligence is not, by definition, simulation of human intelligence\".[20].  Neats vs. scruffies: * McCorduck 2004, pp. 421\u2013424, 486\u2013489 * Crevier 1993, p. 168 * Nilsson 1983, pp. 10\u201311  Symbolic vs. sub-symbolic AI: * Nilsson (1998, p. 7), who uses the term \"sub-symbolic\".  General intelligence (strong AI) is discussed in popular introductions to AI: * Kurzweil 1999 and Kurzweil 2005  See the Dartmouth proposal, under Philosophy, below.  McCorduck 2004, p. 34.  McCorduck 2004, p. xviii.  McCorduck 2004, p. 3.  McCorduck 2004, pp. 340\u2013400.  This is a central idea of Pamela McCorduck's Machines Who Think. She writes: \"I like to think of artificial intelligence as the scientific apotheosis of a venerable cultural tradition.\"[26] \"Artificial intelligence in one form or another is an idea that has pervaded Western intellectual history, a dream in urgent need of being realized.\"[27] \"Our history is full of attempts\u2014nutty, eerie, comical, earnest, legendary and real\u2014to make artificial intelligences, to reproduce what is the essential us\u2014bypassing the ordinary means. Back and forth between myth and reality, our imaginations supplying what our workshops couldn't, we have engaged for a long time in this odd form of self-reproduction.\"[28] She traces the desire back to its Hellenistic roots and calls it the urge to \"forge the Gods.\"[29]  \"Stephen Hawking believes AI could be mankind's last accomplishment\". BetaNews. 21 October 2016. Archived from the original on 28 August 2017.  Lombardo P, Boehm I, Nairz K (2020). \"RadioComics \u2013 Santa Claus and the future of radiology\". Eur J Radiol. 122 (1): 108771. doi:10.1016/j.ejrad.2019.108771. PMID 31835078.  Ford, Martin; Colvin, Geoff (6 September 2015). \"Will robots create more jobs than they destroy?\". The Guardian. Archived from the original on 16 June 2018. Retrieved 13 January 2018.  AI applications widely used behind the scenes: * Russell & Norvig 2003, p. 28 * Kurzweil 2005, p. 265 * NRC 1999, pp. 216\u2013222 * Newquist 1994, pp. 189\u2013201  AI in myth: * McCorduck 2004, pp. 4\u20135 * Russell & Norvig 2003, p. 939  AI in early science fiction. * McCorduck 2004, pp. 17\u201325  Formal reasoning: * Berlinski, David (2000). The Advent of the Algorithm. Harcourt Books. ISBN 978-0-15-601391-8. OCLC 46890682. Archived from the original on 26 July 2020. Retrieved 22 August 2020.  Turing, Alan (1948), \"Machine Intelligence\", in Copeland, B. Jack (ed.), The Essential Turing: The ideas that gave birth to the computer age, Oxford: Oxford University Press, p. 412, ISBN 978-0-19-825080-7  Russell & Norvig 2009, p. 16.  Dartmouth conference: * McCorduck 2004, pp. 111\u2013136 * Crevier 1993, pp. 47\u201349, who writes \"the conference is generally recognized as the official birthdate of the new science.\" * Russell & Norvig 2003, p. 17, who call the conference \"the birth of artificial intelligence.\" * NRC 1999, pp. 200\u2013201  McCarthy, John (1988). \"Review of The Question of Artificial Intelligence\". Annals of the History of Computing. 10 (3): 224\u2013229., collected in McCarthy, John (1996). \"10. Review of The Question of Artificial Intelligence\". Defending AI Research: A Collection of Essays and Reviews. CSLI., p. 73, \"[O]ne of the reasons for inventing the term \"artificial intelligence\" was to escape association with \"cybernetics\". Its concentration on analog feedback seemed misguided, and I wished to avoid having either to accept Norbert (not Robert) Wiener as a guru or having to argue with him.\"  Hegemony of the Dartmouth conference attendees: * Russell & Norvig 2003, p. 17, who write \"for the next 20 years the field would be dominated by these people and their students.\" * McCorduck 2004, pp. 129\u2013130  Russell & Norvig 2003, p. 18.  Schaeffer J. (2009) Didn't Samuel Solve That Game?. In: One Jump Ahead. Springer, Boston, MA  Samuel, A. L. (July 1959). \"Some Studies in Machine Learning Using the Game of Checkers\". IBM Journal of Research and Development. 3 (3): 210\u2013229. CiteSeerX 10.1.1.368.2254. doi:10.1147/rd.33.0210.  \"Golden years\" of AI (successful symbolic reasoning programs 1956\u20131973): * McCorduck 2004, pp. 243\u2013252 * Crevier 1993, pp. 52\u2013107 * Moravec 1988, p. 9 * Russell & Norvig 2003, pp. 18\u201321 The programs described are Arthur Samuel's checkers program for the IBM 701, Daniel Bobrow's STUDENT, Newell and Simon's Logic Theorist and Terry Winograd's SHRDLU.  DARPA pours money into undirected pure research into AI during the 1960s: * McCorduck 2004, p. 131 * Crevier 1993, pp. 51, 64\u201365 * NRC 1999, pp. 204\u2013205  AI in England: * Howe 1994  Lighthill 1973.  Expert systems: * ACM 1998, I.2.1 * Russell & Norvig 2003, pp. 22\u201324 * Luger & Stubblefield 2004, pp. 227\u2013331 * Nilsson 1998, chpt. 17.4 * McCorduck 2004, pp. 327\u2013335, 434\u2013435 * Crevier 1993, pp. 145\u201362, 197\u2013203 * Newquist 1994, pp. 155\u2013183  Mead, Carver A.; Ismail, Mohammed (8 May 1989). Analog VLSI Implementation of Neural Systems (PDF). The Kluwer International Series in Engineering and Computer Science. 80. Norwell, MA: Kluwer Academic Publishers. doi:10.1007/978-1-4613-1639-8. ISBN 978-1-4613-1639-8. Archived from the original (PDF) on 6 November 2019. Retrieved 24 January 2020.  Formal methods are now preferred (\"Victory of the neats\"): * Russell & Norvig 2003, pp. 25\u201326 * McCorduck 2004, pp. 486\u2013487  McCorduck 2004, pp. 480\u2013483.  Markoff 2011.  \"Ask the AI experts: What's driving today's progress in AI?\". McKinsey & Company. Archived from the original on 13 April 2018. Retrieved 13 April 2018.  Administrator. \"Kinect's AI breakthrough explained\". i-programmer.info. Archived from the original on 1 February 2016.  Rowinski, Dan (15 January 2013). \"Virtual Personal Assistants & The Future Of Your Smartphone [Infographic]\". ReadWrite. Archived from the original on 22 December 2015.  \"Artificial intelligence: Google's AlphaGo beats Go master Lee Se-dol\". BBC News. 12 March 2016. Archived from the original on 26 August 2016. Retrieved 1 October 2016.  Metz, Cade (27 May 2017). \"After Win in China, AlphaGo's Designers Explore New AI\". Wired. Archived from the original on 2 June 2017.  \"World's Go Player Ratings\". May 2017. Archived from the original on 1 April 2017.  \"\u67ef\u6d01\u8fce19\u5c81\u751f\u65e5 \u96c4\u8e1e\u4eba\u7c7b\u4e16\u754c\u6392\u540d\u7b2c\u4e00\u5df2\u4e24\u5e74\" (in Chinese). May 2017. Archived from the original on 11 August 2017.  Clark, Jack (8 December 2015). \"Why 2015 Was a Breakthrough Year in Artificial Intelligence\". Bloomberg News. Archived from the original on 23 November 2016. Retrieved 23 November 2016. After a half-decade of quiet breakthroughs in artificial intelligence, 2015 has been a landmark year. Computers are smarter and learning faster than ever.  \"Reshaping Business With Artificial Intelligence\". MIT Sloan Management Review. Archived from the original on 19 May 2018. Retrieved 2 May 2018.  Lorica, Ben (18 December 2017). \"The state of AI adoption\". O'Reilly Media. Archived from the original on 2 May 2018. Retrieved 2 May 2018.  Allen, Gregory (6 February 2019). \"Understanding China's AI Strategy\". Center for a New American Security. Archived from the original on 17 March 2019.  \"Review | How two AI superpowers \u2013 the U.S. and China \u2013 battle for supremacy in the field\". Washington Post. 2 November 2018. Archived from the original on 4 November 2018. Retrieved 4 November 2018.  at 10:11, Alistair Dabbs 22 Feb 2019. \"Artificial Intelligence: You know it isn't real, yeah?\". www.theregister.co.uk. Archived from the original on 21 May 2020. Retrieved 22 August 2020.  \"Stop Calling it Artificial Intelligence\". Archived from the original on 2 December 2019. Retrieved 1 December 2019.  \"AI isn't taking over the world \u2013 it doesn't exist yet\". GBG Global website. Archived from the original on 11 August 2020. Retrieved 22 August 2020.  Kaplan, Andreas; Haenlein, Michael (1 January 2019). \"Siri, Siri, in my hand: Who's the fairest in the land? On the interpretations, illustrations, and implications of artificial intelligence\". Business Horizons. 62 (1): 15\u201325. doi:10.1016/j.bushor.2018.08.004.  Domingos 2015, Chapter 5.  Domingos 2015, Chapter 7.  Lindenbaum, M., Markovitch, S., & Rusakov, D. (2004). Selective sampling for nearest neighbor classifiers. Machine learning, 54(2), 125\u2013152.  Domingos 2015, Chapter 1.  Intractability and efficiency and the combinatorial explosion: * Russell & Norvig 2003, pp. 9, 21\u201322  Domingos 2015, Chapter 2, Chapter 3.  Hart, P. E.; Nilsson, N. J.; Raphael, B. (1972). \"Correction to \"A Formal Basis for the Heuristic Determination of Minimum Cost Paths\"\". SIGART Newsletter (37): 28\u201329. doi:10.1145/1056777.1056779. S2CID 6386648.  Domingos 2015, Chapter 2, Chapter 4, Chapter 6.  \"Can neural network computers learn from experience, and if so, could they ever become what we would call 'smart'?\". Scientific American. 2018. Archived from the original on 25 March 2018. Retrieved 24 March 2018.  Domingos 2015, Chapter 6, Chapter 7.  Domingos 2015, p. 286.  \"Single pixel change fools AI programs\". BBC News. 3 November 2017. Archived from the original on 22 March 2018. Retrieved 12 March 2018.  \"AI Has a Hallucination Problem That's Proving Tough to Fix\". WIRED. 2018. Archived from the original on 12 March 2018. Retrieved 12 March 2018.  Matti, D.; Ekenel, H. K.; Thiran, J. P. (2017). Combining LiDAR space clustering and convolutional neural networks for pedestrian detection. 2017 14th IEEE International Conference on Advanced Video and Signal Based Surveillance (AVSS). pp. 1\u20136. arXiv:1710.06160. doi:10.1109/AVSS.2017.8078512. ISBN 978-1-5386-2939-0. S2CID 2401976.  Ferguson, Sarah; Luders, Brandon; Grande, Robert C.; How, Jonathan P. (2015). Real-Time Predictive Modeling and Robust Avoidance of Pedestrians with Uncertain, Changing Intentions. Algorithmic Foundations of Robotics XI. Springer Tracts in Advanced Robotics. 107. Springer, Cham. pp. 161\u2013177. arXiv:1405.5581. doi:10.1007/978-3-319-16595-0_10. ISBN 978-3-319-16594-3. S2CID 8681101.  \"Cultivating Common Sense | DiscoverMagazine.com\". Discover Magazine. 2017. Archived from the original on 25 March 2018. Retrieved 24 March 2018.  Davis, Ernest; Marcus, Gary (24 August 2015). \"Commonsense reasoning and commonsense knowledge in artificial intelligence\". Communications of the ACM. 58 (9): 92\u2013103. doi:10.1145/2701413. S2CID 13583137. Archived from the original on 22 August 2020. Retrieved 6 April 2020.  Winograd, Terry (January 1972). \"Understanding natural language\". Cognitive Psychology. 3 (1): 1\u2013191. doi:10.1016/0010-0285(72)90002-3.  \"Don't worry: Autonomous cars aren't coming tomorrow (or next year)\". Autoweek. 2016. Archived from the original on 25 March 2018. Retrieved 24 March 2018.  Knight, Will (2017). \"Boston may be famous for bad drivers, but it's the testing ground for a smarter self-driving car\". MIT Technology Review. Archived from the original on 22 August 2020. Retrieved 27 March 2018.  Prakken, Henry (31 August 2017). \"On the problem of making autonomous vehicles conform to traffic law\". Artificial Intelligence and Law. 25 (3): 341\u2013363. doi:10.1007/s10506-017-9210-0.  Lieto, Antonio (May 2018). \"The knowledge level in cognitive architectures: Current limitations and possible developments\". Cognitive Systems Research. 48: 39\u201355. doi:10.1016/j.cogsys.2017.05.001. hdl:2318/1665207. S2CID 206868967.  Problem solving, puzzle solving, game playing and deduction: * Russell & Norvig 2003, chpt. 3\u20139, * Poole, Mackworth & Goebel 1998, chpt. 2,3,7,9, * Luger & Stubblefield 2004, chpt. 3,4,6,8, * Nilsson 1998, chpt. 7\u201312  Uncertain reasoning: * Russell & Norvig 2003, pp. 452\u2013644, * Poole, Mackworth & Goebel 1998, pp. 345\u2013395, * Luger & Stubblefield 2004, pp. 333\u2013381, * Nilsson 1998, chpt. 19  Psychological evidence of sub-symbolic reasoning: * Wason & Shapiro (1966) showed that people do poorly on completely abstract problems, but if the problem is restated to allow the use of intuitive social intelligence, performance dramatically improves. (See Wason selection task) * Kahneman, Slovic & Tversky (1982) have shown that people are terrible at elementary problems that involve uncertain reasoning. (See list of cognitive biases for several examples). * Lakoff & N\u00fa\u00f1ez (2000) have controversially argued that even our skills at mathematics depend on knowledge and skills that come from \"the body\", i.e. sensorimotor and perceptual skills. (See Where Mathematics Comes From)  Knowledge representation: * ACM 1998, I.2.4, * Russell & Norvig 2003, pp. 320\u2013363, * Poole, Mackworth & Goebel 1998, pp. 23\u201346, 69\u201381, 169\u2013196, 235\u2013277, 281\u2013298, 319\u2013345, * Luger & Stubblefield 2004, pp. 227\u2013243, * Nilsson 1998, chpt. 18  Knowledge engineering: * Russell & Norvig 2003, pp. 260\u2013266, * Poole, Mackworth & Goebel 1998, pp. 199\u2013233, * Nilsson 1998, chpt. \u224817.1\u201317.4  Representing categories and relations: Semantic networks, description logics, inheritance (including frames and scripts): * Russell & Norvig 2003, pp. 349\u2013354, * Poole, Mackworth & Goebel 1998, pp. 174\u2013177, * Luger & Stubblefield 2004, pp. 248\u2013258, * Nilsson 1998, chpt. 18.3  Representing events and time:Situation calculus, event calculus, fluent calculus (including solving the frame problem): * Russell & Norvig 2003, pp. 328\u2013341, * Poole, Mackworth & Goebel 1998, pp. 281\u2013298, * Nilsson 1998, chpt. 18.2  Causal calculus: * Poole, Mackworth & Goebel 1998, pp. 335\u2013337  Representing knowledge about knowledge: Belief calculus, modal logics: * Russell & Norvig 2003, pp. 341\u2013344, * Poole, Mackworth & Goebel 1998, pp. 275\u2013277  Sikos, Leslie F. (June 2017). Description Logics in Multimedia Reasoning. Cham: Springer. doi:10.1007/978-3-319-54066-5. ISBN 978-3-319-54066-5. S2CID 3180114. Archived from the original on 29 August 2017.  Ontology: * Russell & Norvig 2003, pp. 320\u2013328  Smoliar, Stephen W.; Zhang, HongJiang (1994). \"Content based video indexing and retrieval\". IEEE Multimedia. 1 (2): 62\u201372. doi:10.1109/93.311653. S2CID 32710913.  Neumann, Bernd; M\u00f6ller, Ralf (January 2008). \"On scene interpretation with description logics\". Image and Vision Computing. 26 (1): 82\u2013101. doi:10.1016/j.imavis.2007.08.013.  Kuperman, G. J.; Reichley, R. M.; Bailey, T. C. (1 July 2006). \"Using Commercial Knowledge Bases for Clinical Decision Support: Opportunities, Hurdles, and Recommendations\". Journal of the American Medical Informatics Association. 13 (4): 369\u2013371. doi:10.1197/jamia.M2055. PMC 1513681. PMID 16622160.  MCGARRY, KEN (1 December 2005). \"A survey of interestingness measures for knowledge discovery\". The Knowledge Engineering Review. 20 (1): 39\u201361. doi:10.1017/S0269888905000408. S2CID 14987656.  Bertini, M; Del Bimbo, A; Torniai, C (2006). \"Automatic annotation and semantic retrieval of video sequences using multimedia ontologies\". MM '06 Proceedings of the 14th ACM international conference on Multimedia. 14th ACM international conference on Multimedia. Santa Barbara: ACM. pp. 679\u2013682.  Qualification problem: * McCarthy & Hayes 1969 * Russell & Norvig 2003[page needed] While McCarthy was primarily concerned with issues in the logical representation of actions, Russell & Norvig 2003 apply the term to the more general issue of default reasoning in the vast network of assumptions underlying all our commonsense knowledge.  Default reasoning and default logic, non-monotonic logics, circumscription, closed world assumption, abduction (Poole et al. places abduction under \"default reasoning\". Luger et al. places this under \"uncertain reasoning\"): * Russell & Norvig 2003, pp. 354\u2013360, * Poole, Mackworth & Goebel 1998, pp. 248\u2013256, 323\u2013335, * Luger & Stubblefield 2004, pp. 335\u2013363, * Nilsson 1998, ~18.3.3  Breadth of commonsense knowledge: * Russell & Norvig 2003, p. 21, * Crevier 1993, pp. 113\u2013114, * Moravec 1988, p. 13, * Lenat & Guha 1989 (Introduction)  Dreyfus & Dreyfus 1986.  Gladwell 2005.  Expert knowledge as embodied intuition: * Dreyfus & Dreyfus 1986 (Hubert Dreyfus is a philosopher and critic of AI who was among the first to argue that most useful human knowledge was encoded sub-symbolically. See Dreyfus' critique of AI) * Gladwell 2005 (Gladwell's Blink is a popular introduction to sub-symbolic reasoning and knowledge.) * Hawkins & Blakeslee 2005 (Hawkins argues that sub-symbolic knowledge should be the primary focus of AI research.)  Planning: * ACM 1998, ~I.2.8, * Russell & Norvig 2003, pp. 375\u2013459, * Poole, Mackworth & Goebel 1998, pp. 281\u2013316, * Luger & Stubblefield 2004, pp. 314\u2013329, * Nilsson 1998, chpt. 10.1\u20132, 22  Information value theory: * Russell & Norvig 2003, pp. 600\u2013604  Classical planning: * Russell & Norvig 2003, pp. 375\u2013430, * Poole, Mackworth & Goebel 1998, pp. 281\u2013315, * Luger & Stubblefield 2004, pp. 314\u2013329, * Nilsson 1998, chpt. 10.1\u20132, 22  Planning and acting in non-deterministic domains: conditional planning, execution monitoring, replanning and continuous planning: * Russell & Norvig 2003, pp. 430\u2013449  Multi-agent planning and emergent behavior: * Russell & Norvig 2003, pp. 449\u2013455  Turing 1950.  Solomonoff 1956.  Alan Turing discussed the centrality of learning as early as 1950, in his classic paper \"Computing Machinery and Intelligence\".[120] In 1956, at the original Dartmouth AI summer conference, Ray Solomonoff wrote a report on unsupervised probabilistic machine learning: \"An Inductive Inference Machine\".[121]  This is a form of Tom Mitchell's widely quoted definition of machine learning: \"A computer program is set to learn from an experience E with respect to some task T and some performance measure P if its performance on T as measured by P improves with experience E.\"  Learning: * ACM 1998, I.2.6, * Russell & Norvig 2003, pp. 649\u2013788, * Poole, Mackworth & Goebel 1998, pp. 397\u2013438, * Luger & Stubblefield 2004, pp. 385\u2013542, * Nilsson 1998, chpt. 3.3, 10.3, 17.5, 20  Jordan, M. I.; Mitchell, T. M. (16 July 2015). \"Machine learning: Trends, perspectives, and prospects\". Science. 349 (6245): 255\u2013260. Bibcode:2015Sci...349..255J. doi:10.1126/science.aaa8415. PMID 26185243. S2CID 677218.  Reinforcement learning: * Russell & Norvig 2003, pp. 763\u2013788 * Luger & Stubblefield 2004, pp. 442\u2013449  Natural language processing: * ACM 1998, I.2.7 * Russell & Norvig 2003, pp. 790\u2013831 * Poole, Mackworth & Goebel 1998, pp. 91\u2013104 * Luger & Stubblefield 2004, pp. 591\u2013632  \"Versatile question answering systems: seeing in synthesis\" Archived 1 February 2016 at the Wayback Machine, Mittal et al., IJIIDS, 5(2), 119\u2013142, 2011  Applications of natural language processing, including information retrieval (i.e. text mining) and machine translation: * Russell & Norvig 2003, pp. 840\u2013857, * Luger & Stubblefield 2004, pp. 623\u2013630  Cambria, Erik; White, Bebo (May 2014). \"Jumping NLP Curves: A Review of Natural Language Processing Research [Review Article]\". IEEE Computational Intelligence Magazine. 9 (2): 48\u201357. doi:10.1109/MCI.2014.2307227. S2CID 206451986.  Vincent, James (7 November 2019). \"OpenAI has published the text-generating AI it said was too dangerous to share\". The Verge. Archived from the original on 11 June 2020. Retrieved 11 June 2020.  Machine perception: * Russell & Norvig 2003, pp. 537\u2013581, 863\u2013898 * Nilsson 1998, ~chpt. 6  Speech recognition: * ACM 1998, ~I.2.7 * Russell & Norvig 2003, pp. 568\u2013578  Object recognition: * Russell & Norvig 2003, pp. 885\u2013892  Computer vision: * ACM 1998, I.2.10 * Russell & Norvig 2003, pp. 863\u2013898 * Nilsson 1998, chpt. 6  Robotics: * ACM 1998, I.2.9, * Russell & Norvig 2003, pp. 901\u2013942, * Poole, Mackworth & Goebel 1998, pp. 443\u2013460  Moving and configuration space: * Russell & Norvig 2003, pp. 916\u2013932  Tecuci 2012.  Robotic mapping (localization, etc): * Russell & Norvig 2003, pp. 908\u2013915  Cadena, Cesar; Carlone, Luca; Carrillo, Henry; Latif, Yasir; Scaramuzza, Davide; Neira, Jose; Reid, Ian; Leonard, John J. (December 2016). \"Past, Present, and Future of Simultaneous Localization and Mapping: Toward the Robust-Perception Age\". IEEE Transactions on Robotics. 32 (6): 1309\u20131332. arXiv:1606.05830. Bibcode:2016arXiv160605830C. doi:10.1109/TRO.2016.2624754. S2CID 2596787.  Moravec, Hans (1988). Mind Children. Harvard University Press. p. 15.  Chan, Szu Ping (15 November 2015). \"This is what will happen when robots take over the world\". Archived from the original on 24 April 2018. Retrieved 23 April 2018.  \"IKEA furniture and the limits of AI\". The Economist. 2018. Archived from the original on 24 April 2018. Retrieved 24 April 2018.  Kismet.  Thompson, Derek (2018). \"What Jobs Will the Robots Take?\". The Atlantic. Archived from the original on 24 April 2018. Retrieved 24 April 2018.  Scassellati, Brian (2002). \"Theory of mind for a humanoid robot\". Autonomous Robots. 12 (1): 13\u201324. doi:10.1023/A:1013298507114. S2CID 1979315.  Cao, Yongcan; Yu, Wenwu; Ren, Wei; Chen, Guanrong (February 2013). \"An Overview of Recent Progress in the Study of Distributed Multi-Agent Coordination\". IEEE Transactions on Industrial Informatics. 9 (1): 427\u2013438. arXiv:1207.3231. doi:10.1109/TII.2012.2219061. S2CID 9588126.  Thro 1993.  Edelson 1991.  Tao & Tan 2005.  Poria, Soujanya; Cambria, Erik; Bajpai, Rajiv; Hussain, Amir (September 2017). \"A review of affective computing: From unimodal analysis to multimodal fusion\". Information Fusion. 37: 98\u2013125. doi:10.1016/j.inffus.2017.02.003. hdl:1893/25490.  Emotion and affective computing: * Minsky 2006  Waddell, Kaveh (2018). \"Chatbots Have Entered the Uncanny Valley\". The Atlantic. Archived from the original on 24 April 2018. Retrieved 24 April 2018.  Pennachin, C.; Goertzel, B. (2007). Contemporary Approaches to Artificial General Intelligence. Artificial General Intelligence. Cognitive Technologies. Cognitive Technologies. Berlin, Heidelberg: Springer. doi:10.1007/978-3-540-68677-4_1. ISBN 978-3-540-23733-4.  Roberts, Jacob (2016). \"Thinking Machines: The Search for Artificial Intelligence\". Distillations. Vol. 2 no. 2. pp. 14\u201323. Archived from the original on 19 August 2018. Retrieved 20 March 2018.  \"The superhero of artificial intelligence: can this genius keep it in check?\". the Guardian. 16 February 2016. Archived from the original on 23 April 2018. Retrieved 26 April 2018.  Mnih, Volodymyr; Kavukcuoglu, Koray; Silver, David; Rusu, Andrei A.; Veness, Joel; Bellemare, Marc G.; Graves, Alex; Riedmiller, Martin; Fidjeland, Andreas K.; Ostrovski, Georg; Petersen, Stig; Beattie, Charles; Sadik, Amir; Antonoglou, Ioannis; King, Helen; Kumaran, Dharshan; Wierstra, Daan; Legg, Shane; Hassabis, Demis (26 February 2015). \"Human-level control through deep reinforcement learning\". Nature. 518 (7540): 529\u2013533. Bibcode:2015Natur.518..529M. doi:10.1038/nature14236. PMID 25719670. S2CID 205242740.  Sample, Ian (14 March 2017). \"Google's DeepMind makes AI program that can learn like a human\". the Guardian. Archived from the original on 26 April 2018. Retrieved 26 April 2018.  \"From not working to neural networking\". The Economist. 2016. Archived from the original on 31 December 2016. Retrieved 26 April 2018.  Domingos 2015.  Artificial brain arguments: AI requires a simulation of the operation of the human brain * Russell & Norvig 2003, p. 957 * Crevier 1993, pp. 271 and 279 A few of the people who make some form of the argument: * Moravec 1988 * Kurzweil 2005, p. 262 * Hawkins & Blakeslee 2005 The most extreme form of this argument (the brain replacement scenario) was put forward by Clark Glymour in the mid-1970s and was touched on by Zenon Pylyshyn and John Searle in 1980.  Goertzel, Ben; Lian, Ruiting; Arel, Itamar; de Garis, Hugo; Chen, Shuo (December 2010). \"A world survey of artificial brain projects, Part II: Biologically inspired cognitive architectures\". Neurocomputing. 74 (1\u20133): 30\u201349. doi:10.1016/j.neucom.2010.08.012.  Nilsson 1983, p. 10.  Nils Nilsson writes: \"Simply put, there is wide disagreement in the field about what AI is all about.\"[163]  AI's immediate precursors: * McCorduck 2004, pp. 51\u2013107 * Crevier 1993, pp. 27\u201332 * Russell & Norvig 2003, pp. 15, 940 * Moravec 1988, p. 3  Haugeland 1985, pp. 112\u2013117  The most dramatic case of sub-symbolic AI being pushed into the background was the devastating critique of perceptrons by Marvin Minsky and Seymour Papert in 1969. See History of AI, AI winter, or Frank Rosenblatt.  Cognitive simulation, Newell and Simon, AI at CMU (then called Carnegie Tech): * McCorduck 2004, pp. 139\u2013179, 245\u2013250, 322\u2013323 (EPAM) * Crevier 1993, pp. 145\u2013149  Soar (history): * McCorduck 2004, pp. 450\u2013451 * Crevier 1993, pp. 258\u2013263  McCarthy and AI research at SAIL and SRI International: * McCorduck 2004, pp. 251\u2013259 * Crevier 1993  AI research at Edinburgh and in France, birth of Prolog: * Crevier 1993, pp. 193\u2013196 * Howe 1994  AI at MIT under Marvin Minsky in the 1960s : * McCorduck 2004, pp. 259\u2013305 * Crevier 1993, pp. 83\u2013102, 163\u2013176 * Russell & Norvig 2003, p. 19  Cyc: * McCorduck 2004, p. 489, who calls it \"a determinedly scruffy enterprise\" * Crevier 1993, pp. 239\u2013243 * Russell & Norvig 2003, p. 363\u2212365 * Lenat & Guha 1989  Knowledge revolution: * McCorduck 2004, pp. 266\u2013276, 298\u2013300, 314, 421 * Russell & Norvig 2003, pp. 22\u201323  Frederick, Hayes-Roth; William, Murray; Leonard, Adelman. \"Expert systems\". AccessScience. doi:10.1036/1097-8542.248550.  Embodied approaches to AI: * McCorduck 2004, pp. 454\u2013462 * Brooks 1990 * Moravec 1988  Weng et al. 2001.  Lungarella et al. 2003.  Asada et al. 2009.  Oudeyer 2010.  Revival of connectionism: * Crevier 1993, pp. 214\u2013215 * Russell & Norvig 2003, p. 25  Computational intelligence * IEEE Computational Intelligence Society Archived 9 May 2008 at the Wayback Machine  Hutson, Matthew (16 February 2018). \"Artificial intelligence faces reproducibility crisis\". Science. pp. 725\u2013726. Bibcode:2018Sci...359..725H. doi:10.1126/science.359.6377.725. Archived from the original on 29 April 2018. Retrieved 28 April 2018.  Norvig 2012.  Langley 2011.  Katz 2012.  The intelligent agent paradigm: * Russell & Norvig 2003, pp. 27, 32\u201358, 968\u2013972 * Poole, Mackworth & Goebel 1998, pp. 7\u201321 * Luger & Stubblefield 2004, pp. 235\u2013240 * Hutter 2005, pp. 125\u2013126 The definition used in this article, in terms of goals, actions, perception and environment, is due to Russell & Norvig (2003). Other definitions also include knowledge and learning as additional criteria.  Agent architectures, hybrid intelligent systems: * Russell & Norvig (2003, pp. 27, 932, 970\u2013972) * Nilsson (1998, chpt. 25)  Hierarchical control system: * Albus 2002  Lieto, Antonio; Lebiere, Christian; Oltramari, Alessandro (May 2018). \"The knowledge level in cognitive architectures: Current limitations and possibile developments\". Cognitive Systems Research. 48: 39\u201355. doi:10.1016/j.cogsys.2017.05.001. hdl:2318/1665207. S2CID 206868967.  Lieto, Antonio; Bhatt, Mehul; Oltramari, Alessandro; Vernon, David (May 2018). \"The role of cognitive architectures in general artificial intelligence\". Cognitive Systems Research. 48: 1\u20133. doi:10.1016/j.cogsys.2017.08.003. hdl:2318/1665249. S2CID 36189683.  Russell & Norvig 2009, p. 1.  White Paper: On Artificial Intelligence - A European approach to excellence and trust (PDF). Brussels: European Commission. 2020. p. 1. Archived (PDF) from the original on 20 February 2020. Retrieved 20 February 2020.  CNN 2006.  Using AI to predict flight delays Archived 20 November 2018 at the Wayback Machine, Ishti.org.  N. Aletras; D. Tsarapatsanis; D. Preotiuc-Pietro; V. Lampos (2016). \"Predicting judicial decisions of the European Court of Human Rights: a Natural Language Processing perspective\". PeerJ Computer Science. 2: e93. doi:10.7717/peerj-cs.93.  \"The Economist Explains: Why firms are piling into artificial intelligence\". The Economist. 31 March 2016. Archived from the original on 8 May 2016. Retrieved 19 May 2016.  Lohr, Steve (28 February 2016). \"The Promise of Artificial Intelligence Unfolds in Small Steps\". The New York Times. Archived from the original on 29 February 2016. Retrieved 29 February 2016.  Frangoul, Anmar (14 June 2019). \"A Californian business is using A.I. to change the way we think about energy storage\". CNBC. Archived from the original on 25 July 2020. Retrieved 5 November 2019.  Wakefield, Jane (15 June 2016). \"Social media 'outstrips TV' as news source for young people\". BBC News. Archived from the original on 24 June 2016.  Smith, Mark (22 July 2016). \"So you think you chose to read this article?\". BBC News. Archived from the original on 25 July 2016.  Brown, Eileen. \"Half of Americans do not believe deepfake news could target them online\". ZDNet. Archived from the original on 6 November 2019. Retrieved 3 December 2019.  The Turing test: Turing's original publication: * Turing 1950 Historical influence and philosophical implications: * Haugeland 1985, pp. 6\u20139 * Crevier 1993, p. 24 * McCorduck 2004, pp. 70\u201371 * Russell & Norvig 2003, pp. 2\u20133 and 948  Dartmouth proposal: * McCarthy et al. 1955 (the original proposal) * Crevier 1993, p. 49 (historical significance)  The physical symbol systems hypothesis: * Newell & Simon 1976, p. 116 * McCorduck 2004, p. 153 * Russell & Norvig 2003, p. 18  Dreyfus 1992, p. 156.  Dreyfus criticized the necessary condition of the physical symbol system hypothesis, which he called the \"psychological assumption\": \"The mind can be viewed as a device operating on bits of information according to formal rules.\"[206]  Dreyfus' critique of artificial intelligence: * Dreyfus 1972, Dreyfus & Dreyfus 1986 * Crevier 1993, pp. 120\u2013132 * McCorduck 2004, pp. 211\u2013239 * Russell & Norvig 2003, pp. 950\u2013952,  G\u00f6del 1951: in this lecture, Kurt G\u00f6del uses the incompleteness theorem to arrive at the following disjunction: (a) the human mind is not a consistent finite machine, or (b) there exist Diophantine equations for which it cannot decide whether solutions exist. G\u00f6del finds (b) implausible, and thus seems to have believed the human mind was not equivalent to a finite machine, i.e., its power exceeded that of any finite machine. He recognized that this was only a conjecture, since one could never disprove (b). Yet he considered the disjunctive conclusion to be a \"certain fact\".  The Mathematical Objection: * Russell & Norvig 2003, p. 949 * McCorduck 2004, pp. 448\u2013449 Making the Mathematical Objection: * Lucas 1961 * Penrose 1989 Refuting Mathematical Objection: * Turing 1950 under \"(2) The Mathematical Objection\" * Hofstadter 1979 Background: * G\u00f6del 1931, Church 1936, Kleene 1935, Turing 1937  Graham Oppy (20 January 2015). \"G\u00f6del's Incompleteness Theorems\". Stanford Encyclopedia of Philosophy. Archived from the original on 22 April 2016. Retrieved 27 April 2016. These G\u00f6delian anti-mechanist arguments are, however, problematic, and there is wide consensus that they fail.  Stuart J. Russell; Peter Norvig (2010). \"26.1.2: Philosophical Foundations/Weak AI: Can Machines Act Intelligently?/The mathematical objection\". Artificial Intelligence: A Modern Approach (3rd ed.). Upper Saddle River, NJ: Prentice Hall. ISBN 978-0-13-604259-4. even if we grant that computers have limitations on what they can prove, there is no evidence that humans are immune from those limitations.  Mark Colyvan. An introduction to the philosophy of mathematics. Cambridge University Press, 2012. From 2.2.2, 'Philosophical significance of G\u00f6del's incompleteness results': \"The accepted wisdom (with which I concur) is that the Lucas-Penrose arguments fail.\"  Iphofen, Ron; Kritikos, Mihalis (3 January 2019). \"Regulating artificial intelligence and robotics: ethics by design in a digital society\". Contemporary Social Science: 1\u201315. doi:10.1080/21582041.2018.1563803. ISSN 2158-2041.  \"Ethical AI Learns Human Rights Framework\". Voice of America. Archived from the original on 11 November 2019. Retrieved 10 November 2019.  Crevier 1993, pp. 132\u2013144.  In the early 1970s, Kenneth Colby presented a version of Weizenbaum's ELIZA known as DOCTOR which he promoted as a serious therapeutic tool.[216]  Joseph Weizenbaum's critique of AI: * Weizenbaum 1976 * Crevier 1993, pp. 132\u2013144 * McCorduck 2004, pp. 356\u2013373 * Russell & Norvig 2003, p. 961 Weizenbaum (the AI researcher who developed the first chatterbot program, ELIZA) argued in 1976 that the misuse of artificial intelligence has the potential to devalue human life.  Wendell Wallach (2010). Moral Machines, Oxford University Press.  Wallach, pp 37\u201354.  Wallach, pp 55\u201373.  Wallach, Introduction chapter.  Michael Anderson and Susan Leigh Anderson (2011), Machine Ethics, Cambridge University Press.  \"Machine Ethics\". aaai.org. Archived from the original on 29 November 2014.  Rubin, Charles (Spring 2003). \"Artificial Intelligence and Human Nature\". The New Atlantis. 1: 88\u2013100. Archived from the original on 11 June 2012.  Brooks, Rodney (10 November 2014). \"artificial intelligence is a tool, not a threat\". Archived from the original on 12 November 2014.  \"Stephen Hawking, Elon Musk, and Bill Gates Warn About Artificial Intelligence\". Observer. 19 August 2015. Archived from the original on 30 October 2015. Retrieved 30 October 2015.  Chalmers, David (1995). \"Facing up to the problem of consciousness\". Journal of Consciousness Studies. 2 (3): 200\u2013219. Archived from the original on 8 March 2005. Retrieved 11 October 2018. See also this link Archived 8 April 2011 at the Wayback Machine  Horst, Steven, (2005) \"The Computational Theory of Mind\" Archived 11 September 2018 at the Wayback Machine in The Stanford Encyclopedia of Philosophy  Searle 1980, p. 1.  This version is from Searle (1999), and is also quoted in Dennett 1991, p. 435. Searle's original formulation was \"The appropriately programmed computer really is a mind, in the sense that computers given the right programs can be literally said to understand and have other cognitive states.\" [230] Strong AI is defined similarly by Russell & Norvig (2003, p. 947): \"The assertion that machines could possibly act intelligently ",
+                "link": "https://github.com/Aryia-Behroziuan/References",
                 "tag": "github"
             },
             {
-                "title": "plant-health-analyzer",
-                "description": "Efficiently and reliability stores images of plants for health analysis and management",
-                "link": "https://github.com/pat8901/plant-health-analyzer",
-                "tag": "github"
-            },
-            {
-                "title": "ECE569a",
-                "description": "AI Artisans-Plant health classification based on leaf image analysis",
-                "link": "https://github.com/lily20190628/ECE569a",
-                "tag": "github"
-            },
-            {
-                "title": "PlantHealth-AI",
-                "description": "An AI-powered website for diagnosing plant diseases and monitoring plant health. Upload images, get instant analysis, and receive expert care tips. Perfect for farmers, gardeners, and plant lovers. \ud83c\udf31\ud83d\udd0d",
-                "link": "https://github.com/KatxWaemaxMitchSC/PlantHealth-AI",
-                "tag": "github"
-            },
-            {
-                "title": "Advanced-Plant-Analysis-Tool",
-                "description": "Upload an image of a plant to receive a detailed analysis of its species, health, and care recommendations.",
-                "link": "https://github.com/jain009/Advanced-Plant-Analysis-Tool",
-                "tag": "github"
-            },
-            {
-                "title": "Enhancing-Crop-Health-Image-Classification-of-Plant-Diseases",
-                "description": "This project utilizes convolutional neural networks to accurately classify and detect plant diseases through image analysis, enhancing agricultural health monitoring.",
-                "link": "https://github.com/Sreeya22/Enhancing-Crop-Health-Image-Classification-of-Plant-Diseases",
-                "tag": "github"
-            },
-            {
-                "title": "Automated-Plant-Health-Analysis-using-Parallel-Computing",
-                "description": "his project focuses on **automated plant detection, counting, and health assessment** using **NDVI (Normalized Difference Vegetation Index) and NDWI (Normalized Difference Water Index)**. By leveraging **parallel computing techniques (CUDA, OpenCL, OpenMP)**, the system significantly speeds up image processing for large datasets. ",
-                "link": "https://github.com/Hamza-Jr/Automated-Plant-Health-Analysis-using-Parallel-Computing",
-                "tag": "github"
-            },
-            {
-                "title": "Seeing is believing: imaging techniques to monitor plant health",
-                "link": "https://www.sciencedirect.com/science/article/pii/S016747810100238X",
-                "description": "\u2026 the ease of integration of imaging have opened the way to a more general application of \nreal-time image analysis of physiological changes in plants. Such imaging tools have a great \u2026",
+                "title": "Survey on machine learning in speech emotion recognition and vision systems using a recurrent neural network (RNN)",
+                "link": "https://link.springer.com/article/10.1007/s11831-021-09647-x",
+                "description": "\u2026 artificial intelligence quiet significant, it is imperative for a machine to understand the human \nvoice\u2026 the human voice into word sequences is called as speech recognition system and a \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "[PDF][PDF] Remote sensing and image analysis in plant pathology",
-                "link": "https://www.tandfonline.com/doi/pdf/10.1080/07060669509500707",
-                "description": "\u2026 images we can continue down to the macroscopic, microscopic and ultramicroscopic levels \nin nondestructive analyses of plants, plant \u2026 thermography, multispectral image analysis, and \u2026",
+                "title": "Applying machine learning techniques for speech emotion recognition",
+                "link": "https://ieeexplore.ieee.org/abstract/document/8494104/",
+                "description": "\u2026 This process could be added up along with video that is, the face recognition by using its \nown API\u2019s merged with voice and can be developed as a software application in future \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Plant disease severity estimated visually, by digital photography and image analysis, and by hyperspectral imaging",
-                "link": "https://www.tandfonline.com/doi/abs/10.1080/07352681003617285",
-                "description": "\u2026 In this review the term plant disease severity \u201cestimate\u201d is used specifically for those \u2026 \u201d for \nthose assessments by image analysis or hyperspectral equipment. Plant disease symptoms can \u2026",
+                "title": "[HTML][HTML] In-depth investigation of speech emotion recognition studies from past to present The importance of emotion recognition from speech signal for AI",
+                "link": "https://www.sciencedirect.com/science/article/pii/S2667305324000279",
+                "description": "\u2026 the defining features of speech, song or voice. So It develops \u2026 emotion recognition from \nspeech data is a difficult problem for artificial intelligence and, its sub-discipline, machine learning\u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Hyperspectral image analysis techniques for the detection and classification of the early onset of plant disease and stress",
-                "link": "https://link.springer.com/article/10.1186/s13007-017-0233-z",
-                "description": "\u2026 and diseased plant classification\u2019 with an emphasis on classification accuracy, early \u2026 \nhyperspectral imaging and how this is being utilised to find additional information about plant health\u2026",
+                "title": "[HTML][HTML] Speech emotion recognition using machine learning\u2014A systematic review",
+                "link": "https://www.sciencedirect.com/science/article/pii/S2667305323000911",
+                "description": "\u2026 and local and continuous and voice quality features and explained the \u2026 speech emotion \nrecognition in several languages. Deep learning, hybrid, and fusion techniques for emotion \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "[PDF][PDF] Analysis on digital image processing for plant health monitoring",
-                "link": "https://anapub.co.ke/journals/jcns/jcns_pdf/2021/jcns_volume_1-issue_1/JCNS202101002.pdf",
-                "description": "\u2026 To reduce the amount of user input, all pixels in the input image are labelled with an integer \n\u2026 Plant Image Analysis database) and can be used with iPlant, a web and cloud-based plant \u2026",
+                "title": "[PDF][PDF] Machine learning approach for emotion recognition in speech",
+                "link": "https://www.informatica.si/index.php/informatica/article/viewFile/719/589",
+                "description": "\u2026 The main question is: Are there any objective feature profiles of the voice that can be used \nfor speaker emotion recognition? A lot of studies are done for the sake of providing such \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Plant phenomics: An overview of image acquisition technologies and image data analysis algorithms",
-                "link": "https://academic.oup.com/gigascience/article-abstract/6/11/gix092/4316962",
-                "description": "\u2026 status from satellite images allowed plant health to be \u2026 analysis, ie, imaging techniques \n[32], machine learning (ML) for high-throughput phenotyping [33], or software for image analysis [\u2026",
+                "title": "Speech emotion recognition in conversations using artificial intelligence: a systematic review and meta-analysis",
+                "link": "https://link.springer.com/article/10.1007/s10462-025-11197-8",
+                "description": "\u2026 , with emotional channels including but not limited to voice, \u2026 State-of-the-art (SOTA) emotion \ndetection techniques \u2026 do not employ any deep learning or machine learning techniques, (3) \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "An IoT based plant health monitoring system implementing image processing",
-                "link": "https://ieeexplore.ieee.org/abstract/document/8821782/",
-                "description": "\u2026 healthy plants but also maximize the production. To monitor and classify plant diseases IoT \nis essential to send images \u2026 is proposed which sends images of plants to classify diseases \u2026",
+                "title": "Speech emotion recognition using deep learning techniques: A review",
+                "link": "https://ieeexplore.ieee.org/abstract/document/8805181/",
+                "description": "\u2026 the user\u2019s emotional voice in the given scenario. The real-time applications of these \ntechniques are much more complex, however, emotion recognition from speech input data is a \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Image-based phenotyping of plant disease symptoms",
-                "link": "https://www.frontiersin.org/articles/10.3389/fpls.2014.00734/full",
-                "description": "\u2026 information about plant health and may not be the best indicator for plant disease \u2026 Plant \nImage Analysis 5 provides an online database of image analysis software options for plant \u2026",
+                "title": "Speech Emotion Recognition using Extreme Machine Learning.",
+                "link": "https://search.ebscohost.com/login.aspx?direct=true&profile=ehost&scope=site&authtype=crawler&jrnl=24141399&AN=183567169&h=LteWQ57ccXwxRzfNdJUwnWeeHLmDQex3bUvNA%2FKqA1%2Bf6CXcoZKC4gJ45Lgp%2FGon3sMgyazMSRg2xiGiDAanwQ%3D%3D&crl=c",
+                "description": "\u2026 In this study, we suggest using DNNs to extract high-level features from raw data and \ndemonstrate their usefulness in voice emotion identification. First, we use DNNs to generate an \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Modern imaging techniques in plant nutrition analysis: A review",
-                "link": "https://www.sciencedirect.com/science/article/pii/S0168169919302443",
-                "description": "\u2026 The primary functions of HTPP include data storage, data analysis and decision support \nfor powerful image analysis. Therefore, it is essential to improve key standards definition, \u2026",
+                "title": "Deep learning techniques for speech emotion recognition, from databases to models",
+                "link": "https://www.mdpi.com/1424-8220/21/4/1249",
+                "description": "\u2026 For example, one might tag an emotional voice as angry whilst the other perceives it as \nexcited. This ambiguity means to label the samples we must have more than one agent \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "An open access repository of images on plant health to enable the development of mobile disease diagnostics",
-                "link": "https://arxiv.org/abs/1511.08060",
-                "description": "\u2026 50,000 expertly curated images on healthy and infected leaves of crops plants through the \nexisting \u2026 to help solve the problem of yield losses in crop plants due to infectious diseases. \u2026",
+                "title": "[HTML][HTML] Emotion recognition using speech and neural structured learning to facilitate edge intelligence",
+                "link": "https://www.sciencedirect.com/science/article/pii/S095219762030172X",
+                "description": "\u2026 emotion recognition is proposed based on robust features and machine learning from audio \nspeech\u2026 as understanding peoples\u2019 emotions in their daily life and stress from the voice of the \u2026",
                 "tag": "scholar"
             }
         ]
     },
     {
-        "Title": "AI-Driven Personalized Music Recommendation from Ambient Sound",
-        "Problem Statement": "Develop a system that analyzes ambient sound (using a smartphone's microphone) and generates personalized music recommendations based on the detected environment and mood (Voice AI, Generative AI). For instance, a calm environment might suggest classical music, while a bustling city could suggest upbeat electronic music.",
-        "Description": "This project combines audio analysis with machine learning and generative AI. The system needs to classify ambient sound, infer the user's mood, and then recommend music based on these factors. It also uses a generative AI model to customize/generate music based on inferred context.",
-        "Deliverables": "A functional mobile application (Android/iOS) that analyzes ambient sound and provides personalized music recommendations. Include an API for accessing a music streaming service.",
+        "Title": "Personalized Product Recommendation using Generative AI and Classical Machine Learning",
+        "Problem Statement": "Develop a personalized product recommendation system that leverages generative AI and classical machine learning to suggest relevant products based on user preferences.",
+        "Description": "Utilize generative models, such as GANs or transformers, along with collaborative filtering algorithms to develop a system capable of generating personalized product recommendations for users.",
+        "Challenge / Use Case": "Enhance e-commerce platforms by providing users with relevant and engaging product suggestions, increasing conversion rates and customer satisfaction.",
+        "Deliverables": [
+            "Trained generative AI model",
+            "Integration with e-commerce platforms"
+        ],
         "KPIs": [
-            "Accuracy of ambient sound classification (75%+)",
-            "User satisfaction with music recommendations (4+ star rating)",
-            "Response time (under 2 seconds)"
+            "Recommendation accuracy",
+            "User engagement metrics"
         ],
         "Prerequisites": [
-            "Python, TensorFlow/PyTorch, Audio Signal Processing, Machine Learning, Mobile Development (Android/iOS)"
+            "Familiarity with deep learning frameworks such as TensorFlow or PyTorch",
+            "Knowledge of classical machine learning algorithms and collaborative filtering"
         ],
-        "Infrastructure Requirements": [
-            "Standard workstation with audio interface, access to music datasets"
-        ],
-        "Value Proposition": [
-            "Commercial PoC potential for Samsung Music/SmartThings ecosystem",
-            "Viable patent filing for the mood-based music recommendation algorithm",
-            "Offers a unique and personalized music listening experience"
-        ],
-        "Milestones": {
-            "M2": "Functional audio analysis and feature extraction module.",
-            "M4": "Trained mood classification and music recommendation models.",
-            "M6": "End-to-end application deployment and user testing."
+        "Infrastructure Requirements": "Moderate computational resources, including a dedicated server for training the model.",
+        "Milestones (6 months)": {
+            "M2": "Develop a baseline generative AI model using GANs or transformers",
+            "M4": "Integrate the generative AI model with classical machine learning algorithms and collaborative filtering",
+            "M6": "Conduct user testing and refine the final system, including error handling and feedback mechanisms"
         },
         "Reference Work": [
             {
-                "title": "Ambient music experience in real and virtual worlds using audio similarity",
-                "link": "https://dl.acm.org/doi/abs/10.1145/1461912.1461915",
-                "description": "\u2026 The different styles of listening to music serve different purposes, from mere ambient sound \nvia choosing a specific type of music for specific purposes or settings, forming a continuum \u2026",
+                "title": "Hyperpersonalisation-and-X-Sell-for-Indian-Financial-Sector",
+                "description": "A machine learning and Generative AI solution for personalized financial recommendations. Features include dynamic pricing (loan predictions), product recommendations, and actionable insights using KingNish/Qwen2.5 LLM. Integrated with a Flask app for real-time deployment on AWS.",
+                "link": "https://github.com/Gaurang-Sonkavde/Hyperpersonalisation-and-X-Sell-for-Indian-Financial-Sector",
+                "tag": "github"
+            },
+            {
+                "title": "[PDF][PDF] Revolutionizing Product Recommendations with Generative AI: Context-Aware Personalization at Scale",
+                "link": "https://www.researchgate.net/profile/Sai-Kiran-Reddy-Malikireddy-3/publication/387741873_Revolutionizing_Product_Recommendations_with_Generative_AI_Context-Aware_Personalization_at_Scale/links/677ad4fe117f340ec3f60fd6/Revolutionizing-Product-Recommendations-with-Generative-AI-Context-Aware-Personalization-at-Scale.pdf",
+                "description": "\u2026 By reimagining product discovery as a generative process, \u2026 hyper-personalized, interactive, \nand engaging recommendation \u2026 Reinforcement learning integrated with generative models \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Sounds like a healthy retail atmospheric strategy: Effects of ambient music and background noise on food sales",
-                "link": "https://link.springer.com/article/10.1007/s11747-018-0583-8",
-                "description": "\u2026 atmospherics is ambient sound, which includes ambient music and noise. Ambient music is \n\u2026 Next, we discuss ambient music/sound volume and its effects on consumers in greater detail\u2026",
+                "title": "AI-Driven Personalization: Generative Models in E-Commerce",
+                "link": "https://hal.science/hal-04925157/",
+                "description": "\u2026 [11] The discussion has covered the topic of deep learning-based e-\u2026 a recommendation \nsystem that employs various deep learning and machine learning algorithms to suggest products \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Ambient music",
-                "link": "https://www.torrossa.com/gs/resourceProxy?an=5493798&publisher=FZ0661#page=440",
-                "description": "\u2026 Cage\u2019s use of silence in his compositions focused listeners\u2019 attention on ambient sound \noutside of instrumental performance. As a result of Cage\u2019s interest, Satie\u2019s furniture music \u2026",
+                "title": "[PDF][PDF] USING GENERATIVE MODELS FOR PERSONALIZED RECOMMENDATIONS IN E-COMMERCE",
+                "link": "https://www.researchgate.net/profile/Pradeep-Sharma-64/publication/387098741_USING_GENERATIVE_MODELS_FOR_PERSONALIZED_RECOMMENDATIONS_IN_E-COMMERCE/links/67608714e9b25e24af5656dd/USING-GENERATIVE-MODELS-FOR-PERSONALIZED-RECOMMENDATIONS-IN-E-COMMERCE.pdf",
+                "description": "\u2026 data and algorithms to provide customized product and service suggestions based on user \n\u2026 of generating personalized recommendations. Deep learning algorithms called generative \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "On effective location-aware music recommendation",
-                "link": "https://dl.acm.org/doi/abs/10.1145/2846092",
-                "description": "\u2026 techniques to facilitate context-aware music recommendation. However, one important \u2026 \u2019s \nmusic preferences. In this article, we present a novel venue-aware music recommender system \u2026",
+                "title": "Analysis of recommender system using generative artificial intelligence: A systematic literature review",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10565860/",
+                "description": "\u2026 , videos, audios, goods, and services to their customers/users or to personalize experiences \nfor their \u2026 explores the use of deep learning and generative adversarial networks (GANs) in \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Ambient addition: How to turn urban noise into music",
-                "link": "https://dspace.mit.edu/handle/1721.1/36161",
-                "description": "\u2026 system is proposed which integrates environmental sound into a personal soundscape. It \nallows one to synthesize music from environmental sound using a number of digital signal \u2026",
+                "title": "Generative AI Recommender System in E-Commerce.",
+                "link": "https://search.ebscohost.com/login.aspx?direct=true&profile=ehost&scope=site&authtype=crawler&jrnl=20885334&AN=182563287&h=6%2BAI5or%2FlDPWQKOwm1do76wUvjdHf2tXJbPCIn9S%2BSffNkz6cMQEkQsbnW2KVxBjWyR4lIC43B7rWnxc2jvPcA%3D%3D&crl=c",
+                "description": "\u2026 customized product recommendations. One creative way to get beyond the constraints of \ne-commerce services is using recommendation \u2026 of robotics, AI, and machine learning. Then, the \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Music recommendation system using human activity recognition from accelerometer data",
-                "link": "https://ieeexplore.ieee.org/abstract/document/8743473/",
-                "description": "\u2026 Motivated by these observations, this paper presents an effective music recommendation \nsystem using human activity as measured by real-time accelerometer sensor data on \u2026",
+                "title": "[HTML][HTML] Harnessing generative AI for personalized E-commerce product descriptions: A framework and practical insights",
+                "link": "https://www.sciencedirect.com/science/article/pii/S0920548925000418",
+                "description": "\u2026 of artificial intelligence (AI) and machine learning is \u2026 of large language models to personalize \nuser interactions throughout the \u2026 of generative AI to create customized e-commerce product \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "[PDF][PDF] Ambient Music as Popular Genre: Historiography, Interpretation, Critique",
-                "link": "https://www.academia.edu/download/46942376/Szabo_-_Ambient_Music_as_Popular_Genre_PhD_Dissertation.pdf",
-                "description": "\u2026 music within the popular music market. This dissertation examines several key recordings in \nthe formation of the Ambient genre of popular music, with \u2026 Through music analyses of these \u2026",
+                "title": "Personalized Marketing and Recommendation Systems",
+                "link": "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003472544-7/personalized-marketing-recommendation-systems-mani-teja-chowdary-maniteja-vallepu-naga-sai-purushotham-neelam-kumari",
+                "description": "\u2026 deep learning techniques may be opaque. How many things and users must you man\u2011 age? \nDeep learning \u2026 Personalized filters that sug\u2011 gest products we may enjoy based on our prior \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Towards context-aware personalized recommendations in an ambient intelligence environment",
-                "link": "https://ruor.uottawa.ca/handle/10393/32052",
-                "description": "\u2026 user to find similar documents for music recommendations. Wang et al. [100] use the Na\u0131ve \nBayes model on annotated music contents to recommend music based on user activity. The \u2026",
+                "title": "Generative AI for Revolutionizing Personal Style",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10932201/",
+                "description": "\u2026 Recommendation engines play a huge role in shopping customized product by suggesting \n\u2026 deep learning methodologies and the advances achieved by GANs in intelligent fashion \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Context-aware mobile music recommendation for daily activities",
-                "link": "https://dl.acm.org/doi/abs/10.1145/2393347.2393368",
-                "description": "\u2026 of mobile music devices with rich \u2026 music playing needs. We present a probabilistic model \nto integrate contextual information with music content analysis to offer music recommendation \u2026",
+                "title": "[PDF][PDF] Harnessing the power of generative artificial intelligence for dynamic content personalization in customer relationship management systems: A data-driven\u00a0\u2026",
+                "link": "https://www.researchgate.net/profile/Sai-Ganesh-Reddy-Bojja-2/publication/389689415_Harnessing_the_Power_of_Generative_Artificial_Intelligence_for_Dynamic_Content_Personalization_in_Customer_Relationship_Management_Systems_A_Data-Driven_Framework_for_Optimizing_Customer_Engagement_an/links/67cdb161bab3d32d84405238/Harnessing-the-Power-of-Generative-Artificial-Intelligence-for-Dynamic-Content-Personalization-in-Customer-Relationship-Management-Systems-A-Data-Driven-Framework-for-Optimizing-Customer-Engagement-an.pdf",
+                "description": "\u2026 Generative AI encompasses a range of machine learning \u2026 of generative AI for crafting \npersonalized product descriptions, \u2026 after clicking on a product recommendation or the number of \u2026",
                 "tag": "scholar"
             },
             {
-                "title": "Background music recommendation based on latent factors and moods",
-                "link": "https://www.sciencedirect.com/science/article/pii/S0950705118303484",
-                "description": "\u2026 video soundtrack recommendation system to replace the ambient background noise of a \u2026 \nThe predicted mood tags are used by music recommendation sub-system to find the music \u2026",
+                "title": "Practical Recommendation of Using Generative AI in Business",
+                "link": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4851637",
+                "description": "\u2026 economic benefits, balancing customization and control with \u2026 applications of generative AI \nin software product management, \u2026 By leveraging advanced machine learning models, GenAI \u2026",
                 "tag": "scholar"
             }
         ]
