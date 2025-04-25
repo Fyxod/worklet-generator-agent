@@ -1,6 +1,6 @@
 from app.llm import llm
 from typing import Annotated
-from fastapi import  UploadFile, File, Query
+from fastapi import  UploadFile, File, Query, Form
 import os
 import aiofiles
 from datetime import datetime
@@ -18,6 +18,8 @@ import concurrent.futures
 from langchain.schema.messages import HumanMessage
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
+from app.utils.link_extractor import get_links_data
+import json
 
 class Query1(BaseModel):
     query: str
@@ -50,7 +52,8 @@ def frontend_redirect():
 @router.post('/upload')
 async def upload_multiple(
     files: Annotated[list[UploadFile], File()],
-    model: Annotated[str, Query()]
+    model: Annotated[str, Query()],
+    links: Annotated[str, Form()]  # expecting JSON string from frontend
 ):
     # print("Model selected:", model)
     # print("Uploaded files:", files)
@@ -58,6 +61,7 @@ async def upload_multiple(
     
     saved_files = []
 
+    # Save each file with a timestamp
     for file in files:
         timestamp = int(datetime.now().timestamp() * 1000)  
 
@@ -75,19 +79,19 @@ async def upload_multiple(
     extracted_data_all = {}
     for index, file in enumerate(saved_files):
         extracted_data_single = await extract_document(file)
-        # print(extracted_data_single)
         extracted_data_all[index + 1] = extracted_data_single  # Number from 1 instead of 0
 
     # Convert to a formatted string
-    formatted_output = "\n\n".join(
-        [f"--- Extracted Data from File {idx} ---\n{data}" for idx, data in extracted_data_all.items()]
-    )
+    # formatted_output = "\n\n".join(
+    #     [f"--- Extracted Data from File {idx} ---\n{data}" for idx, data in extracted_data_all.items()]
+    # )
     # print(formatted_output)  # Print for debugging
 
+    #get links
+    linksData = get_links_data(links)
+
     # generate worklet content 
-    worklets =  await generate_worklets(extracted_data_all, model)
-    # print("PRINTING WORKLETS"*5)
-    # print(worklets)
+    worklets =  await generate_worklets(extracted_data_all,linksData, model)
 
     # moving old files
     for filename in os.listdir(GENERATED_DIR):
@@ -96,23 +100,26 @@ async def upload_multiple(
 
         if os.path.isfile(source_path):
             shutil.move(source_path, destination_path)
-            
-    # def process_worklet(worklet):
-    #     reference = getReferenceWork(worklet["Title"], model)
-    #     print(reference)
-    #     print("8"*200)
-    #     if reference:
-    #         worklet["Reference Work"] = reference
 
-    # with concurrent.futures.ThreadPoolExecutor() as executor:
-    #     list(executor.map(process_worklet, worklets["worklets"]))
+    #get references
+    def process_worklet(worklet):
+        reference = getReferenceWork(worklet["Title"], model)
+        print(reference)
+        print("8"*200)
+        if reference:
+            worklet["Reference Work"] = reference
 
 
-    # for worklet in worklets["worklets"]:
-    #     # print(worklet["Title"])
-    #     reference = getReferenceWork(worklet["Title"], model)
-    #     if reference:
-    #         worklet["Reference Work"] = reference
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        list(executor.map(process_worklet, worklets))
+
+######## Indication 2###########
+
+    # for worklet in worklets:
+    #     print("DEUBGGING HERE DEBIGGING HERE DEBUGGING HERE DEBBUGING HERE")
+    #     print(worklet)
+    #     print("fertchign refrences for ",worklet["Title"])
+    #     process_worklet(worklet)
     
     # response = {"files":[]}
     # for worklet in worklets["worklets"]:
@@ -121,7 +128,12 @@ async def upload_multiple(
 
 
     response = {"files": []}
+    print("final"*25) #printing final here
+    print(worklets)
 
+    with open("latest_generated.json", "w") as file:
+        json.dump(worklets, file, indent=4)
+        
     def generate(worklet):
         generatePdf(worklet)
         return {
@@ -133,7 +145,7 @@ async def upload_multiple(
         loop = asyncio.get_running_loop()
         results = await asyncio.gather(
             *[loop.run_in_executor(executor, generate, worklet)
-            for worklet in worklets["worklets"]]
+            for worklet in worklets]
         )
 
     response["files"] = results

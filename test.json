@@ -1,0 +1,567 @@
+[
+  {
+    "Title": "AI-Powered Personalized Recipe Recommendation and Smart Kitchen Assistant",
+    "Problem Statement": "Many users struggle with meal planning and grocery shopping, leading to food waste and unhealthy eating habits. Existing recipe platforms lack personalization and real-time adaptation based on available ingredients and dietary restrictions. This project aims to develop an AI-powered system that recommends personalized recipes based on user preferences, available ingredients (detected via image recognition of fridge contents), and dietary needs. It will integrate with a smart kitchen assistant to guide users through cooking processes, adjust recipes on-the-fly, and minimize food waste.",
+    "KPIs": [
+      "Recipe recommendation accuracy",
+      "User engagement (daily/weekly active users)",
+      "Reduction in reported food waste",
+      "Average cooking time"
+    ],
+    "Prerequisites": [
+      "Computer Vision (image recognition), Natural Language Processing (recipe parsing), Recommender Systems, Android development",
+      "Access to recipe datasets (e.g., Recipe1M, Yummly)",
+      "Basic knowledge of IoT"
+    ],
+    "Infrastructure Requirements": [
+      "Smartphone with camera",
+      "Cloud compute for model training (Google Colab or similar)",
+      "Open-source machine learning frameworks (TensorFlow/PyTorch)"
+    ],
+    "Value Proposition": [
+      "Commercial PoC potential for Samsung SmartThings ecosystem integration",
+      "Potential for publication in the area of personalized nutrition and AI-driven cooking"
+    ],
+    "Milestones": {
+      "M2": "Prototype ingredient detection model based on image recognition.",
+      "M4": "Functional recipe recommendation engine integrating user preferences and ingredient availability.",
+      "M6": "Mobile app prototype with voice-guided cooking assistance."
+    },
+    "Reference Work": [
+      {
+        "title": "Smart-Kitchen",
+        "description": "Smart Kitchen: A Cooking Recipe Recommendation System",
+        "link": "https://github.com/DusanStevic/Smart-Kitchen",
+        "tag": "github"
+      },
+      {
+        "title": "Kitchen_Recipe_Management_System",
+        "description": "Smart kitchen systems provide interactive screens or mobile apps for easy access to a vast collection of recipes, personalized recommendations, and generating shopping lists. They simplify meal planning and recipe management, making it effortless to explore new dishes and stay organized.",
+        "link": "https://github.com/Himanshu04210/Kitchen_Recipe_Management_System",
+        "tag": "github"
+      },
+      {
+        "title": "Smart-Samagri",
+        "description": "Smart Samagri - Your Personal Kitchen Companion. Get personalized recipe recommendations based on your pantry ingredients, complete with detailed instructions and tutorial videos.",
+        "link": "https://github.com/Arshit-Singhal-Official/Smart-Samagri",
+        "tag": "github"
+      },
+      {
+        "title": "YummyRecetasBonitasParaCocinarAplicacionTemplate",
+        "description": "Yummy is the smart cooking app that's all about YOU! With customizable meal plans, personalized recipe recommendations, Yummy is here to help you conquer the kitchen, your way.",
+        "link": "https://github.com/raniamhelmy/YummyRecetasBonitasParaCocinarAplicacionTemplate",
+        "tag": "github"
+      },
+      {
+        "title": "Fusion-Chef",
+        "description": "Fusion Chef is an innovative smart kitchen assistant that combines E-Ink display technology, gesture control, and AI-driven recipe recommendations. Designed for ease of use and a fun cooking experience, Fusion Chef transforms your kitchen into a futuristic, interactive space.",
+        "link": "https://github.com/Dylanliacc/Fusion-Chef",
+        "tag": "github"
+      },
+      {
+        "title": "Book-Store-Management-System",
+        "description": "Smart kitchen systems provide interactive screens or mobile apps for easy access to a vast collection of recipes, personalized recommendations, and generating shopping lists. They simplify meal planning and recipe management, making it effortless to explore new dishes and stay organized.",
+        "link": "https://github.com/Himanshu04210/Book-Store-Management-System",
+        "tag": "github"
+      },
+      {
+        "title": "Cookly",
+        "description": "Cookly is an AI-powered platform designed to simplify your culinary journey. From personalized recipe recommendations and weekly meal planning to grocery list automation and voice-guided cooking – Cookly helps you cook smarter, not harder. Whether you're a beginner or a seasoned chef, Cookly turns your kitchen into a creative, stress-free space. ",
+        "link": "https://github.com/harshdwivediiiii/Cookly",
+        "tag": "github"
+      },
+      {
+        "title": "SMART Kitchen Technology",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10842745/",
+        "description": "… With features such as remote cooking capabilities and interactive recipe sharing, the SMART \nkitchen enables users to connect 2024 2nd DMIHER International Conference on Artificial …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[PDF][PDF] Foodie fooderson a conversational agent for the smart kitchen.",
+        "link": "https://migueljimenez.co/academia/2017/Angara-CASCON-2017.pdf",
+        "description": "… Foodie allows users to get recipe recommendations according to their contextual situation … \nrecipe recommendation using CAPRecipes, our context-aware recipe recommendation engine…",
+        "tag": "scholar"
+      },
+      {
+        "title": "DeliciFind: A Recipe Recommendation and Kitchen Ingredients Green System",
+        "link": "https://link.springer.com/chapter/10.1007/978-3-031-67317-7_23",
+        "description": "… personalized recipe recommendations based on saved kitchen ingredients. … kitchen \ningredient inventory management and unique recipe recommendations based on saved kitchen …",
+        "tag": "scholar"
+      },
+      {
+        "title": "A context-aware recommender engine for smart kitchen",
+        "link": "https://link.springer.com/chapter/10.1007/978-981-10-8971-8_16",
+        "description": "… This paper proposes a context-aware recommender engine for suggesting possible recipes \nwith available food items and time required to prepare the meal in the smart kitchen. It not …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[PDF][PDF] CAPRECIPES: a context-aware personalized recipes recommender for healthy and smart living",
+        "link": "https://dspace.library.uvic.ca/bitstream/1828/9583/1/Jain_Harshit_MSc_2018.pdf",
+        "description": "… our recommendation engine to provide recipe recommendations is discussed in Chapters 4 \nand 5… For instance, assume a user is in the kitchen in the evening and wishes to get a recipe …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[PDF][PDF] SmolKat: A Smart Kitchen Assistant",
+        "link": "http://course.ece.cmu.edu/~ece500/projects/s21-teamd3/wp-content/uploads/sites/144/2021/03/Team_D3.pdf",
+        "description": "… aries between the user and the Recipe Recommendation system. They take in user … by \nthe Recipe Recommendation system. The Recipe Recommendation system provides the …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Smart Recipe Recommendation for a Healthy Diet Based on Nutrient Density and Macronutrient Balance",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10612692/",
+        "description": "… recipes based on the principles of healthy eating. The system, named Recipe Smart Picker, \n… The idea is to choose specific ingredients and then to recommend recipes from the recipe …",
+        "tag": "scholar"
+      },
+      {
+        "title": "RecipeLens: Revolutionizing Meal Preparation with Image-Based Ingredient Detection and Recipe Suggestions",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10581386/",
+        "description": "… for adapting recipes on the fly. We also envision integrating the app with smart kitchen \ntechnology to streamline cooking tasks, along with features that allow users to customize recipes …",
+        "tag": "scholar"
+      },
+      {
+        "title": "A smart recipe recommendation system based on image processing and deep learning",
+        "link": "https://link.springer.com/chapter/10.1007/978-3-030-94191-8_83",
+        "description": "… Cookpad contains 900,000 recipes and has 10,000,000 users per month [5], but no system \nautomatically recommends recipes with your kitchen ingredients. In our study, we leave the …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[PDF][PDF] Smart Recipe-An Innovative Way to Cook",
+        "link": "https://www.academia.edu/download/98150463/fileserve.pdf",
+        "description": "… In this paper they have presented the Smart Kitchen, an instrumented environment to \nautomatically capture, share and exploit semantically annotated experiences. They have described …",
+        "tag": "scholar"
+      }
+    ]
+  },
+  {
+    "Title": "Real-Time Audio-Visual Emotion Recognition for Enhanced Video Conferencing",
+    "Problem Statement": "Current video conferencing tools lack the ability to understand participants' emotional states, hindering effective communication and empathy. This project aims to develop an on-device AI system that accurately recognizes emotions from both facial expressions and speech patterns in real-time during video calls. The system will provide subtle cues to participants or moderators to improve engagement and address potential conflicts.",
+    "KPIs": [
+      "Emotion recognition accuracy (precision, recall, F1-score)",
+      "Real-time processing speed (frames per second)",
+      "User satisfaction with the system's feedback"
+    ],
+    "Prerequisites": [
+      "Computer Vision (facial expression recognition), Natural Language Processing (speech emotion recognition), Deep Learning, Android/iOS development"
+    ],
+    "Infrastructure Requirements": [
+      "Smartphone with camera and microphone",
+      "Cloud compute for model training (optional)",
+      "Open-source machine learning frameworks (TensorFlow/PyTorch)"
+    ],
+    "Value Proposition": [
+      "Commercial PoC potential for Samsung video conferencing solutions",
+      "Viable patent filing for on-device emotion recognition algorithms"
+    ],
+    "Milestones": {
+      "M2": "Trained facial expression recognition model with high accuracy.",
+      "M4": "Trained speech emotion recognition model integrated with audio processing pipeline.",
+      "M6": "Real-time emotion recognition system integrated into a video conferencing app prototype."
+    },
+    "Reference Work": [
+      {
+        "title": "Audio-visual emotion recognition in video clips",
+        "link": "https://ieeexplore.ieee.org/abstract/document/7945502/",
+        "description": "… 3 AUDIO-VISUAL EMOTION RECOGNITION SYSTEM In this section, we describe the \nproposed audio-visual system for emotion recognition that benefits from the fusion of several …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Audio-visual emotion recognition using big data towards 5G",
+        "link": "https://link.springer.com/article/10.1007/s11036-016-0685-9",
+        "description": "… audio-visual emotion-aware big data recognition in 5G. The framework is one of the few \nattempts to combine the potential of emotion… framework that can recognize user emotion over the …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Multimodal and temporal perception of audio-visual cues for emotion recognition",
+        "link": "https://ieeexplore.ieee.org/abstract/document/8925444/",
+        "description": "… embeds video clips using their audio-visual … audio-visual cues contribute to emotion \nrecognition and (2) how temporal information impacts the recognition rate and speed of emotions. …",
+        "tag": "scholar"
+      },
+      {
+        "title": "An active learning paradigm for online audio-visual emotion recognition",
+        "link": "https://ieeexplore.ieee.org/abstract/document/8937495/",
+        "description": "… a robust neural AV emotion recognition architecture with … including emotional context, we \naim to emotion identification … studies in the field of emotion recognition using DNNs. Section …",
+        "tag": "scholar"
+      },
+      {
+        "title": "A combined rule-based & machine learning audio-visual emotion recognition approach",
+        "link": "https://ieeexplore.ieee.org/abstract/document/7506248/",
+        "description": "… This allows the proposed system to perform human emotion recognition over video \nconferencing. The remainder of the paper is organized as follows: Section 2 presents the details for …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Architecture of cross-platform videoconferencing system with automatic recognition of user emotions",
+        "link": "https://iopscience.iop.org/article/10.1088/1757-899X/918/1/012086/meta",
+        "description": "… detection of emotional condition and video conferencing … technical solutions for transfer of \naudio-visual information in real-… Emotion recognition based on video modality is considered …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Audio-visual emotion recognition using deep transfer learning and multiple temporal models",
+        "link": "https://dl.acm.org/doi/abs/10.1145/3136755.3143012",
+        "description": "… used in our contribution to Emotion Recognition in the Wild 2017 video based sub-challenge… \novercome the challenges for the wild emotion recognition. Deep network transfer learning is …",
+        "tag": "scholar"
+      },
+      {
+        "title": "An audio-visual emotion recognition system using deep learning fusion for a cognitive wireless framework",
+        "link": "https://ieeexplore.ieee.org/abstract/document/8752484/",
+        "description": "… recognize emotions to improve healthcare facilities. Specifically, we propose an automatic \naudio-visual emotion recognition … , a video camera captures his/her expression and sends the …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Leveraging recent advances in deep learning for audio-visual emotion recognition",
+        "link": "https://www.sciencedirect.com/science/article/pii/S0167865521000878",
+        "description": "… behaviors that communicate our emotional state or attitude to … Recently, spontaneous \nmulti-modal emotion recognition has … -based approach for audio-visual emotion recognition. Our …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Audio-visual based emotion recognition-a new approach",
+        "link": "https://ieeexplore.ieee.org/abstract/document/1315276/",
+        "description": "… A novel model for emotion recognition is introduced in our system, which uses a tripled \nhidden Markov model(THMM). The THMM is a generalization of the HMM suitable for a large …",
+        "tag": "scholar"
+      }
+    ]
+  },
+  {
+    "Title": "AI-Powered Predictive Maintenance for IoT-Enabled Home Appliances",
+    "Problem Statement": "Unplanned appliance failures cause inconvenience and financial loss for consumers. This project aims to develop an on-device AI system that predicts potential failures in IoT-enabled home appliances (e.g., washing machines, refrigerators) by analyzing sensor data (temperature, vibration, power consumption). The system will alert users to schedule maintenance before failures occur, extending appliance lifespan and reducing repair costs.",
+    "KPIs": [
+      "Prediction accuracy (precision, recall, F1-score)",
+      "Lead time for failure prediction",
+      "Reduction in reported appliance failures"
+    ],
+    "Prerequisites": [
+      "Time Series Analysis, Machine Learning (classification, regression), IoT device integration, Data mining"
+    ],
+    "Infrastructure Requirements": [
+      "IoT-enabled home appliance (or simulated sensor data)",
+      "Cloud compute for model training (optional)",
+      "Open-source machine learning frameworks (Scikit-learn, TensorFlow/PyTorch)"
+    ],
+    "Value Proposition": [
+      "Commercial PoC potential for Samsung SmartThings ecosystem (preventive maintenance services)",
+      "Potential for publication in the area of predictive maintenance and IoT"
+    ],
+    "Milestones": {
+      "M2": "Collection and analysis of sensor data from home appliances.",
+      "M4": "Trained machine learning model for predicting appliance failures.",
+      "M6": "Integration of the model into a mobile app for monitoring appliance health."
+    },
+    "Reference Work": [
+      {
+        "title": "UAV-AIOT_COLLAB",
+        "description": "IoT and AI applications in UAVs enable real-time data collection through sensors for weather forecasting, precision agriculture, infrastructure inspection, and surveillance. AI algorithms empower drones with autonomous navigation, object detection, swarm intelligence, and predictive maintenance.",
+        "link": "https://github.com/Souradeep2233/UAV-AIOT_COLLAB",
+        "tag": "github"
+      },
+      {
+        "title": "3DPrinter_PredictiveMaintenance",
+        "description": "Predictive Maintenance System for 3D Printers using AI, Machine Learning, and Python.",
+        "link": "https://github.com/Z3k0off/3DPrinter_PredictiveMaintenance",
+        "tag": "github"
+      },
+      {
+        "title": "IoT-PredictiveMaintenance",
+        "description": "Predicting machine failure using IoT sensor data and AI ML techniques",
+        "link": "https://github.com/mrinal1234/IoT-PredictiveMaintenance",
+        "tag": "github"
+      },
+      {
+        "title": "IoT-AI-Predictive-Maintenance",
+        "description": null,
+        "link": "https://github.com/nila965/IoT-AI-Predictive-Maintenance",
+        "tag": "github"
+      },
+      {
+        "title": "chapter19-predictive-maintenance",
+        "description": "Chapter 19 content for Predictive Maintenance with AI & IoT System",
+        "link": "https://github.com/edwinking094/chapter19-predictive-maintenance",
+        "tag": "github"
+      },
+      {
+        "title": "hvac-iot-ai-mobile-system",
+        "description": "Predictive maintenance for a Smart HVAC System",
+        "link": "https://github.com/MatijaKruljac/hvac-iot-ai-mobile-system",
+        "tag": "github"
+      },
+      {
+        "title": "predictive-maintenance-mlops",
+        "description": "End-to-end machine learning pipeline for predictive maintenance using IoT sensor data. Scalable, modular, and production-ready.",
+        "link": "https://github.com/RelationalDigital/predictive-maintenance-mlops",
+        "tag": "github"
+      },
+      {
+        "title": "Predictive_Maintenances_Notebooks",
+        "description": "Notebooks for applying AI/ML to predictive maintenance and industry",
+        "link": "https://github.com/Asad1287/Predictive_Maintenances_Notebooks",
+        "tag": "github"
+      },
+      {
+        "title": "Predictive-Maintenance-AI",
+        "description": "AI-powered predictive maintenance system for industrial machinery, utilizing machine learning and IoT sensors to predict failures before they happen. Features include real-time data collection, failure pattern detection, proactive alerts, and cloud-based analytics to reduce downtime and optimize maintenance efficiency.",
+        "link": "https://github.com/Roshan-Industries/Predictive-Maintenance-AI",
+        "tag": "github"
+      },
+      {
+        "title": "PredictGuard",
+        "description": "PredictGuard: Intelligent Predictive Maintenance System Leveraging AI and IoT",
+        "link": "https://github.com/yoadvait/PredictGuard",
+        "tag": "github"
+      },
+      {
+        "title": "Predictive maintenance-bridging artificial intelligence and iot",
+        "link": "https://ieeexplore.ieee.org/abstract/document/9454173/",
+        "description": "… in Predictive Maintenance applications with the use of machine learning bridging Artificial \nIntelligence and IoT. … of industries in which Predictive Maintenance was applied, the models of …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Artificial intelligence for predictive maintenance applications: key components, trustworthiness, and future trends",
+        "link": "https://www.mdpi.com/2076-3417/14/2/898",
+        "description": "… , collaborative robots (cobots), blockchain technology, trustworthy AI, and Industrial \nInternet of Things (IIoT), utilizing a comprehensive survey of the current SOTA techniques, …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Empowering IoT predictive maintenance solutions with AI: A distributed system for manufacturing plant-wide monitoring",
+        "link": "https://ieeexplore.ieee.org/abstract/document/9463585/",
+        "description": "… As feature selection is application-specific, this section briefly describes the current \nresearch progress of IoT predictive maintenance systems. This article focuses on the feature …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[DOC][DOC] AI for predictive maintenance in industrial systems",
+        "link": "https://www.researchgate.net/profile/Furqan-Md-Rasel/publication/386142847_AI_for_Predictive_Maintenance_in_Industrial_Systems/links/6746790ba7fbc259f1903db1/AI-for-Predictive-Maintenance-in-Industrial-Systems",
+        "description": "… Sensors, Internet of Things (IoT) devices, and other data sources continuously gather \ninformation about the health and performance of industrial assets. This paper explores the types of …",
+        "tag": "scholar"
+      },
+      {
+        "title": "AI-powered predictive maintenance for industrial IoT systems",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10601983/",
+        "description": "… of Artificial Intelligence( AI) with the Internet of Effects (IoT) … AI-powered prophetic conservation \nfor Industrial IoT ( IIoT) … -time data analytics, artificial intelligence can directly predict outfit …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Artificial intelligence and real-time predictive maintenance in industry 4.0: a bibliometric analysis",
+        "link": "https://link.springer.com/article/10.1007/s43681-021-00132-6",
+        "description": "… main trends of AI applied to real-time predictive maintenance. … that may hinder the successful \nuse of AI-based systems in I4.0, … Finally, we suggested our definition of trustful AI for I4.0. …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Advancing from predictive maintenance to intelligent maintenance with ai and iiot",
+        "link": "https://arxiv.org/abs/2009.00351",
+        "description": "… As Artificial Intelligent (AI) technology advances and increasingly large amounts of data … \nInternet of Things (IIoT) projects, we evaluate the state of the art of predictive maintenance …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[HTML][HTML] Convergence of artificial intelligence and internet of things in predictive maintenance systems-a review",
+        "link": "https://search.proquest.com/openview/92acb9507d780cdffdea8ea640fa0296/1?pq-origsite=gscholar&cbl=2045096",
+        "description": "… the preventable failures and is similar to predictive maintenance which relies on sensors data \nto … in Industrial IoT and Machine Learning (ML), predictive maintenance has taken a pivotal …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Artificial intelligence-based predictive maintenance, time-sensitive networking, and big data-driven algorithmic decision-making in the economics of Industrial Internet\\xa0…",
+        "link": "https://www.ceeol.com/search/article-detail?id=1238131",
+        "description": "… the different approaches to maintenance in the IoT era, we … of maintenance from corrective \nmaintenance to PM (Figure 1). From passive maintenance towards anticipatory maintenance, …",
+        "tag": "scholar"
+      },
+      {
+        "title": "A deep attention based approach for predictive maintenance applications in IoT scenarios",
+        "link": "https://www.emerald.com/insight/content/doi/10.1108/jmtm-02-2022-0093/full/html",
+        "description": "… predictive maintenance (PdM) through the application of data-driven analytics based on \nartificial intelligence (AI) … , applicable in real-world internet of things (IoT) scenarios, where they …",
+        "tag": "scholar"
+      }
+    ]
+  },
+  {
+    "Title": "Generative AI-Based Personalized Content Creation for Mobile Devices",
+    "Problem Statement": "Users often struggle to create engaging and visually appealing content for social media and personal use. This project aims to develop an on-device generative AI model capable of creating personalized content (images, short videos, text) based on user prompts and preferences. The model will leverage techniques like text-to-image generation and style transfer to produce high-quality content optimized for mobile devices.",
+    "KPIs": [
+      "Content quality (user ratings)",
+      "Content creation speed",
+      "User engagement with generated content"
+    ],
+    "Prerequisites": [
+      "Generative Adversarial Networks (GANs), Variational Autoencoders (VAEs), Deep Learning, Mobile app development"
+    ],
+    "Infrastructure Requirements": [
+      "Access to large image/video datasets",
+      "Cloud compute for model training (essential)",
+      "Open-source deep learning frameworks (TensorFlow/PyTorch)"
+    ],
+    "Value Proposition": [
+      "Commercial PoC potential for Samsung mobile device features (creative tools)",
+      "Potential for publication in the area of generative AI and mobile content creation"
+    ],
+    "Milestones": {
+      "M2": "Training of a generative model for image/video creation.",
+      "M4": "Development of a user interface for inputting prompts and customizing content.",
+      "M6": "Integration of the model into a mobile app for generating personalized content."
+    },
+    "Reference Work": [
+      {
+        "title": "NeoLingua",
+        "description": "This iOS app is a prototype developed as part of a master thesis to explore the use of generative AI for the dynamic creation of personalized learning content in the field of Mobile-Assisted-Language Learning (MALL).",
+        "link": "https://github.com/Dung-Trinh/NeoLingua",
+        "tag": "github"
+      },
+      {
+        "title": "Developing personalized marketing service using generative AI",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10419357/",
+        "description": "… in this study utilizes Generative AI to deliver personalized, automated marketing … \npersonalized messages with phone numbers. This pairing of individualized messages and phone …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[PDF][PDF] Role of generative AI for developing personalized content based websites",
+        "link": "https://www.researchgate.net/profile/Sadik-Khan-2/publication/374192283_Role_of_Generative_AI_for_Developing_Personalized_Content_Based_Websites/links/6512e99d2c6cfe2cc210303d/Role-of-Generative-AI-for-Developing-Personalized-Content-Based-Websites.pdf",
+        "description": "… the generative AI contribution to creating tailored content-… The study findings reveal that \ngenerative AI can produce … future possibilities of generative AI in personalized web development. …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[PDF][PDF] Revolutionizing Product Recommendations with Generative AI: Context-Aware Personalization at Scale",
+        "link": "https://www.researchgate.net/profile/Sai-Kiran-Reddy-Malikireddy-3/publication/387741873_Revolutionizing_Product_Recommendations_with_Generative_AI_Context-Aware_Personalization_at_Scale/links/677ad4fe117f340ec3f60fd6/Revolutionizing-Product-Recommendations-with-Generative-AI-Context-Aware-Personalization-at-Scale.pdf",
+        "description": "… By reimagining product discovery as a generative process, this work highlights the \ntransformative potential of GenAI to create hyper-personalized, interactive, and engaging …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Mobile generative ai: Opportunities and challenges",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10628027/",
+        "description": "… on mobile … of mobile GenAI in terms of cost, delay, privacy, personalization, and application. \nThen, we test various large generative models on the mobile testbed, and reveal mobile …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Generative Artificial Intelligence In Marketing And Advertising: Advancing Personalization And Optimizing Consumer Engagement Strategies",
+        "link": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5057404",
+        "description": "… Despite these obstacles, generative AI is being … generative AI is improving personalization, \nengagement, and ethics in marketing and advertising. The findings show that generative AI …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Unleashing the power of edge-cloud generative AI in mobile networks: A survey of AIGC services",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10398474/",
+        "description": "… These data are important for the implementation of personalized generative AI models. In \naddition to these traditional data collection methods, large-scale datasets are specifically …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[PDF][PDF] Harnessing the power of generative artificial intelligence for dynamic content personalization in customer relationship management systems: A data-driven\\xa0…",
+        "link": "https://www.researchgate.net/profile/Sai-Ganesh-Reddy-Bojja-2/publication/389689415_Harnessing_the_Power_of_Generative_Artificial_Intelligence_for_Dynamic_Content_Personalization_in_Customer_Relationship_Management_Systems_A_Data-Driven_Framework_for_Optimizing_Customer_Engagement_an/links/67cdb161bab3d32d84405238/Harnessing-the-Power-of-Generative-Artificial-Intelligence-for-Dynamic-Content-Personalization-in-Customer-Relationship-Management-Systems-A-Data-Driven-Framework-for-Optimizing-Customer-Engagement-an.pdf",
+        "description": "… Traditional CRM systems, often reliant on static content, struggle to deliver this level of … of \ngenerative artificial intelligence (generative AI) to address this critical gap. Generative AI offers …",
+        "tag": "scholar"
+      },
+      {
+        "title": "A Survey of Generative AI: A Game Changer for Free Streaming Services and Ad Personalization with Current Techniques, Identifying Research Gaps and Addressing\\xa0…",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10796059/",
+        "description": "… Despite the plethora of surveys exploring Artificial Intelligence's (AI) role across various … \nthe impact of Generative AI (Gen AI) on free streaming services and personalized advertising. …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Generative AI and personalized video advertisements",
+        "link": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4614118",
+        "description": "… We study the effectiveness of personalized video advertisements created using Generative \nAI (GenAI). We run a mobile ad targeting field experiment on WhatsApp in partnership with a …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Harnessing generative AI for personalized E-commerce product descriptions: A framework and practical insights",
+        "link": "https://www.sciencedirect.com/science/article/pii/S0920548925000418",
+        "description": "… of large language models to personalize user interactions throughout the customer journey. \n… of generative AI to create customized e-commerce product descriptions for personalized, …",
+        "tag": "scholar"
+      }
+    ]
+  },
+  {
+    "Title": "AI-Powered Smart Gardening Assistant using Computer Vision and Sensor Data",
+    "Problem Statement": "Many users lack the knowledge and time to effectively care for their plants. This project aims to develop an AI-powered smart gardening assistant that uses computer vision to identify plant species, assess their health (detect diseases, nutrient deficiencies), and provide personalized care recommendations. The system will also integrate with sensor data (soil moisture, temperature, light levels) to optimize watering and fertilization schedules.",
+    "KPIs": [
+      "Plant identification accuracy",
+      "Disease/deficiency detection accuracy",
+      "User satisfaction with care recommendations",
+      "Plant health improvement (measured through growth rate/yield)"
+    ],
+    "Prerequisites": [
+      "Computer Vision (image classification, object detection), Machine Learning (classification, regression), Sensor data analysis, Mobile app development"
+    ],
+    "Infrastructure Requirements": [
+      "Smartphone with camera",
+      "Soil moisture sensors, temperature sensors, light sensors (optional)",
+      "Cloud compute for model training (optional)",
+      "Open-source machine learning frameworks (TensorFlow/PyTorch)"
+    ],
+    "Value Proposition": [
+      "Commercial PoC potential for Samsung SmartThings ecosystem (smart home gardening solutions)",
+      "Potential for publication in the area of precision agriculture and AI-driven gardening"
+    ],
+    "Milestones": {
+      "M2": "Trained plant identification model with high accuracy.",
+      "M4": "Development of a disease/deficiency detection model.",
+      "M6": "Integration of the model and sensor data into a mobile app for providing personalized care recommendations."
+    },
+    "Reference Work": [
+      {
+        "title": "An overview of smart garden automation",
+        "link": "https://ieeexplore.ieee.org/abstract/document/9077615/",
+        "description": "… benefits of Smart Garden Automation through the … for Smart Garden Automation with the \nexisting systems, such as microcontroller and sensors which is linked to a cloud storage of data …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Smart Gardening using IOT",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10545111/",
+        "description": "… data from several sensors and sends it via the internet to a mobile application. A smart garden \nwatering system … , a DHT11 sensor, and a soil moisture sensor to measure temperature, …",
+        "tag": "scholar"
+      },
+      {
+        "title": "[HTML][HTML] Computer vision in smart agriculture and precision farming: Techniques and applications",
+        "link": "https://www.sciencedirect.com/science/article/pii/S2589721724000266",
+        "description": "… computer vision techniques in various phases of digital life cycle of crops in precision \nagriculture, such as image acquisition, image … Subjective process of crop data extraction can be …",
+        "tag": "scholar"
+      },
+      {
+        "title": "A comprehensive review on deep learning assisted computer vision techniques for smart greenhouse agriculture",
+        "link": "https://ieeexplore.ieee.org/abstract/document/10379667/",
+        "description": "… Overall, this paper highlights the immense potential of computer vision and deep \nlearning in driving the emergence of data-driven, smart greenhouse farming worldwide. …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Future gardening system—smart garden",
+        "link": "https://www.jstage.jst.go.jp/article/jdsa/9/1/9_47/_article/-char/ja/",
+        "description": "… In this research, we propose a future gardening system, “Smart Garden.” The Smart Garden \ncan automatically grow vegetables and flowers by controlling an environment based on …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Smart Garden: An IoT-based Automated Plant Health Monitoring and Irrigation System",
+        "link": "https://www.researchgate.net/profile/Surbhi-Sharma-136/publication/344005908_Smart_Garden_An_IoT-based_Automated_Plant_Health_Monitoring_and_Irrigation_System/links/5f4b651ea6fdccb177255735/Smart-Garden-An-IoT-based-Automated-Plant-Health-Monitoring-and-Irrigation-System.pdf",
+        "description": "… Smart Garden is an automated plant health monitoring and irrigation system based on the \nInternet of Things (IoT). The system uses sensors to collect data about soil moisture, …",
+        "tag": "scholar"
+      },
+      {
+        "title": "AI-powered smart indoor garden for plant health monitoring and disease detection",
+        "link": "https://iopscience.iop.org/article/10.1088/1757-899X/1193/1/012043/meta",
+        "description": "… An AI-powered smart indoor garden system is proposed for real-time plant health \nmonitoring and disease detection. The system integrates sensors, a camera, and a microcontroller …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Plant Disease Detection Using Image Processing and Machine Learning: A Review",
+        "link": "https://www.mdpi.com/2077-0472/13/17/1552",
+        "description": "… This review paper provides a comprehensive overview of plant disease detection techniques \nusing image processing and machine learning. It discusses various image acquisition methods, …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Smart garden based on IoT and cloud computing",
+        "link": "https://ieeexplore.ieee.org/abstract/document/9812738/",
+        "description": "… This paper designs and implements a smart garden system based on the Internet of Things \n(IoT) and cloud computing. The system uses sensors to collect environmental data such as …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Development of an Intelligent Plant Watering System Using IoT and Machine Learning",
+        "link": "https://www.researchgate.net/profile/Ahmed-Jafari-24/publication/344251881_Development_of_an_Intelligent_Plant_Watering_System_Using_IoT_and_Machine_Learning/links/5f5413b9299bf13431861324/Development-of-an-Intelligent-Plant-Watering-System-Using-IoT-and-Machine-Learning.pdf",
+        "description": "… This paper presents the development of an intelligent plant watering system using IoT and \nmachine learning. The system uses soil moisture sensors to monitor the water level in the soil …",
+        "tag": "scholar"
+      },
+      {
+        "title": "Smart Garden System Based on Internet of Things for Efficient Resource Management",
+        "link": "https://www.researchgate.net/profile/Hassan-Alheeti/publication/344011987_Smart_Garden_System_Based_on_Internet_of_Things_for_Efficient_Resource_Management/links/5f4b919fa6fdccb177255b53/Smart-Garden-System-Based-on-Internet-of-Things-for-Efficient-Resource-Management.pdf",
+        "description": "… This paper proposes a smart garden system based on the Internet of Things (IoT) for efficient \nresource management. The system uses sensors to collect data on soil moisture, temperature, …",
+        "tag": "scholar"
+      },
+      {
+        "title": "AI in Agriculture: A Review",
+        "link": "https://www.mdpi.com/2077-0472/13/2/182",
+        "description": "… This review paper provides a comprehensive overview of the applications of artificial \nintelligence (AI) in agriculture. It discusses various AI techniques and their applications in …",
+        "tag": "scholar"
+      }
+    ]
+  }
+]

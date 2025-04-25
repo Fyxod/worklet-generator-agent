@@ -490,21 +490,20 @@ def get_prompt_template():
     return ChatPromptTemplate.from_template("""
 
         ROLE & CONTEXT
-        You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry–academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
-        Your goal is to examine the input document set (one or more files in PPT, PDF, Word, or Excel format) and, using both the documents and your own knowledge , generate exactly five (5) feasible problem statements suitable for six‑month student–faculty projects.
+        You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
+        Your goal is to examine the input document set (one or more files in PPT, PDF, Word, or Excel format) and, using both the documents and your own knowledge , generate exactly five (5) feasible problem statements suitable for six-month student-faculty projects.
         ---
 
         OUTPUT FORMAT TO Be followed strictly as i need a json only 
                                             
                ```json
-        {{
-            "worklets": [
+            [
                 {{
-                    "Title": "<one‑line title>",
+                    "Title": "<one-line title>",
                     "Problem Statement": "<28-33 word problem statement>",
                     "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain‑point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs – e.g., Android app, fine‑tuned model, architecture diagram, test plan, etc.>",
+                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
+                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
                     "KPIs": [
                         "<metric 1>",
                         "<metric 2>",
@@ -512,7 +511,7 @@ def get_prompt_template():
                         "<metric 4>"
                     ],
                     "Prerequisites": [
-                        "<paper / blog / MOOC / open‑source framework>",
+                        "<paper / blog / MOOC / open-source framework>",
                         "<prerequisite 2>",
                         "<prerequisite 3>",
                         "<prerequisite 4>",
@@ -523,7 +522,7 @@ def get_prompt_template():
                         "<prerequisite 9>",
                         "<prerequisite 10>"
                     ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware – highlight any GPU or edge‑device needs; remain college and open‑source friendly>",
+                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
                     "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
                     "Milestones (6 months)": {{
                         "M2": "<checkpoint or intermediate output>",
@@ -532,11 +531,11 @@ def get_prompt_template():
                     }}
                 }},
                 {{
-                    "Title": "<one‑line title>",
+                    "Title": "<one-line title>",
                     "Problem Statement": "<28-33 word problem statement>",
                     "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain‑point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs – e.g., Android app, fine‑tuned model, architecture diagram, test plan, etc.>",
+                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
+                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
                     "KPIs": [
                         "<metric 1>",
                         "<metric 2>",
@@ -544,7 +543,7 @@ def get_prompt_template():
                         "<metric 4>"
                     ],
                     "Prerequisites": [
-                        "<paper / blog / MOOC / open‑source framework>",
+                        "<paper / blog / MOOC / open-source framework>",
                         "<prerequisite 2>",
                         "<prerequisite 3>",
                         "<prerequisite 4>",
@@ -555,7 +554,7 @@ def get_prompt_template():
                         "<prerequisite 9>",
                         "<prerequisite 10>"
                     ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware – highlight any GPU or edge‑device needs; remain college and open‑source friendly>",
+                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
                     "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
                     "Milestones (6 months)": {{
                         "M2": "<checkpoint or intermediate output>",
@@ -564,11 +563,11 @@ def get_prompt_template():
                     }}
                 }},
                 {{
-                    "Title": "<one‑line title>",
+                    "Title": "<one-line title>",
                     "Problem Statement": "<28-33 word problem statement>",
                     "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain‑point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs – e.g., Android app, fine‑tuned model, architecture diagram, test plan, etc.>",
+                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
+                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
                     "KPIs": [
                         "<metric 1>",
                         "<metric 2>",
@@ -576,7 +575,7 @@ def get_prompt_template():
                         "<metric 4>"
                     ],
                     "Prerequisites": [
-                        "<paper / blog / MOOC / open‑source framework>",
+                        "<paper / blog / MOOC / open-source framework>",
                         "<prerequisite 2>",
                         "<prerequisite 3>",
                         "<prerequisite 4>",
@@ -587,7 +586,7 @@ def get_prompt_template():
                         "<prerequisite 9>",
                         "<prerequisite 10>"
                     ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware – highlight any GPU or edge‑device needs; remain college and open‑source friendly>",
+                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
                     "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
                     "Milestones (6 months)": {{
                         "M2": "<checkpoint or intermediate output>",
@@ -596,11 +595,11 @@ def get_prompt_template():
                     }}
                 }},
                 {{
-                    "Title": "<one‑line title>",
+                    "Title": "<one-line title>",
                     "Problem Statement": "<28-33 word problem statement>",
                     "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain‑point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs – e.g., Android app, fine‑tuned model, architecture diagram, test plan, etc.>",
+                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
+                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
                     "KPIs": [
                         "<metric 1>",
                         "<metric 2>",
@@ -608,7 +607,7 @@ def get_prompt_template():
                         "<metric 4>"
                     ],
                     "Prerequisites": [
-                        "<paper / blog / MOOC / open‑source framework>",
+                        "<paper / blog / MOOC / open-source framework>",
                         "<prerequisite 2>",
                         "<prerequisite 3>",
                         "<prerequisite 4>",
@@ -619,7 +618,7 @@ def get_prompt_template():
                         "<prerequisite 9>",
                         "<prerequisite 10>"
                     ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware – highlight any GPU or edge‑device needs; remain college and open‑source friendly>",
+                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
                     "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
                     "Milestones (6 months)": {{
                         "M2": "<checkpoint or intermediate output>",
@@ -628,11 +627,11 @@ def get_prompt_template():
                     }}
                 }},
                 {{
-                    "Title": "<one‑line title>",
+                    "Title": "<one-line title>",
                     "Problem Statement": "<28-33 word problem statement>",
                     "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain‑point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs – e.g., Android app, fine‑tuned model, architecture diagram, test plan, etc.>",
+                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
+                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
                     "KPIs": [
                         "<metric 1>",
                         "<metric 2>",
@@ -640,7 +639,7 @@ def get_prompt_template():
                         "<metric 4>"
                     ],
                     "Prerequisites": [
-                        "<paper / blog / MOOC / open‑source framework>",
+                        "<paper / blog / MOOC / open-source framework>",
                         "<prerequisite 2>",
                         "<prerequisite 3>",
                         "<prerequisite 4>",
@@ -651,7 +650,7 @@ def get_prompt_template():
                         "<prerequisite 9>",
                         "<prerequisite 10>"
                     ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware – highlight any GPU or edge‑device needs; remain college and open‑source friendly>",
+                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
                     "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
                     "Milestones (6 months)": {{
                         "M2": "<checkpoint or intermediate output>",
@@ -660,38 +659,38 @@ def get_prompt_template():
                     }}
                 }},
             ]
-        }}  ```
+        ```
 
           Existing Worklets for Reference:**
         {worklet_data}                                  
         MANDATORY CONSTRAINTS
 
-        1. Domain focus – each problem must intersect at least one of: • Generative AI
+        1. Domain focus - each problem must intersect at least one of: • Generative AI
         • Vision AI
         • Voice AI
-        • On‑device (smartphone) AI
+        • On-device (smartphone) AI
         • Classical Machine Learning
         • IoT
-        (cross‑domain intersections are encouraged)
+        (cross-domain intersections are encouraged)
 
 
-        2. Value proposition – every problem must enable at least one of: • Commercial PoC potential for Samsung
+        2. Value proposition - every problem must enable at least one of: • Commercial PoC potential for Samsung
         • Novel publishable research paper
         • Viable patent filing
         (more than one may apply)
 
 
-        3. Feasibility – scope, infrastructure cost, and skill prerequisites must suit Tier 1–2 Indian engineering colleges. Aim for moderate, open‑source‑friendly resources.
+        3. Feasibility - scope, infrastructure cost, and skill prerequisites must suit Tier 1-2 Indian engineering colleges. Aim for moderate, open-source-friendly resources.
 
 
-        4. Web enrichment – do NOT limit yourself to the provided documents; supplement with current public knowledge, standards, datasets, and best practices to keep the problems rich and relevant.
+        4. Web enrichment - do NOT limit yourself to the provided documents; supplement with current public knowledge, standards, datasets, and best practices to keep the problems rich and relevant.
 
 
 
-        Return ONLY the five fully populated problem‑statement blocks in the order specified above.
+        Return ONLY the five fully populated problem-statement blocks in the order specified above.
     """)
 
-async def generate_worklets(worklet_data, model):
+async def generate_worklets(worklet_data, linksData, model):
     """
     This function is used to ccommunicate with the llm model it 
     takes  worklet data and the model name as input 

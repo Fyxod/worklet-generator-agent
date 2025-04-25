@@ -14,9 +14,8 @@ pyproject.toml
 *.png
 *.jpg
 *.jpeg
-Pipfile
-pipfile.lock
 # Distribution / packaging
+parthenv
 .Python
 build/
 develop-eggs/
