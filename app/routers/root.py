@@ -123,7 +123,7 @@ async def upload_multiple(
     response = {"files": []}
 
     def generate(worklet):
-        # generatePdf(worklet)
+        generatePdf(worklet)
         return {
             "name": f'{worklet["Title"]}.pdf',
             "url": f"http://localhost:8000/download/{worklet["Title"]}.pdf"

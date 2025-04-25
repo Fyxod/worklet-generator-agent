@@ -13,7 +13,7 @@ subprocess.Popen([
     streamlit_path, "run", "streamlit_app/pdf_uploader.py",
     "--server.port", "8501",
     "--server.headless", "true",
-    "--server.address", "0.0.0.0"
+    "--server.address", "127.0.0.1"
 ])
 
 app.include_router(root.router)
