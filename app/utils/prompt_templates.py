@@ -48,8 +48,7 @@ def worklet_gen_prompt():    # worklet data need to be given so that
             ]
         ```
 
-        Existing Worklets for Reference:**
-        {worklet_data}                                  
+                              
         MANDATORY CONSTRAINTS
 
         1. Domain focus - each problem must intersect at least one of: • Generative AI
