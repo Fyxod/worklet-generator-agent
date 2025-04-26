@@ -1,32 +1,51 @@
 from app.utils.reference_functions.scholar_package import CustomGoogleScholarOrganic
+
 # from .scholar_package import CustomGoogleScholarOrganic
+
 
 def get_google_scholar_references(keyword):
     try:
         print("printing google keyword inside", keyword)
-        custom_parser_get_organic_results = CustomGoogleScholarOrganic().scrape_google_scholar_organic_results(
-            query=keyword, 
-            pagination=False, 
-            save_to_csv=False,
-            save_to_json=True
+        custom_parser_get_organic_results = (
+            CustomGoogleScholarOrganic().scrape_google_scholar_organic_results(
+                query=keyword, pagination=False, save_to_csv=False, save_to_json=True
+            )
         )
 
         result = []
         for i in custom_parser_get_organic_results:
-            title = i.get('title', '')
-            title = title.replace('[PDF]', '').replace('[HTML]', '').replace('[DOC]', '')
-            result.append({
-                'title': title,
-                'link': i.get('title_link', ''),
-                'description': i.get('snippet', ''),
-                'tag': 'scholar'
-            })
+            title = i.get("title", "")
+            title = (
+                title.replace("[PDF]", "").replace("[HTML]", "").replace("[DOC]", "")
+            )
+            description = i.get("description", "")
+            if description:
+                description = slice_to_100_words(description)
+            else:
+                description = ""
+            result.append(
+                {
+                    "Title": title,
+                    "Link": i.get("title_link", ""),
+                    "Description": description,
+                    "Tag": "scholar",
+                }
+            )
         print("google scholar inside", result)
         return result
 
     except Exception as e:
         print(f"Error while fetching Google Scholar references: {e}")
         return []
+
+
+def slice_to_100_words(text):
+    words = text.split()
+    if len(words) <= 100:
+        return text
+    else:
+        return " ".join(words[:100])
+
 
 # example_usage()
 # keywords = [
@@ -54,4 +73,3 @@ def get_google_scholar_references(keyword):
 # print(f"Execution time: {end_time - start_time} seconds")
 # # print(json.dumps(serpapi_parser_get_organic_results, indent=2, ensure_ascii=False))
 # # print(json.dumps(top_publication_citation, indent=2, ensure_ascii=False))
-

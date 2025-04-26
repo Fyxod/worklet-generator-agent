@@ -3,39 +3,53 @@ import time
 
 start_time = time.time()
 
+
 def get_github_references(keyword):
     print("printing keyword inside github", keyword)
     url = "https://api.github.com/search/repositories"
-    params = {
-        "q": keyword,
-        "per_page": 10
-    }
-    
+    params = {"q": keyword, "per_page": 10}
+
     def make_request():
         return requests.get(url, params=params)
 
     response = make_request()
-    
+
     if response.status_code != 200:
         time.sleep(1)
         response = make_request()
 
     if response.status_code == 200:
         data = response.json()
-        result = [
+    result = []
+    for item in data.get("items", []):
+        description = item.get("description", "")
+        if description:
+            description = slice_to_100_words(description)
+        else:
+            description = ""
+        result.append(
             {
-                "title": item["name"],
-                "description": item.get("description", ""),
-                "link": item["html_url"],
-                "tag": "github"
+                "Title": item["name"],
+                "Description": description,
+                "Link": item["html_url"],
+                "Tag": "github",
             }
-            for item in data.get("items", [])
-        ]
+        )
+
         print("Github references insdie", result)
         return result
     else:
         print(f"Error: {response.status_code} - {response.text}")
-        return []  
+        return []
+
+
+def slice_to_100_words(text):
+    words = text.split()
+    if len(words) <= 100:
+        return text
+    else:
+        return " ".join(words[:100])
+
 
 # print(get_github_references("q learning"))
 # keywords = [

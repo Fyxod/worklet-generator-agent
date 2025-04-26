@@ -54,12 +54,13 @@ def generatePdf(json,model):
     elements.append(Paragraph(f"• M2: {json['Milestones (6 months)']["M4"]}", bullet_style))
     elements.append(Paragraph(f"• M3: {json['Milestones (6 months)']["M6"]}", bullet_style))
 
-    reference_limit = 5
+    reference_limit = 15
     elements.append(Paragraph("<b>Reference Work:</b>", normal_style))
     for idx, ref in enumerate(json['Reference Work']):
-      if idx >= reference_limit:
-          break
-      link_paragraph = f'<a href="{ref["link"]}">{ref["title"]}</a>'
+      # if idx >= reference_limit:
+      #     break
+      print(idx," -------------------------------------------------- ",ref)
+      link_paragraph = f'<a href="{ref["Link"]}">{ref["Title"]}</a>'
       elements.append(Paragraph(link_paragraph, bullet_style))
 
     frame.addFromList(elements, pdf)

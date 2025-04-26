@@ -131,42 +131,43 @@ async def upload_multiple(
     with concurrent.futures.ThreadPoolExecutor() as executor:
         list(executor.map(process_worklet, worklets))
 
-######## Indication 2###########
-
     # for worklet in worklets:
     #     print("DEUBGGING HERE DEBIGGING HERE DEBUGGING HERE DEBBUGING HERE")
     #     print(worklet)
     #     print("fertchign refrences for ",worklet["Title"])
     #     process_worklet(worklet)
     
-    # response = {"files":[]}
-    # for worklet in worklets["worklets"]:
-    #     generatePdf(worklet)
-    #     response["files"].append({"name": f'{worklet["Title"]}.pdf', "url": f"http://localhost:8000/download/{worklet['Title']}.pdf"})
-
-
-    response = {"files": []}
-    print("final"*25) #printing final here
-    print(worklets)
-
+######## Indication 2###########
     with open("latest_generated.json", "w") as file:
         json.dump(worklets, file, indent=4)
         
-    def generate(worklet):
+    print("final"*25) #printing final here
+    print(worklets)
+
+    # for loop one
+    response = {"files":[]}
+    for worklet in worklets:
         generatePdf(worklet, model)
-        return {
-            "name": f'{worklet["Title"]}.pdf',
-            "url": f"http://localhost:8000/download/{worklet["Title"]}.pdf"
-        }
+        response["files"].append({"name": f'{worklet["Title"]}.pdf', "url": f"http://localhost:8000/download/{worklet['Title']}.pdf"})
 
-    with ThreadPoolExecutor() as executor:
-        loop = asyncio.get_running_loop()
-        results = await asyncio.gather(
-            *[loop.run_in_executor(executor, generate, worklet)
-            for worklet in worklets]
-        )
+    #thread one
+    # response = {"files": []}
 
-    response["files"] = results
+    # def generate(worklet):
+    #     generatePdf(worklet, model)
+    #     return {
+    #         "name": f'{worklet["Title"]}.pdf',
+    #         "url": f"http://localhost:8000/download/{worklet["Title"]}.pdf"
+    #     }
+
+    # with ThreadPoolExecutor() as executor:
+    #     loop = asyncio.get_running_loop()
+    #     results = await asyncio.gather(
+    #         *[loop.run_in_executor(executor, generate, worklet)
+    #         for worklet in worklets]
+    #     )
+
+    # response["files"] = results
 
     return response
     # return {worklets}

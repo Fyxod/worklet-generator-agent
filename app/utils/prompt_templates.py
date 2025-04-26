@@ -77,8 +77,8 @@ def worklet_gen_prompt():    # worklet data need to be given so that
     """)
 
 
-def refrence_sort_template():    # worklet data need to be given so that 
-    return ChatPromptTemplate.from_template("""
+def refrence_sort_template(json):    # worklet data need to be given so that 
+    return f"""
     ROLE & CONTEXT
         You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
         Your goal is to understanf the json of a worklet being provided and understand the references given a short description of the reference work is provided to inside the reference json 
@@ -87,5 +87,21 @@ def refrence_sort_template():    # worklet data need to be given so that
         you need to sort these references in order of the decreasing relevance id u thing one reference is better than other put the better first
                                                                                
     MANDATORY CONSTRAINTS
-        do not add or remove content just change the positioning i.e sort reference and do not change in input format 
-""")
+        do not add or remove content just change the positioning i.e sort reference and do not change in input format
+        Output format:
+        ```json
+        [
+            {{
+                "Title": "<one-line title>",
+                "Link": "<link>",
+                "Description": "<description>"
+            }},
+            {{
+                "Title": "<one-line title>",
+                "Link": "<link>",
+                "Description": "<description>"
+            }},
+            ...
+        ]
+        ```
+"""
