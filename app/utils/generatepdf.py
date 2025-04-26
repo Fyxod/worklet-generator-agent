@@ -1,4 +1,3 @@
-from reportlab.lib.pagesizes import A3
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import Paragraph, Frame
 from reportlab.pdfgen import canvas
@@ -12,7 +11,9 @@ UPLOAD_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
 print(UPLOAD_DIR)
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
-CUSTOM_PAGE_SIZE = (700, 800)  # Width x Height in points (1 point = 1/72 inch)
+CUSTOM_PAGE_SIZE = (700,900)  # Width x Height in points (1 point = 1/72 inch)
+
+
 def generatePdf(json,):
     filename = os.path.join(pdf_path, f"{json['Title'].replace(' ', '_')}.pdf")
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
@@ -50,6 +51,14 @@ def generatePdf(json,):
     elements.append(Paragraph(f"• M1: {json['Milestones (6 months)']["M2"]}", bullet_style))
     elements.append(Paragraph(f"• M2: {json['Milestones (6 months)']["M4"]}", bullet_style))
     elements.append(Paragraph(f"• M3: {json['Milestones (6 months)']["M6"]}", bullet_style))
+
+    reference_limit = 5
+    elements.append(Paragraph("<b>Reference Work:</b>", normal_style))
+    for idx, ref in enumerate(json['Reference Work']):
+      if idx >= reference_limit:
+          break
+      link_paragraph = f'<a href="{ref["link"]}">{ref["title"]}</a>'
+      elements.append(Paragraph(link_paragraph, bullet_style))
 
     frame.addFromList(elements, pdf)
     pdf.save()
