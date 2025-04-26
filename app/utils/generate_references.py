@@ -38,10 +38,10 @@ def getReferenceWork(title, model):
         googleScholarReferences = future_scholar.result()
 
     response = []
-    response.extend(githubReferences)
-    print("Github references", githubReferences)
     response.extend(googleScholarReferences)
-    print(response)
+    # print("Github references", githubReferences)
+    response.extend(githubReferences)
+    # print(response)
     return response
 
 

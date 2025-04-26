@@ -13,8 +13,10 @@ def get_google_scholar_references(keyword):
 
         result = []
         for i in custom_parser_get_organic_results:
+            title = i.get('title', '')
+            title = title.replace('[PDF]', '').replace('[HTML]', '').replace('[DOC]', '')
             result.append({
-                'title': i.get('title', ''),
+                'title': title,
                 'link': i.get('title_link', ''),
                 'description': i.get('snippet', ''),
                 'tag': 'scholar'

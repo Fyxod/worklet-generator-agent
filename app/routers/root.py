@@ -70,33 +70,32 @@ async def upload_multiple(
     # your processing logic
     
     saved_files = []
-
-    # Save each file with a timestamp
-    for file in files:
-        timestamp = int(datetime.now().timestamp() * 1000)  
-
-        filename, ext = os.path.splitext(file.filename)
-
-        new_filename = f"{filename}-{timestamp}{ext}"  
-        file_path = os.path.join(UPLOAD_DIR, new_filename)
-
-        async with aiofiles.open(file_path, "wb") as buffer:
-            content = await file.read() 
-            await buffer.write(content)
-
-        saved_files.append(new_filename)
-
     extracted_data_all = {}
-    for index, file in enumerate(saved_files):
-        extracted_data_single = await extract_document(file)
-        extracted_data_all[index + 1] = extracted_data_single  # Number from 1 instead of 0
+    print("printing files", files)
+    
+    if files:
+    # Save each file with a timestamp
+        print("files have been uploaded")
+        for file in files:
+            timestamp = int(datetime.now().timestamp() * 1000)  
 
-    # Convert to a formatted string
-    # formatted_output = "\n\n".join(
-    #     [f"--- Extracted Data from File {idx} ---\n{data}" for idx, data in extracted_data_all.items()]
-    # )
-    # print(formatted_output)  # Print for debugging
+            filename, ext = os.path.splitext(file.filename)
 
+            new_filename = f"{filename}-{timestamp}{ext}"  
+            file_path = os.path.join(UPLOAD_DIR, new_filename)
+
+            async with aiofiles.open(file_path, "wb") as buffer:
+                content = await file.read() 
+                await buffer.write(content)
+
+            saved_files.append(new_filename)
+
+        for index, file in enumerate(saved_files):
+            extracted_data_single = await extract_document(file)
+            extracted_data_all[index + 1] = extracted_data_single  # Number from 1 instead of 0
+    else:
+        print("No files uploaded")
+    
     linksData = {}
     try:
         parsed_links = json.loads(links) 
@@ -154,7 +153,7 @@ async def upload_multiple(
         json.dump(worklets, file, indent=4)
         
     def generate(worklet):
-        generatePdf(worklet,model)
+        generatePdf(worklet, model)
         return {
             "name": f'{worklet["Title"]}.pdf',
             "url": f"http://localhost:8000/download/{worklet["Title"]}.pdf"

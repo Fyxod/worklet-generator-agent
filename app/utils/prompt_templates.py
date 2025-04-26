@@ -9,7 +9,7 @@ def worklet_gen_prompt():    # worklet data need to be given so that
         {linksData}
         ROLE & CONTEXT
         You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
-        Your goal is to examine the input document set (one or more files in PPT, PDF, Word, or Excel format) and, using both the documents and your own knowledge , generate exactly five (5) feasible problem statements suitable for six-month student-faculty projects.
+        Your goal is to examine the input document set (one or more files in PPT, PDF, Word, or Excel format) and, using both the documents and your own knowledge , generate exactly {count_string} ({count}) feasible problem statements suitable for six-month student-faculty projects.
         ---
 
         OUTPUT FORMAT TO Be followed strictly as i need a json only  inside an array as shown below
@@ -71,9 +71,9 @@ def worklet_gen_prompt():    # worklet data need to be given so that
 
         4. Web enrichment - do NOT limit yourself to the provided documents; supplement with current public knowledge, standards, datasets, and best practices to keep the problems rich and relevant.
 
+        5. Give atleast {count} jsons inside the array
 
-
-        Return ONLY the five fully populated problem-statement blocks in the order specified above.
+        Return ONLY the {count} fully populated problem-statement blocks in the order specified above.
     """)
 
 
@@ -87,5 +87,5 @@ def refrence_sort_template():    # worklet data need to be given so that
         you need to sort these references in order of the decreasing relevance id u thing one reference is better than other put the better first
                                                                                
     MANDATORY CONSTRAINTS
-        do not add or remove content  just change the positioning i.e sort reference and do not change in input format 
+        do not add or remove content just change the positioning i.e sort reference and do not change in input format 
 """)

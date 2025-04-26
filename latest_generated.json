@@ -1,92 +1,518 @@
-{
-    "Title": "Personalized Product Recommendation using Generative AI and Classical Machine Learning",
-    "Problem Statement": "Develop a personalized product recommendation system that leverages generative AI and classical machine learning to suggest relevant products based on user preferences.",
-    "Description": "Utilize generative models, such as GANs or transformers, along with collaborative filtering algorithms to develop a system capable of generating personalized product recommendations for users.",
-    "Challenge / Use Case": "Enhance e-commerce platforms by providing users with relevant and engaging product suggestions, increasing conversion rates and customer satisfaction.",
-    "Deliverables": [
-        "Trained generative AI model",
-        "Integration with e-commerce platforms"
-    ],
-    "KPIs": [
-        "Recommendation accuracy",
-        "User engagement metrics"
-    ],
-    "Prerequisites": [
-        "Familiarity with deep learning frameworks such as TensorFlow or PyTorch",
-        "Knowledge of classical machine learning algorithms and collaborative filtering"
-    ],
-    "Infrastructure Requirements": "Moderate computational resources, including a dedicated server for training the model.",
-    "Milestones (6 months)": {
-        "M2": "Develop a baseline generative AI model using GANs or transformers",
-        "M4": "Integrate the generative AI model with classical machine learning algorithms and collaborative filtering",
-        "M6": "Conduct user testing and refine the final system, including error handling and feedback mechanisms"
+[
+    {
+        "Title": "Real-Time Video Call Anti-Aliasing using On-Device Generative AI",
+        "Problem Statement": "Develop an on-device generative AI model to reduce aliasing artifacts in real-time video calls, enhancing visual clarity on smartphones. Focus on balancing quality, speed, and computational cost for seamless integration.",
+        "Description": "Video calls often suffer from aliasing due to compression and low bandwidth. This project explores using generative adversarial networks (GANs) or diffusion models to reconstruct high-frequency details lost during compression, improving perceived video quality. The existing worklet hints at previous efforts in this domain.",
+        "Challenge / Use Case": "Poor video quality during video calls impacts user experience and hinders effective communication. This addresses the need for visually clear, real-time communication, particularly in low-bandwidth scenarios.",
+        "Deliverables": "Android app prototype demonstrating real-time anti-aliasing, fine-tuned generative model (TFLite compatible), performance benchmark report, and a research paper draft.",
+        "KPIs": [
+            "PSNR improvement (dB)",
+            "SSIM score",
+            "Latency (ms)",
+            "Model size (MB)"
+        ],
+        "Prerequisites": [
+            "Generative Adversarial Networks (GANs)",
+            "Diffusion Models",
+            "TensorFlow Lite",
+            "Video compression standards (H.264, H.265)",
+            "Android development",
+            "Python",
+            "Image processing fundamentals"
+        ],
+        "Infrastructure Requirements": "Standard laptop with a capable CPU. A GPU is recommended for training but not strictly required if using smaller models. Access to a dataset of aliased and clean video frames (publicly available or synthetically generated).",
+        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, TensorFlow Lite, OpenCV, Android Studio, FFmpeg.",
+        "Milestones (6 months)": {
+            "M2": "Dataset preparation and baseline GAN/Diffusion model implementation.",
+            "M4": "Model training and optimization for on-device deployment.",
+            "M6": "Android app integration, testing, performance evaluation, and documentation."
+        },
+        "Reference Work": [
+            {
+                "title": "Delving deeper into anti-aliasing in convnets",
+                "link": "https://link.springer.com/article/10.1007/s11263-022-01672-y",
+                "description": "\u2026 260 videos in the training set to validate video consistency. \u2026 in video, we propose a new \nmean Average Video Instance \u2026 results of applying our approach to generative models. In Fig. 11, \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Suppressing High-Frequency Artifacts for Generative Model Watermarking by Anti-Aliasing",
+                "link": "https://dl.acm.org/doi/abs/10.1145/3658664.3659634",
+                "description": "\u2026 To improve the imperceptibility of the generative model wa\u2026 For this purpose, we propose to \nexploit the anti-aliasing strategy for \u2026 Suppose that we have a matrix A \u2208 R\ud835\udc5b\u00d7\ud835\udc5b where \ud835\udc4e\ud835\udc56,\ud835\udc57 \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": " Analysis and solution to aliasing artifacts in neural waveform generation models",
+                "link": "https://www.sciencedirect.com/science/article/pii/S0003682X22005576",
+                "description": "In recent years, with the application of deep learning in speech synthesis, waveform \ngeneration models based on generative adversarial networks have achieved high quality \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Alias-free generative adversarial networks",
+                "link": "https://proceedings.neurips.cc/paper/2021/hash/076ccd93ad68be51f23707988e934906-Abstract.html",
+                "description": "\u2026 process of typical generative adversarial networks depends \u2026 for generative models better \nsuited for video and animation. \u2026 videos highlight the practical relevance of different dB values. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Advancing Diffusion Models: Alias-Free Resampling and Enhanced Rotational Equivariance",
+                "link": "https://arxiv.org/abs/2411.09174",
+                "description": "\u2026 as alias-free resampling in generative models to improve image \u2026 Thus, we have the following \nparameters for the anti-aliasing \u2026 Second, we aim to incorporate these techniques into video-\u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Applications and Limitations of Machine Learning in Computer Graphics",
+                "link": "https://www.atlantis-press.com/proceedings/dai-23/125998062",
+                "description": "\u2026 in many fields especially in video games, films, virtual reality (\u2026 learning applications within \nanti-aliasing, ambient occlusion, \u2026 AOGAN: A generative adversarial network for screen space \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Subpixel Deblurring of Anti\u2010Aliased Raster Clip\u2010Art",
+                "link": "https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.14744",
+                "description": "\u2026 Image generative models including ours, do not explicitly \u2026 we address fail to remove \nanti-aliasing blur and often generate \u2026 ], or remastering legacy content for video games), our outputs \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Evaluation of real-time aliasing reduction methods in neural networks for nonlinear audio effects modelling",
+                "link": "https://www.aes.org/e-lib/browse.cfm?elib=22384",
+                "description": "\u2026 of anti-aliasing methods for use in real-time. Notably, one method of anti-aliasing capable of \n\u2026 [ 12 ] present a number of methods of ren - dering the generator of a Generative Adversarial \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": " Transforming Static Media into Dynamic Content: Advanced AI Models for Realistic Video Synthesis",
+                "link": "https://www.researchgate.net/profile/Ava-Parker-3/publication/387413641_Transforming_Static_Media_into_Dynamic_Content_Advanced_AI_Models_for_Realistic_Video_Synthesis/links/676cb2a1117f340ec3d827a7/Transforming-Static-Media-into-Dynamic-Content-Advanced-AI-Models-for-Realistic-Video-Synthesis.pdf",
+                "description": "\u2026 The synthesis of lifelike videos from static images and audio \u2026 Generative models for video \nsynthesis hold vast potential \u2026 Mip-nerf: A multiscale representation for anti-aliasing neural \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Drantal-NeRF: Diffusion-Based Restoration for Anti-aliasing Neural Radiance Field",
+                "link": "https://arxiv.org/abs/2407.07461",
+                "description": "\u2026 Generative models have emerged as a powerful tool in the \u2026 We will also put Microsoft AI \nprinciples into practice when \u2026 we also include a video demo in the supplementary material. \u2026",
+                "tag": "scholar"
+            }
+        ]
     },
-    "Reference Work": [
-        {
-            "title": "Hyperpersonalisation-and-X-Sell-for-Indian-Financial-Sector",
-            "description": "A machine learning and Generative AI solution for personalized financial recommendations. Features include dynamic pricing (loan predictions), product recommendations, and actionable insights using KingNish/Qwen2.5 LLM. Integrated with a Flask app for real-time deployment on AWS.",
-            "link": "https://github.com/Gaurang-Sonkavde/Hyperpersonalisation-and-X-Sell-for-Indian-Financial-Sector",
-            "tag": "github"
+    {
+        "Title": "AI-Powered Noise Suppression for Smartphone Voice Calls",
+        "Problem Statement": "Design and implement a real-time noise suppression algorithm for smartphone voice calls using on-device AI, improving call clarity in noisy environments and reducing user fatigue.",
+        "Description": "Background noise significantly degrades voice call quality, making conversations difficult. This project aims to leverage deep learning techniques to effectively filter out noise while preserving speech intelligibility, all processed directly on the smartphone.",
+        "Challenge / Use Case": "Users frequently make calls from noisy environments (e.g., streets, cafes). This addresses the need for clear voice communication even in challenging acoustic conditions.",
+        "Deliverables": "Android app demonstrating real-time noise suppression, fine-tuned deep learning model (TFLite compatible), noise reduction performance report, and comparative analysis with existing methods.",
+        "KPIs": [
+            "PESQ score",
+            "STOI score",
+            "Latency (ms)",
+            "Model size (MB)"
+        ],
+        "Prerequisites": [
+            "Speech enhancement techniques",
+            "Deep learning for audio processing",
+            "TensorFlow Lite",
+            "Signal processing fundamentals",
+            "Android development",
+            "Python"
+        ],
+        "Infrastructure Requirements": "Standard laptop with a capable CPU. GPU recommended for training. Access to a noise speech dataset (e.g., LibriSpeech, DEMAND).",
+        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, TensorFlow Lite, Librosa, Android Studio.",
+        "Milestones (6 months)": {
+            "M2": "Dataset preparation and baseline noise suppression model implementation.",
+            "M4": "Model training, optimization, and TFLite conversion.",
+            "M6": "Android app integration, testing, and performance evaluation."
         },
-        {
-            "title": "[PDF][PDF] Revolutionizing Product Recommendations with Generative AI: Context-Aware Personalization at Scale",
-            "link": "https://www.researchgate.net/profile/Sai-Kiran-Reddy-Malikireddy-3/publication/387741873_Revolutionizing_Product_Recommendations_with_Generative_AI_Context-Aware_Personalization_at_Scale/links/677ad4fe117f340ec3f60fd6/Revolutionizing-Product-Recommendations-with-Generative-AI-Context-Aware-Personalization-at-Scale.pdf",
-            "description": "\u2026 By reimagining product discovery as a generative process, \u2026 hyper-personalized, interactive, \nand engaging recommendation \u2026 Reinforcement learning integrated with generative models \u2026",
-            "tag": "scholar"
+        "Reference Work": [
+            {
+                "title": "Agora-Noise-suppression-issue-iOS",
+                "description": "Starting with Agora 3.0 voice call sdk, the noise suppression from chatRoomGaming seems to be off if there is only one participant",
+                "link": "https://github.com/winstondu/Agora-Noise-suppression-issue-iOS",
+                "tag": "github"
+            },
+            {
+                "title": "Suppression of acoustic noise in speech using spectral subtraction",
+                "link": "https://ieeexplore.ieee.org/abstract/document/1163209/",
+                "description": "\u2026 for voice processor modification to account for noise \u2026 shall be called the noise residual, will \nfor uncorrelated noise exhibit \u2026 implement a spectral subtraction noise suppression system. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Analyzing the influence of diverse background noises on voice transmission: A deep learning approach to noise suppression",
+                "link": "https://www.mdpi.com/2076-3417/14/2/740",
+                "description": "\u2026 to suppress background noise in audio signals. Our method focuses on four simulated \nenvironmental noise \u2026 In particular, we call noise a signal or set of signals that distort the wave that \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Frequency domain noise suppression approaches in mobile telephone systems",
+                "link": "https://ieeexplore.ieee.org/abstract/document/319313/",
+                "description": "\u2026 studied for adverse mobile noise environments. A new noise suppression algorithm based \non a \u2026 When voice is absent, the maximum noise suppression factor Gmin determined by the \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Noise Suppression for Intelligibility Improvement of Tollgate Call Communication",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10315385/",
+                "description": "\u2026 , intelligibility of driver's voice becomes worse. We propose a noise suppression method \u2026 \nWe propose an improved noise suppression method for tollgate call system, based on adaptive \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Improving Acoustic Echo Cancellation for Voice Assistants Using Neural Echo Suppression and Multi-Microphone Noise Reduction",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10447477/",
+                "description": "\u2026 (linear AEC) and a neural echo suppressor (NES), with an adaptive filter developed for \nmulti-microphone noise reduction, called Cleaner. This additional enhancement step allows the \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Icassp 2023 deep noise suppression challenge",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10474162/",
+                "description": "\u2026 The presence of these noises on calls can lead to increased fatigue for participants. \u2026 the \nprimary talker\u2019s voice and concurrently suppressing noise, reverberation and neighboring talkers\u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "ICASSP 2021 deep noise suppression challenge",
+                "link": "https://ieeexplore.ieee.org/abstract/document/9415105/",
+                "description": "\u2026 For ease of reference, we will call the ICASSP 2021 challenge \u2026 voice, emotion data, and \nnonenglish languages (Chinese). \u2026 singing voice from Freesound was used to generate 50 noisy \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Noise suppression method for body-conducted soft speech enhancement based on external noise monitoring",
+                "link": "https://ieeexplore.ieee.org/abstract/document/7472816/",
+                "description": "\u2026 a linear filter to suppress the noise components without voice activity detection. Experimental \n\u2026 NAM microphone, which is called the body-conducted external noise signal in this paper. A \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Evaluating noise suppression methods for recovering the Lombard speech from vocal output in an external noise field",
+                "link": "https://link.springer.com/article/10.1007/s10772-018-09564-8",
+                "description": "\u2026 A noise cancellation method called channel estimation has been proposed to extract \u2026 \nspeech was obtained by subtracting the filtered noise from the noisy voice output. Using the \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Keyboard emanations in remote voice calls: Password leakage and noise (less) masking defenses",
+                "link": "https://dl.acm.org/doi/abs/10.1145/3176258.3176341",
+                "description": "\u2026 We found out that white noise was not a suitable candidate to defend against our attack \nsystem due to noise suppression mechanisms deployed by the microphone and the voice calling \u2026",
+                "tag": "scholar"
+            }
+        ]
+    },
+    {
+        "Title": "On-Device Visual Question Answering for Accessibility",
+        "Problem Statement": "Develop an on-device visual question answering (VQA) system to aid visually impaired users by answering questions about their surroundings captured through the smartphone camera.",
+        "Description": "VQA enables machines to understand images and answer natural language questions about them. This project focuses on creating a compact, efficient VQA model that can run entirely on the smartphone, providing real-time assistance to visually impaired users.",
+        "Challenge / Use Case": "Visually impaired individuals often need assistance in understanding their surroundings. This addresses the need for a portable, real-time visual aid that provides contextual information.",
+        "Deliverables": "Android app demonstrating real-time VQA, fine-tuned VQA model (TFLite compatible), performance benchmark report, and a usability study with visually impaired users.",
+        "KPIs": [
+            "VQA accuracy",
+            "Latency (ms)",
+            "Model size (MB)",
+            "User satisfaction (usability study)"
+        ],
+        "Prerequisites": [
+            "Computer Vision",
+            "Natural Language Processing",
+            "Deep learning for image and text understanding",
+            "TensorFlow Lite",
+            "Android development",
+            "Python"
+        ],
+        "Infrastructure Requirements": "Standard laptop with a GPU. Access to a VQA dataset (e.g., VQA, Visual Genome).",
+        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, TensorFlow Lite, Android Studio.",
+        "Milestones (6 months)": {
+            "M2": "Dataset preparation and baseline VQA model implementation.",
+            "M4": "Model training, optimization, and TFLite conversion.",
+            "M6": "Android app integration, user testing, and performance evaluation."
         },
-        {
-            "title": "AI-Driven Personalization: Generative Models in E-Commerce",
-            "link": "https://hal.science/hal-04925157/",
-            "description": "\u2026 [11] The discussion has covered the topic of deep learning-based e-\u2026 a recommendation \nsystem that employs various deep learning and machine learning algorithms to suggest products \u2026",
-            "tag": "scholar"
+        "Reference Work": [
+            {
+                "title": "Mobivqa: Efficient on-device visual question answering",
+                "link": "https://dl.acm.org/doi/abs/10.1145/3534619",
+                "description": "\u2026 much cross-modal processing is needed for different visual questions. In the first stage, we \ndecide if the input visual questions is too difficult to answer, in which case we fail early and do \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "POP-VQA-Privacy Preserving, On-Device, Personalized Visual Question Answering",
+                "link": "https://openaccess.thecvf.com/content/WACV2024/html/Sahu_POP-VQA_-_Privacy_Preserving_On-Device_Personalized_Visual_Question_Answering_WACV_2024_paper.html",
+                "description": "\u2026 inferencing not only preserves user data privacy (as no information is moved out of device), \nbut also provides users with limited internet access (especially in low resource locations), an \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Deqa: On-device question answering",
+                "link": "https://dl.acm.org/doi/abs/10.1145/3307334.3326071",
+                "description": "\u2026 We design DeQA (pronounced de-ka), which stands for on-device QA, that runs completely \nlocally \u2026 As users access new content, the search engine needs to store the data and index it. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "TinyVQA: Compact Multimodal Deep Neural Network for Visual Question Answering on Resource-Constrained Devices",
+                "link": "https://arxiv.org/abs/2404.03574",
+                "description": "\u2026 MobiVQA [3] proposed on-device VQA, focusing on early exit and selective processing \nand \u2026 stored in L2 memory for direct accessibility by the HWCE, streamlining convolutional \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": " Robust Visual Question-Answering using Generative Vision Language Models",
+                "link": "https://cdn.iiit.ac.in/cdn/web2py.iiit.ac.in/research_centres/publications/download/mastersthesis.pdf.b4a20aa786ea92f1.526168756c4d656874615f5468657369732e706466.pdf",
+                "description": "\u2026 IIIT Hyderabad provided me with access to a leading research community in India and to \u2026 \nWe release a visual question answering (VQA) system for electrical circuit images that could be \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "SeeSay: An Assistive Device for the Visually Impaired Using Retrieval Augmented Generation",
+                "link": "https://arxiv.org/abs/2410.03771",
+                "description": "\u2026 application that can use visual querying models to provide accessibility guidance for blind or \n\u2026 cloud-based LLM services and boost user privacy by enabling on-device LLM functionality. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "When can accessibility help? An exploration of accessibility feature recommendation on mobile devices",
+                "link": "https://dl.acm.org/doi/abs/10.1145/3430263.3452434",
+                "description": "\u2026 As we will present, many of the accessibility features available on today\u2019s smartphones can \nbe activated using such mechanisms derived from behaviors detected based on device use. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Backpropagation-Free Multi-modal On-Device Model Adaptation via Cloud-Device Collaboration",
+                "link": "https://dl.acm.org/doi/abs/10.1145/3706422",
+                "description": "\u2026 , particularly in video question answering and retrieval tasks, \u2026 tailored for multimodal on-device \nmodel adaptation via cloud-\u2026 and copyright concerns, where access to the source domain \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Vision-Language Models for Edge Networks: A Comprehensive Survey",
+                "link": "https://arxiv.org/abs/2502.07855",
+                "description": "\u2026 captioning, visual question answering, and visual content \u2026 to make sophisticated VLMs \naccessible and practical for edge \u2026 online inference with minimal on-device memory is achieved \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "On-device language models: A comprehensive review",
+                "link": "https://arxiv.org/abs/2409.00088",
+                "description": "\u2026 to on-device language models, providing insights into how this shift could redefine the landscape \nof applications and AI accessibility. \u2026 on-device, architectural foundations, and on-device \u2026",
+                "tag": "scholar"
+            }
+        ]
+    },
+    {
+        "Title": "Smart Camera: Object Detection and Scene Understanding for Enhanced Photography",
+        "Problem Statement": "Implement a real-time object detection and scene understanding system on a smartphone camera to automatically enhance photo quality and suggest optimal camera settings.",
+        "Description": "This project aims to utilize AI to intelligently analyze the scene captured by the smartphone camera, identifying objects and understanding the scene context. This information can then be used to automatically adjust camera settings (e.g., exposure, white balance) and enhance the overall photo quality.",
+        "Challenge / Use Case": "Users often struggle to capture high-quality photos in various lighting conditions and scenes. This addresses the need for an intelligent camera system that can automatically optimize photo settings and improve overall image quality.",
+        "Deliverables": "Android app prototype with real-time object detection and scene understanding, fine-tuned object detection model (TFLite compatible), performance benchmark report, and a comparative analysis with existing camera apps.",
+        "KPIs": [
+            "Object detection accuracy (mAP)",
+            "Inference speed (FPS)",
+            "Model size (MB)",
+            "Subjective image quality assessment"
+        ],
+        "Prerequisites": [
+            "Computer Vision",
+            "Object Detection (e.g., YOLO, SSD)",
+            "Image processing",
+            "Deep learning",
+            "TensorFlow Lite",
+            "Android development"
+        ],
+        "Infrastructure Requirements": "Laptop with a GPU (recommended for training), access to a relevant object detection dataset (e.g., COCO, ImageNet), Android smartphone for testing.",
+        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, TensorFlow Lite, OpenCV, Android Studio.",
+        "Milestones (6 months)": {
+            "M2": "Dataset preparation and selection of an appropriate object detection model.",
+            "M4": "Model training, optimization, and conversion to TensorFlow Lite.",
+            "M6": "Integration with the Android camera application, testing, and performance evaluation."
         },
-        {
-            "title": "[PDF][PDF] USING GENERATIVE MODELS FOR PERSONALIZED RECOMMENDATIONS IN E-COMMERCE",
-            "link": "https://www.researchgate.net/profile/Pradeep-Sharma-64/publication/387098741_USING_GENERATIVE_MODELS_FOR_PERSONALIZED_RECOMMENDATIONS_IN_E-COMMERCE/links/67608714e9b25e24af5656dd/USING-GENERATIVE-MODELS-FOR-PERSONALIZED-RECOMMENDATIONS-IN-E-COMMERCE.pdf",
-            "description": "\u2026 data and algorithms to provide customized product and service suggestions based on user \n\u2026 of generating personalized recommendations. Deep learning algorithms called generative \u2026",
-            "tag": "scholar"
+        "Reference Work": [
+            {
+                "title": "Object detection, tracking and recognition for multiple smart cameras",
+                "link": "https://ieeexplore.ieee.org/abstract/document/4653062/",
+                "description": "\u2026 impact on algorithm design for detection, tracking, and recognition of objects. In Section III, \u2026 \nobject detection from uncalibrated cameras and describe how the constraint that the scene \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Scene understanding from a moving camera for object detection and free space estimation",
+                "link": "https://ieeexplore.ieee.org/abstract/document/6232237/",
+                "description": "\u2026 facing cameras are not suitable. We present a general method for scene understanding using \n\u2026 Our method is able to create a simple 3D model of the scene and also to provide semantic \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Holistic scene understanding for 3d object detection with rgbd cameras",
+                "link": "http://openaccess.thecvf.com/content_iccv_2013/html/Lin_Holistic_Scene_Understanding_2013_ICCV_paper.html",
+                "description": "\u2026 and geometric information for indoor scene understanding. We leverage this information \nas well as contextual relations to detect and recognize objects in indoor scenes. In particular, \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Design Of Smart Camera System For Traffic Scene Understanding",
+                "link": "https://ieeexplore.ieee.org/abstract/document/9668198/",
+                "description": "\u2026 cameras and identify illegal traffic behaviors, such as speeding violations. This paper proposes \na smart camera \u2026 embedded by deep learning YOLOv3 algorithm for object detection. The \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "A real time object recognition and counting system for smart industrial camera sensor",
+                "link": "https://ieeexplore.ieee.org/abstract/document/7858663/",
+                "description": "\u2026 3.0 industrial camera to simulate a smart industrial camera, \u2026 This paper designed how to \nrecognize and count objects in a \u2026 as to verify the concept (smart camera with GPU cores) we \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Localized assistive scene understanding using deep learning and the IoT",
+                "link": "https://ieeexplore.ieee.org/abstract/document/9052161/",
+                "description": "\u2026 a system for localized scene understanding to assist sufferers \u2026 time information obtained from \nobject detection and localization \u2026 camera and offloads the image to our server for identifying \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Real Time Object Detection And Scene Understanding for Blind",
+                "link": "https://repositories.nust.edu.pk/xmlui/handle/123456789/49271",
+                "description": "\u2026 a Single Shot Detector model. YOLO was also tested for object detection but discarded due \n\u2026 it has minimal requirements like camera access, sound etc. which are already present in all \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": " Deep learning-based object detection and scene perception under bad weather conditions",
+                "link": "https://www.mdpi.com/2079-9292/11/4/563",
+                "description": "\u2026 Specialized vehicles used for automatic object detection are usually equipped with \nmultiple sensors such as laser scanners and LiDAR cameras to capture road assets. Vehicle-based \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Object detection with neural models, deep learning and common sense to aid smart mobility",
+                "link": "https://ieeexplore.ieee.org/abstract/document/8576132/",
+                "description": "\u2026 We highlight a novel object detection system called YOLO (You \u2026 be used with a computer \nWebcam for real-time object detection. \u2026 in autonomous driving relate to scene understanding. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "A Review of Scene Understanding in Smart Manufacturing Environments",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10718781/",
+                "description": "\u2026 This method successfully merges 3D LiDAR points with 2D camera pictures. In order to do \n\u2026 Kuvich, \u201cScene understanding and objects detection and identification with a perceptual \u2026",
+                "tag": "scholar"
+            }
+        ]
+    },
+    {
+        "Title": "AI-Powered Smart Shopping Assistant",
+        "Problem Statement": "Develop a mobile app that uses the smartphone camera and object detection to identify products in a retail environment and provide relevant information (price, reviews, etc.).",
+        "Description": "This project focuses on building a smart shopping assistant that utilizes real-time object detection to identify products encountered by the user. The app then retrieves relevant information from online databases, providing a convenient and informative shopping experience.",
+        "Challenge / Use Case": "Consumers often lack access to comprehensive product information while shopping in physical stores. This addresses the need for a mobile app that provides instant access to product details, reviews, and price comparisons.",
+        "Deliverables": "Android app prototype demonstrating real-time product identification, a trained object detection model (TFLite compatible), a database integration component, and a user interface for displaying product information.",
+        "KPIs": [
+            "Object detection accuracy (mAP)",
+            "Inference speed (FPS)",
+            "Response time for retrieving product information",
+            "User satisfaction (usability study)"
+        ],
+        "Prerequisites": [
+            "Computer Vision",
+            "Object Detection (YOLO, SSD)",
+            "Database integration (e.g., SQL, NoSQL)",
+            "Mobile app development (Android)",
+            "API integration"
+        ],
+        "Infrastructure Requirements": "Laptop with GPU (recommended for training), Access to a product image dataset (e.g., Open Images Dataset, custom dataset), Android smartphone for testing.",
+        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, TensorFlow Lite, Android Studio, REST APIs, Database (e.g., Firebase, MongoDB).",
+        "Milestones (6 months)": {
+            "M2": "Dataset preparation and training of the object detection model.",
+            "M4": "Development of the mobile app's user interface and integration with the object detection model.",
+            "M6": "Database integration, testing, and deployment of the app on an Android device."
         },
-        {
-            "title": "Analysis of recommender system using generative artificial intelligence: A systematic literature review",
-            "link": "https://ieeexplore.ieee.org/abstract/document/10565860/",
-            "description": "\u2026 , videos, audios, goods, and services to their customers/users or to personalize experiences \nfor their \u2026 explores the use of deep learning and generative adversarial networks (GANs) in \u2026",
-            "tag": "scholar"
-        },
-        {
-            "title": "Generative AI Recommender System in E-Commerce.",
-            "link": "https://search.ebscohost.com/login.aspx?direct=true&profile=ehost&scope=site&authtype=crawler&jrnl=20885334&AN=182563287&h=6%2BAI5or%2FlDPWQKOwm1do76wUvjdHf2tXJbPCIn9S%2BSffNkz6cMQEkQsbnW2KVxBjWyR4lIC43B7rWnxc2jvPcA%3D%3D&crl=c",
-            "description": "\u2026 customized product recommendations. One creative way to get beyond the constraints of \ne-commerce services is using recommendation \u2026 of robotics, AI, and machine learning. Then, the \u2026",
-            "tag": "scholar"
-        },
-        {
-            "title": "[HTML][HTML] Harnessing generative AI for personalized E-commerce product descriptions: A framework and practical insights",
-            "link": "https://www.sciencedirect.com/science/article/pii/S0920548925000418",
-            "description": "\u2026 of artificial intelligence (AI) and machine learning is \u2026 of large language models to personalize \nuser interactions throughout the \u2026 of generative AI to create customized e-commerce product \u2026",
-            "tag": "scholar"
-        },
-        {
-            "title": "Personalized Marketing and Recommendation Systems",
-            "link": "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003472544-7/personalized-marketing-recommendation-systems-mani-teja-chowdary-maniteja-vallepu-naga-sai-purushotham-neelam-kumari",
-            "description": "\u2026 deep learning techniques may be opaque. How many things and users must you man\u2011 age? \nDeep learning \u2026 Personalized filters that sug\u2011 gest products we may enjoy based on our prior \u2026",
-            "tag": "scholar"
-        },
-        {
-            "title": "Generative AI for Revolutionizing Personal Style",
-            "link": "https://ieeexplore.ieee.org/abstract/document/10932201/",
-            "description": "\u2026 Recommendation engines play a huge role in shopping customized product by suggesting \n\u2026 deep learning methodologies and the advances achieved by GANs in intelligent fashion \u2026",
-            "tag": "scholar"
-        },
-        {
-            "title": "[PDF][PDF] Harnessing the power of generative artificial intelligence for dynamic content personalization in customer relationship management systems: A data-driven\u00a0\u2026",
-            "link": "https://www.researchgate.net/profile/Sai-Ganesh-Reddy-Bojja-2/publication/389689415_Harnessing_the_Power_of_Generative_Artificial_Intelligence_for_Dynamic_Content_Personalization_in_Customer_Relationship_Management_Systems_A_Data-Driven_Framework_for_Optimizing_Customer_Engagement_an/links/67cdb161bab3d32d84405238/Harnessing-the-Power-of-Generative-Artificial-Intelligence-for-Dynamic-Content-Personalization-in-Customer-Relationship-Management-Systems-A-Data-Driven-Framework-for-Optimizing-Customer-Engagement-an.pdf",
-            "description": "\u2026 Generative AI encompasses a range of machine learning \u2026 of generative AI for crafting \npersonalized product descriptions, \u2026 after clicking on a product recommendation or the number of \u2026",
-            "tag": "scholar"
-        },
-        {
-            "title": "Practical Recommendation of Using Generative AI in Business",
-            "link": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4851637",
-            "description": "\u2026 economic benefits, balancing customization and control with \u2026 applications of generative AI \nin software product management, \u2026 By leveraging advanced machine learning models, GenAI \u2026",
-            "tag": "scholar"
-        }
-    ]
-}
+        "Reference Work": [
+            {
+                "title": "ciso-assistant-community",
+                "description": "CISO Assistant is a one-stop-shop for GRC, covering Risk, AppSec, Compliance/Audit Management, Privacy and supporting +80 frameworks worldwide with auto-mapping: NIST CSF, ISO 27001, SOC2, CIS, PCI DSS, NIS2, CMMC, PSPF, GDPR, HIPAA, Essential Eight, NYDFS-500, DORA, NIST AI RMF, 800-53, CyFun, AirCyber, NCSC, ECC, SCF and so much mor",
+                "link": "https://github.com/intuitem/ciso-assistant-community",
+                "tag": "github"
+            },
+            {
+                "title": "AIShopping-assistant",
+                "description": "Assist you to do shopping",
+                "link": "https://github.com/madhu1096/AIShopping-assistant",
+                "tag": "github"
+            },
+            {
+                "title": "ShoppingGPT",
+                "description": "\ud83c\udf3c ShoppingGPT \ud83d\uded2: AI-powered Shopping Assistant  - RAG + LLMs + Semantic Router +Vietnamese",
+                "link": "https://github.com/Hoanganhvu123/ShoppingGPT",
+                "tag": "github"
+            },
+            {
+                "title": "AI-Based-Shopping-Assistant",
+                "description": "Artificial Intelligence based shopping recommendation system. This project was submitted in Codeutsava at NIT Raipur 2019",
+                "link": "https://github.com/riti1302/AI-Based-Shopping-Assistant",
+                "tag": "github"
+            },
+            {
+                "title": "amazongpt",
+                "description": "\ud83d\uded2 Add AI chat & product/category summaries to Amazon shopping powered by the latest LLMs",
+                "link": "https://github.com/KudoAI/amazongpt",
+                "tag": "github"
+            },
+            {
+                "title": "guidance-for-generative-ai-shopping-assistant-using-agents-for-amazon-bedrock",
+                "description": "This Guidance demonstrates how to create a compelling, AI-driven shopping experience using Amazon Bedrock Agents.",
+                "link": "https://github.com/aws-solutions-library-samples/guidance-for-generative-ai-shopping-assistant-using-agents-for-amazon-bedrock",
+                "tag": "github"
+            },
+            {
+                "title": "ai_shopping_assistant",
+                "description": null,
+                "link": "https://github.com/dawn0123/ai_shopping_assistant",
+                "tag": "github"
+            },
+            {
+                "title": "shopping-assistant",
+                "description": "Simplifies shopping for users with the use of AI, provides the best deals, and never leaves the user confused!",
+                "link": "https://github.com/MSU-AI/shopping-assistant",
+                "tag": "github"
+            },
+            {
+                "title": "ezyai-chatbot",
+                "description": "ai based shopping assistant developed with langgraph",
+                "link": "https://github.com/mustafakemalgordesli/ezyai-chatbot",
+                "tag": "github"
+            },
+            {
+                "title": "Aisle-View",
+                "description": "Full stack shopping assistant app/backend",
+                "link": "https://github.com/dalilakatialeo/Aisle-View",
+                "tag": "github"
+            },
+            {
+                "title": "\u2026\u00a0store shopping experience with an augmented reality shopping assistant application using personalized recommendations and explainable artificial intelligence",
+                "link": "https://www.emerald.com/insight/content/doi/10.1108/jrim-09-2021-0237/full/html",
+                "description": "\u2026 This paper demonstrates that a shopping assistant artifact provides a good opportunity to \nenhance users' shopping experience on their path-to-purchase, as it can support customers by \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "The effect of AI shopping assistant's motivated consumer innovativeness on satisfaction and purchase intention",
+                "link": "https://koreascience.kr/article/JAKO202332443233942.page",
+                "description": "\u2026 The satisfaction with the AI shopping assistant did not affect the purchase intention. Third, \nin the case of hedonic, the AI-\u2026 I think AI shopping assistant are key to online shopping. \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Design proposal for a virtual shopping assistant for people with vision problems applying artificial intelligence techniques",
+                "link": "https://www.mdpi.com/2504-2289/7/2/96",
+                "description": "\u2026 for eCommerce for people with vision problems to significantly improve the online shopping \n\u2026 a virtual shopping assistant with artificial intelligence affects the shopping experience of \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Isa: An intelligent shopping assistant",
+                "link": "https://arxiv.org/abs/2007.03805",
+                "description": "\u2026 In this paper, we present ISA, a powerful intelligent shopping assistant. ISA is designed to \nachieve the goal of improving shopping experience in physical stores by leveraging advanced \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Artificial Intelligence (AI) Assistant in Online Shopping: A Randomized Field Experiment on a Livestream Selling Platform",
+                "link": "https://pubsonline.informs.org/doi/abs/10.1287/isre.2023.0103",
+                "description": "\u2026 Thus, we seek to understand whether AI streaming assistants can \u2026 AI streaming assistants \nin livestream selling, we aim to answer the research questions: How do AI streaming assistants \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "The convenience of shopping via voice AI: Introducing AIDM",
+                "link": "https://www.sciencedirect.com/science/article/pii/S0969698921000564",
+                "description": "The purpose of this paper is to propose an updated view of consumer choice based on AI \nand inherent convenience addiction to smart speakers. Following the MacInnis framework for \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": " A Multimodal Shopping Assistant for Home E-Commerce.",
+                "link": "https://cdn.aaai.org/FLAIRS/2001/FLAIRS01-001.pdf",
+                "description": "\u2026 for applying agent and Artificial Intelligence technologies. \u2026 a multimodal intelligent Shopping \nAssistant developed in the \u2026 of appliances and systems, including shopping and ecommerce, \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Investigating the acceptance intentions of online shopping assistants in E-commerce interactions: Mediating role of trust and effects of consumer demographics",
+                "link": "https://www.cell.com/heliyon/fulltext/S2405-8440(24)01062-4",
+                "description": "\u2026 shopping assistants (OSAs), interactive and automated tools used to assist customers without \nsalespeople's assistance. \u2026 valuable due to the advancements in Artificial Intelligence (AI) [ \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Shopbot: Progress in developing an interactive mobile shopping assistant for everyday use",
+                "link": "https://ieeexplore.ieee.org/abstract/document/4811835/",
+                "description": "\u2026 shopping process is another prerequisite. Therefore, the developed probabilistic, multi-modal \npeople tracking system of our mobile shopping assistant \u2026 with three shopping companions \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": " Speak and shop! Transforming retail experience with AI voice assistants",
+                "link": "https://www.emerald.com/insight/content/doi/10.1108/INTR-02-2024-0149/full/html",
+                "description": "Purpose This study outlines the process by which consumers establish brand loyalty through \nthe use of AI voice assistants. Design/methodology/approach This study adopted the \u2026",
+                "tag": "scholar"
+            }
+        ]
+    }
+]
