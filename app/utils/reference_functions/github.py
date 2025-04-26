@@ -23,10 +23,10 @@ def get_github_references(keyword):
     result = []
     for item in data.get("items", []):
         description = item.get("description", "")
-        if description:
-            description = slice_to_100_words(description)
-        else:
-            description = ""
+        # if description:
+        #     description = slice_to_100_words(description)
+        # else:
+        #     description = ""
         result.append(
             {
                 "Title": item["name"],

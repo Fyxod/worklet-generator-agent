@@ -19,10 +19,10 @@ def get_google_scholar_references(keyword):
                 title.replace("[PDF]", "").replace("[HTML]", "").replace("[DOC]", "")
             )
             description = i.get("description", "")
-            if description:
-                description = slice_to_100_words(description)
-            else:
-                description = ""
+            # if description:
+            #     description = slice_to_100_words(description)
+            # else:
+            #     description = "did not find any discription just sort them sa u see fit try to keep one with tag scholar in front "
             result.append(
                 {
                     "Title": title,

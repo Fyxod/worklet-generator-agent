@@ -1,461 +1,449 @@
 [
     {
-        "Title": "Real-time Video Call Anti-Aliasing using On-Device Generative AI",
-        "Problem Statement": "Develop a real-time anti-aliasing solution for video calls on smartphones, leveraging generative AI to reconstruct high-frequency details lost during compression and transmission, enhancing visual quality for users.",
-        "Description": "Video calls often suffer from aliasing artifacts due to bandwidth limitations and compression. This project explores the use of generative adversarial networks (GANs) or diffusion models to intelligently reconstruct lost details, providing a smoother and more natural viewing experience. Focus will be on on-device implementation for low latency.",
-        "Challenge / Use Case": "Improving the visual quality of low-bandwidth video calls, especially in challenging network conditions.",
-        "Deliverables": "Android app prototype with real-time anti-aliasing, fine-tuned generative model, performance evaluation report.",
+        "Title": "Real-time Video Call Anti-Aliasing using On-Device TFLite",
+        "Problem Statement": "Develop and deploy a real-time video anti-aliasing solution for low-bandwidth video calls using an on-device TFLite model, improving visual clarity and reducing bandwidth consumption, catering to users with limited connectivity.",
+        "Description": "Existing video conferencing solutions struggle with aliasing artifacts under poor network conditions. This project leverages the power of on-device machine learning to reduce aliasing in real-time, enhancing user experience without relying on high bandwidth. The provided document highlights existing work in this direction.",
+        "Challenge / Use Case": "Poor video quality in low-bandwidth environments, impacting user experience and collaboration.",
+        "Deliverables": "Android application with real-time anti-aliasing, fine-tuned TFLite model, performance evaluation report, and architecture diagram.",
         "KPIs": [
             "Peak Signal-to-Noise Ratio (PSNR)",
             "Structural Similarity Index (SSIM)",
-            "Frames Per Second (FPS)",
-            "Model Size (MB)"
+            "Bandwidth reduction (%)",
+            "Frames per second (FPS)"
         ],
         "Prerequisites": [
-            "Generative Adversarial Networks (GANs) or Diffusion Models",
             "TensorFlow Lite",
-            "Video Compression Standards (H.264, VP9)",
             "Android Development",
             "Image Processing Fundamentals",
-            "PyTorch/TensorFlow"
-        ],
-        "Infrastructure Requirements": "Standard Android smartphone for testing. GPU-enabled machine for model training (Google Colab sufficient).",
-        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, TensorFlow Lite, Android Studio, OpenCV.",
-        "Milestones (6 months)": {
-            "M2": "Dataset creation and baseline GAN/Diffusion model implementation.",
-            "M4": "Model optimization for on-device performance and integration with a basic video calling app.",
-            "M6": "Fully functional Android app with real-time anti-aliasing, performance evaluation, and report."
-        },
-        "Reference Work": [
-            {
-                "Title": "Delving deeper into anti-aliasing in convnets",
-                "Link": "https://link.springer.com/article/10.1007/s11263-022-01672-y",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": "Suppressing High-Frequency Artifacts for Generative Model Watermarking by Anti-Aliasing",
-                "Link": "https://dl.acm.org/doi/abs/10.1145/3658664.3659634",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": " Analysis and solution to aliasing artifacts in neural waveform generation models",
-                "Link": "https://www.sciencedirect.com/science/article/pii/S0003682X22005576",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": "Alias-free generative adversarial networks",
-                "Link": "https://proceedings.neurips.cc/paper/2021/hash/076ccd93ad68be51f23707988e934906-Abstract.html",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": "Advancing Diffusion Models: Alias-Free Resampling and Enhanced Rotational Equivariance",
-                "Link": "https://arxiv.org/abs/2411.09174",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": "Applications and Limitations of Machine Learning in Computer Graphics",
-                "Link": "https://www.atlantis-press.com/proceedings/dai-23/125998062",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": "Subpixel Deblurring of Anti\u2010Aliased Raster Clip\u2010Art",
-                "Link": "https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.14744",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": "Evaluation of real-time aliasing reduction methods in neural networks for nonlinear audio effects modelling",
-                "Link": "https://www.aes.org/e-lib/browse.cfm?elib=22384",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": " Transforming Static Media into Dynamic Content: Advanced AI Models for Realistic Video Synthesis",
-                "Link": "https://www.researchgate.net/profile/Ava-Parker-3/publication/387413641_Transforming_Static_Media_into_Dynamic_Content_Advanced_AI_Models_for_Realistic_Video_Synthesis/links/676cb2a1117f340ec3d827a7/Transforming-Static-Media-into-Dynamic-Content-Advanced-AI-Models-for-Realistic-Video-Synthesis.pdf",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": "Drantal-NeRF: Diffusion-Based Restoration for Anti-aliasing Neural Radiance Field",
-                "Link": "https://arxiv.org/abs/2407.07461",
-                "Description": "",
-                "Tag": "scholar"
-            }
-        ]
-    },
-    {
-        "Title": "AI-Powered Noise Reduction for Voice Calls in IoT Environments",
-        "Problem Statement": "Develop an on-device AI-powered noise reduction algorithm for voice calls originating from IoT devices (smart home, wearables), mitigating background noise and improving speech clarity.",
-        "Description": "IoT devices often operate in noisy environments. This project focuses on creating a robust noise reduction solution that can be deployed directly on the device, reducing latency and improving the user experience. This utilizes voice AI techniques such as spectral subtraction and deep learning based noise suppression.",
-        "Challenge / Use Case": "Improving voice communication quality in noisy IoT environments, enhancing usability and accessibility.",
-        "Deliverables": "Embedded noise reduction module for IoT devices (simulated or prototype), trained deep learning model, performance evaluation report.",
-        "KPIs": [
-            "Signal-to-Noise Ratio (SNR)",
-            "Perceptual Evaluation of Speech Quality (PESQ)",
-            "Latency (ms)",
-            "Computational Complexity (MIPS)"
-        ],
-        "Prerequisites": [
-            "Digital Signal Processing (DSP)",
-            "Voice Activity Detection (VAD)",
-            "Deep Learning for Speech Processing",
-            "Microphone Array Processing",
-            "Embedded Systems",
+            "Video Compression Techniques",
+            "Convolutional Neural Networks (CNNs)",
             "Python"
         ],
-        "Infrastructure Requirements": "Microcontroller/Raspberry Pi for prototyping. PC for model training. Microphone array for data collection (optional).",
-        "Tentative Tech Stack": "Python, TensorFlow Lite, C/C++, Raspberry Pi, TensorFlow, PyTorch.",
+        "Infrastructure Requirements": "Android smartphone for testing, Google Colab for model training (GPU recommended, but not mandatory).",
+        "Tentative Tech Stack": "Python, TensorFlow, TensorFlow Lite, Android Studio, OpenCV.",
         "Milestones (6 months)": {
-            "M2": "Data collection and preprocessing. Implementation of baseline noise reduction algorithms.",
-            "M4": "Training and optimization of deep learning models for noise reduction.",
-            "M6": "Deployment on embedded platform, performance evaluation, and documentation."
+            "M2": "Dataset creation/collection and initial model training.",
+            "M4": "TFLite model optimization and integration into Android application.",
+            "M6": "App testing, performance evaluation, and report generation."
         },
         "Reference Work": [
             {
-                "Title": "Sustainable acoustics: The impact of AI on acoustics design and noise management",
-                "Link": "https://czasopisma.uwm.edu.pl/index.php/ts/article/view/10297",
+                "Title": "LoRa-Powered Energy-Effcient Object Detection Mechanism in Edge Computing Nodes",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/9987393/",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "A real-time noise monitoring system based on internet of things for enhanced acoustic comfort and occupational health",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/9152026/",
+                "Title": "Near-brain computation: embedding P300-based BCIs at EEG headset level",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/10164428/",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Mobile Communication Voice Enhancement Under Convolutional Neural Networks and the Internet of Things.",
-                "Link": "https://search.ebscohost.com/login.aspx?direct=true&profile=ehost&scope=site&authtype=crawler&jrnl=10798587&AN=163484670&h=5KDc1WpvTWjXGEWReziQFEUHyte1RScnulvqBRHNEjw0Xpl9V%2BubEafqs7w80Heh2sPlxdI8fWTo9qJ1iBDuvg%3D%3D&crl=c",
+                "Title": "Recognizing human activities in a privacy-preserving way",
+                "Link": "https://webthesis.biblio.polito.it/33113/",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "IoT\u2010Based Voice\u2010Controlled Smart Homes with Source Separation Based on Deep Learning",
-                "Link": "https://onlinelibrary.wiley.com/doi/abs/10.1155/2023/1911385",
+                "Title": " DeepReality: An open source framework to develop AI-based augmented reality applications",
+                "Link": "https://www.sciencedirect.com/science/article/pii/S0957417424003956",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": " Future Trends in Voice Quality Testing for 5G and IoT-Enabled Devices",
-                "Link": "https://www.researchgate.net/profile/Akinsuru-Adedoyin/publication/387070270_Future_Trends_in_Voice_Quality_Testing_for_5G_and_IoT-Enabled_Devices/links/675f01db8a08a27dd0c6ef16/Future-Trends-in-Voice-Quality-Testing-for-5G-and-IoT-Enabled-Devices.pdf",
+                "Title": "MicroAI: embedded artificial intelligence for human activity recognition on smart glasses",
+                "Link": "https://theses.hal.science/tel-04049008/",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Internet of things for noise mapping in smart cities: state of the art and future directions",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/9108997/",
+                "Title": "Reinforcement learning on resource bounded systems",
+                "Link": "https://era.library.ualberta.ca/items/cbbd0fa7-48f8-4118-babd-d5833c7d9ee4",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "AI based audio recognition system for visually and audibly challenged",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/9215249/",
+                "Title": " Mechanical Design and Control System Development of Novel 2 Degree-of-freedom Ankle and Balance Rehabilitation Robotic System",
+                "Link": "https://repository.library.northeastern.edu/files/neu:rx914r47t/fulltext.pdf",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "AI-Powered IVR and Chat: A New Era in Telecom Troubleshooting",
-                "Link": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5218979",
+                "Title": "Dise\u00f1o e implementaci\u00f3n de un Holter de ECG para la detecci\u00f3n de arritmias ventriculares con inteligencia artificial",
+                "Link": "https://upcommons.upc.edu/handle/2117/382885",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "\u2026\u00a0Evaluation of a Voice Recognition Based IoT Home Automation System for Low-Resource Languages and Resource-Constrained Edge IoT Devices: A System for\u00a0\u2026",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/10151879/",
-                "Description": "",
-                "Tag": "scholar"
-            },
-            {
-                "Title": "Defending against microphone-based attacks with personalized noise",
-                "Link": "https://petsymposium.org/popets/2021/popets-2021-0021.php",
+                "Title": "[CITATION][C] Vision Based Traffic Panel Text Information and Sign Retrieval",
+                "Link": null,
                 "Description": "",
                 "Tag": "scholar"
             }
         ]
     },
     {
-        "Title": "Vision AI-Based Smart Object Recognition for AR Shopping",
-        "Problem Statement": "Develop a real-time object recognition system for Augmented Reality (AR) shopping applications, enabling users to identify products in their environment and receive relevant information.",
-        "Description": "This project aims to enhance the AR shopping experience by leveraging vision AI to recognize objects in a user's camera view. The system will identify products, provide pricing, specifications, and enable virtual try-on or placement. This combines classical computer vision and deep learning techniques.",
-        "Challenge / Use Case": "Improving the convenience and engagement of AR shopping applications.",
-        "Deliverables": "Android AR app with object recognition functionality, trained object detection model, performance evaluation report.",
+        "Title": "Generative AI for Personalized Video Call Backgrounds",
+        "Problem Statement": "Develop a generative AI model to create personalized and dynamic video call backgrounds based on user preferences or real-time environment analysis, enhancing privacy and user engagement during video conferencing.",
+        "Description": "Standard virtual backgrounds are often static and lack personalization. This project aims to generate dynamic backgrounds leveraging generative AI techniques. It can provide personalized backgrounds based on the caller\u2019s mood, activity, or even current location data.",
+        "Challenge / Use Case": "Improving user privacy and engagement during video calls with dynamic, personalized backgrounds.",
+        "Deliverables": "Android application with generative background functionality, trained generative model (GAN, Diffusion Model), performance evaluation report.",
         "KPIs": [
-            "Object Detection Accuracy (mAP)",
-            "Frames Per Second (FPS)",
-            "Latency (ms)",
-            "Model Size (MB)"
+            "User perceived quality (visual survey)",
+            "Inference time (ms)",
+            "Diversity of generated backgrounds",
+            "Model size (MB)"
         ],
         "Prerequisites": [
-            "Object Detection Algorithms (YOLO, SSD, Faster R-CNN)",
-            "Image Processing Fundamentals",
-            "Augmented Reality (ARKit/ARCore)",
+            "Generative Adversarial Networks (GANs)",
+            "Diffusion Models",
+            "Deep Learning Frameworks (PyTorch/TensorFlow)",
+            "Image Processing",
             "Android Development",
-            "TensorFlow Lite",
-            "Transfer Learning"
+            "Python"
         ],
-        "Infrastructure Requirements": "Android smartphone with ARCore support. GPU-enabled machine for model training.",
-        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, TensorFlow Lite, Android Studio, ARCore.",
+        "Infrastructure Requirements": "Google Colab with GPU for model training. Android smartphone for testing.",
+        "Tentative Tech Stack": "Python, PyTorch/TensorFlow, OpenCV, Android Studio.",
         "Milestones (6 months)": {
-            "M2": "Dataset creation and training of object detection model.",
-            "M4": "Integration of model with ARCore and development of basic AR shopping app.",
-            "M6": "User interface enhancements, performance optimization, and evaluation."
+            "M2": "Data collection and initial GAN/Diffusion model training.",
+            "M4": "Model optimization and integration into Android app.",
+            "M6": "App testing, user evaluation, and final report."
         },
         "Reference Work": [
             {
-                "Title": "Intelligent Mobile Product Recognition for Augmented Reality in Smart Shopping",
-                "Link": "https://link.springer.com/chapter/10.1007/978-3-031-61221-3_30",
+                "Title": " Where is the Boundary? Understanding How People Recognize and Evaluate Generative AI-extended Videos",
+                "Link": "https://faculty.washington.edu/weicaics/paper/papers/KeWLAC2025.pdf",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "In-store shopping experience enhancement: Designing a physical object-recognition interactive renderer",
-                "Link": "https://link.springer.com/chapter/10.1007/978-3-319-76908-0_11",
+                "Title": "Making AI-Enhanced Videos: Analyzing Generative AI Use Cases in YouTube Content Creation",
+                "Link": "https://arxiv.org/abs/2503.03134",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": " Augmented reality based online application for e-shopping",
-                "Link": "https://www.researchgate.net/profile/Monoj-Muchahari/publication/350372828_Augmented_Reality_Based_Online_Application_For_E-Shopping/links/605c256a92851cd8ce65f2b4/Augmented-Reality-Based-Online-Application-For-E-Shopping.pdf",
+                "Title": "Ai video editor: A conceptual review in generative arts",
+                "Link": "https://books.google.com/books?hl=en&lr=&id=MWPjEAAAQBAJ&oi=fnd&pg=PA16&dq=Generative+AI+video+backgrounds&ots=umMh1CqAqW&sig=0W9vnpGNIYADLv_tk4kTXX_BnRM",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Virtual navigation and augmented reality shopping tools, immersive and cognitive technologies, and image processing computational and object tracking algorithms in\u00a0\u2026",
-                "Link": "https://www.ceeol.com/search/article-detail?id=1088921",
+                "Title": "Video generative adversarial networks: a review",
+                "Link": "https://dl.acm.org/doi/abs/10.1145/3487891",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "An augmented reality application for improving shopping experience in large retail stores",
-                "Link": "https://link.springer.com/article/10.1007/s10055-018-0338-3",
+                "Title": "Enhancing Pedagogy with Generative AI: Video Production from Course Descriptions",
+                "Link": "https://dl.acm.org/doi/abs/10.1145/3674912.3674922",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Comparative performance characterization of mobile AR frameworks in the context of AR-based grocery shopping applications",
-                "Link": "https://www.mdpi.com/2076-3417/10/4/1547",
+                "Title": " A review of generative AI from historical perspectives",
+                "Link": "https://www.researchgate.net/profile/Kishor-Datta-Gupta/publication/368543465_A_Review_of_Generative_AI_from_Historical_Perspectives/links/63edde7f19130a1a4a82a316/A-Review-of-Generative-AI-from-Historical-Perspectives.pdf",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "In-Store Shopping Experience Enhancement: Designing a Physical Object-Recognition",
-                "Link": "https://books.google.com/books?hl=en&lr=&id=A95PDwAAQBAJ&oi=fnd&pg=PA105&dq=AR+shopping+object+recognition&ots=esQ7ioNbJi&sig=bPYumimFLTVcvr5LLQIS9wv15C8",
+                "Title": "BlendScape: Enabling End-User Customization of Video-Conferencing Environments through Generative AI",
+                "Link": "https://dl.acm.org/doi/abs/10.1145/3654777.3676326",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Visual and Spatial Analytics, Immersive Virtual Simulation Technologies, and Motion Planning and Object Recognition Algorithms in the Retail Metaverse",
-                "Link": "https://www.ceeol.com/search/article-detail?id=1081279",
+                "Title": "Actanywhere: Subject-aware video background generation",
+                "Link": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/34a9582cd36c0b6eb94e5cf11bd6a008-Abstract-Conference.html",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": " ParaShop: Shopping assistance to ASD individuals with a mobile AR app",
-                "Link": "https://scholarworks.calstate.edu/downloads/6t053p936",
+                "Title": "SimTube: Simulating Audience Feedback on Videos using Generative AI and User Personas",
+                "Link": "https://dl.acm.org/doi/abs/10.1145/3708359.3712146",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "ARShopping: In-store shopping decision support through augmented reality and immersive visualization",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/9973224/",
+                "Title": "Exploring the Application of Generative AI by YouTube Content Creators",
+                "Link": "https://portal.sinteza.singidunum.ac.rs/paper/953",
                 "Description": "",
                 "Tag": "scholar"
             }
         ]
     },
     {
-        "Title": "AI-Driven Predictive Maintenance for IoT Sensors",
-        "Problem Statement": "Develop a machine learning model to predict potential failures in IoT sensor networks, enabling proactive maintenance and reducing downtime.",
-        "Description": "This project explores the use of machine learning to analyze data from IoT sensors (temperature, humidity, pressure, etc.) and predict when a sensor is likely to fail. This enables proactive maintenance, reducing downtime and improving system reliability. Utilizes time series analysis and anomaly detection techniques.",
-        "Challenge / Use Case": "Improving the reliability and reducing the maintenance costs of IoT deployments.",
-        "Deliverables": "Machine learning model for failure prediction, data analysis pipeline, performance evaluation report.",
+        "Title": "Voice-Controlled Video Call Enhancement with Noise Suppression & Clarity",
+        "Problem Statement": "Implement a voice-controlled system within a video call application to dynamically adjust audio settings (noise suppression, echo cancellation, clarity boosting) based on user voice commands, improving call quality.",
+        "Description": "Current video conferencing often lacks adaptive audio enhancements. This project explores using voice commands to control audio processing in real-time, offering a hands-free experience and better call clarity. It leverages speech recognition and signal processing techniques.",
+        "Challenge / Use Case": "Improving audio quality and user control during video calls in noisy environments.",
+        "Deliverables": "Android application with voice-controlled audio enhancement, trained speech recognition model, performance evaluation report.",
         "KPIs": [
-            "Precision",
-            "Recall",
-            "F1-Score",
-            "False Positive Rate"
+            "Speech recognition accuracy (%)",
+            "Noise reduction level (dB)",
+            "User satisfaction score",
+            "Latency of voice command processing (ms)"
         ],
         "Prerequisites": [
-            "Machine Learning Algorithms (Regression, Classification, Time Series Analysis)",
-            "Data Analysis and Visualization",
-            "Statistical Modeling",
+            "Speech Recognition (e.g., Google Speech-to-Text)",
+            "Audio Signal Processing",
+            "Android Development",
             "Python",
-            "Data Wrangling"
+            "Machine Learning Fundamentals",
+            "Real-time Audio Processing"
         ],
-        "Infrastructure Requirements": "Access to IoT sensor data (simulated or real). PC for model training and evaluation.",
-        "Tentative Tech Stack": "Python, Pandas, Scikit-learn, TensorFlow/PyTorch, Cloud Platform (AWS, Azure, GCP).",
+        "Infrastructure Requirements": "Android smartphone for testing, Google Colab for training (optional).",
+        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, Android Studio, Audio Processing Libraries.",
         "Milestones (6 months)": {
-            "M2": "Data collection and preprocessing. Feature engineering and model selection.",
-            "M4": "Model training and validation. Performance evaluation and optimization.",
-            "M6": "Deployment and integration with a monitoring system (optional). Documentation and report."
+            "M2": "Speech recognition model training and integration.",
+            "M4": "Audio processing algorithms implementation and integration.",
+            "M6": "App testing, user evaluation, and report generation."
         },
         "Reference Work": [
             {
-                "Title": "Predictive maintenance-bridging artificial intelligence and iot",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/9454173/",
+                "Title": "Audio-visual enhancement of speech in noise",
+                "Link": "https://pubs.aip.org/asa/jasa/article-abstract/109/6/3007/547791",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Empowering IoT predictive maintenance solutions with AI: A distributed system for manufacturing plant-wide monitoring",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/9463585/",
+                "Title": "VC-ENHANCE: Speech Restoration with Integrated Noise Suppression and Voice Conversion",
+                "Link": "https://arxiv.org/abs/2409.06126",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": " AI for predictive maintenance in industrial systems",
-                "Link": "https://www.researchgate.net/profile/Furqan-Md-Rasel/publication/386142847_AI_for_Predictive_Maintenance_in_Industrial_Systems/links/6746790ba7fbc259f1903db1/AI-for-Predictive-Maintenance-in-Industrial-Systems",
+                "Title": "Sensing to hear: Speech enhancement for mobile devices using acoustic signals",
+                "Link": "https://dl.acm.org/doi/abs/10.1145/3478093",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Predictive maintenance and intelligent sensors in smart factory",
-                "Link": "https://www.mdpi.com/1424-8220/21/4/1470",
+                "Title": "A review on voice over internet protocol on conference call with mobile phone",
+                "Link": "https://journals.sagepub.com/doi/abs/10.3233/KES-200035",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Artificial intelligence for predictive maintenance applications: key components, trustworthiness, and future trends",
-                "Link": "https://www.mdpi.com/2076-3417/14/2/898",
+                "Title": "Using Artificial Intelligence to Filter out Barking, Typing, and other Noise from Video Calls in Microsoft Teams",
+                "Link": "https://ijcionline.com/abstract/12123ijci03",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Advancing from predictive maintenance to intelligent maintenance with ai and iiot",
-                "Link": "https://arxiv.org/abs/2009.00351",
+                "Title": "When evil calls: Targeted adversarial voice over ip network",
+                "Link": "https://dl.acm.org/doi/abs/10.1145/3548606.3560671",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": " Predictive maintenance system for production lines in manufacturing: A machine learning approach using IoT data in real-time",
-                "Link": "https://www.sciencedirect.com/science/article/pii/S0957417421000397",
+                "Title": "Icassp 2023 deep noise suppression challenge",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/10474162/",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "PREDICTIVE MAINTENANCE IN INDUSTRIAL AUTOMATION: A SYSTEMATIC REVIEW OF IOT SENSOR TECHNOLOGIES AND AI ALGORITHMS",
-                "Link": "https://ajisresearch.com/index.php/ajis/article/view/1",
+                "Title": "Real-Time Suppression of Non-stationary Noise for Web-Based Calling Applications",
+                "Link": "https://link.springer.com/chapter/10.1007/978-981-99-5652-4_14",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Artificial intelligence and real-time predictive maintenance in industry 4.0: a bibliometric analysis",
-                "Link": "https://link.springer.com/article/10.1007/s43681-021-00132-6",
+                "Title": "A comparative study of noise reduction techniques for automatic speech recognition systems",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/7732361/",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Artificial intelligence-based predictive maintenance, time-sensitive networking, and big data-driven algorithmic decision-making in the economics of Industrial Internet\u00a0\u2026",
-                "Link": "https://www.ceeol.com/search/article-detail?id=1238131",
+                "Title": "ICA based Noise Reduction in Mobile Phone Speech Communications",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/10660984/",
+                "Description": "",
+                "Tag": "scholar"
+            }
+        ]
+    },
+    {
+        "Title": "Smart Zoom & Framing with On-Device Object Detection",
+        "Problem Statement": "Develop an intelligent framing system for video calls that automatically detects faces and objects within the camera view and dynamically adjusts the zoom and framing to keep participants and important content centered.",
+        "Description": "Current video calls often require manual adjustments to ensure all participants are visible. This project uses on-device object detection to automatically identify and frame individuals and relevant objects within the camera's field of view.",
+        "Challenge / Use Case": "Improving the viewing experience in video calls by automatically adjusting the camera framing.",
+        "Deliverables": "Android application with intelligent framing functionality, trained object detection model, performance evaluation report.",
+        "KPIs": [
+            "Object detection accuracy (%)",
+            "Framing stability (degrees of movement)",
+            "Processing time (ms)",
+            "User satisfaction"
+        ],
+        "Prerequisites": [
+            "Object Detection (e.g., YOLO, SSD)",
+            "Computer Vision",
+            "Android Development",
+            "Python",
+            "Machine Learning Fundamentals"
+        ],
+        "Infrastructure Requirements": "Android smartphone for testing, Google Colab for training (GPU recommended).",
+        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, OpenCV, Android Studio.",
+        "Milestones (6 months)": {
+            "M2": "Object detection model training and optimization.",
+            "M4": "Integration with the Android camera API.",
+            "M6": "App testing, performance evaluation, and report generation."
+        },
+        "Reference Work": [
+            {
+                "Title": "Edge-assisted online on-device object detection for real-time video analytics",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/9488741/",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "UAV-AIOT_COLLAB",
-                "Description": "IoT and AI applications in UAVs enable real-time data collection through sensors for weather forecasting, precision agriculture, infrastructure inspection, and surveillance. AI algorithms empower drones with autonomous navigation, object detection, swarm intelligence, and predictive maintenance.",
-                "Link": "https://github.com/Souradeep2233/UAV-AIOT_COLLAB",
+                "Title": "Optimized convolutional neural network architectures for efficient on-device vision-based object detection",
+                "Link": "https://link.springer.com/article/10.1007/s00521-021-06830-w",
+                "Description": "",
+                "Tag": "scholar"
+            },
+            {
+                "Title": " On-device object detection for more efficient and privacy-compliant visual perception in context-aware systems",
+                "Link": "https://www.mdpi.com/2076-3417/11/19/9173",
+                "Description": "",
+                "Tag": "scholar"
+            },
+            {
+                "Title": " Domain-Specific On-Device Object Detection Method",
+                "Link": "https://www.mdpi.com/1099-4300/24/1/77",
+                "Description": "",
+                "Tag": "scholar"
+            },
+            {
+                "Title": "Ultra-efficient on-device object detection on ai-integrated smart glasses with tinyissimoyolo",
+                "Link": "https://arxiv.org/abs/2311.01057",
+                "Description": "",
+                "Tag": "scholar"
+            },
+            {
+                "Title": "Mnasfpn: Learning latency-aware pyramid architecture for object detection on mobile devices",
+                "Link": "http://openaccess.thecvf.com/content_CVPR_2020/html/Chen_MnasFPN_Learning_Latency-Aware_Pyramid_Architecture_for_Object_Detection_on_Mobile_CVPR_2020_paper.html",
+                "Description": "",
+                "Tag": "scholar"
+            },
+            {
+                "Title": "Continuous, real-time object detection on mobile devices without offloading",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/9355581/",
+                "Description": "",
+                "Tag": "scholar"
+            },
+            {
+                "Title": "Bed: A real-time object detection system for edge devices",
+                "Link": "https://dl.acm.org/doi/abs/10.1145/3511808.3557168",
+                "Description": "",
+                "Tag": "scholar"
+            },
+            {
+                "Title": "FlexPatch: Fast and accurate object detection for on-device high-resolution live video analytics",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/9796984/",
+                "Description": "",
+                "Tag": "scholar"
+            },
+            {
+                "Title": "Edge assisted real-time object detection for mobile augmented reality",
+                "Link": "https://dl.acm.org/doi/abs/10.1145/3300061.3300116",
+                "Description": "",
+                "Tag": "scholar"
+            },
+            {
+                "Title": "coral-streaming-object-detector",
+                "Description": "This example will help you deploy a streaming camera feed with realtime people detection using the Coral Edge TPU for on-device ML inferencing.",
+                "Link": "https://github.com/balena-io-examples/coral-streaming-object-detector",
                 "Tag": "github"
             }
         ]
     },
     {
-        "Title": "Smart Home Energy Management with Reinforcement Learning",
-        "Problem Statement": "Develop a reinforcement learning agent to optimize energy consumption in a smart home, considering user preferences and real-time energy prices.",
-        "Description": "This project aims to create an intelligent energy management system for smart homes. The system will learn to control appliances (lighting, HVAC, etc.) to minimize energy costs while maintaining user comfort. Reinforcement learning will be used to adapt to changing conditions and user habits.",
-        "Challenge / Use Case": "Reducing energy consumption and costs in smart homes.",
-        "Deliverables": "Reinforcement learning agent for energy management, simulation environment, performance evaluation report.",
+        "Title": "AI-Powered Background Blur based on Depth Estimation",
+        "Problem Statement": "Develop an algorithm to create a realistic background blur effect during video calls using depth estimation from the camera, enhancing privacy and focusing attention on the participant.",
+        "Description": "Traditional background blur uses chroma keying, which can be inaccurate and requires specific lighting conditions. This project aims to use depth estimation to create a more natural and accurate background blur effect without relying on green screens.",
+        "Challenge / Use Case": "Creating a natural and accurate background blur effect for video calls without a green screen.",
+        "Deliverables": "Android application with depth-based background blur, trained depth estimation model, performance evaluation report.",
         "KPIs": [
-            "Energy Savings (%)",
-            "User Comfort Level",
-            "Total Cost of Electricity",
-            "Reward Function Optimization"
+            "Depth estimation accuracy (RMSE)",
+            "Blur quality (visual assessment)",
+            "Processing time (ms)",
+            "User satisfaction"
         ],
         "Prerequisites": [
-            "Reinforcement Learning Algorithms (Q-Learning, Deep Q-Networks)",
-            "Markov Decision Processes",
-            "Simulation Modeling",
+            "Depth Estimation",
+            "Computer Vision",
+            "Android Development",
             "Python",
-            "Data Analysis"
+            "Machine Learning Fundamentals"
         ],
-        "Infrastructure Requirements": "PC for simulation and model training.",
-        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, OpenAI Gym (or similar simulation environment).",
+        "Infrastructure Requirements": "Android smartphone with depth sensor (if available), Google Colab for training (GPU recommended).",
+        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, OpenCV, Android Studio.",
         "Milestones (6 months)": {
-            "M2": "Development of a smart home simulation environment. Implementation of a baseline control policy.",
-            "M4": "Training and evaluation of reinforcement learning agent. Hyperparameter tuning and optimization.",
-            "M6": "Performance comparison with baseline policy. Documentation and report."
+            "M2": "Depth estimation model training and optimization.",
+            "M4": "Integration with the Android camera API and background blur effect.",
+            "M6": "App testing, performance evaluation, and report generation."
         },
         "Reference Work": [
             {
-                "Title": "An overview of reinforcement learning-based approaches for smart home energy management systems with energy storages",
-                "Link": "https://www.sciencedirect.com/science/article/pii/S1364032124003745",
+                "Title": "Joint depth estimation and camera shake removal from single blurry image",
+                "Link": "https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Hu_Joint_Depth_Estimation_2014_CVPR_paper.html",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Deep reinforcement learning for smart home energy management",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/8919976/",
+                "Title": " Depth Estimation and Blur Removal from a Single Out-of-focus Image.",
+                "Link": "https://porikli.com/mysite/pdfs/porikli%202017%20-%20Depth%20estimation%20and%20blur%20removal%20from%20a%20single%20out-of-focus%20image.pdf",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "A review of recent advances on reinforcement learning for smart home energy management",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/9320042/",
+                "Title": "Automatic Depth Estimation and Background Blurring of Animated Scenes Based on Deep Learning.",
+                "Link": "https://search.ebscohost.com/login.aspx?direct=true&profile=ehost&scope=site&authtype=crawler&jrnl=07650019&AN=173376360&h=vw6%2FbsE5WpQK7My9Fhl0%2B4TZsolRwyQkjkRJbtcDEtsEr4rshTMWL5SKXQqpbZ47vEZb6pAMz610%2F0MAPneeIw%3D%3D&crl=c",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Deep reinforcement learning for real-time energy management in smart home",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/10066193/",
+                "Title": "Deep depth from defocus: how can defocus blur improve 3D estimation using dense neural networks?",
+                "Link": "https://openaccess.thecvf.com/content_eccv_2018_workshops/w3/html/Carvalho_Deep_Depth_from_Defocus_how_can_defocus_blur_improve_3D_ECCVW_2018_paper.html",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": " Reinforcement learning-based energy management of smart home with rooftop solar photovoltaic system, energy storage system, and home appliances",
-                "Link": "https://www.mdpi.com/1424-8220/19/18/3937",
+                "Title": "Depth from motion and optical blur with an unscented Kalman filter",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/6104389/",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": " A safe reinforcement learning approach for multi-energy management of smart home",
-                "Link": "https://www.sciencedirect.com/science/article/pii/S0378779622003443",
+                "Title": "Realistic depth blur for images with range data",
+                "Link": "https://link.springer.com/chapter/10.1007/978-3-642-03778-8_7",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": " Deep reinforcement learning for home energy management system control",
-                "Link": "https://www.sciencedirect.com/science/article/pii/S2666546820300434",
+                "Title": "DEPTH MAP GENERATION USING DEFOCUS BLUR ESTIMATOR AND ITS CONFIDENCE",
+                "Link": "https://s-space.snu.ac.kr/handle/10371/119155",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Energy management of smart home with home appliances, energy storage system and electric vehicle: A hierarchical deep reinforcement learning approach",
-                "Link": "https://www.mdpi.com/1424-8220/20/7/2157",
+                "Title": "Blur calibration for depth from defocus",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/7801533/",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "A transfer reinforcement learning framework for smart home energy management systems",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/9941190/",
+                "Title": " Blur and the perception of depth at occlusions",
+                "Link": "https://iovs.arvojournals.org/article.aspx?articleid=2517510",
                 "Description": "",
                 "Tag": "scholar"
             },
             {
-                "Title": "Real-time energy management in smart homes through deep reinforcement learning",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/10464301/",
+                "Title": "Single image deblurring and camera motion estimation with depth map",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/8658686/",
                 "Description": "",
                 "Tag": "scholar"
-            },
-            {
-                "Title": "smart-home-energy-trading-with-DRL",
-                "Description": "Source code for simulating a Home Energy Management System with Deep Reinforcement Learning",
-                "Link": "https://github.com/maticpokorn/smart-home-energy-trading-with-DRL",
-                "Tag": "github"
             }
         ]
     }

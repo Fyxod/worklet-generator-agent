@@ -3,8 +3,8 @@ from reportlab.platypus import Paragraph, Frame
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 import os
-from app.utils.reference_functions.reference_sort import sort
-
+from app.utils.reference_functions.reference_sort import Inplace_sort
+# from reference_functions.reference_sort import Inplace_sort 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
@@ -15,9 +15,21 @@ pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 CUSTOM_PAGE_SIZE = (700,900)  # Width x Height in points (1 point = 1/72 inch)
 
 
+def pre_processing(json):
+    model ="gemma3:27b"
+    for idx, ref in enumerate(json["Reference Work"]):
+        ref["index"] = idx  # Add new key "index" to each dictionary
+    print("\n")
+    print("inside Inplace_sort")
+    print("\n")
+    json=Inplace_sort(json,model)
+
 def generatePdf(json,model):
-    json=sort(json,model)
-    filename = os.path.join(pdf_path, f"{json['Title'].replace(' ', '_')}.pdf")
+    print("\n")
+    print("----"*25+"Inside generate pdf"+"----"*25)
+    print("\n")
+    pre_processing(json)
+    filename = os.path.join(pdf_path, f"{json['Title']}.pdf")
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
     width, height = CUSTOM_PAGE_SIZE
 
@@ -54,7 +66,7 @@ def generatePdf(json,model):
     elements.append(Paragraph(f"• M2: {json['Milestones (6 months)']["M4"]}", bullet_style))
     elements.append(Paragraph(f"• M3: {json['Milestones (6 months)']["M6"]}", bullet_style))
 
-    reference_limit = 15
+    # reference_limit = 15
     elements.append(Paragraph("<b>Reference Work:</b>", normal_style))
     for idx, ref in enumerate(json['Reference Work']):
       # if idx >= reference_limit:
@@ -65,7 +77,10 @@ def generatePdf(json,model):
 
     frame.addFromList(elements, pdf)
     pdf.save()
+    print("\n")
     print(f"PDF generated: {filename}")
+    print("\n")
+    print("\n")
 
 JSON={
         "Title": "Personalized Product Recommendation using Generative AI and Classical Machine Learning",
@@ -160,3 +175,4 @@ JSON={
         ]
     }
 # generatePdf(JSON)
+# pre_processing(

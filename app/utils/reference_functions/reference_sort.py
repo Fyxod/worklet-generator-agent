@@ -3,13 +3,44 @@ from app.utils.prompt_templates import refrence_sort_template
 from app.utils.llm_response_parser import extract_json_from_llm_response
 import json
 
-def sort(worklet,model):
-    print("printing worklet before sorting"*10)
+def Inplace_sort(worklet,model):
+    """
+    Take Input of a Single Worklet and sort the serefences on the basis of the discription 
+    provided in Increasing order of Relevence
+
+    """
+    print("-"*10+"printing worklet before sorting"*10+"-"*10)
+    print("\n")
+    print("\n")
     print(worklet["Reference Work"])
+    print("\n")
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
     prompt =refrence_sort_template(reference_work_str)  
     # prompt = prompt_template.format(json=reference_work_str) # populte the prompt with worklet data
     sorted_references = invoke_llm(prompt, model)
+    print("Printing Sorted array of ref")
+    print("\n")
+    print(sorted_references)
+    print("\n")
     worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
     print("sorted worklet"*5, worklet["Reference Work"])
+    print("\n")
     return worklet
+
+
+def Index_sort(worklet,model):
+    """
+    Take Input of a Single Worklet and sort the serefences on the basis of the discription 
+    provided in Increasing order of Relevence
+
+    """
+
+
+
+def scholar_sort(worklet,model):
+    """
+    Take Input of a Single Worklet and sort the serefences on the basis of the discription 
+    provided in Increasing order of Relevence
+
+    """
+

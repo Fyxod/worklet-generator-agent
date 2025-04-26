@@ -33,7 +33,7 @@ async def generate_worklets(worklet_data, linksData, model):
     #     )
 
     # extracted_worklets["worklets"] = refined_worklets
-    print(extracted_worklets)
+    # print(extracted_worklets)
     return extracted_worklets
 
 # def refine_worklet(worklet_data):

@@ -71,7 +71,7 @@ async def upload_multiple(
     
     saved_files = []
     extracted_data_all = {}
-    print("printing files", files)
+    # print("printing files", files)
     
     if files:
     # Save each file with a timestamp
@@ -107,7 +107,8 @@ async def upload_multiple(
     except json.JSONDecodeError as e:
         print("Error decoding links JSON:", e)
 
-    
+    #Summerise extracted data
+
     # generate worklet content 
     worklets =  await generate_worklets(extracted_data_all,linksData, model)
 
@@ -121,27 +122,33 @@ async def upload_multiple(
 
     #get references
     def process_worklet(worklet):
+        print("\n")
+        print("--------------------------------------------------------Generating referances-----------------------------------------------------------")
+        print("\n")
+
         reference = getReferenceWork(worklet["Title"], model)
-        print(reference)
-        print("8"*200)
+        # print(reference)
+        # print("8"*200)
         if reference:
             worklet["Reference Work"] = reference
 
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        list(executor.map(process_worklet, worklets))
+    # with concurrent.futures.ThreadPoolExecutor() as executor:
+    #     list(executor.map(process_worklet, worklets))
 
-    # for worklet in worklets:
-    #     print("DEUBGGING HERE DEBIGGING HERE DEBUGGING HERE DEBBUGING HERE")
-    #     print(worklet)
-    #     print("fertchign refrences for ",worklet["Title"])
-    #     process_worklet(worklet)
+    for worklet in worklets:
+        # print("DEUBGGING HERE DEBIGGING HERE DEBUGGING HERE DEBBUGING HERE")
+        # print(worklet)
+        print("fertchign refrences for ",worklet["Title"])
+        process_worklet(worklet)
     
 ######## Indication 2###########
     with open("latest_generated.json", "w") as file:
         json.dump(worklets, file, indent=4)
-        
-    print("final"*25) #printing final here
+
+    print("\n")    
+    print("-------"*25+"final"+"---------"*25) #printing final here
+    print("\n")
     print(worklets)
 
     # for loop one

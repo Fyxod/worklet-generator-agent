@@ -9,23 +9,8 @@ from app.utils.reference_functions.google_scholar import get_google_scholar_refe
 # from reference_functions.github import get_github_references
 # from reference_functions.google_scholar import get_google_scholar_references
 from concurrent.futures import ThreadPoolExecutor
+from app.utils.prompt_templates import arcive_temp
 
-prompt_template = ChatPromptTemplate.from_template(
-    """
-    Only output the keyword/phrase for arXiv search based on this topic: '{title}'. No preamble. No commentary. No punctuation. Just the keyword or phrase.
-    Example outputs : 
-    1. Input - Self supervised Multi-turn dialog emotion recognition | Output - self-supervised dialog emotion
-    2. Input - Language Agnostic Large Language Model | Output - Multilingual LLM
-    3. Input - Network FCAPS Correlation using LLM | Output - LLM FCAPS correlation
-    4. Input - Deep Packet Inspection Traffic Visualization | Output - Deep Packet Inspection
-    5. Input - Real Time Call Video Anti Aliasing | Output - anti-aliasing
-    """
-)
-# prompt_template = ChatPromptTemplate.from_template(
-#     """
-#     I want you to strictly just give me a keyword to search in arxiv api to get me the research papers best suited for the following topic - {title}. Just give me the keyword as the answer and no other extra stuff
-#     """
-# )
 
 def getReferenceWork(title, model):
     keyword = getKeyword(title, model)
@@ -46,13 +31,13 @@ def getReferenceWork(title, model):
 
 
 def getKeyword(title, model):
-    print("Inside getKeyword ", title)
-    prompt = prompt_template.format(title=title)
+    # print("Inside getKeyword ", title)
+    prompt = arcive_temp().format(title=title)
     # print("printing prompt", prompt)
     # prompt = prompt_template.format_prompt(title=title).to_string()
     response = invoke_llm(prompt, model)
     # response = llm.invoke(prompt)
-    print("printing keyword", response)
+    # print("printing keyword", response)
     # response = llm.invoke([HumanMessage(content=prompt)])
     return response
 
