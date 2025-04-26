@@ -1,6 +1,7 @@
 from langchain.prompts import ChatPromptTemplate
 
 def worklet_gen_prompt():    # worklet data need to be given so that 
+
     return ChatPromptTemplate.from_template("""
                                             
         Existing Worklets for Reference:**
@@ -75,3 +76,17 @@ def worklet_gen_prompt():    # worklet data need to be given so that
 
         Return ONLY the five fully populated problem-statement blocks in the order specified above.
     """)
+
+
+def refrence_sort_template():    # worklet data need to be given so that 
+    return ChatPromptTemplate.from_template("""
+    ROLE & CONTEXT
+        You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
+        Your goal is to understanf the json of a worklet being provided and understand the references given a short description of the reference work is provided to inside the reference json 
+        {json}
+    Goal 
+        you need to sort these references in order of the decreasing relevance id u thing one reference is better than other put the better first
+                                                                               
+    MANDATORY CONSTRAINTS
+        do not add or remove content 
+""")

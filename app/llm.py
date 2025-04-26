@@ -33,7 +33,7 @@ def invoke_llm(prompt, model):
     if model in ollama_models:
         print("Using Ollama")
         payload = {"prompt": prompt}
-        print("printing payload", payload)
+        # print("printing payload", payload)
         url = f"{os.getenv('LLM_URL')}/query?model={model}"
 
         for attempt in range(max_retries):
@@ -46,11 +46,11 @@ def invoke_llm(prompt, model):
                     continue
 
                 data = json.loads(response.content)
-                print("printing response", data)
+                # print("printing response", data)
                 raw_text = data.get("content", "")
-                print("PRINTING RAW TEXT")
-                print(type(raw_text))
-                print(raw_text)
+                # print("PRINTING RAW TEXT")
+                # print(type(raw_text))
+                # print(raw_text)
                 # print("ENDING RAW TEXT")
                 break  # Success, exit the loop
 
