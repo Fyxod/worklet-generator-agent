@@ -486,15 +486,17 @@ def ref():
     # Now, **generate 5 well-structured and distinct worklets** following these guidelines, keeping in mind the constraints you've specified, including avoiding mathematically heavy content.
     # """)
               
-def get_prompt_template():
+def get_prompt_template():    # worklet data need to be given so that 
     return ChatPromptTemplate.from_template("""
-
+                                            
+        Existing Worklets for Reference:**
+        {worklet_data} 
         ROLE & CONTEXT
         You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
         Your goal is to examine the input document set (one or more files in PPT, PDF, Word, or Excel format) and, using both the documents and your own knowledge , generate exactly five (5) feasible problem statements suitable for six-month student-faculty projects.
         ---
 
-        OUTPUT FORMAT TO Be followed strictly as i need a json only 
+        OUTPUT FORMAT TO Be followed strictly as i need a json only  inside an array as shown below
                                             
                ```json
             [
@@ -511,16 +513,13 @@ def get_prompt_template():
                         "<metric 4>"
                     ],
                     "Prerequisites": [
-                        "<paper / blog / MOOC / open-source framework>",
+                        "<framework/paper / blog / MOOC  give max 10 prerequisite>",
                         "<prerequisite 2>",
                         "<prerequisite 3>",
                         "<prerequisite 4>",
                         "<prerequisite 5>",
                         "<prerequisite 6>",
-                        "<prerequisite 7>",
-                        "<prerequisite 8>",
-                        "<prerequisite 9>",
-                        "<prerequisite 10>"
+                       
                     ],
                     "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
                     "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
@@ -529,139 +528,11 @@ def get_prompt_template():
                         "M4": "<checkpoint or intermediate output>",
                         "M6": "<final deliverables and evaluation>"
                     }}
-                }},
-                {{
-                    "Title": "<one-line title>",
-                    "Problem Statement": "<28-33 word problem statement>",
-                    "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
-                    "KPIs": [
-                        "<metric 1>",
-                        "<metric 2>",
-                        "<metric 3>",
-                        "<metric 4>"
-                    ],
-                    "Prerequisites": [
-                        "<paper / blog / MOOC / open-source framework>",
-                        "<prerequisite 2>",
-                        "<prerequisite 3>",
-                        "<prerequisite 4>",
-                        "<prerequisite 5>",
-                        "<prerequisite 6>",
-                        "<prerequisite 7>",
-                        "<prerequisite 8>",
-                        "<prerequisite 9>",
-                        "<prerequisite 10>"
-                    ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
-                    "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
-                    "Milestones (6 months)": {{
-                        "M2": "<checkpoint or intermediate output>",
-                        "M4": "<checkpoint or intermediate output>",
-                        "M6": "<final deliverables and evaluation>"
-                    }}
-                }},
-                {{
-                    "Title": "<one-line title>",
-                    "Problem Statement": "<28-33 word problem statement>",
-                    "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
-                    "KPIs": [
-                        "<metric 1>",
-                        "<metric 2>",
-                        "<metric 3>",
-                        "<metric 4>"
-                    ],
-                    "Prerequisites": [
-                        "<paper / blog / MOOC / open-source framework>",
-                        "<prerequisite 2>",
-                        "<prerequisite 3>",
-                        "<prerequisite 4>",
-                        "<prerequisite 5>",
-                        "<prerequisite 6>",
-                        "<prerequisite 7>",
-                        "<prerequisite 8>",
-                        "<prerequisite 9>",
-                        "<prerequisite 10>"
-                    ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
-                    "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
-                    "Milestones (6 months)": {{
-                        "M2": "<checkpoint or intermediate output>",
-                        "M4": "<checkpoint or intermediate output>",
-                        "M6": "<final deliverables and evaluation>"
-                    }}
-                }},
-                {{
-                    "Title": "<one-line title>",
-                    "Problem Statement": "<28-33 word problem statement>",
-                    "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
-                    "KPIs": [
-                        "<metric 1>",
-                        "<metric 2>",
-                        "<metric 3>",
-                        "<metric 4>"
-                    ],
-                    "Prerequisites": [
-                        "<paper / blog / MOOC / open-source framework>",
-                        "<prerequisite 2>",
-                        "<prerequisite 3>",
-                        "<prerequisite 4>",
-                        "<prerequisite 5>",
-                        "<prerequisite 6>",
-                        "<prerequisite 7>",
-                        "<prerequisite 8>",
-                        "<prerequisite 9>",
-                        "<prerequisite 10>"
-                    ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
-                    "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
-                    "Milestones (6 months)": {{
-                        "M2": "<checkpoint or intermediate output>",
-                        "M4": "<checkpoint or intermediate output>",
-                        "M6": "<final deliverables and evaluation>"
-                    }}
-                }},
-                {{
-                    "Title": "<one-line title>",
-                    "Problem Statement": "<28-33 word problem statement>",
-                    "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
-                    "KPIs": [
-                        "<metric 1>",
-                        "<metric 2>",
-                        "<metric 3>",
-                        "<metric 4>"
-                    ],
-                    "Prerequisites": [
-                        "<paper / blog / MOOC / open-source framework>",
-                        "<prerequisite 2>",
-                        "<prerequisite 3>",
-                        "<prerequisite 4>",
-                        "<prerequisite 5>",
-                        "<prerequisite 6>",
-                        "<prerequisite 7>",
-                        "<prerequisite 8>",
-                        "<prerequisite 9>",
-                        "<prerequisite 10>"
-                    ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
-                    "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
-                    "Milestones (6 months)": {{
-                        "M2": "<checkpoint or intermediate output>",
-                        "M4": "<checkpoint or intermediate output>",
-                        "M6": "<final deliverables and evaluation>"
-                    }}
-                }},
+                }},                
             ]
         ```
 
-          Existing Worklets for Reference:**
+        Existing Worklets for Reference:**
         {worklet_data}                                  
         MANDATORY CONSTRAINTS
 

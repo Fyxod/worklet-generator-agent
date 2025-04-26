@@ -56,35 +56,95 @@ def generatePdf(json,):
     print(f"PDF generated: {filename}")
 
 JSON={
-      "Title": "Vision AI for Enhanced Object Recognition in AR Environments",
-      "Problem Statement": "Design and implement a robust Vision AI system for real-time object recognition in augmented reality applications on Samsung devices, improving accuracy and reducing latency for seamless AR experiences.",
-      "Description": "This project focuses on developing an efficient object recognition system for AR applications. By leveraging vision AI techniques, the system will identify and track objects in real-time, enabling users to interact with virtual elements overlaid on the real world. The key goal is to optimize the system for performance on Samsung devices to provide smooth and responsive AR experiences.",
-      "Challenge / Use Case": "Addresses the need for accurate and fast object recognition in AR, enabling compelling user experiences for gaming, education, and e-commerce.",
-      "Deliverables": "Android application demonstrating object recognition in AR, a fine-tuned object detection model, a performance analysis report, and integration with ARCore or similar AR framework.",
-      "KPIs": [
-        "Object recognition accuracy (mAP)",
-        "Inference time (FPS)",
-        "Memory usage of the model",
-        "Power consumption on mobile devices"
-      ],
-      "Prerequisites": [
-        "https://developers.google.com/ar/develop/java/object-recognition",
-        "Computer vision fundamentals",
-        "Object detection algorithms (e.g., YOLO, SSD)",
-        "TensorFlow Lite or CoreML",
-        "ARCore or ARKit",
-        "COCO dataset or similar object detection datasets",
-        "Blog on model quantization",
-        "Paper on federated learning for object detection",
-        "MOOC on deep learning for computer vision",
-        "Android NDK (optional)"
-      ],
-      "Infrastructure Requirements": "Minimum: Laptop with GPU (NVIDIA or AMD), Android smartphone with ARCore support. Recommended: Cloud GPU for training.",
-      "Tentative Tech Stack": "Python, TensorFlow/PyTorch, OpenCV, ARCore/ARKit, Android NDK (optional).",
-      "Milestones (6 months)": {
-        "M2": "Data collection and augmentation, baseline object detection model implementation.",
-        "M4": "Model training and optimization for mobile devices, AR integration.",
-        "M6": "Performance evaluation, user testing, and final report."
-      }
+        "Title": "Personalized Product Recommendation using Generative AI and Classical Machine Learning",
+        "Problem Statement": "Develop a personalized product recommendation system that leverages generative AI and classical machine learning to suggest relevant products based on user preferences.",
+        "Description": "Utilize generative models, such as GANs or transformers, along with collaborative filtering algorithms to develop a system capable of generating personalized product recommendations for users.",
+        "Challenge / Use Case": "Enhance e-commerce platforms by providing users with relevant and engaging product suggestions, increasing conversion rates and customer satisfaction.",
+        "Deliverables": [
+            "Trained generative AI model",
+            "Integration with e-commerce platforms"
+        ],
+        "KPIs": [
+            "Recommendation accuracy",
+            "User engagement metrics"
+        ],
+        "Prerequisites": [
+            "Familiarity with deep learning frameworks such as TensorFlow or PyTorch",
+            "Knowledge of classical machine learning algorithms and collaborative filtering"
+        ],
+        "Infrastructure Requirements": "Moderate computational resources, including a dedicated server for training the model.",
+        "Milestones (6 months)": {
+            "M2": "Develop a baseline generative AI model using GANs or transformers",
+            "M4": "Integrate the generative AI model with classical machine learning algorithms and collaborative filtering",
+            "M6": "Conduct user testing and refine the final system, including error handling and feedback mechanisms"
+        },
+        "Reference Work": [
+            {
+                "title": "Hyperpersonalisation-and-X-Sell-for-Indian-Financial-Sector",
+                "description": "A machine learning and Generative AI solution for personalized financial recommendations. Features include dynamic pricing (loan predictions), product recommendations, and actionable insights using KingNish/Qwen2.5 LLM. Integrated with a Flask app for real-time deployment on AWS.",
+                "link": "https://github.com/Gaurang-Sonkavde/Hyperpersonalisation-and-X-Sell-for-Indian-Financial-Sector",
+                "tag": "github"
+            },
+            {
+                "title": "[PDF][PDF] Revolutionizing Product Recommendations with Generative AI: Context-Aware Personalization at Scale",
+                "link": "https://www.researchgate.net/profile/Sai-Kiran-Reddy-Malikireddy-3/publication/387741873_Revolutionizing_Product_Recommendations_with_Generative_AI_Context-Aware_Personalization_at_Scale/links/677ad4fe117f340ec3f60fd6/Revolutionizing-Product-Recommendations-with-Generative-AI-Context-Aware-Personalization-at-Scale.pdf",
+                "description": "\u2026 By reimagining product discovery as a generative process, \u2026 hyper-personalized, interactive, \nand engaging recommendation \u2026 Reinforcement learning integrated with generative models \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "AI-Driven Personalization: Generative Models in E-Commerce",
+                "link": "https://hal.science/hal-04925157/",
+                "description": "\u2026 [11] The discussion has covered the topic of deep learning-based e-\u2026 a recommendation \nsystem that employs various deep learning and machine learning algorithms to suggest products \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[PDF][PDF] USING GENERATIVE MODELS FOR PERSONALIZED RECOMMENDATIONS IN E-COMMERCE",
+                "link": "https://www.researchgate.net/profile/Pradeep-Sharma-64/publication/387098741_USING_GENERATIVE_MODELS_FOR_PERSONALIZED_RECOMMENDATIONS_IN_E-COMMERCE/links/67608714e9b25e24af5656dd/USING-GENERATIVE-MODELS-FOR-PERSONALIZED-RECOMMENDATIONS-IN-E-COMMERCE.pdf",
+                "description": "\u2026 data and algorithms to provide customized product and service suggestions based on user \n\u2026 of generating personalized recommendations. Deep learning algorithms called generative \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Analysis of recommender system using generative artificial intelligence: A systematic literature review",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10565860/",
+                "description": "\u2026 , videos, audios, goods, and services to their customers/users or to personalize experiences \nfor their \u2026 explores the use of deep learning and generative adversarial networks (GANs) in \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Generative AI Recommender System in E-Commerce.",
+                "link": "https://search.ebscohost.com/login.aspx?direct=true&profile=ehost&scope=site&authtype=crawler&jrnl=20885334&AN=182563287&h=6%2BAI5or%2FlDPWQKOwm1do76wUvjdHf2tXJbPCIn9S%2BSffNkz6cMQEkQsbnW2KVxBjWyR4lIC43B7rWnxc2jvPcA%3D%3D&crl=c",
+                "description": "\u2026 customized product recommendations. One creative way to get beyond the constraints of \ne-commerce services is using recommendation \u2026 of robotics, AI, and machine learning. Then, the \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[HTML][HTML] Harnessing generative AI for personalized E-commerce product descriptions: A framework and practical insights",
+                "link": "https://www.sciencedirect.com/science/article/pii/S0920548925000418",
+                "description": "\u2026 of artificial intelligence (AI) and machine learning is \u2026 of large language models to personalize \nuser interactions throughout the \u2026 of generative AI to create customized e-commerce product \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Personalized Marketing and Recommendation Systems",
+                "link": "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003472544-7/personalized-marketing-recommendation-systems-mani-teja-chowdary-maniteja-vallepu-naga-sai-purushotham-neelam-kumari",
+                "description": "\u2026 deep learning techniques may be opaque. How many things and users must you man\u2011 age? \nDeep learning \u2026 Personalized filters that sug\u2011 gest products we may enjoy based on our prior \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Generative AI for Revolutionizing Personal Style",
+                "link": "https://ieeexplore.ieee.org/abstract/document/10932201/",
+                "description": "\u2026 Recommendation engines play a huge role in shopping customized product by suggesting \n\u2026 deep learning methodologies and the advances achieved by GANs in intelligent fashion \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "[PDF][PDF] Harnessing the power of generative artificial intelligence for dynamic content personalization in customer relationship management systems: A data-driven\u00a0\u2026",
+                "link": "https://www.researchgate.net/profile/Sai-Ganesh-Reddy-Bojja-2/publication/389689415_Harnessing_the_Power_of_Generative_Artificial_Intelligence_for_Dynamic_Content_Personalization_in_Customer_Relationship_Management_Systems_A_Data-Driven_Framework_for_Optimizing_Customer_Engagement_an/links/67cdb161bab3d32d84405238/Harnessing-the-Power-of-Generative-Artificial-Intelligence-for-Dynamic-Content-Personalization-in-Customer-Relationship-Management-Systems-A-Data-Driven-Framework-for-Optimizing-Customer-Engagement-an.pdf",
+                "description": "\u2026 Generative AI encompasses a range of machine learning \u2026 of generative AI for crafting \npersonalized product descriptions, \u2026 after clicking on a product recommendation or the number of \u2026",
+                "tag": "scholar"
+            },
+            {
+                "title": "Practical Recommendation of Using Generative AI in Business",
+                "link": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4851637",
+                "description": "\u2026 economic benefits, balancing customization and control with \u2026 applications of generative AI \nin software product management, \u2026 By leveraging advanced machine learning models, GenAI \u2026",
+                "tag": "scholar"
+            }
+        ]
     }
 # generatePdf(JSON)
