@@ -154,7 +154,7 @@ async def upload_multiple(
         json.dump(worklets, file, indent=4)
         
     def generate(worklet):
-        # generatePdf(worklet)
+        generatePdf(worklet,model)
         return {
             "name": f'{worklet["Title"]}.pdf',
             "url": f"http://localhost:8000/download/{worklet["Title"]}.pdf"

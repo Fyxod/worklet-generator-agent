@@ -3,6 +3,7 @@ from reportlab.platypus import Paragraph, Frame
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 import os
+from app.utils.reference_functions.reference_sort import sort
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
@@ -14,7 +15,8 @@ pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 CUSTOM_PAGE_SIZE = (700,900)  # Width x Height in points (1 point = 1/72 inch)
 
 
-def generatePdf(json,):
+def generatePdf(json,model):
+    json=sort(json,model)
     filename = os.path.join(pdf_path, f"{json['Title'].replace(' ', '_')}.pdf")
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
     width, height = CUSTOM_PAGE_SIZE
