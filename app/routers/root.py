@@ -135,9 +135,9 @@ async def upload_multiple(
         if reference:
             worklet["Reference Work"] = reference
 
-        for worklet in worklets:
-            print("fertchign refrences for ",worklet["Title"])
-            await process_worklet(worklet)
+    for worklet in worklets:
+        print("fertchign refrences for ",worklet["Title"])
+        await process_worklet(worklet)
     
     await sio.emit("progress", {"message": "Fetching references..."})
     # await asyncio.gather(*(process_worklet(worklet) for worklet in worklets))
