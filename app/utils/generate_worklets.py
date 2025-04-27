@@ -24,6 +24,7 @@ async def generate_worklets(worklet_data, linksData, model):
         print("Error in generating worklets:", e)
         await sio.emit("error", {"message": "ERROR: LLM is not responding. Please try again."})
 
+    # extracted_worklets = []
     try:
         extracted_worklets = extract_json_from_llm_response(generated_worklets)# remove back ticks
     except Exception as e:
