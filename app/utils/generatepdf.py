@@ -35,7 +35,8 @@ def generatePdf_unsafe(json,model):
     print("\n")
     print("----"*25+"Inside generate pdf"+"----"*25)
     print("\n")
-    json = pre_processing(json)
+    if len(json["Reference work"])>=3:
+        json = pre_processing(json)
     filename = os.path.join(pdf_path, f"{json['Title']}.pdf")
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
     width, height = CUSTOM_PAGE_SIZE
