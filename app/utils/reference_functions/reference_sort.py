@@ -85,6 +85,7 @@ def index_sort(worklet,model,index):
     print(sorted_indices)
     print("\n")
     sorted_indices=convert_to_list(sorted_indices)
+    sorted_indices=remove_duplicates(sorted_indices)
     sorted_references = rearrange_references(worklet['Reference Work'], sorted_indices)
     print("Printing Sorted array of ref")
     print("\n")
@@ -94,7 +95,7 @@ def index_sort(worklet,model,index):
     filename = f"{index + 1}_index_sort.json"
     path = os.path.join(output_directory, filename)
     print("\n")
-    # worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
+    worklet["Reference Work"] = sorted_references
     with open(path, "w") as file:
         json.dump(worklet["Reference Work"], file, indent=4)
     print("sorted worklet"*5, worklet["Reference Work"])
@@ -144,3 +145,14 @@ def convert_to_list(input_data):
     except (ValueError, TypeError):
         print("Warning: Input could not be parsed. Using default list [1, 2, 3, 4, 5].")
         return default_list
+
+
+def remove_duplicates(numbers):
+    """Removes duplicates from a list while keeping order."""
+    seen = set()
+    unique_numbers = []
+    for num in numbers:
+        if num not in seen:
+            seen.add(num)
+            unique_numbers.append(num)
+    return unique_numbers
