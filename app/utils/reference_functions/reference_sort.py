@@ -114,7 +114,7 @@ def convert_to_list(input_data):
     Convert input_data to a list of integers safely.
     If parsing fails, return a default list [12, 13, 14, 15, 16].
     """
-    default_list = [1, 2, 14, 15, 16]
+    default_list = [1, 2, 3, 4, 5]
 
     try:
         if isinstance(input_data, list):
@@ -142,5 +142,5 @@ def convert_to_list(input_data):
         raise ValueError
 
     except (ValueError, TypeError):
-        print("Warning: Input could not be parsed. Using default list [12, 13, 14, 15, 16].")
+        print("Warning: Input could not be parsed. Using default list [1, 2, 3, 4, 5].")
         return default_list
