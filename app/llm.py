@@ -24,6 +24,7 @@ ollama_models = [
     "deepseek-r1:70b",
     "llama3.3:latest",
     "command-a:latest",
+    "llama3.3:70b-instruct-fp16"
 ]
 
 def invoke_llm(prompt, model):

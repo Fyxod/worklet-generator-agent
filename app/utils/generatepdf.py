@@ -17,7 +17,7 @@ CUSTOM_PAGE_SIZE = (700,900)  # Width x Height in points (1 point = 1/72 inch)
 
 
 def pre_processing(json, index):
-    model ="gemma3:27b"
+    model ="llama3.3:70b-instruct-fp16"
     for idx, ref in enumerate(json["Reference Work"]):
         ref["index"] = idx  # Add new key "index" to each dictionary
     print("\n")
