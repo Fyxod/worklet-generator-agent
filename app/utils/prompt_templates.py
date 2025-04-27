@@ -140,6 +140,21 @@ Is your output pure JSON inside triple backticks without extra comments?
         ```
 """
 
+def summariser_template():
+    return ChatPromptTemplate.from_template("""
+You are an experienced researcher, but you have a short context window. 
+To handle large information, you summarize and extract only the most critical details needed for future use. 
+You will later use this summarized data to generate research worklets. 
+Optimize your summaries specifically for LLM consumption — no need for human readability. 
+Focus on compressing information efficiently, preserving only facts, key points, and critical context.
+
+Input data:
+{worklet_data}
+""")
+
+
+
+
 def arcive_temp():
     return ChatPromptTemplate.from_template(
     """
