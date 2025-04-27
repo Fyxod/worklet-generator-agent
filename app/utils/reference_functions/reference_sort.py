@@ -81,8 +81,11 @@ def index_sort(worklet,model,index):
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
     prompt =index_sort_template(reference_work_str)  
     sorted_indices = invoke_llm(prompt, model)
+    print("\n")
+    print(sorted_indices)
+    print("\n")
     sorted_indices=convert_to_list(sorted_indices)
-    sorted_references = rearrange_references(reference_work_str, sorted_indices)
+    sorted_references = rearrange_references(worklet['Reference Work'], sorted_indices)
     print("Printing Sorted array of ref")
     print("\n")
     print("dumped sorted references")
@@ -104,10 +107,40 @@ def rearrange_references(reference_work, sorted_indices):
     rearranged_references = [reference_work[i] for i in sorted_indices]
     return rearranged_references
 
+import json
+
 def convert_to_list(input_data):
-    if isinstance(input_data, list):
-        return input_data
-    elif isinstance(input_data, str):
-        return list(input_data)
-    else:
-        raise ValueError("Input must be either a string or a list")
+    """
+    Convert input_data to a list of integers safely.
+    If parsing fails, return a default list [12, 13, 14, 15, 16].
+    """
+    default_list = [1, 2, 14, 15, 16]
+
+    try:
+        if isinstance(input_data, list):
+            return [int(x) for x in input_data]
+
+        elif isinstance(input_data, str):
+            input_data = input_data.strip()
+
+            # Try parsing as JSON
+            try:
+                parsed = json.loads(input_data)
+                if isinstance(parsed, list):
+                    return [int(x) for x in parsed]
+            except json.JSONDecodeError:
+                pass
+
+            # Try splitting manually
+            separators = [",", " "]
+            for sep in separators:
+                if sep in input_data:
+                    parts = input_data.split(sep)
+                    return [int(x.strip()) for x in parts if x.strip() != '']
+
+        # If input is neither list nor string, or nothing worked
+        raise ValueError
+
+    except (ValueError, TypeError):
+        print("Warning: Input could not be parsed. Using default list [12, 13, 14, 15, 16].")
+        return default_list

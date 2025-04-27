@@ -19,13 +19,16 @@ async def status():
     await sio.emit("progress", {"message": "Comparing references and selecting the best suited references"})
 
 def pre_processing(json, index):
-    
-    model ="llama3.3:latest"
+
+    # model ="llama3.3:latest"
+    # model ="gpt-j "
+    # model ="gemini-flash-2.0"
+    model ="gemma3:27b"
     status()
     # for idx, ref in enumerate(json["Reference Work"]):
     #     ref["index"] = idx  # Add new key "index" to each dictionary
     print("\n")
-    json=scholar_sort(json,model, index)
+    json=index_sort(json,model, index)
     return json
 
 def generatePdf_unsafe(json,model):
