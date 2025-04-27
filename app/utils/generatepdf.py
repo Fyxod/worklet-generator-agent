@@ -23,7 +23,7 @@ def pre_processing(json, index):
     print("\n")
     print("inside Inplace_sort")
     print("\n")
-    # sio.emit("progress", {"message": "Extracting data from files and links..."})
+    sio.emit("progress", {"message": "Comparing references and selecting the best suited references"})
     json=Inplace_sort(json,model, index)
     return json
 
