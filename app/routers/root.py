@@ -118,14 +118,19 @@ async def upload_multiple(
 
     # 4. generating worklets here
     await sio.emit("progress", {"message": "Generating worklets..."})
-    worklets = await generate_worklets(extracted_data_all, linksData, model)
+    # worklets = await generate_worklets(extracted_data_all, linksData, model)
+
+    loop = asyncio.get_running_loop()
+    worklets = await loop.run_in_executor(None, generate_worklets, extracted_data_all, linksData, model)
 
     # 5. Move old generated files
+    loop = asyncio.get_running_loop()
+
     for filename in os.listdir(GENERATED_DIR):
         source_path = os.path.join(GENERATED_DIR, filename)
         destination_path = os.path.join(DESTINATION_DIR, filename)
         if os.path.isfile(source_path):
-            shutil.move(source_path, destination_path)
+            await loop.run_in_executor(None, shutil.move, source_path, destination_path)
 
     # 6. Generate references concurrently
     async def process_worklet(worklet):
@@ -177,7 +182,7 @@ async def upload_multiple(
 
         await sio.emit("pdf_generated", {"file_name": filename})
 
-    time.sleep(1)
+    await asyncio.sleep(1)
     return response
 
     #thread one
