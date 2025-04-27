@@ -135,11 +135,11 @@ async def upload_multiple(
         worklet["Reference Work"] = reference
 
     await sio.emit("progress", {"message": "Fetching references..."})
-    for worklet in worklets:
-        print("fertchign refrences for ",worklet["Title"])
-        await process_worklet(worklet)
+    # for worklet in worklets:
+    #     print("fertchign refrences for ",worklet["Title"])
+    #     await process_worklet(worklet)
     
-    # await asyncio.gather(*(process_worklet(worklet) for worklet in worklets))
+    await asyncio.gather(*(process_worklet(worklet) for worklet in worklets))
 
     # 7. Save latest generated worklets and give index to references
     for worklet in worklets:
