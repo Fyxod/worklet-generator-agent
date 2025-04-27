@@ -85,6 +85,8 @@ def index_sort(worklet,model,index):
     print(sorted_indices)
     print("\n")
     sorted_indices=convert_to_list(sorted_indices)
+    if sorted_indices ==5985:
+        return scholar_sort(worklet,model,index)
     sorted_indices=remove_duplicates(sorted_indices)
     sorted_references = rearrange_references(worklet['Reference Work'], sorted_indices)
     print("Printing Sorted array of ref")
@@ -115,7 +117,7 @@ def convert_to_list(input_data):
     Convert input_data to a list of integers safely.
     If parsing fails, return a default list [12, 13, 14, 15, 16].
     """
-    default_list = [1, 2, 3, 4, 5]
+    
 
     try:
         if isinstance(input_data, list):
@@ -144,7 +146,7 @@ def convert_to_list(input_data):
 
     except (ValueError, TypeError):
         print("Warning: Input could not be parsed. Using default list [1, 2, 3, 4, 5].")
-        return default_list
+        return 5985
 
 
 def remove_duplicates(numbers):
