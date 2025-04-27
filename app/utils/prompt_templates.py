@@ -77,67 +77,34 @@ def worklet_gen_prompt():    # worklet data need to be given so that
 
 def refrence_sort_template(json):    # worklet data need to be given so that 
 
-    return f"""
-   ROLE & CONTEXT
-You are an Expert Technology and Innovation Advisor for Samsung PRISM, an industry-academia collaboration program engaging Indian Tier 1 and Tier 2 engineering colleges.
+    return f"""ou are an Expert Technology and Innovation Advisor for Samsung PRISM.
+You will receive a JSON array containing multiple reference objects.
+Each reference is a locked unit: Title, Link, Description, Tag, and Index belong together.
 
-You are provided with a JSON object containing:
+Your task:
 
-    A worklet description (problem statement, project description, etc.).
+    Analyze the references for relevance to the provided worklet description.
 
-    A list of references work (each reference includes a short description, title, link, tag, and index).
+    ONLY reorder the references from most to least relevant.
 
-OBJECTIVE
-Analyze the references based on their relevance to the worklet description and
-Sort the references in decreasing order of relevance (most relevant first, least relevant last).
+    Do NOT modify, edit, correct, merge, split, or reformat any part inside each reference.
 
+    Move entire reference blocks together without changing their internal fields.
+
+IMPORTANT STRICT RULES:
+
+    Keep each reference object intact.
+
+    Do not touch or correct fields inside any reference.
+
+    Output ONLY the reordered list wrapped in triple backticks.
+
+Reminder: If you acci   dentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
+Here is the input JSON:
 {json}
-MANDATORY RULES
+Your output should be:
+[<reordered intact references>]
 
-    Do NOT modify, edit, or rephrase any content inside the references.
-
-    Do NOT add new fields, remove existing fields, or change field names.
-
-    Do NOT correct typos, grammar, or descriptions. Keep them exactly as given.
-
-    ONLY reorder the list based on relevance — reposition entire reference blocks.
-
-    Maintain the original JSON field structure and field values exactly.
-
-OUTPUT FORMAT
-Output must strictly follow this format:
-        ```json
-        [
-            {{
-                "Title": "<one-line title>",
-                "Link": "<link>",
-                "Description": "<description>"
-                "tag": "scholar",
-                "index": <original index>
-            }},
-            {{
-                "Title": "<one-line title>",
-                "Link": "<link>",
-                "Description": "<description>"
-                "tag": "scholar",
-                "index": <original index>
-            }},
-            ...
-        ]
-        Important:
-
-    Only rearrange the reference objects inside the array.
-
-    No extra text, comments, or explanation outside the JSON block.
-
-QUICK SELF-CHECK BEFORE SUBMITTING
-
-Did you only reorder the references?
-
-Did you keep the fields exactly unchanged?
-
-Is your output pure JSON inside triple backticks without extra comments?
-        ```
 """
 
 def summariser_template():
