@@ -1,5 +1,5 @@
 from app.llm import invoke_llm
-from app.utils.prompt_templates import refrence_sort_template
+from app.utils.prompt_templates import refrence_sort_template, index_sort_template
 from app.utils.llm_response_parser import extract_json_from_llm_response
 import json, os
 
@@ -66,10 +66,39 @@ def scholar_sort(worklet,model,index):
     print("\n")
     return worklet
 
-def Index_sort(worklet,model):
+def Index_sort(worklet,model,index):
     """
     Take Input of a Single Worklet and sort the serefences on the basis of the discription 
     provided in Increasing order of Relevence
 
     """
+
+    print("\n")
+    print("-"*10+"printing worklet before sorting"*10+"-"*10)
+    print("\n")
+    print(worklet["Reference Work"])
+    print("\n")
+    reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
+    prompt =index_sort_template(reference_work_str)  
+    sorted_indices = invoke_llm(prompt, model)
+    sorted_references = rearrange_references(reference_work_str, sorted_indices)
+    print("Printing Sorted array of ref")
+    print("\n")
+    print("dumped sorted references")
+    #dump to file name index.json
+    filename = f"{index + 1}_index_sort.json"
+    path = os.path.join(output_directory, filename)
+    print("\n")
+    worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
+    with open(path, "w") as file:
+        json.dump(worklet["Reference Work"], file, indent=4)
+    print("sorted worklet"*5, worklet["Reference Work"])
+    print("\n")
+    return worklet
+
+
+def rearrange_references(reference_work, sorted_indices):
+    # Rearrange the reference_work array based on the sorted_indices
+    rearranged_references = [reference_work[i] for i in sorted_indices]
+    return rearranged_references
 

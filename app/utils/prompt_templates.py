@@ -106,7 +106,31 @@ Your output should be:
 [<reordered intact references>]
 
 """
+def index_sort_template(json):    # worklet data need to be given so that 
 
+    return f"""You are an Expert Technology and Innovation Advisor for Samsung PRISM.
+You will receive a JSON array of references.
+Each reference contains a Title, Link, Description, Tag, and Index.
+
+Your task is to:
+
+    Analyze the references and sort them based on relevance to the provided worklet description.
+
+    Return only the sorted indices of the references, corresponding to the original index values found in each reference object under worklet["referencework"][i]["index"].
+
+IMPORTANT RULES:
+    Only return an array of sorted indices (based on relevance).
+
+    Ensure that the returned indices correspond exactly to the indices of the references in the sorted order (i.e., the indices should be from the original list, but sorted by relevance).
+
+
+Reminder: If you acci   dentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
+Here is the input JSON:
+{json}
+Your output should be:
+[<sorted indices array>]
+
+"""
 def summariser_template():
     return ChatPromptTemplate.from_template("""
 You are an experienced researcher, but you have a short context window. 
