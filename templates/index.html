@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Worklet Generator Agent</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -94,11 +95,23 @@
       background-color: #059669;
     }
     .loading {
-      display: none;
       margin-top: 20px;
       text-align: center;
       color: #6366f1;
       font-weight: 600;
+    }
+    .progress-container {
+      background: #334155;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 10px;
+      height: 16px;
+    }
+    .progress-bar {
+      background: #4f46e5;
+      height: 100%;
+      width: 0%;
+      transition: width 0.4s ease;
     }
     .download-list a {
       display: block;
@@ -128,6 +141,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Worklet Generator Agent</h1>
@@ -153,7 +167,11 @@
       <button type="button" class="add-link-btn" onclick="addLinkField()">Add Another Link</button>
 
       <button type="submit" class="generate-btn">Generate Worklets</button>
-      <div class="loading" id="loading">🔄 Generating Worklets...</div>
+
+      <div class="loading" id="loading" style="display: none;">🔄 Generating Worklets...</div>
+      <div class="progress-container" id="progress-container" style="display: none;">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
     </form>
 
     <div class="download-list" id="download-list"></div>
@@ -164,8 +182,27 @@
     const fileList = document.getElementById('file-list');
     const form = document.getElementById('worklet-form');
     const loading = document.getElementById('loading');
+    const progressContainer = document.getElementById('progress-container');
+    const progressBar = document.getElementById('progress-bar');
     const downloadList = document.getElementById('download-list');
+
+    // const socket = io('http://localhost:8000');
+    const socket = io('http://localhost:8000', {
+    transports: ['websocket'], // force websocket only
+});
+    socket.on('connect', () => {
+      console.log('Connected to server');
+    });
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server');
+    });
+    socket.on('heartbeat', (data) => {
+    console.log('Heartbeat:', data.status);
+});
+
     let selectedFiles = [];
+    let totalWorklets = 6;
+    let generatedCount = 0;
 
     fileInput.addEventListener('change', (e) => {
       selectedFiles = Array.from(e.target.files).map(file => ({ file, notes: '' }));
@@ -209,11 +246,33 @@
       button.parentElement.remove();
     }
 
+    socket.on('pdf_generated', (data) => {
+      console.log('PDF generated:', data);
+      generatedCount++;
+      updateLoadingText();
+
+      if (data.file_name) {
+        const a = document.createElement('a');
+        a.href = `http://localhost:8000/download/${encodeURIComponent(data.file_name)}`;
+        a.textContent = `📄 ${data.file_name}`;
+        a.download = data.file_name;
+        a.style.animation = 'fadeIn 0.6s ease forwards';
+        downloadList.appendChild(a);
+      }
+
+      // update progress bar
+      const percent = (generatedCount / totalWorklets) * 100;
+      progressBar.style.width = `${percent}%`;
+    });
+
+    function updateLoadingText() {
+      loading.textContent = `🔄 Generating Worklets... (${generatedCount}/${totalWorklets} done)`;
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const formData = new FormData();
-
       selectedFiles.forEach(item => {
         if (item.file.size > 100 * 1024 * 1024) {
           alert(`File ${item.file.name} exceeds 100MB limit.`);
@@ -233,45 +292,38 @@
       formData.append('links', JSON.stringify(links));
 
       loading.style.display = 'block';
+      progressContainer.style.display = 'block';
       downloadList.innerHTML = '';
 
+      generatedCount = 0;
+      totalWorklets = 6; // We'll set this after the server gives us an estimate
+
       try {
-        // const response = await fetch('http://localhost:8000/upload/', {
-        //   method: 'POST',
-        //   body: formData
-        // });
-
         const response = await fetch(`http://localhost:8000/upload/?model=${encodeURIComponent(model)}`, {
-        method: 'POST',
-        body: formData
+          method: 'POST',
+          body: formData
         });
-
 
         const data = await response.json();
 
-        loading.style.display = 'none';
-
-        if (data.files && Array.isArray(data.files)) {
-          downloadList.innerHTML = '<h3>Download Generated PDFs:</h3>';
-          data.files.forEach(file => {
-            const a = document.createElement('a');
-            a.href = `http://localhost:8000/download/${encodeURIComponent(file.name)}`;
-            a.textContent = `📄 ${file.name}`;
-            a.download = file.name;
-            a.style.animation = 'fadeIn 0.6s ease forwards';
-            downloadList.appendChild(a);
-          });
-
-          const downloadAll = document.createElement('a');
-          downloadAll.href = `http://localhost:8000/download_all/`;
-          downloadAll.textContent = '⬇️ Download All as ZIP';
-          downloadAll.style.fontWeight = '700';
-          downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
-          downloadList.appendChild(downloadAll);
+        if (data.worklet_count) {
+          totalWorklets = data.worklet_count;
         }
+
+        loading.style.display = 'none';
+        progressContainer.style.display = 'none';
+
+        const downloadAll = document.createElement('a');
+        downloadAll.href = `http://localhost:8000/download_all/`;
+        downloadAll.textContent = '⬇️ Download All as ZIP';
+        downloadAll.style.fontWeight = '700';
+        downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
+        downloadList.appendChild(downloadAll);
+
       } catch (error) {
         console.error('Error:', error);
         loading.style.display = 'none';
+        progressContainer.style.display = 'none';
         alert('An error occurred while generating worklets.');
       }
     });

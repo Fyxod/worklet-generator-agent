@@ -4,9 +4,12 @@ import subprocess
 from fastapi.middleware.cors import CORSMiddleware
 import sys
 import os
+import socketio
+from app.socket import sio
 
-app = FastAPI()
-app.add_middleware(
+fastapi_app = FastAPI()
+
+fastapi_app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allow all origins
     allow_credentials=True,
@@ -14,13 +17,6 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-streamlit_path = os.path.join(os.path.dirname(sys.executable), "streamlit")
+fastapi_app.include_router(root.router)
 
-subprocess.Popen([
-    streamlit_path, "run", "streamlit_app/pdf_uploader.py",
-    "--server.port", "8501",
-    "--server.headless", "true",
-    "--server.address", "127.0.0.1"
-])
-
-app.include_router(root.router)
+app = socketio.ASGIApp(sio, other_asgi_app=fastapi_app)

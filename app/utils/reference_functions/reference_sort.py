@@ -1,9 +1,13 @@
 from app.llm import invoke_llm
 from app.utils.prompt_templates import refrence_sort_template
 from app.utils.llm_response_parser import extract_json_from_llm_response
-import json
+import json, os
 
-def Inplace_sort(worklet,model):
+
+output_directory = "sorted_references"
+os.makedirs(output_directory, exist_ok=True)
+
+def Inplace_sort(worklet,model, index):
     """
     Take Input of a Single Worklet and sort the serefences on the basis of the discription 
     provided in Increasing order of Relevence
@@ -20,7 +24,12 @@ def Inplace_sort(worklet,model):
     sorted_references = invoke_llm(prompt, model)
     print("Printing Sorted array of ref")
     print("\n")
-    print(sorted_references)
+    print("dumped sorted references")
+    #dump to file name index.json
+    filename = f"{index + 1}.json"
+    path = os.path.join(output_directory, filename)
+    with open(path, "w") as file:
+        json.dump(sorted_references, file, indent=4)
     print("\n")
     worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
     print("sorted worklet"*5, worklet["Reference Work"])

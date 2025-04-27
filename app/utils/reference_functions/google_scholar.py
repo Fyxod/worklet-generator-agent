@@ -18,11 +18,11 @@ def get_google_scholar_references(keyword):
             title = (
                 title.replace("[PDF]", "").replace("[HTML]", "").replace("[DOC]", "")
             )
-            description = i.get("description", "")
-            # if description:
-            #     description = slice_to_100_words(description)
-            # else:
-            #     description = "did not find any discription just sort them sa u see fit try to keep one with tag scholar in front "
+            description = i.get("snippet", "")
+            if description:
+                description = slice_to_100_words(description)
+            else:
+                description = "Did not finf any description for this paper just sort them as you see fit try to keep one with tag scholar in front"
             result.append(
                 {
                     "Title": title,
@@ -31,7 +31,7 @@ def get_google_scholar_references(keyword):
                     "Tag": "scholar",
                 }
             )
-        print("google scholar inside", result)
+        # print("google scholar inside", result)
         return result
 
     except Exception as e:

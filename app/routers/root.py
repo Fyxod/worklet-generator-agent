@@ -5,6 +5,7 @@ import os
 import aiofiles
 from datetime import datetime
 from fastapi import APIRouter
+import traceback
 import shutil
 from pathlib import Path
 from pydantic import BaseModel
@@ -23,6 +24,8 @@ import json
 from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+import time
+from app.socket import sio
 
 class Query1(BaseModel):
     query: str
@@ -107,7 +110,7 @@ async def upload_multiple(
     except json.JSONDecodeError as e:
         print("Error decoding links JSON:", e)
 
-    #Summerise extracted data
+    #Summarise extracted data
 
     # generate worklet content 
     worklets =  await generate_worklets(extracted_data_all,linksData, model)
@@ -133,14 +136,14 @@ async def upload_multiple(
             worklet["Reference Work"] = reference
 
 
-    # with concurrent.futures.ThreadPoolExecutor() as executor:
-    #     list(executor.map(process_worklet, worklets))
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        list(executor.map(process_worklet, worklets))
 
-    for worklet in worklets:
-        # print("DEUBGGING HERE DEBIGGING HERE DEBUGGING HERE DEBBUGING HERE")
-        # print(worklet)
-        print("fertchign refrences for ",worklet["Title"])
-        process_worklet(worklet)
+    # for worklet in worklets:
+    #     # print("DEUBGGING HERE DEBIGGING HERE DEBUGGING HERE DEBBUGING HERE")
+    #     # print(worklet)
+    #     print("fertchign refrences for ",worklet["Title"])
+    #     process_worklet(worklet)
     
 ######## Indication 2###########
     with open("latest_generated.json", "w") as file:
@@ -153,10 +156,27 @@ async def upload_multiple(
 
     # for loop one
     response = {"files":[]}
-    for worklet in worklets:
-        generatePdf(worklet, model)
-        response["files"].append({"name": f'{worklet["Title"]}.pdf', "url": f"http://localhost:8000/download/{worklet['Title']}.pdf"})
+    # for worklet in worklets:
+    #     generatePdf(worklet, model)
+    #     response["files"].append({"name": f'{worklet["Title"]}.pdf', "url": f"http://localhost:8000/download/{worklet['Title']}.pdf"})
 
+    for index, worklet in enumerate(worklets):
+        try:
+            print("Generating PDF for:", worklet["Title"])
+            generatePdf(worklet, model, index)
+            filename = f'{worklet["Title"]}.pdf'
+        except Exception as e:
+            print(f"Error generating PDF for {worklet['Title']}: {e}")
+            traceback.print_exc()   
+            filename = f'error.pdf'
+        response["files"].append({
+            "name": filename,
+            "url": f"http://localhost:8000/download/{filename}"
+        })
+        await sio.emit("pdf_generated", {"file_name": filename})
+        time.sleep(2) 
+    
+    return response
     #thread one
     # response = {"files": []}
 
@@ -176,7 +196,6 @@ async def upload_multiple(
 
     # response["files"] = results
 
-    return response
     # return {worklets}
     # return extracted_data_all
 

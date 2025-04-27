@@ -15,14 +15,14 @@ pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 CUSTOM_PAGE_SIZE = (700,900)  # Width x Height in points (1 point = 1/72 inch)
 
 
-def pre_processing(json):
+def pre_processing(json, index):
     model ="gemma3:27b"
     for idx, ref in enumerate(json["Reference Work"]):
         ref["index"] = idx  # Add new key "index" to each dictionary
     print("\n")
     print("inside Inplace_sort")
     print("\n")
-    json=Inplace_sort(json,model)
+    json=Inplace_sort(json,model, index)
 
 def generatePdf_unsafe(json,model):
     print("\n")
@@ -82,11 +82,11 @@ def generatePdf_unsafe(json,model):
     print("\n")
     print("\n")
 
-def generatePdf(json, model):
+def generatePdf(json, model, index):
     print("\n")
     print("----"*25+"Inside generate pdf"+"----"*25)
     print("\n")
-    pre_processing(json)
+    pre_processing(json, index)
     filename = os.path.join(pdf_path, f"{json['Title']}.pdf")
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
     width, height = CUSTOM_PAGE_SIZE
