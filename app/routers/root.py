@@ -75,7 +75,7 @@ async def upload_multiple(
     saved_files = []
     extracted_data_all = {}
     # print("printing files", files)
-    
+    await sio.emit("progress", {"message": "Extracting data from files and links..."})
     if files:
     # Save each file with a timestamp
         print("files have been uploaded")
@@ -111,7 +111,8 @@ async def upload_multiple(
         print("Error decoding links JSON:", e)
 
     #Summarise extracted data
-
+    await sio.emit("progress", {"message": "Generating worklets..."})
+    
     # generate worklet content 
     worklets =  await generate_worklets(extracted_data_all,linksData, model)
 
@@ -135,7 +136,7 @@ async def upload_multiple(
         if reference:
             worklet["Reference Work"] = reference
 
-
+    await sio.emit("progress", {"message": "Fetching references..."})
     with concurrent.futures.ThreadPoolExecutor() as executor:
         list(executor.map(process_worklet, worklets))
 
@@ -152,7 +153,7 @@ async def upload_multiple(
     print("\n")    
     print("-------"*25+"final"+"---------"*25) #printing final here
     print("\n")
-    print(worklets)
+    # print(worklets)
 
     # for loop one
     response = {"files":[]}
@@ -160,9 +161,11 @@ async def upload_multiple(
     #     generatePdf(worklet, model)
     #     response["files"].append({"name": f'{worklet["Title"]}.pdf', "url": f"http://localhost:8000/download/{worklet['Title']}.pdf"})
 
+    await sio.emit("progress", {"message": "Generating PDFs..."})
     for index, worklet in enumerate(worklets):
         try:
             print("Generating PDF for:", worklet["Title"])
+            await sio.emit("progress", {"message": f"Generating PDF for {index+1}. {worklet['Title']}..."})
             generatePdf(worklet, model, index)
             filename = f'{worklet["Title"]}.pdf'
         except Exception as e:
@@ -174,7 +177,6 @@ async def upload_multiple(
             "url": f"http://localhost:8000/download/{filename}"
         })
         await sio.emit("pdf_generated", {"file_name": filename})
-        time.sleep(2) 
     
     return response
     #thread one

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Worklet Generator Agent</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -131,6 +131,13 @@
     .remove-link-btn:hover {
       background-color: #ef4444;
     }
+    .progress-message {
+      margin-top: 10px;
+      text-align: center;
+      font-weight: 600;
+      color: #38bdf8;
+      animation: fadeIn 0.6s ease forwards;
+    }
     @keyframes fadeSlideIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -172,6 +179,7 @@
       <div class="progress-container" id="progress-container" style="display: none;">
         <div class="progress-bar" id="progress-bar"></div>
       </div>
+      <div class="progress-message" id="progress-message" style="display: none;">Sending...</div>
     </form>
 
     <div class="download-list" id="download-list"></div>
@@ -184,12 +192,13 @@
     const loading = document.getElementById('loading');
     const progressContainer = document.getElementById('progress-container');
     const progressBar = document.getElementById('progress-bar');
+    const progressMessage = document.getElementById('progress-message');
     const downloadList = document.getElementById('download-list');
 
-    // const socket = io('http://localhost:8000');
     const socket = io('http://localhost:8000', {
-    transports: ['websocket'], // force websocket only
-});
+      transports: ['websocket'],
+    });
+
     socket.on('connect', () => {
       console.log('Connected to server');
     });
@@ -197,8 +206,8 @@
       console.log('Disconnected from server');
     });
     socket.on('heartbeat', (data) => {
-    console.log('Heartbeat:', data.status);
-});
+      console.log('Heartbeat:', data.status);
+    });
 
     let selectedFiles = [];
     let totalWorklets = 6;
@@ -260,9 +269,18 @@
         downloadList.appendChild(a);
       }
 
-      // update progress bar
       const percent = (generatedCount / totalWorklets) * 100;
       progressBar.style.width = `${percent}%`;
+    });
+
+    socket.on('progress', (data) => {
+      console.log('Progress:', data);
+      if (progressMessage.style.display !== 'none') {
+        progressMessage.style.animation = 'none'; // reset animation
+        void progressMessage.offsetWidth; // reflow hack to restart animation
+        progressMessage.style.animation = 'fadeIn 0.6s ease forwards';
+        progressMessage.textContent = data.message || 'Processing...';
+      }
     });
 
     function updateLoadingText() {
@@ -293,10 +311,12 @@
 
       loading.style.display = 'block';
       progressContainer.style.display = 'block';
+      progressMessage.style.display = 'block';
+      progressMessage.textContent = 'Sending...';
       downloadList.innerHTML = '';
 
       generatedCount = 0;
-      totalWorklets = 6; // We'll set this after the server gives us an estimate
+      totalWorklets = 6;
 
       try {
         const response = await fetch(`http://localhost:8000/upload/?model=${encodeURIComponent(model)}`, {
@@ -312,6 +332,7 @@
 
         loading.style.display = 'none';
         progressContainer.style.display = 'none';
+        progressMessage.style.display = 'none';
 
         const downloadAll = document.createElement('a');
         downloadAll.href = `http://localhost:8000/download_all/`;
@@ -324,6 +345,7 @@
         console.error('Error:', error);
         loading.style.display = 'none';
         progressContainer.style.display = 'none';
+        progressMessage.style.display = 'none';
         alert('An error occurred while generating worklets.');
       }
     });
