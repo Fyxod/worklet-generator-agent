@@ -5,9 +5,3 @@ from .custom_backend.top_mandates_metrics import CustomGoogleScholarTopMandates
 from .custom_backend.top_publications_metrics import CustomGoogleScholarTopPublications
 from .custom_backend.top_publications_article import CustomGoogleScholarTopPublicationArticle
 from .custom_backend.top_publications_article_citation import CustomGoogleScholarTopPublicationArticleCitation
-
-# serpapi backend
-# from .serpapi_backend.organic_results import SerpApiGoogleScholarOrganic
-# from .serpapi_backend.profile_results import SerpApiGoogleScholarProfiles
-# from .serpapi_backend.organic_cite_results import SerpApiGoogleScholarOrganicCite
-# from .serpapi_backend.author_results import SerpApiGoogleScholarAuthor
