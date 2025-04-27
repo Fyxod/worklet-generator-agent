@@ -132,8 +132,7 @@ async def upload_multiple(
         print(f"-----------Generating reference for: {worklet['Title']}------------------")
         loop = asyncio.get_running_loop()
         reference = await loop.run_in_executor(None, getReferenceWork, worklet["Title"], model)
-        if reference:
-            worklet["Reference Work"] = reference
+        worklet["Reference Work"] = reference
 
     for worklet in worklets:
         print("fertchign refrences for ",worklet["Title"])
