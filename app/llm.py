@@ -43,7 +43,7 @@ def invoke_llm(prompt, model):
                 response = requests.post(url, json=payload)
                 if response.status_code != 200:
                     print(f"Attempt {attempt+1}: Error {response.status_code} - {response.text}")
-                    time.sleep(5)
+                    time.sleep(20)
                     continue
 
                 data = json.loads(response.content)
@@ -57,7 +57,7 @@ def invoke_llm(prompt, model):
 
             except json.JSONDecodeError: 
                 print(f"Attempt {attempt+1}: Failed to decode JSON - {response}")
-                time.sleep(5)
+                time.sleep(20)
 
         if not raw_text:
             return "LLM failed after 4 attempts."
