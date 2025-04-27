@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Worklet Generator Agent</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -40,7 +40,7 @@
       display: block;
       color: #cbd5e1;
     }
-    input[type="file"], select, input[type="url"], textarea {
+    input[type="file"], select, input[type="url"] {
       width: 100%;
       margin-top: 8px;
       padding: 10px;
@@ -50,24 +50,17 @@
       font-size: 1rem;
       color: #f1f5f9;
     }
-    textarea {
-      margin-top: 6px;
-      font-size: 0.95rem;
-      resize: vertical;
-      min-height: 60px;
-    }
     .file-list div, .link-list div {
       background: #334155;
       margin-top: 10px;
       padding: 10px;
       border-radius: 8px;
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-size: 0.95rem;
-      color: #cbd5e1;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
-    .file-list button, .link-list button, button[type="submit"], button.add-link-btn {
+    .file-list button, .link-list button, button[type="submit"], button.add-link-btn, .clear-btn {
       background-color: #6366f1;
       color: white;
       border: none;
@@ -76,7 +69,6 @@
       font-size: 0.9rem;
       cursor: pointer;
       transition: background-color 0.3s;
-      align-self: flex-end;
     }
     button:hover {
       background-color: #4f46e5;
@@ -131,6 +123,22 @@
     .remove-link-btn:hover {
       background-color: #ef4444;
     }
+        .progress-message {
+      margin-top: 10px;
+      text-align: center;
+      font-weight: 600;
+      color: #38bdf8;
+      animation: fadeIn 0.6s ease forwards;
+    }
+    .clear-btn {
+      background-color: #facc15;
+      color: #1e293b;
+      margin-top: 20px;
+      width: 100%;
+    }
+    .clear-btn:hover {
+      background-color: #eab308;
+    }
     @keyframes fadeSlideIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -143,77 +151,80 @@
 </head>
 
 <body>
-  <div class="container">
-    <h1>Worklet Generator Agent</h1>
+<div class="container">
+  <h1>Worklet Generator Agent</h1>
 
-    <form id="worklet-form">
-      <label>Upload Files (PDF, DOCX, PPT, TXT, Images) (Max 100MB each):</label>
-      <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,image/*">
-      <div class="file-list" id="file-list"></div>
+  <form id="worklet-form">
+    <label>Upload Files (PDF, DOCX, PPT, TXT, Images) (Max 100MB each):</label>
+    <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,image/*">
+    <div class="file-list" id="file-list"></div>
 
-      <label>Select Model:</label>
-      <select id="model-select" name="model" required>
-        <option value="gemma3:27b">Gemma 3 (27B)</option>
-        <option value="gemini-flash-2.0">Gemini Flash 2.0</option>
-        <option value="llama3.3:latest">LLaMA 3.3</option>
-        <option value="deepseek-r1:70b">DeepSeek R1 (70B)</option>
-        <option value="command-a:latest">Command A</option>
-      </select>
+    <label>Select Model:</label>
+    <select id="model-select" name="model" required>
+      <option value="gemma3:27b">Gemma 3 (27B)</option>
+      <option value="gemini-flash-2.0">Gemini Flash 2.0</option>
+      <option value="llama3.3:latest">LLaMA 3.3</option>
+      <option value="deepseek-r1:70b">DeepSeek R1 (70B)</option>
+      <option value="command-a:latest">Command A</option>
+    </select>
 
-      <label>Add Links:</label>
-      <div id="link-fields" class="link-list">
-        <div><input type="url" name="links[]" placeholder="Enter link"> <button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button></div>
-      </div>
-      <button type="button" class="add-link-btn" onclick="addLinkField()">Add Another Link</button>
+    <label>Add Links:</label>
+    <div id="link-fields" class="link-list">
+      <div><input type="url" name="links[]" placeholder="Enter link"><button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button></div>
+    </div>
+    <button type="button" class="add-link-btn" onclick="addLinkField()">Add Another Link</button>
 
-      <button type="submit" class="generate-btn">Generate Worklets</button>
+    <button type="submit" class="generate-btn">Generate Worklets</button>
+    <button type="button" class="clear-btn" onclick="clearAll()">Clear Files & Links</button>
 
-      <div class="loading" id="loading" style="display: none;">🔄 Generating Worklets...</div>
-      <div class="progress-container" id="progress-container" style="display: none;">
-        <div class="progress-bar" id="progress-bar"></div>
-      </div>
-    </form>
+    <div class="loading" id="loading" style="display: none;">🔄 Generating Worklets...</div>
+    <div class="progress-container" id="progress-container" style="display: none;">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="progress-message" id="progress-message" style="display: none;">Sending...</div>
+  </form>
 
-    <div class="download-list" id="download-list"></div>
-  </div>
+  <div class="download-list" id="download-list"></div>
+</div>
 
-  <script>
-    const fileInput = document.getElementById('file-input');
-    const fileList = document.getElementById('file-list');
-    const form = document.getElementById('worklet-form');
-    const loading = document.getElementById('loading');
-    const progressContainer = document.getElementById('progress-container');
-    const progressBar = document.getElementById('progress-bar');
-    const downloadList = document.getElementById('download-list');
+<script>
+  const fileInput = document.getElementById('file-input');
+  const fileList = document.getElementById('file-list');
+  const form = document.getElementById('worklet-form');
+  const loading = document.getElementById('loading');
+  const progressContainer = document.getElementById('progress-container');
+  const progressBar = document.getElementById('progress-bar');
+  const progressMessage = document.getElementById('progress-message');
+  const downloadList = document.getElementById('download-list');
 
-    // const socket = io('http://localhost:8000');
-    const socket = io('http://localhost:8000', {
-    transports: ['websocket'], // force websocket only
-});
-    socket.on('connect', () => {
-      console.log('Connected to server');
-    });
-    socket.on('disconnect', () => {
-      console.log('Disconnected from server');
-    });
-    socket.on('heartbeat', (data) => {
+  const socket = io('http://localhost:8000', {
+    transports: ['websocket'],
+  });
+
+  socket.on('connect', () => {
+    console.log('Connected to server');
+  });
+  socket.on('disconnect', () => {
+    console.log('Disconnected from server');
+  });
+  socket.on('heartbeat', (data) => {
     console.log('Heartbeat:', data.status);
-});
+  });
 
-    let selectedFiles = [];
-    let totalWorklets = 6;
-    let generatedCount = 0;
+  let selectedFiles = [];
+  let totalWorklets = 6;
+  let generatedCount = 0;
 
-    fileInput.addEventListener('change', (e) => {
-      selectedFiles = Array.from(e.target.files).map(file => ({ file, notes: '' }));
-      renderFileList();
-    });
+  fileInput.addEventListener('change', (e) => {
+    selectedFiles = Array.from(e.target.files);
+    renderFileList();
+  });
 
-    function renderFileList() {
-      fileList.innerHTML = '';
-      selectedFiles.forEach((item, index) => {
-        const wrapper = document.createElement('div');
-        const fileLabel = document.createElement('div');
+  function renderFileList() {
+    fileList.innerHTML = '';
+    selectedFiles.forEach((item, index) => {
+      const wrapper = document.createElement('div');
+      const fileLabel = document.createElement('div');
         fileLabel.textContent = item.file.name + ' (' + Math.round(item.file.size/1024/1024) + ' MB)';
 
         const notes = document.createElement('textarea');
@@ -233,100 +244,137 @@
         wrapper.appendChild(notes);
         wrapper.appendChild(removeButton);
         fileList.appendChild(wrapper);
-      });
+    });
+  }
+
+  function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    renderFileList();
+  }
+
+  function addLinkField() {
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <input type="url" name="links[]" placeholder="Enter link">
+      <button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button>
+    `;
+    document.getElementById('link-fields').appendChild(div);
+  }
+
+  function removeLinkField(button) {
+    button.parentElement.remove();
+  }
+
+  function clearAll() {
+    fileInput.value = '';
+    selectedFiles = [];
+    renderFileList();
+
+    const linkFields = document.getElementById('link-fields');
+    linkFields.innerHTML = `
+      <div>
+        <input type="url" name="links[]" placeholder="Enter link">
+        <button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button>
+      </div>
+    `;
+
+    downloadList.innerHTML = '';
+  }
+
+  socket.on('pdf_generated', (data) => {
+    console.log('PDF generated:', data);
+    generatedCount++;
+    updateLoadingText();
+
+    if (data.file_name) {
+      const a = document.createElement('a');
+      a.href = `http://localhost:8000/download/${encodeURIComponent(data.file_name)}`;
+      a.textContent = `📄 ${data.file_name}`;
+      a.download = data.file_name;
+      a.style.animation = 'fadeIn 0.6s ease forwards';
+      downloadList.appendChild(a);
     }
 
-    function addLinkField() {
-      const div = document.createElement('div');
-      div.innerHTML = '<input type="url" name="links[]" placeholder="Enter link"> <button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button>';
-      document.getElementById('link-fields').appendChild(div);
+    const percent = (generatedCount / totalWorklets) * 100;
+    progressBar.style.width = `${percent}%`;
+  });
+
+  socket.on('progress', (data) => {
+    console.log('Progress:', data);
+    if (progressMessage.style.display !== 'none') {
+      progressMessage.style.animation = 'none'; 
+      void progressMessage.offsetWidth; 
+      progressMessage.style.animation = 'fadeIn 0.6s ease forwards';
+      progressMessage.textContent = data.message || 'Processing...';
     }
+  });
 
-    function removeLinkField(button) {
-      button.parentElement.remove();
-    }
+  function updateLoadingText() {
+    loading.textContent = `🔄 Generating Worklets... (${generatedCount}/${totalWorklets} done)`;
+  }
 
-    socket.on('pdf_generated', (data) => {
-      console.log('PDF generated:', data);
-      generatedCount++;
-      updateLoadingText();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      if (data.file_name) {
-        const a = document.createElement('a');
-        a.href = `http://localhost:8000/download/${encodeURIComponent(data.file_name)}`;
-        a.textContent = `📄 ${data.file_name}`;
-        a.download = data.file_name;
-        a.style.animation = 'fadeIn 0.6s ease forwards';
-        downloadList.appendChild(a);
+    const formData = new FormData();
+    selectedFiles.forEach(file => {
+      if (file.size > 100 * 1024 * 1024) {
+        alert(`File ${file.name} exceeds 100MB limit.`);
+        return;
       }
-
-      // update progress bar
-      const percent = (generatedCount / totalWorklets) * 100;
-      progressBar.style.width = `${percent}%`;
+      formData.append('files', file);
     });
 
-    function updateLoadingText() {
-      loading.textContent = `🔄 Generating Worklets... (${generatedCount}/${totalWorklets} done)`;
-    }
+    const model = document.getElementById('model-select').value;
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData();
-      selectedFiles.forEach(item => {
-        if (item.file.size > 100 * 1024 * 1024) {
-          alert(`File ${item.file.name} exceeds 100MB limit.`);
-          return;
-        }
-        formData.append('files', item.file);
-        formData.append('notes', item.notes);
-      });
-
-      const model = document.getElementById('model-select').value;
-
-      const linkInputs = document.querySelectorAll('input[name="links[]"]');
-      const links = [];
-      linkInputs.forEach(input => {
-        if (input.value.trim()) links.push(input.value.trim());
-      });
-      formData.append('links', JSON.stringify(links));
-
-      loading.style.display = 'block';
-      progressContainer.style.display = 'block';
-      downloadList.innerHTML = '';
-
-      generatedCount = 0;
-      totalWorklets = 6; // We'll set this after the server gives us an estimate
-
-      try {
-        const response = await fetch(`http://localhost:8000/upload/?model=${encodeURIComponent(model)}`, {
-          method: 'POST',
-          body: formData
-        });
-
-        const data = await response.json();
-
-        if (data.worklet_count) {
-          totalWorklets = data.worklet_count;
-        }
-
-        loading.style.display = 'none';
-        progressContainer.style.display = 'none';
-
-        const downloadAll = document.createElement('a');
-        downloadAll.href = `http://localhost:8000/download_all/`;
-        downloadAll.textContent = '⬇️ Download All as ZIP';
-        downloadAll.style.fontWeight = '700';
-        downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
-        downloadList.appendChild(downloadAll);
-
-      } catch (error) {
-        console.error('Error:', error);
-        loading.style.display = 'none';
-        progressContainer.style.display = 'none';
-        alert('An error occurred while generating worklets.');
-      }
+    const linkInputs = document.querySelectorAll('input[name="links[]"]');
+    const links = [];
+    linkInputs.forEach(input => {
+      if (input.value.trim()) links.push(input.value.trim());
     });
-  </script>
+    formData.append('links', JSON.stringify(links));
+
+    loading.style.display = 'block';
+    progressContainer.style.display = 'block';
+    progressMessage.style.display = 'block';
+    progressMessage.textContent = 'Sending...';
+    downloadList.innerHTML = '';
+
+    generatedCount = 0;
+    totalWorklets = 6;
+
+    try {
+      const response = await fetch(`http://localhost:8000/upload/?model=${encodeURIComponent(model)}`, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.worklet_count) {
+        totalWorklets = data.worklet_count;
+      }
+
+      loading.style.display = 'none';
+      progressContainer.style.display = 'none';
+      progressMessage.style.display = 'none';
+
+      const downloadAll = document.createElement('a');
+      downloadAll.href = `http://localhost:8000/download_all/`;
+      downloadAll.textContent = '⬇️ Download All as ZIP';
+      downloadAll.style.fontWeight = '700';
+      downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
+      downloadList.appendChild(downloadAll);
+
+    } catch (error) {
+      console.error('Error:', error);
+      loading.style.display = 'none';
+      progressContainer.style.display = 'none';
+      progressMessage.style.display = 'none';
+      alert('An error occurred while generating worklets.');
+    }
+  });
+</script>
+
 </body>
 </html>

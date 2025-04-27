@@ -28,10 +28,10 @@ def Inplace_sort(worklet,model, index):
     #dump to file name index.json
     filename = f"{index + 1}.json"
     path = os.path.join(output_directory, filename)
-    with open(path, "w") as file:
-        json.dump(sorted_references, file, indent=4)
     print("\n")
     worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
+    with open(path, "w") as file:
+        json.dump(worklet["Reference Work"], file, indent=4)
     print("sorted worklet"*5, worklet["Reference Work"])
     print("\n")
     return worklet

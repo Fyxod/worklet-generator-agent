@@ -91,7 +91,7 @@ OBJECTIVE
 Analyze the references based on their relevance to the worklet description and
 Sort the references in decreasing order of relevance (most relevant first, least relevant last).
 
-Jsonfrom which we need to sort reference work
+{json}
 MANDATORY RULES
 
     Do NOT modify, edit, or rephrase any content inside the references.

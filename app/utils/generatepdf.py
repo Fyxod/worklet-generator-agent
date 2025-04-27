@@ -4,6 +4,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 import os
 from app.utils.reference_functions.reference_sort import Inplace_sort
+from app.socket import sio
 # from reference_functions.reference_sort import Inplace_sort 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
@@ -16,19 +17,21 @@ CUSTOM_PAGE_SIZE = (700,900)  # Width x Height in points (1 point = 1/72 inch)
 
 
 def pre_processing(json, index):
-    model ="gemma3:27b"
+    model ="llama3.3:70b-instruct-fp16"
     for idx, ref in enumerate(json["Reference Work"]):
         ref["index"] = idx  # Add new key "index" to each dictionary
     print("\n")
     print("inside Inplace_sort")
     print("\n")
+    # sio.emit("progress", {"message": "Extracting data from files and links..."})
     json=Inplace_sort(json,model, index)
+    return json
 
 def generatePdf_unsafe(json,model):
     print("\n")
     print("----"*25+"Inside generate pdf"+"----"*25)
     print("\n")
-    pre_processing(json)
+    json = pre_processing(json)
     filename = os.path.join(pdf_path, f"{json['Title']}.pdf")
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
     width, height = CUSTOM_PAGE_SIZE

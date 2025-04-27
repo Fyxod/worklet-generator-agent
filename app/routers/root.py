@@ -68,115 +68,110 @@ async def upload_multiple(
     model: Annotated[str, Query()],
     links: Annotated[str, Form()]  # expecting JSON string from frontend
 ):
-    # print("Model selected:", model)
-    # print("Uploaded files:", files)
-    # your processing logic
-    
     saved_files = []
     extracted_data_all = {}
-    # print("printing files", files)
-    
+
+    await sio.emit("progress", {"message": "Extracting data from files and links..."})
+
+    # 1. Save uploaded files
     if files:
-    # Save each file with a timestamp
-        print("files have been uploaded")
+        print("Files have been uploaded")
         for file in files:
-            timestamp = int(datetime.now().timestamp() * 1000)  
-
+            timestamp = int(datetime.now().timestamp() * 1000)
             filename, ext = os.path.splitext(file.filename)
-
-            new_filename = f"{filename}-{timestamp}{ext}"  
+            new_filename = f"{filename}-{timestamp}{ext}"
             file_path = os.path.join(UPLOAD_DIR, new_filename)
 
             async with aiofiles.open(file_path, "wb") as buffer:
-                content = await file.read() 
+                content = await file.read()
                 await buffer.write(content)
 
             saved_files.append(new_filename)
 
-        for index, file in enumerate(saved_files):
-            extracted_data_single = await extract_document(file)
-            extracted_data_all[index + 1] = extracted_data_single  # Number from 1 instead of 0
+        # 2. Extract data from files concurrently
+        extracted_data_tasks = [
+            extract_document(file) for file in saved_files
+        ]
+        extracted_results = await asyncio.gather(*extracted_data_tasks)
+
+        extracted_data_all = {i + 1: data for i, data in enumerate(extracted_results)}
     else:
         print("No files uploaded")
-    
+
+    # 3. Handle links
     linksData = {}
     try:
-        parsed_links = json.loads(links) 
-        print("print length of links", len(parsed_links))
+        parsed_links = json.loads(links)
+        print(f"Received {len(parsed_links)} links.")
         print("HEERE ARE LINKS")
         print(parsed_links)
+        
         if parsed_links:
-            linksData = get_links_data(parsed_links)
+            # Assuming get_links_data is sync, offload it
+            loop = asyncio.get_running_loop()
+            linksData = await loop.run_in_executor(None, get_links_data, parsed_links)
     except json.JSONDecodeError as e:
         print("Error decoding links JSON:", e)
 
-    #Summarise extracted data
+    #Summarise extracted data into worklets
 
-    # generate worklet content 
-    worklets =  await generate_worklets(extracted_data_all,linksData, model)
 
-    # moving old files
+    # 4. generating worklets here
+    await sio.emit("progress", {"message": "Generating worklets..."})
+    worklets = await generate_worklets(extracted_data_all, linksData, model)
+
+    # 5. Move old generated files
     for filename in os.listdir(GENERATED_DIR):
         source_path = os.path.join(GENERATED_DIR, filename)
         destination_path = os.path.join(DESTINATION_DIR, filename)
-
         if os.path.isfile(source_path):
             shutil.move(source_path, destination_path)
 
-    #get references
-    def process_worklet(worklet):
-        print("\n")
-        print("--------------------------------------------------------Generating referances-----------------------------------------------------------")
-        print("\n")
-
-        reference = getReferenceWork(worklet["Title"], model)
-        # print(reference)
-        # print("8"*200)
+    # 6. Generate references concurrently
+    async def process_worklet(worklet):
+        print(f"-----------Generating reference for: {worklet['Title']}------------------")
+        loop = asyncio.get_running_loop()
+        reference = await loop.run_in_executor(None, getReferenceWork, worklet["Title"], model)
         if reference:
             worklet["Reference Work"] = reference
 
+    await sio.emit("progress", {"message": "Fetching references..."})
+    await asyncio.gather(*(process_worklet(worklet) for worklet in worklets))
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        list(executor.map(process_worklet, worklets))
+    # 7. Save latest generated worklets
+    async with aiofiles.open("latest_generated.json", "w") as file:
+        await file.write(json.dumps(worklets, indent=4))
 
-    # for worklet in worklets:
-    #     # print("DEUBGGING HERE DEBIGGING HERE DEBUGGING HERE DEBBUGING HERE")
-    #     # print(worklet)
-    #     print("fertchign refrences for ",worklet["Title"])
-    #     process_worklet(worklet)
-    
-######## Indication 2###########
-    with open("latest_generated.json", "w") as file:
-        json.dump(worklets, file, indent=4)
-
-    print("\n")    
-    print("-------"*25+"final"+"---------"*25) #printing final here
-    print("\n")
+    print("\n" + "-------" * 25 + "FINAL" + "---------" * 25 + "\n")
     print(worklets)
+    
+    # 8. Generate PDFs
+    response = {"files": []}
 
-    # for loop one
-    response = {"files":[]}
-    # for worklet in worklets:
-    #     generatePdf(worklet, model)
-    #     response["files"].append({"name": f'{worklet["Title"]}.pdf', "url": f"http://localhost:8000/download/{worklet['Title']}.pdf"})
-
+    await sio.emit("progress", {"message": "Generating PDFs..."})
     for index, worklet in enumerate(worklets):
         try:
-            print("Generating PDF for:", worklet["Title"])
-            generatePdf(worklet, model, index)
-            filename = f'{worklet["Title"]}.pdf'
+            print(f"Generating PDF for: {worklet['Title']}")
+            await sio.emit("progress", {"message": f"Generating PDF for {index + 1}. {worklet['Title']}..."})
+
+            loop = asyncio.get_running_loop()
+            await loop.run_in_executor(None, generatePdf, worklet, model, index)
+
+            filename = f"{worklet['Title']}.pdf"
         except Exception as e:
             print(f"Error generating PDF for {worklet['Title']}: {e}")
-            traceback.print_exc()   
-            filename = f'error.pdf'
+            traceback.print_exc()
+            filename = "error.pdf"
+
         response["files"].append({
             "name": filename,
             "url": f"http://localhost:8000/download/{filename}"
         })
+
         await sio.emit("pdf_generated", {"file_name": filename})
-        time.sleep(2) 
-    
+
     return response
+
     #thread one
     # response = {"files": []}
 

@@ -24,6 +24,7 @@ ollama_models = [
     "deepseek-r1:70b",
     "llama3.3:latest",
     "command-a:latest",
+    "llama3.3:70b-instruct-fp16"
 ]
 
 def invoke_llm(prompt, model):
@@ -42,7 +43,7 @@ def invoke_llm(prompt, model):
                 response = requests.post(url, json=payload)
                 if response.status_code != 200:
                     print(f"Attempt {attempt+1}: Error {response.status_code} - {response.text}")
-                    time.sleep(1)
+                    time.sleep(5)
                     continue
 
                 data = json.loads(response.content)
@@ -56,7 +57,7 @@ def invoke_llm(prompt, model):
 
             except json.JSONDecodeError: 
                 print(f"Attempt {attempt+1}: Failed to decode JSON - {response}")
-                time.sleep(1)
+                time.sleep(5)
 
         if not raw_text:
             return "LLM failed after 4 attempts."
