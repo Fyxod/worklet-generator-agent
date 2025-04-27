@@ -10,10 +10,16 @@ from app.utils.reference_functions.google_scholar import get_google_scholar_refe
 # from reference_functions.google_scholar import get_google_scholar_references
 from concurrent.futures import ThreadPoolExecutor
 from app.utils.prompt_templates import arcive_temp
+from time import sleep
 
 
 def getReferenceWork(title, model):
-    keyword = getKeyword(title, model)
+    keyword = ""
+    try:
+        keyword = getKeyword(title, model)
+    except Exception as e:
+        print(f"Error in getKeyword: {e}, using title as keyword")
+        keyword = title
 
     with ThreadPoolExecutor() as executor:
         future_github = executor.submit(get_github_references, keyword)
@@ -21,6 +27,10 @@ def getReferenceWork(title, model):
 
         githubReferences = future_github.result()
         googleScholarReferences = future_scholar.result()
+
+        if len(googleScholarReferences) == 0:
+            sleep(5)
+            googleScholarReferences = get_google_scholar_references(keyword)
         
         print(f"generated {len(githubReferences)} github references for {title}")
         print(f"generated {len(googleScholarReferences)} google scholar references for {title}")

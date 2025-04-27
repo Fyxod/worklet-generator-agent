@@ -177,6 +177,7 @@ async def upload_multiple(
 
         await sio.emit("pdf_generated", {"file_name": filename})
 
+    time.sleep(1)
     return response
 
     #thread one
