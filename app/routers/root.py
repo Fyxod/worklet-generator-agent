@@ -118,10 +118,10 @@ async def upload_multiple(
 
     # 4. generating worklets here
     await sio.emit("progress", {"message": "Generating worklets..."})
-    # worklets = await generate_worklets(extracted_data_all, linksData, model)
+    worklets = await generate_worklets(extracted_data_all, linksData, model)
 
-    loop = asyncio.get_running_loop()
-    worklets = await loop.run_in_executor(None, generate_worklets, extracted_data_all, linksData, model)
+    # loop = asyncio.get_running_loop()
+    # worklets = await loop.run_in_executor(None, generate_worklets, extracted_data_all, linksData, model)
 
     # 5. Move old generated files
     loop = asyncio.get_running_loop()
@@ -140,11 +140,11 @@ async def upload_multiple(
         worklet["Reference Work"] = reference
 
     await sio.emit("progress", {"message": "Fetching references..."})
-    # for worklet in worklets:
-    #     print("fertchign refrences for ",worklet["Title"])
-    #     await process_worklet(worklet)
+    for worklet in worklets:
+        print("fertchign refrences for ",worklet["Title"])
+        await process_worklet(worklet)
     
-    await asyncio.gather(*(process_worklet(worklet) for worklet in worklets))
+    # await asyncio.gather(*(process_worklet(worklet) for worklet in worklets))
 
     # 7. Save latest generated worklets and give index to references
     for worklet in worklets:
