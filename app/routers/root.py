@@ -138,7 +138,10 @@ async def upload_multiple(
     await sio.emit("progress", {"message": "Fetching references..."})
     await asyncio.gather(*(process_worklet(worklet) for worklet in worklets))
 
-    # 7. Save latest generated worklets
+    # 7. Save latest generated worklets and give index to references
+    for worklet in worklets:
+         for idx, ref in enumerate(worklet["Reference Work"]):
+            ref["index"] = idx 
     async with aiofiles.open("latest_generated.json", "w") as file:
         await file.write(json.dumps(worklets, indent=4))
 
