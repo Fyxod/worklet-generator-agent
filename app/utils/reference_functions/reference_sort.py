@@ -25,7 +25,7 @@ def Inplace_sort(worklet,model, index):
     print("\n")
     print("dumped sorted references")
     #dump to file name index.json
-    filename = f"{index + 1}.json"
+    filename = f"{index + 1}_Inplace_sort.json"
     path = os.path.join(output_directory, filename)
     print("\n")
     worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
@@ -35,19 +35,41 @@ def Inplace_sort(worklet,model, index):
     print("\n")
     return worklet
 
+def scholar_sort(worklet,model,index):
+    """
+    Take Input of a Single Worklet and sort the serefences on the basis of the discription 
+    provided in Increasing order of Relevence
+    """
+    print("-"*10+"printing worklet before sorting"*10+"-"*10)
+    print("\n")
+    print("\n")
+    print(worklet["Reference Work"])
+    print("\n")
+##   Actual sorting taking place
+    priority = {
+    'scholar': 0,
+    'github': 1
+}
+    worklet["Reference Work"].sort(key=lambda x: priority.get(x['Tag'], 2))
+
+    print("Printing Sorted array of ref")
+    print("\n")
+    print("dumped sorted references")
+    #dump to file name index.json
+    filename = f"{index + 1}_scholar_sort.json"
+    path = os.path.join(output_directory, filename)
+    print("\n")
+    print("\n")
+    with open(path, "w") as file:
+        json.dump(worklet["Reference Work"], file, indent=4)
+    print("sorted worklet"*5, worklet["Reference Work"])
+    print("\n")
+    return worklet
 
 def Index_sort(worklet,model):
     """
     Take Input of a Single Worklet and sort the serefences on the basis of the discription 
     provided in Increasing order of Relevence
 
-    """
-
-
-
-def scholar_sort(worklet,model):
-    """
-    Take Input of a Single Worklet and sort the serefences on the basis of the discription 
-    provided in Increasing order of Relevence
     """
 
