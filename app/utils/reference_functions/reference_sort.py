@@ -94,7 +94,7 @@ def index_sort(worklet,model,index):
     filename = f"{index + 1}_index_sort.json"
     path = os.path.join(output_directory, filename)
     print("\n")
-    worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
+    # worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
     with open(path, "w") as file:
         json.dump(worklet["Reference Work"], file, indent=4)
     print("sorted worklet"*5, worklet["Reference Work"])
