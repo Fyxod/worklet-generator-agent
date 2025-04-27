@@ -7,7 +7,7 @@ import json, os
 output_directory = "sorted_references"
 os.makedirs(output_directory, exist_ok=True)
 
-def Inplace_sort(worklet,model, index):
+def inplace_sort(worklet,model, index):
     """
     Take Input of a Single Worklet and sort the serefences on the basis of the discription 
     provided in Increasing order of Relevence
@@ -66,7 +66,7 @@ def scholar_sort(worklet,model,index):
     print("\n")
     return worklet
 
-def Index_sort(worklet,model,index):
+def index_sort(worklet,model,index):
     """
     Take Input of a Single Worklet and sort the serefences on the basis of the discription 
     provided in Increasing order of Relevence

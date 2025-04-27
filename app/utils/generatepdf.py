@@ -3,7 +3,7 @@ from reportlab.platypus import Paragraph, Frame
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 import os
-from app.utils.reference_functions.reference_sort import Inplace_sort, scholar_sort
+from app.utils.reference_functions.reference_sort import inplace_sort, scholar_sort,index_sort
 from app.socket import sio
 # from reference_functions.reference_sort import Inplace_sort 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -24,7 +24,7 @@ def pre_processing(json, index):
     print("inside Inplace_sort")
     print("\n")
     sio.emit("progress", {"message": "Comparing references and selecting the best suited references"})
-    json=scholar_sort(json,model, index)
+    json=index_sort(json,model, index)
     return json
 
 def generatePdf_unsafe(json,model):
