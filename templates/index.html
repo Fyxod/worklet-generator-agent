@@ -197,7 +197,7 @@
   const progressMessage = document.getElementById('progress-message');
   const downloadList = document.getElementById('download-list');
 
-  const socket = io('http://localhost:8000', {
+  const socket = io('/', {
     transports: ['websocket'],
   });
 
@@ -288,7 +288,7 @@
 
     if (data.file_name) {
       const a = document.createElement('a');
-      a.href = `http://localhost:8000/download/${encodeURIComponent(data.file_name)}`;
+      a.href = `/download/${encodeURIComponent(data.file_name)}`;
       a.textContent = `📄 ${data.file_name}`;
       a.download = data.file_name;
       a.style.animation = 'fadeIn 0.6s ease forwards';
@@ -344,7 +344,7 @@
     totalWorklets = 6;
 
     try {
-      const response = await fetch(`http://localhost:8000/upload/?model=${encodeURIComponent(model)}`, {
+      const response = await fetch(`/upload/?model=${encodeURIComponent(model)}`, {
         method: 'POST',
         body: formData
       });
@@ -360,7 +360,7 @@
       progressMessage.style.display = 'none';
 
       const downloadAll = document.createElement('a');
-      downloadAll.href = `http://localhost:8000/download_all/`;
+      downloadAll.href = `/download_all/`;
       downloadAll.textContent = '⬇️ Download All as ZIP';
       downloadAll.style.fontWeight = '700';
       downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
