@@ -81,10 +81,12 @@ def index_sort(worklet,model,index):
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
     prompt =index_sort_template(reference_work_str)  
     sorted_indices = invoke_llm(prompt, model)
+    sorted_indices=convert_to_list(sorted_indices)
     sorted_references = rearrange_references(reference_work_str, sorted_indices)
     print("Printing Sorted array of ref")
     print("\n")
     print("dumped sorted references")
+    print("\n")
     #dump to file name index.json
     filename = f"{index + 1}_index_sort.json"
     path = os.path.join(output_directory, filename)
@@ -102,3 +104,10 @@ def rearrange_references(reference_work, sorted_indices):
     rearranged_references = [reference_work[i] for i in sorted_indices]
     return rearranged_references
 
+def convert_to_list(input_data):
+    if isinstance(input_data, list):
+        return input_data
+    elif isinstance(input_data, str):
+        return list(input_data)
+    else:
+        raise ValueError("Input must be either a string or a list")

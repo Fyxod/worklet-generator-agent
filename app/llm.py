@@ -76,8 +76,8 @@ def invoke_llm(prompt, model):
         cleaned = cleaned[cleaned.find('`'):]
     cleaned = cleaned.strip()
 
-    print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
-    print(cleaned)
+        # print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
+        # print(cleaned)
     return cleaned.replace("```json", "").replace("```", "").strip()
 
 # print(invoke_llm("write a 100 word essay on trees", "llama3.3:latest"))
