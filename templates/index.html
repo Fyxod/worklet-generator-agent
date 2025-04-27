@@ -214,6 +214,7 @@
   let selectedFiles = [];
   let totalWorklets = 6;
   let generatedCount = 0;
+  let errorOccurred = false;  // <-- New flag
 
   fileInput.addEventListener('change', (e) => {
     selectedFiles = Array.from(e.target.files);
@@ -225,25 +226,25 @@
     selectedFiles.forEach((item, index) => {
       const wrapper = document.createElement('div');
       const fileLabel = document.createElement('div');
-        fileLabel.textContent = item.file.name + ' (' + Math.round(item.file.size/1024/1024) + ' MB)';
+      fileLabel.textContent = item.file.name + ' (' + Math.round(item.file.size/1024/1024) + ' MB)';
 
-        const notes = document.createElement('textarea');
-        notes.placeholder = 'Optional notes about this file...';
-        notes.value = item.notes;
-        notes.oninput = (e) => selectedFiles[index].notes = e.target.value;
+      const notes = document.createElement('textarea');
+      notes.placeholder = 'Optional notes about this file...';
+      notes.value = item.notes;
+      notes.oninput = (e) => selectedFiles[index].notes = e.target.value;
 
-        const removeButton = document.createElement('button');
-        removeButton.type = 'button';
-        removeButton.textContent = '✖';
-        removeButton.onclick = () => {
-          selectedFiles.splice(index, 1);
-          renderFileList();
-        };
+      const removeButton = document.createElement('button');
+      removeButton.type = 'button';
+      removeButton.textContent = '✖';
+      removeButton.onclick = () => {
+        selectedFiles.splice(index, 1);
+        renderFileList();
+      };
 
-        wrapper.appendChild(fileLabel);
-        wrapper.appendChild(notes);
-        wrapper.appendChild(removeButton);
-        fileList.appendChild(wrapper);
+      wrapper.appendChild(fileLabel);
+      wrapper.appendChild(notes);
+      wrapper.appendChild(removeButton);
+      fileList.appendChild(wrapper);
     });
   }
 
@@ -266,9 +267,25 @@
   }
 
   function clearAll() {
+    window.location.reload(); // Reload the page to clear everything
+    generatedCount = 0;
+    errorOccurred = true;
+
     fileInput.value = '';
     selectedFiles = [];
+
     renderFileList();
+
+    const modelSelect = document.getElementById('model-select');
+    fileList.innerHTML = '';
+    loading.style.display = 'none';
+    progressContainer.style.display = 'none';
+    progressBar.style.width = '0%';
+    progressMessage.style.display = 'none';
+    progressMessage.textContent = 'Sending...';
+    downloadList.innerHTML = '';
+    fileInput.value = '';
+    modelSelect.value = 'gemma3:27b'; // Reset to default model
 
     const linkFields = document.getElementById('link-fields');
     linkFields.innerHTML = `
@@ -282,6 +299,7 @@
   }
 
   socket.on('pdf_generated', (data) => {
+    if (errorOccurred) return;
     console.log('PDF generated:', data);
     generatedCount++;
     updateLoadingText();
@@ -300,6 +318,7 @@
   });
 
   socket.on('progress', (data) => {
+    if (errorOccurred) return;
     console.log('Progress:', data);
     if (progressMessage.style.display !== 'none') {
       progressMessage.style.animation = 'none'; 
@@ -309,12 +328,29 @@
     }
   });
 
+  // 🛑 NEW: Listen for error event
+  socket.on('error', (data) => {
+    console.error('Error event received:', data);
+    errorOccurred = true;
+
+    loading.style.display = 'none';
+    progressContainer.style.display = 'none';
+    
+    progressMessage.style.display = 'block';
+    progressMessage.style.animation = 'none';
+    void progressMessage.offsetWidth;
+    progressMessage.style.animation = 'fadeIn 0.6s ease forwards';
+    progressMessage.textContent = data.message || 'An unknown error occurred.';
+  });
+
   function updateLoadingText() {
     loading.textContent = `🔄 Generating Worklets... (${generatedCount}/${totalWorklets} done)`;
   }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    errorOccurred = false; // reset before sending
+    generatedCount = 0; // reset count before sending
 
     const formData = new FormData();
     selectedFiles.forEach(file => {
@@ -349,6 +385,8 @@
         body: formData
       });
 
+      if (errorOccurred) return; // If an error came in during the wait, don't continue.
+
       const data = await response.json();
 
       if (data.worklet_count) {
@@ -367,6 +405,7 @@
       downloadList.appendChild(downloadAll);
 
     } catch (error) {
+      if (errorOccurred) return; // Already handled
       console.error('Error:', error);
       loading.style.display = 'none';
       progressContainer.style.display = 'none';
@@ -375,6 +414,7 @@
     }
   });
 </script>
+
 
 </body>
 </html>
