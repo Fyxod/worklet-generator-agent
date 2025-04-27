@@ -25,7 +25,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
             set -e
 
-            # If directory doesn't exist, clone the repo
+            # Clone repo if needed
             if [ ! -d "/home/bedrock/backend" ]; then
               mkdir -p /home/bedrock
               cd /home/bedrock
@@ -37,7 +37,16 @@ jobs:
 
             cd /home/bedrock/backend
 
-            pipenv install --deploy --ignore-pipfile
+            # Create virtualenv if not exists
+            if [ ! -d "parthenv" ]; then
+              python3 -m venv parthenv
+            fi
 
+            # Activate venv and install/update dependencies
+            source parthenv/bin/activate
+            pip install --upgrade pip
+            pip install -r droplet-req.txt
+
+            # Restart systemd service
             sudo systemctl restart fastapi
           EOF
