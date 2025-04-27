@@ -24,7 +24,7 @@ def pre_processing(json, index):
     print("inside Inplace_sort")
     print("\n")
     sio.emit("progress", {"message": "Comparing references and selecting the best suited references"})
-    json=index_sort(json,model, index)
+    json=scholar_sort(json,model, index)
     return json
 
 def generatePdf_unsafe(json,model):

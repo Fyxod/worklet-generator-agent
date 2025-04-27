@@ -109,20 +109,20 @@ Your output should be:
 def index_sort_template(json):    # worklet data need to be given so that 
 
     return f"""You are an Expert Technology and Innovation Advisor for Samsung PRISM.
-You will receive a JSON array of references.
-Each reference contains a Title, Link, Description, Tag, and Index.
+You will receive a python dictionary with a list  of Reference Work.
+Each reference contains a Title, Link, Description, Tag, and reference_id.
 
 Your task is to:
 
     Analyze the references and sort them based on relevance to the provided worklet description.
 
-    Return only the sorted indices of the references, corresponding to the original index values found in each reference object under worklet["referencework"][i]["index"].
+    Return only the sorted reference_id of the references, corresponding to the original reference_id values found in each reference object under worklet["referencework"][i]["index"].
 
 IMPORTANT RULES:
     Only return an array of sorted indices (based on relevance).
 
     Ensure that the returned indices correspond exactly to the indices of the references in the sorted order (i.e., the indices should be from the original list, but sorted by relevance).
-
+    Sometimes you return extra text please make sure that does not happen i just need a alist of reference_id sorted in order of relevance
 
 Reminder: If you acci   dentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
 Here is the input JSON:

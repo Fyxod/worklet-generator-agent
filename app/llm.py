@@ -78,7 +78,6 @@ def invoke_llm(prompt, model):
 
     print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
     print(cleaned)
-
-    return cleaned
+    return cleaned.replace("```json", "").replace("```", "").strip()
 
 # print(invoke_llm("write a 100 word essay on trees", "llama3.3:latest"))

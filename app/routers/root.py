@@ -140,8 +140,9 @@ async def upload_multiple(
 
     # 7. Save latest generated worklets and give index to references
     for worklet in worklets:
-         for idx, ref in enumerate(worklet["Reference Work"]):
-            ref["index"] = idx 
+        idx = 12
+        for idx, ref in enumerate(worklet["Reference Work"]):
+            ref["reference_id"] = idx 
     async with aiofiles.open("latest_generated.json", "w") as file:
         await file.write(json.dumps(worklets, indent=4))
 
