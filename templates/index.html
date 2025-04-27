@@ -226,12 +226,7 @@
     selectedFiles.forEach((item, index) => {
       const wrapper = document.createElement('div');
       const fileLabel = document.createElement('div');
-      fileLabel.textContent = item.file.name + ' (' + Math.round(item.file.size/1024/1024) + ' MB)';
-
-      const notes = document.createElement('textarea');
-      notes.placeholder = 'Optional notes about this file...';
-      notes.value = item.notes;
-      notes.oninput = (e) => selectedFiles[index].notes = e.target.value;
+      fileLabel.textContent = item.name + ' (' + Math.round(item.size/1024/1024) + ' MB)';
 
       const removeButton = document.createElement('button');
       removeButton.type = 'button';
@@ -242,7 +237,6 @@
       };
 
       wrapper.appendChild(fileLabel);
-      wrapper.appendChild(notes);
       wrapper.appendChild(removeButton);
       fileList.appendChild(wrapper);
     });
