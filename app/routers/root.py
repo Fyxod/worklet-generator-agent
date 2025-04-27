@@ -64,9 +64,9 @@ def frontend_redirect():
 # Generate worklets is hitting this endpoint althe function alss happen here
 @router.post('/upload')
 async def upload_multiple(
-    files: Annotated[list[UploadFile], File()],
     model: Annotated[str, Query()],
-    links: Annotated[str, Form()]  # expecting JSON string from frontend
+    links: Annotated[str, Form()],  # expecting JSON string from frontend
+    files: Annotated[list[UploadFile], File()] = None,
 ):
     saved_files = []
     extracted_data_all = {}
