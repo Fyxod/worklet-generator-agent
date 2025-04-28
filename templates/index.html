@@ -298,14 +298,30 @@
     generatedCount++;
     updateLoadingText();
 
-    if (data.file_name) {
-      const a = document.createElement('a');
-      a.href = `/download/${encodeURIComponent(data.file_name)}`;
-      a.textContent = `📄 ${data.file_name}`;
-      a.download = data.file_name;
-      a.style.animation = 'fadeIn 0.6s ease forwards';
-      downloadList.appendChild(a);
-    }
+  if (data.file_name) {
+  const a = document.createElement('a');
+  a.href = `/download/${encodeURIComponent(data.file_name)}`;
+  a.download = data.file_name;
+  a.style.animation = 'fadeIn 0.6s ease forwards';
+  a.style.display = 'flex'; 
+  a.style.alignItems = 'center'; 
+  a.style.gap = '8px'; // small space between icon and text
+
+  const icon = document.createElement('img');
+  icon.src = '/static/icon.png'; // <-- Your icon path here
+  icon.alt = 'File Icon';
+  icon.style.width = '20px'; 
+  icon.style.height = '20px';
+
+  const fileName = document.createElement('span');
+  fileName.textContent = data.file_name;
+
+  a.appendChild(icon);
+  a.appendChild(fileName);
+
+  downloadList.appendChild(a);
+}
+
 
     const percent = (generatedCount / totalWorklets) * 100;
     progressBar.style.width = `${percent}%`;
