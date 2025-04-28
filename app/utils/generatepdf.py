@@ -33,8 +33,8 @@ def generatePdf(json, model, index):
     print("----"*25+"Inside generate pdf"+"----"*25)
     print("\n")
     pre_processing(json, index)
-    filename = os.path.join(pdf_path, f"{json['Title']}.pdf")
-    filename =sanitize_filename(filename)
+    safe_title =sanitize_filename(json['Title'])
+    filename = os.path.join(pdf_path, f"{safe_title}.pdf")
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
     width, height = CUSTOM_PAGE_SIZE
 

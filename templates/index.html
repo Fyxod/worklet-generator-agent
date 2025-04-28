@@ -196,7 +196,7 @@
   const progressBar = document.getElementById('progress-bar');
   const progressMessage = document.getElementById('progress-message');
   const downloadList = document.getElementById('download-list');
-  const sid = "";
+  let sid = "";
   const socket = io('/', {
     transports: ['websocket'],
   });
@@ -216,6 +216,7 @@
   let totalWorklets = 6;
   let generatedCount = 0;
   let errorOccurred = false;  // <-- New flag
+  let receivedFiles = []; // Store received files
 
   fileInput.addEventListener('change', (e) => {
     selectedFiles = Array.from(e.target.files);
@@ -338,6 +339,11 @@
       progressMessage.textContent = data.message || 'Processing...';
     }
   });
+  socket.on('fileReceived', (data) => {
+    if (errorOccurred) return;
+    console.log('File received:', data);
+    receivedFiles.push(data.file_name);
+  });
 
   // 🛑 NEW: Listen for error event
   socket.on('error', (data) => {
@@ -364,7 +370,7 @@
     generatedCount = 0; // reset count before sending
 
     const linkInputs = document.querySelectorAll('input[name="links[]"]');
-    const links = [];
+    let links = [];
     linkInputs.forEach(input => {
       if (input.value.trim()) links.push(input.value.trim());
     });
@@ -415,12 +421,54 @@
       progressContainer.style.display = 'none';
       progressMessage.style.display = 'none';
 
-      const downloadAll = document.createElement('a');
-      downloadAll.href = `/download_all/`;
-      downloadAll.textContent = '⬇️ Download All as ZIP';
-      downloadAll.style.fontWeight = '700';
-      downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
-      downloadList.appendChild(downloadAll);
+      // const downloadAll = document.createElement('a');
+      // downloadAll.href = `/download_all/`;
+      // downloadAll.textContent = '⬇️ Download All as ZIP';
+      // downloadAll.style.fontWeight = '700';
+      // downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
+      // downloadList.appendChild(downloadAll);
+
+      const downloadAll = document.createElement('button');
+      downloadAll.classList.add('generate-btn');
+downloadAll.textContent = 'Download All as ZIP';
+downloadAll.style.fontWeight = '700';
+downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
+downloadAll.style.cursor = 'pointer';
+downloadList.appendChild(downloadAll);
+
+downloadAll.addEventListener('click', async () => {
+  if (receivedFiles.length === 0) {
+    alert('No files to download.');
+    return;
+  }
+
+  try {
+    const response = await fetch('/download_all/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ files: receivedFiles }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to download ZIP');
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'worklets.zip'; // or any filename you want
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Download error:', error);
+    alert('Error downloading ZIP file.');
+  }
+});
 
     } catch (error) {
       if (errorOccurred) return; // Already handled

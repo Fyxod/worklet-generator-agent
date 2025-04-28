@@ -26,6 +26,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import time
 from app.socket import sio
+import zipfile
+import re
 
 class Query1(BaseModel):
     query: str
@@ -52,6 +54,9 @@ templates = Jinja2Templates(directory="templates")
 # @router.get('/')
 # def read_root():
 #     return{ "response": "API IS UP AND RUNNING"}
+
+def sanitize_filename(filename):
+    return re.sub(r'[\/:*?"<>|]', '_', filename)
 
 @router.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
@@ -167,6 +172,8 @@ async def upload_multiple(
         try:
             print(f"Generating PDF for: {worklet['Title']}")
             await sio.emit("progress", {"message": f"Generating PDF for {index + 1}. {worklet['Title']}..."}, to=sid)
+            file_name = sanitize_filename(worklet['Title'])
+            await sio.emit("fileReceived", {"file_name": f"{file_name}.pdf"}, to=sid)
             await sio.emit("progress", {"message": f"Comparing references for {index + 1}. {worklet['Title']}..."},to=sid)
             loop = asyncio.get_running_loop()
             await loop.run_in_executor(None, generatePdf, worklet, model, index)
@@ -209,30 +216,69 @@ async def upload_multiple(
     # return {worklets}
     # return extracted_data_all
 
+# @router.get('/download/{file_name}')
+# async def download(file_name: str):
+#     print(file_name)
+    
+#     file_path = Path(GENERATED_DIR) / file_name  # Convert to Path object
+#     print(file_path)
+    
+#     if file_path.exists():  # Now it works
+#         return FileResponse(file_path, media_type="application/pdf", filename=file_name)
+    
+#     return {"error": "File not found"}
+
 @router.get('/download/{file_name}')
 async def download(file_name: str):
     print(file_name)
-    
-    file_path = Path(GENERATED_DIR) / file_name  # Convert to Path object
-    print(file_path)
-    
-    if file_path.exists():  # Now it works
-        return FileResponse(file_path, media_type="application/pdf", filename=file_name)
-    
-    return {"error": "File not found"}
 
-@router.get("/download_all")
-def download_all():
-    """Zips all files in the specified directory and returns the zip file."""
-    if not os.path.exists(GENERATED_DIR):
-        return {"error": "Directory not found"}
-    
+    # Search in GENERATED_DIR first
+    file_path = Path(GENERATED_DIR) / file_name
+    print(file_path)
+
+    if not file_path.exists():  # If not found in GENERATED_DIR, search in DESTINATION_DIR
+        print(f"File not found in {GENERATED_DIR}. Searching in {DESTINATION_DIR}.")
+        file_path = Path(DESTINATION_DIR) / file_name
+
+    if file_path.exists():
+        return FileResponse(file_path, media_type="application/pdf", filename=file_name)
+
+    return {"error": "File not found"}
+class FilesRequest(BaseModel):
+    files: list[str]  # Array of strings (filenames)
+
+@router.post("/download_all")
+def download_selected(
+    filesss: FilesRequest
+    ):
+    """Zips specified files from GENERATED_DIR or ARCHIVED_DIR and returns the zip file."""
+    files = filesss.files  # Extract the list of filenames from the request body
+    print(files)
+    if not files:
+        return {"error": "No files provided."}
+    print(files)
+
     # Create a temporary zip file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".zip") as temp_zip:
         zip_path = temp_zip.name
-    
-    shutil.make_archive(zip_path[:-4], 'zip', GENERATED_DIR)
-    
+
+    with zipfile.ZipFile(zip_path, 'w') as zipf:
+        # Make a copy so we can modify files safely
+        remaining_files = files.copy()
+
+        # First, search and add files from GENERATED_DIR
+        for file_name in files:
+            file_path = os.path.join(GENERATED_DIR, file_name)
+            if os.path.isfile(file_path):
+                zipf.write(file_path, arcname=file_name)
+                remaining_files.remove(file_name)
+
+        # Then, search remaining files in ARCHIVED_DIR
+        for file_name in remaining_files:
+            file_path = os.path.join(DESTINATION_DIR, file_name)
+            if os.path.isfile(file_path):
+                zipf.write(file_path, arcname=file_name)
+
     return FileResponse(zip_path, filename="worklets.zip", media_type="application/zip")
 
 
@@ -244,3 +290,4 @@ async def create_query(query:Query1):
     # message = llm.invoke([HumanMessage(content=query.query)])
     print(message.content)
     return message.content
+
