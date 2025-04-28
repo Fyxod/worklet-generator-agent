@@ -3,6 +3,7 @@ from reportlab.platypus import Paragraph, Frame
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 import os
+import re
 from app.utils.reference_functions.reference_sort import inplace_sort, scholar_sort,index_sort
 from app.socket import sio
 # from reference_functions.reference_sort import Inplace_sort 
@@ -33,6 +34,7 @@ def generatePdf(json, model, index):
     print("\n")
     pre_processing(json, index)
     filename = os.path.join(pdf_path, f"{json['Title']}.pdf")
+    filename =sanitize_filename(filename)
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
     width, height = CUSTOM_PAGE_SIZE
 
@@ -96,3 +98,7 @@ def generatePdf(json, model, index):
     print(f"PDF generated: {filename}")
     print("\n")
     print("\n")
+
+
+def sanitize_filename(filename):
+    return re.sub(r'[\/:*?"<>|]', '_', filename)
