@@ -71,10 +71,10 @@ async def upload_multiple(
     saved_files = []
     extracted_data_all = {}
 
-    await sio.emit("progress", {"message": "Extracting data from files and links..."})
 
     # 1. Save uploaded files
     if files:
+        await sio.emit("progress", {"message": "Extracting data from files..."})
         print("Files have been uploaded")
         for file in files:
             timestamp = int(datetime.now().timestamp() * 1000)
@@ -107,6 +107,7 @@ async def upload_multiple(
         print(parsed_links)
         
         if parsed_links:
+            await sio.emit("progress", {"message": "Extracting data from links..."})
             # Assuming get_links_data is sync, offload it
             loop = asyncio.get_running_loop()
             linksData = await loop.run_in_executor(None, get_links_data, parsed_links)

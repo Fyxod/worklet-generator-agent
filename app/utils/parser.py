@@ -7,6 +7,7 @@ import pytesseract
 from PIL import Image
 import io
 import shutil
+from app.socket import sio
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
@@ -58,6 +59,7 @@ async def extract_document(name):
             image.save(image_path)
 
             # OCR the image
+            await sio.emit("progress", {"message": "Extracting data from images..."})
             text = pytesseract.image_to_string(image)
             result.content += f" {text} \n"
             
