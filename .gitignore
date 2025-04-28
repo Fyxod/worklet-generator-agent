@@ -11,7 +11,7 @@ __pycache__/
 #poetry
 poetry.lock
 pyproject.toml
-*.png
+resources
 *.jpg
 *.jpeg
 *.json
