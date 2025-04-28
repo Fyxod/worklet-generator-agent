@@ -346,6 +346,17 @@
     errorOccurred = false; // reset before sending
     generatedCount = 0; // reset count before sending
 
+    const linkInputs = document.querySelectorAll('input[name="links[]"]');
+    const links = [];
+    linkInputs.forEach(input => {
+      if (input.value.trim()) links.push(input.value.trim());
+    });
+
+  if (selectedFiles.length === 0 && links.length === 0) {
+    alert('Please upload at least one file or enter at least one link.');
+    return; // Stop form submission
+  }
+
     const formData = new FormData();
     selectedFiles.forEach(file => {
       if (file.size > 100 * 1024 * 1024) {
@@ -357,11 +368,6 @@
 
     const model = document.getElementById('model-select').value;
 
-    const linkInputs = document.querySelectorAll('input[name="links[]"]');
-    const links = [];
-    linkInputs.forEach(input => {
-      if (input.value.trim()) links.push(input.value.trim());
-    });
     formData.append('links', JSON.stringify(links));
 
     loading.style.display = 'block';
