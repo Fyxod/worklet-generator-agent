@@ -165,7 +165,7 @@ async def upload_multiple(
         try:
             print(f"Generating PDF for: {worklet['Title']}")
             await sio.emit("progress", {"message": f"Generating PDF for {index + 1}. {worklet['Title']}..."})
-
+            await sio.emit("progress", {"message": f"Comparing references for {index + 1}. {worklet['Title']}..."})
             loop = asyncio.get_running_loop()
             await loop.run_in_executor(None, generatePdf, worklet, model, index)
 
