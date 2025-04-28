@@ -404,7 +404,7 @@
     totalWorklets = 6;
 
     try {
-      const response = await fetch(`/upload/?model=${encodeURIComponent(model)}`, {
+      const response = await fetch(`/upload?model=${encodeURIComponent(model)}`, {
         method: 'POST',
         body: formData
       });
