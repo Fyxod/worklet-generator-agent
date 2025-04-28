@@ -1,81 +1,137 @@
 from langchain.prompts import ChatPromptTemplate
 
-def worklet_gen_prompt():    # worklet data need to be given so that 
 
-    return ChatPromptTemplate.from_template("""
-                                            
-        Existing Worklets for Reference:**
-        {worklet_data}
-        {linksData}
-        ROLE & CONTEXT
-        You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
-        Your goal is to examine the input document set (one or more files in PPT, PDF, Word, or Excel format) and, using both the documents and your own knowledge , generate exactly {count_string} ({count}) feasible problem statements suitable for six-month student-faculty projects.
-        ---
+def worklet_gen_prompt():  # worklet data need to be given so that
 
-        OUTPUT FORMAT TO Be followed strictly as i need a json only  inside an array as shown below
-                                            
-               ```json
-            [
-                {{
-                    "Title": "<one-line title>",
-                    "Problem Statement": "<28-33 word problem statement>",
-                    "Description": "<background, maximum 100 words>",
-                    "Challenge / Use Case": "<what pain-point or user scenario is addressed?>",
-                    "Deliverables": "<concrete outputs - e.g., Android app, fine-tuned model, architecture diagram, test plan, etc.>",
-                    "KPIs": [
-                            "<metric 1 with value (e.g., 'Accuracy ≥ 92%')>",
-                            "<metric 2 with value (e.g., 'Inference Latency ≤ 200ms')>",
-                            "<metric 3 with value (e.g., 'Memory Usage ≤ 2GB')>",
-                            "<metric 4 with value (e.g., 'Training Time ≤ 3 days')>"
-],
-                    "Prerequisites": [
-                        "<framework/paper / blog / MOOC  give max 10 prerequisite>",
-                        "<prerequisite 2>",
-                        "<prerequisite 3>",
-                        "<prerequisite 4>",
-                        "<prerequisite 5>",
-                        "<prerequisite 6>",
-                       
-                    ],
-                    "Infrastructure Requirements": "<minimum and recommended hardware - highlight any GPU or edge-device needs; remain college and open-source friendly>",
-                    "Tentative Tech Stack": "<languages, libraries, frameworks, cloud/edge platforms, sensors, etc.>",
-                    "Milestones (6 months)": {{
-                        "M2": "<checkpoint or intermediate output>",
-                        "M4": "<checkpoint or intermediate output>",
-                        "M6": "<final deliverables and evaluation>"
-                    }}
-                }},                
-            ]
-        ```
+    return ChatPromptTemplate.from_template(
+        """Existing Worklets for Reference:
+{worklet_data}
+{linksData}
 
-                              
-        MANDATORY CONSTRAINTS
+**ROLE & CONTEXT**
 
-        1. Domain focus - each problem must intersect at least one of: • Generative AI
-        • Vision AI
-        • Voice AI
-        • On-device (smartphone) AI
-        • Classical Machine Learning
-        • IoT
-        (cross-domain intersections are encouraged)
-        2. Value proposition - every problem must enable at least one of: • Commercial PoC potential for Samsung
-        • Novel publishable research paper
-        • Viable patent filing
-        (more than one may apply)
-        3. Feasibility - scope, infrastructure cost, and skill prerequisites must suit Tier 1-2 Indian engineering colleges. Aim for moderate, open-source-friendly resources.
-        4. Web enrichment - do NOT limit yourself to the provided documents; supplement with current public knowledge, standards, datasets, and best practices to keep the problems rich and relevant.
-        5. Give atleast {count} jsons inside the array
-        6. KPIs must include real measurable targets, not just labels. (e.g., "Model Accuracy ≥ 90%", "Prediction Latency ≤ 500ms")
-        Note for KPIs:
-            - Include realistic numerical targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms") instead of just metric names.
-            - Choose KPIs suitable for 6-month student-faculty projects with college-grade infrastructure.
+    You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
 
+    You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files) and any prior information. Based on your analysis, you have two capabilities:
 
-        Return ONLY the {count} fully populated problem-statement blocks in the order specified above.
-    """)
+    1. **Internal Knowledge Generation**:
+   If you find the provided material and your internal knowledge sufficient,  generate exactly {count_string} ({count}) feasible problem statements, strictly following the output format specified below.
 
+    2. **Web Search Assistance**:
+   If you determine that additional external information is necessary to enhance the quality, relevance, or feasibility of the problem statements, you have the ability to request a web search.\
+   To do this, you must return a JSON object in the following structure:
 
-def refrence_sort_template(json):    # worklet data need to be given so that 
+   ```json
+   {{
+     "websearch": True,
+     "current_context": "<a detailed discreption/ summerry of the worklets that u have processed so far. You will be using this summeryin next cycle as context to generate worklets>",
+     "search": [
+       "<search query 1>",  
+       "<search query 2>",
+       "<search query 3>"
+     ]
+   }}
+   ```
+
+   Use this option proactively whenever you suspect that external sources could improve accuracy, freshness, or richness of the problem statements.
+   **When unsure, prefer to request a web search rather than relying solely on internal knowledge.**
+
+---
+
+**TWO OPTIONS AFTER ANALYSIS:**
+
+1. **If you believe you have enough information**,  generate exactly {count_string} ({count}) feasible problem statements, following the output format described below.
+
+2. **If you believe additional external information is needed** to improve quality, relevance, or feasibility:
+
+   - Do not generate problem statements yet.
+   - Instead, return a JSON object in this structure:
+
+   ```json
+   {{
+     "websearch": True,
+     "current_context": "<brief description of what you are working on>",
+     "search": [
+       "<search query 1>",
+       "<search query 2>",
+       "<search query 3>"
+     ]
+   }}
+   ```
+
+---
+
+**OUTPUT FORMAT** (Mandatory if proceeding without websearch):
+
+```json
+[
+    {{
+        "websearch": False,
+        "Title": "<one-line title>",
+        "Problem Statement": "<28-33 word problem statement>",
+        "Description": "<background, maximum 100 words>",
+        "Challenge / Use Case": "<pain-point or user scenario>",
+        "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
+        "KPIs": [
+            "<metric 1 with value>",
+            "<metric 2 with value>",
+            "<metric 3 with value>",
+            "<metric 4 with value>"
+        ],
+        "Prerequisites": [
+            "<prerequisite 1>",
+            "<prerequisite 2>",
+            "<prerequisite 3>",
+            "<prerequisite 4>",
+            "<prerequisite 5>",
+            "<prerequisite 6>"
+        ],
+        "Infrastructure Requirements": "<minimum and recommended hardware>",
+        "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
+        "Milestones (6 months)": {{
+            "M2": "<checkpoint>",
+            "M4": "<checkpoint>",
+            "M6": "<final deliverable>"
+        }}
+    }},
+    ...
+]
+```
+
+---
+
+**MANDATORY CONSTRAINTS**
+
+1. **Domain focus**: Must involve at least one domain: Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT. Cross-domain intersections are encouraged.
+
+2. **Value proposition**: Every problem must enable at least one:
+
+   - Commercial PoC potential for Samsung
+   - Publishable research paper
+   - Viable patent filing
+
+3. **Feasibility**: Problems must match Tier 1–2 Indian college resources (open-source friendly, moderate infra).
+
+4. **Web enrichment**: Always supplement with public knowledge, datasets, best practices.
+
+5. **Quantity**: Generate exactly {count} problem statements inside the array.
+
+6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
+
+7. **Freshness**: Align with 2025 technology trends. If in doubt, initiate a web search.
+
+ 
+
+---
+
+    """
+    )
+
+# llm -> search -> refead llm 
+            # |
+        # 
+
+def refrence_sort_template(json):  # worklet data need to be given so that
 
     return f"""ou are an Expert Technology and Innovation Advisor for Samsung PRISM.
 You will receive a JSON array containing multiple reference objects.
@@ -106,7 +162,9 @@ Your output should be:
 [<reordered intact references>]
 
 """
-def index_sort_template(json):    # worklet data need to be given so that 
+
+
+def index_sort_template(json):  # worklet data need to be given so that
 
     return f"""You are an Expert Technology and Innovation Advisor for Samsung PRISM.
 You will receive a python dictionary with a list  of Reference Work.
@@ -131,8 +189,11 @@ Your output should be:
 [<sorted indices array>]
 
 """
+
+
 def summariser_template():
-    return ChatPromptTemplate.from_template("""
+    return ChatPromptTemplate.from_template(
+        """
 You are an experienced researcher, but you have a short context window. 
 To handle large information, you summarize and extract only the most critical details needed for future use. 
 You will later use this summarized data to generate research worklets. 
@@ -141,14 +202,13 @@ Focus on compressing information efficiently, preserving only facts, key points,
 
 Input data:
 {worklet_data}
-""")
-
-
+"""
+    )
 
 
 def arcive_temp():
     return ChatPromptTemplate.from_template(
-    """
+        """
     Only output the keyword/phrase for arXiv search based on this topic: '{title}'. No preamble. No commentary. No punctuation. Just the keyword or phrase.
     Example outputs : 
     1. Input - Self supervised Multi-turn dialog emotion recognition | Output - self-supervised dialog emotion
@@ -157,4 +217,4 @@ def arcive_temp():
     4. Input - Deep Packet Inspection Traffic Visualization | Output - Deep Packet Inspection
     5. Input - Real Time Call Video Anti Aliasing | Output - anti-aliasing
     """
-)
+    )
