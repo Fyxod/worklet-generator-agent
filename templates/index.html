@@ -196,13 +196,14 @@
   const progressBar = document.getElementById('progress-bar');
   const progressMessage = document.getElementById('progress-message');
   const downloadList = document.getElementById('download-list');
-
+  const sid = "";
   const socket = io('/', {
     transports: ['websocket'],
   });
 
   socket.on('connect', () => {
     console.log('Connected to server');
+    sid = socket.id;
   });
   socket.on('disconnect', () => {
     console.log('Disconnected from server');
@@ -385,6 +386,7 @@
     const model = document.getElementById('model-select').value;
 
     formData.append('links', JSON.stringify(links));
+    formData.append('sid', socket.id); // Add the socket ID to the form data
 
     loading.style.display = 'block';
     progressContainer.style.display = 'block';

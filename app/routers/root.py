@@ -65,6 +65,7 @@ def frontend_redirect():
 @router.post('/upload')
 async def upload_multiple(
     model: Annotated[str, Query()],
+    sid: Annotated[str, Form()],
     links: Annotated[str, Form()],  # expecting JSON string from frontend
     files: Annotated[list[UploadFile], File()] = None,
 ):
@@ -74,7 +75,7 @@ async def upload_multiple(
 
     # 1. Save uploaded files
     if files:
-        await sio.emit("progress", {"message": "Extracting data from files..."})
+        await sio.emit("progress", {"message": "Extracting data from files..."}, to=sid)
         print("Files have been uploaded")
         for file in files:
             timestamp = int(datetime.now().timestamp() * 1000)
@@ -90,7 +91,7 @@ async def upload_multiple(
 
         # 2. Extract data from files concurrently
         extracted_data_tasks = [
-            extract_document(file) for file in saved_files
+            extract_document(file, sid) for file in saved_files
         ]
         extracted_results = await asyncio.gather(*extracted_data_tasks)
 
@@ -107,7 +108,7 @@ async def upload_multiple(
         print(parsed_links)
         
         if parsed_links:
-            await sio.emit("progress", {"message": "Extracting data from links..."})
+            await sio.emit("progress", {"message": "Extracting data from links..."}, to=sid)
             # Assuming get_links_data is sync, offload it
             loop = asyncio.get_running_loop()
             linksData = await loop.run_in_executor(None, get_links_data, parsed_links)
@@ -118,8 +119,8 @@ async def upload_multiple(
 
 
     # 4. generating worklets here
-    await sio.emit("progress", {"message": "Generating worklets..."})
-    worklets = await generate_worklets(extracted_data_all, linksData, model)
+    await sio.emit("progress", {"message": "Generating worklets..."}, to=sid)
+    worklets = await generate_worklets(extracted_data_all, linksData, model, sid)
 
     # loop = asyncio.get_running_loop()
     # worklets = await loop.run_in_executor(None, generate_worklets, extracted_data_all, linksData, model)
@@ -140,7 +141,7 @@ async def upload_multiple(
         reference = await loop.run_in_executor(None, getReferenceWork, worklet["Title"], model)
         worklet["Reference Work"] = reference
 
-    await sio.emit("progress", {"message": "Fetching references..."})
+    await sio.emit("progress", {"message": "Fetching references..."}, to=sid)
     for worklet in worklets:
         print("fertchign refrences for ",worklet["Title"])
         await process_worklet(worklet)
@@ -161,12 +162,12 @@ async def upload_multiple(
     # 8. Generate PDFs
     response = {"files": []}
 
-    await sio.emit("progress", {"message": "Generating PDFs..."})
+    await sio.emit("progress", {"message": "Generating PDFs..."}, to=sid)
     for index, worklet in enumerate(worklets):
         try:
             print(f"Generating PDF for: {worklet['Title']}")
-            await sio.emit("progress", {"message": f"Generating PDF for {index + 1}. {worklet['Title']}..."})
-            await sio.emit("progress", {"message": f"Comparing references for {index + 1}. {worklet['Title']}..."})
+            await sio.emit("progress", {"message": f"Generating PDF for {index + 1}. {worklet['Title']}..."}, to=sid)
+            await sio.emit("progress", {"message": f"Comparing references for {index + 1}. {worklet['Title']}..."},to=sid)
             loop = asyncio.get_running_loop()
             await loop.run_in_executor(None, generatePdf, worklet, model, index)
 
@@ -181,7 +182,7 @@ async def upload_multiple(
             "url": f"http://localhost:8000/download/{filename}"
         })
 
-        await sio.emit("pdf_generated", {"file_name": filename})
+        await sio.emit("pdf_generated", {"file_name": filename}, to=sid)
 
     await asyncio.sleep(1)
     return response
