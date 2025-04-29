@@ -3,11 +3,16 @@ from app.utils.search_functions.google_search import google_search
 from app.utils.link_extractor import extract_content_from_link
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from collections import defaultdict
+import time
 
+start_time = time.time()
 
-def search(queries: list, max_results: int = 5):
+def search(queries: list, max_results: int = 5, word_limit: int = 150):
     try:
         results = []
+
+        # Fetch search results
         for query in queries:
             try:
                 success, result = google_search(query=query, max_results=max_results)
@@ -15,9 +20,7 @@ def search(queries: list, max_results: int = 5):
                     results.extend(result)
                     continue
                 else:
-                    print(
-                        f"Google search failed for query: {query}. Trying DuckDuckGo."
-                    )
+                    print(f"Google search failed for query: {query}. Trying DuckDuckGo.")
             except Exception as e:
                 print(f"Google search failed for query: {query}. Error: {e}")
 
@@ -29,43 +32,61 @@ def search(queries: list, max_results: int = 5):
                     print(f"DuckDuckGo search failed for query: {query}.")
             except Exception as e:
                 print(f"DuckDuckGo search failed for query: {query}. Error: {e}")
+
         print(f"Total results from all searches: {len(results)}")
 
+        # Save raw results
         try:
             with open("search_results_unprocessed.json", "w") as f:
                 json.dump(results, f, indent=4)
         except Exception as e:
             print(f"Failed to write results to file. Error: {e}")
 
-        # Extract content from links in parallel and format output
-        def process_result(entry):
+        # Parallel processing of all entries
+        def process_entry(entry):
             try:
                 link = entry.get("link")
-                extracted = extract_content_from_link(link, 150) if link else ""
+                extracted = extract_content_from_link(link, word_limit=word_limit) if link else ""
                 return {
+                    "search_query": entry.get("query", ""),
                     "page_title": entry.get("title", ""),
                     "page_body": f"{entry.get('body', '')} {extracted}",
-                    "link": entry.get("link", ""),
+                    # "link": link,
                 }
             except Exception as e:
-                print(f"Error processing link: {link}. Error: {e}")
+                print(f"Error processing link: {entry.get('link')}. Error: {e}")
                 return None
 
-        processed_results = []
-        with ThreadPoolExecutor(max_workers=10) as executor:
-            futures = [executor.submit(process_result, entry) for entry in results]
+        all_processed = []
+        with ThreadPoolExecutor(max_workers=15) as executor:
+            futures = [executor.submit(process_entry, entry) for entry in results]
             for future in as_completed(futures):
                 result = future.result()
                 if result:
-                    processed_results.append(result)
+                    all_processed.append(result)
 
+        # Regroup by search_query
+        grouped_results = defaultdict(list)
+        for item in all_processed:
+            grouped_results[item["search_query"]].append({
+                "page_title": item["page_title"],
+                "page_body": item["page_body"],
+                # "link": item["link"]
+            })
+
+        final_output = [
+            {"search_query": query, "search_results": entries}
+            for query, entries in grouped_results.items()
+        ]
+
+        # Save processed results
         try:
             with open("search_results_processed.json", "w") as f:
-                json.dump(processed_results, f, indent=4)
+                json.dump(final_output, f, indent=4)
         except Exception as e:
             print(f"Failed to write processed results to file. Error: {e}")
 
-        return processed_results
+        return final_output
 
     except Exception as e:
         print(f"An error occurred in the search function. Error: {e}")
@@ -79,4 +100,7 @@ queries = [
     "Generative AI applications for synthetic data generation in scene text recognition",
 ]
 
-search(queries)
+# search(queries)
+
+# end_time = time.time()
+# print(f"Execution time: {end_time - start_time:.2f} seconds")

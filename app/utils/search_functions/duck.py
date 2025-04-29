@@ -32,6 +32,7 @@ def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int 
                             "title": result['title'],
                             "link": result['href'],
                             "body": result.get('body', ''),
+                            "query": query,
                         })
                 print(f"Results for '{query}': {len(arr)}")
                 print(f"Duckduckgo Total results: {len(arr)}")

@@ -45,6 +45,7 @@ def google_search(query, max_results=5):
                         "title": item.get('title'),
                         "link": item.get('link'),
                         "body": item.get('snippet'),
+                        "query": query,
                     })
 
                 with open('search_results.json', 'w') as f:
