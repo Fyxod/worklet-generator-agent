@@ -64,6 +64,10 @@ def scholar_sort(worklet,model,index):
         json.dump(worklet["Reference Work"], file, indent=4)
     print("sorted worklet"*5, worklet["Reference Work"])
     print("\n")
+    print("\n")
+    print("scholar Sort Used -------------------"*10)
+    print("\n")
+    
     return worklet
 
 def index_sort(worklet,model,index):
@@ -87,6 +91,7 @@ def index_sort(worklet,model,index):
     sorted_indices=convert_to_list(sorted_indices)
     if sorted_indices :
         return scholar_sort(worklet,model,index)
+
     sorted_indices=remove_duplicates(sorted_indices)
     sorted_references = rearrange_references(worklet['Reference Work'], sorted_indices)
     print("Printing Sorted array of ref")
@@ -100,7 +105,10 @@ def index_sort(worklet,model,index):
     worklet["Reference Work"] = sorted_references
     with open(path, "w") as file:
         json.dump(worklet["Reference Work"], file, indent=4)
+    print("\n")
     print("sorted worklet"*5, worklet["Reference Work"])
+    print("\n")
+    print("Index Sort Used -------------------"*10)
     print("\n")
     return worklet
 
