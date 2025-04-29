@@ -186,7 +186,6 @@ async def upload_multiple(
 
         response["files"].append({
             "name": filename,
-            "url": f"http://localhost:8000/download/{filename}"
         })
 
         await sio.emit("pdf_generated", {"file_name": filename}, to=sid)
@@ -194,39 +193,6 @@ async def upload_multiple(
     await asyncio.sleep(1)
     return response
 
-    #thread one
-    # response = {"files": []}
-
-    # def generate(worklet):
-    #     generatePdf(worklet, model)
-    #     return {
-    #         "name": f'{worklet["Title"]}.pdf',
-    #         "url": f"http://localhost:8000/download/{worklet["Title"]}.pdf"
-    #     }
-
-    # with ThreadPoolExecutor() as executor:
-    #     loop = asyncio.get_running_loop()
-    #     results = await asyncio.gather(
-    #         *[loop.run_in_executor(executor, generate, worklet)
-    #         for worklet in worklets]
-    #     )
-
-    # response["files"] = results
-
-    # return {worklets}
-    # return extracted_data_all
-
-# @router.get('/download/{file_name}')
-# async def download(file_name: str):
-#     print(file_name)
-    
-#     file_path = Path(GENERATED_DIR) / file_name  # Convert to Path object
-#     print(file_path)
-    
-#     if file_path.exists():  # Now it works
-#         return FileResponse(file_path, media_type="application/pdf", filename=file_name)
-    
-#     return {"error": "File not found"}
 
 @router.get('/download/{file_name}')
 async def download(file_name: str):

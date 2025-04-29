@@ -15,7 +15,7 @@ async def generate_worklets(worklet_data, linksData, model, sid):
         count = 5
         count_string = "five"
     
-    prompt_template = worklet_gen_prompt()  
+    prompt_template = worklet_gen_prompt()
     prompt = prompt_template.format(worklet_data=worklet_data,linksData=linksData, count=count, count_string=count_string) # populte the prompt with worklet data
     
     try:

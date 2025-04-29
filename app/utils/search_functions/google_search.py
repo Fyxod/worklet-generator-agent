@@ -1,12 +1,13 @@
 import requests
 import os
-
-SEARCH_ENGINE_ID = os.getenv("GOOGLE_API_KEY_DEVANSH"),
-API_KEY =os.getenv("SEARCH_ENGIEN_ID")
-
+import json
+API_KEY = os.getenv("GOOGLE_API_KEY_DEVANSH"),
+SEARCH_ENGINE_ID =os.getenv("SEARCH_ENGINE_ID")
+print("API_KEY", API_KEY)
+print("SEARCH_ENGINE_ID", SEARCH_ENGINE_ID)
 
 import requests
-search_query ="hi i want the most used language in world"
+search_query ="pm of india"
 url = 'https://www.googleapis.com/customsearch/v1'
 params = {
     'q': search_query,             # your search term
@@ -20,7 +21,10 @@ response = requests.get(url, params=params)
 response.raise_for_status()  # raises an HTTPError if the response code was unsuccessful
 results = response.json()  
 if 'items' in results and results['items']:
-    print(results['items'][0]['link'])
+    print(results['items'])
+    #dump to json file
+    with open('search_results.json', 'w') as f:
+        json.dump(results['items'], f, indent=4)
 else:
     print("No items found in the search results.")
 
