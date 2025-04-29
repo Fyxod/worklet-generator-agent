@@ -44,7 +44,7 @@ def getReferenceWork(title, model):
 
 
 def getKeyword(title, model):
-    # print("Inside getKeyword ", title)
+    print("Inside getKeyword ", title)# test ting web hooks
     prompt = arcive_temp().format(title=title)
     # print("printing prompt", prompt)
     # prompt = prompt_template.format_prompt(title=title).to_string()
