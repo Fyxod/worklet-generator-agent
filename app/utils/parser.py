@@ -7,6 +7,7 @@ import pytesseract
 from PIL import Image
 import io
 import shutil
+from app.socket import sio
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
@@ -22,7 +23,7 @@ SUPPORTED_EXTENSIONS = {
     '.pdf', '.docx', '.rtf', '.txt', '.epub', '.odt','.ppt', '.pptx','.xls', '.xlsx', '.csv','.jpg', '.jpeg', '.png', '.tiff', '.bmp', '.gif','.html', '.xml',
 }
 
-async def extract_document(name):
+async def extract_document(name, sid):
     file_path = os.path.join(UPLOAD_DIR, name)
     ext = Path(name).suffix.lower()
 
@@ -58,6 +59,7 @@ async def extract_document(name):
             image.save(image_path)
 
             # OCR the image
+            await sio.emit("progress", {"message": "Extracting data from images..."}, to=sid)
             text = pytesseract.image_to_string(image)
             result.content += f" {text} \n"
             

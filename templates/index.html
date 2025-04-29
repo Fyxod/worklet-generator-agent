@@ -163,9 +163,6 @@
     <select id="model-select" name="model" required>
       <option value="gemma3:27b">Gemma 3 (27B)</option>
       <option value="gemini-flash-2.0">Gemini Flash 2.0</option>
-      <option value="llama3.3:latest">LLaMA 3.3</option>
-      <option value="deepseek-r1:70b">DeepSeek R1 (70B)</option>
-      <option value="command-a:latest">Command A</option>
     </select>
 
     <label>Add Links:</label>
@@ -177,7 +174,7 @@
     <button type="submit" class="generate-btn">Generate Worklets</button>
     <button type="button" class="clear-btn" onclick="clearAll()">Clear Files & Links</button>
 
-    <div class="loading" id="loading" style="display: none;">🔄 Generating Worklets...</div>
+    <div class="loading" id="loading" style="display: none;"></div>
     <div class="progress-container" id="progress-container" style="display: none;">
       <div class="progress-bar" id="progress-bar"></div>
     </div>
@@ -196,13 +193,14 @@
   const progressBar = document.getElementById('progress-bar');
   const progressMessage = document.getElementById('progress-message');
   const downloadList = document.getElementById('download-list');
-
+  let sid = "";
   const socket = io('/', {
     transports: ['websocket'],
   });
 
   socket.on('connect', () => {
     console.log('Connected to server');
+    sid = socket.id;
   });
   socket.on('disconnect', () => {
     console.log('Disconnected from server');
@@ -215,6 +213,7 @@
   let totalWorklets = 6;
   let generatedCount = 0;
   let errorOccurred = false;  // <-- New flag
+  let receivedFiles = []; // Store received files
 
   fileInput.addEventListener('change', (e) => {
     selectedFiles = Array.from(e.target.files);
@@ -298,14 +297,30 @@
     generatedCount++;
     updateLoadingText();
 
-    if (data.file_name) {
-      const a = document.createElement('a');
-      a.href = `/download/${encodeURIComponent(data.file_name)}`;
-      a.textContent = `📄 ${data.file_name}`;
-      a.download = data.file_name;
-      a.style.animation = 'fadeIn 0.6s ease forwards';
-      downloadList.appendChild(a);
-    }
+  if (data.file_name) {
+  const a = document.createElement('a');
+  a.href = `/download/${encodeURIComponent(data.file_name)}`;
+  a.download = data.file_name;
+  a.style.animation = 'fadeIn 0.6s ease forwards';
+  a.style.display = 'flex'; 
+  a.style.alignItems = 'center'; 
+  a.style.gap = '8px'; // small space between icon and text
+
+  const icon = document.createElement('img');
+  icon.src = '/static/icon.png'; // <-- Your icon path here
+  icon.alt = 'File Icon';
+  icon.style.width = '20px'; 
+  icon.style.height = '20px';
+
+  const fileName = document.createElement('span');
+  fileName.textContent = data.file_name;
+
+  a.appendChild(icon);
+  a.appendChild(fileName);
+
+  downloadList.appendChild(a);
+}
+
 
     const percent = (generatedCount / totalWorklets) * 100;
     progressBar.style.width = `${percent}%`;
@@ -320,6 +335,11 @@
       progressMessage.style.animation = 'fadeIn 0.6s ease forwards';
       progressMessage.textContent = data.message || 'Processing...';
     }
+  });
+  socket.on('fileReceived', (data) => {
+    if (errorOccurred) return;
+    console.log('File received:', data);
+    receivedFiles.push(data.file_name);
   });
 
   // 🛑 NEW: Listen for error event
@@ -346,6 +366,17 @@
     errorOccurred = false; // reset before sending
     generatedCount = 0; // reset count before sending
 
+    const linkInputs = document.querySelectorAll('input[name="links[]"]');
+    let links = [];
+    linkInputs.forEach(input => {
+      if (input.value.trim()) links.push(input.value.trim());
+    });
+
+  if (selectedFiles.length === 0 && links.length === 0) {
+    alert('Please upload at least one file or enter at least one link.');
+    return; // Stop form submission
+  }
+
     const formData = new FormData();
     selectedFiles.forEach(file => {
       if (file.size > 100 * 1024 * 1024) {
@@ -357,12 +388,8 @@
 
     const model = document.getElementById('model-select').value;
 
-    const linkInputs = document.querySelectorAll('input[name="links[]"]');
-    const links = [];
-    linkInputs.forEach(input => {
-      if (input.value.trim()) links.push(input.value.trim());
-    });
     formData.append('links', JSON.stringify(links));
+    formData.append('sid', socket.id); // Add the socket ID to the form data
 
     loading.style.display = 'block';
     progressContainer.style.display = 'block';
@@ -374,7 +401,7 @@
     totalWorklets = 6;
 
     try {
-      const response = await fetch(`/upload/?model=${encodeURIComponent(model)}`, {
+      const response = await fetch(`/upload?model=${encodeURIComponent(model)}`, {
         method: 'POST',
         body: formData
       });
@@ -391,12 +418,54 @@
       progressContainer.style.display = 'none';
       progressMessage.style.display = 'none';
 
-      const downloadAll = document.createElement('a');
-      downloadAll.href = `/download_all/`;
-      downloadAll.textContent = '⬇️ Download All as ZIP';
-      downloadAll.style.fontWeight = '700';
-      downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
-      downloadList.appendChild(downloadAll);
+      // const downloadAll = document.createElement('a');
+      // downloadAll.href = `/download_all/`;
+      // downloadAll.textContent = '⬇️ Download All as ZIP';
+      // downloadAll.style.fontWeight = '700';
+      // downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
+      // downloadList.appendChild(downloadAll);
+
+      const downloadAll = document.createElement('button');
+      downloadAll.classList.add('generate-btn');
+downloadAll.textContent = 'Download All as ZIP';
+downloadAll.style.fontWeight = '700';
+downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
+downloadAll.style.cursor = 'pointer';
+downloadList.appendChild(downloadAll);
+
+downloadAll.addEventListener('click', async () => {
+  if (receivedFiles.length === 0) {
+    alert('No files to download.');
+    return;
+  }
+
+  try {
+    const response = await fetch('/download_all/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ files: receivedFiles }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to download ZIP');
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'worklets.zip'; // or any filename you want
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Download error:', error);
+    alert('Error downloading ZIP file.');
+  }
+});
 
     } catch (error) {
       if (errorOccurred) return; // Already handled
