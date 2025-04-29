@@ -1,42 +1,64 @@
 import requests
 import os
 import json
-from dotenv import load_dotenv
-load_dotenv()
-API_KEY = os.getenv("GOOGLE_API_KEY_DEVANSH")
-SEARCH_ENGINE_ID =os.getenv("SEARCH_ENGINE_ID")
-print("API_KEY", API_KEY)
-print("SEARCH_ENGINE_ID", SEARCH_ENGINE_ID)
 
-import requests
-search_query = "transformer architectures for scene text recognition - latest research"
+api_keys = [
+    os.getenv("GOOGLE_API_KEY1"),
+    os.getenv("GOOGLE_API_KEY2"),
+    os.getenv("GOOGLE_API_KEY3"),
+    os.getenv("GOOGLE_API_KEY4"),
+]
+
+search_engine_ids = [
+    os.getenv("SEARCH_ENGINE_ID1"),
+    os.getenv("SEARCH_ENGINE_ID2"),
+    os.getenv("SEARCH_ENGINE_ID3"),
+    os.getenv("SEARCH_ENGINE_ID4"),
+]
+
 url = 'https://www.googleapis.com/customsearch/v1'
-params = {
-    'q': search_query,             # your search term
-    'key': API_KEY,                 # your API key
-    'cx': SEARCH_ENGINE_ID,         # your search engine ID
-    # 'searchType': 'image'           # search for images
-}
 
-# try:
-response = requests.get(url, params=params)
-response.raise_for_status()  # raises an HTTPError if the response code was unsuccessful
-results = response.json()  
-if 'items' in results and results['items']:
-    print(results['items'])
-    #dump to json file
-    with open('search_results.json', 'w') as f:
-        json.dump(results['items'], f, indent=4)
-else:
-    print("No items found in the search results.")
+def google_search(query, max_results=5):
+    arr = []
 
-# except requests.exceptions.HTTPError as errh:
-#     print(f"HTTP Error: {errh}")
-# except requests.exceptions.ConnectionError as errc:
-#     print(f"Connection Error: {errc}")
-# except requests.exceptions.Timeout as errt:
-#     print(f"Timeout Error: {errt}")
-# except requests.exceptions.RequestException as err:
-#     print(f"Unexpected Error: {err}")
-# except KeyError:
-#     print("Expected key not found in the response.")
+    for api_key, cx in zip(api_keys, search_engine_ids):
+        if not api_key or not cx:
+            continue  # Skip if either is missing
+
+        params = {
+            'q': query,
+            'key': api_key,
+            'cx': cx,
+            "num": max_results,
+        }
+
+        try:
+            print(f"Searching Google with API key ending in {api_key[-4:]} and cx {cx}...")
+            print("Starting search... for query: ", query)
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            results = response.json()
+
+            if 'items' in results and results['items']:
+                for item in results['items']:
+                    arr.append({
+                        "title": item.get('title'),
+                        "link": item.get('link'),
+                        "body": item.get('snippet'),
+                    })
+
+                with open('search_results.json', 'w') as f:
+                    json.dump(results['items'], f, indent=4)
+
+                print(f"Google Search for '{query}' with API key ending in {api_key[-4:]} and cx {cx}: Success")
+                print(f"Total results: {len(arr)}")
+                return True, arr  # Successful response
+
+            else:
+                print(f"No items found for API key ending with {api_key[-4:]} and cx {cx}.")
+
+        except requests.exceptions.RequestException as e:
+            print(f"API key ending with {api_key[-4:]} with cx {cx} failed: {e}")
+
+    print("All API key and search engine ID combinations failed.")
+    return False, arr

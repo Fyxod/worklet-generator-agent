@@ -1,7 +1,7 @@
 from duckduckgo_search import DDGS
 import time
-# from app.utils.link_extractor import extract_content_from_link
-from ..link_extractor import extract_content_from_link
+
+
 def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int = 10,delay_after_req: float=0.75, delay_exception: int = 3):
     """
     Searches DuckDuckGo for a given query and returns JSON results.
@@ -18,13 +18,24 @@ def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int 
               Returns an empty list if all retries fail.
     """
     attempt = 0
+    ddgs = DDGS()
+    arr=[]
     while attempt < max_retries:
         try:
-            results = list(DDGS().text(query, max_results=max_results))
+            results = list(ddgs.text(query, max_results=max_results))
 
             if results and isinstance(results, list):
                 print(f"Search for '{query}': Success")
-                return results  # return the result as Python list (JSON-like)
+                for result in results:
+                    if 'title' in result and 'href' in result:
+                        arr.append({
+                            "title": result['title'],
+                            "link": result['href'],
+                            "body": result.get('body', ''),
+                        })
+                print(f"Results for '{query}': {len(arr)}")
+                print(f"Duckduckgo Total results: {len(arr)}")
+                return arr  # Successful response
             else:
                 print(f"No results found. Retrying in {delay_after_req} seconds...")
                 time.sleep(delay_after_req)
@@ -32,11 +43,16 @@ def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int 
 
         except Exception as e:
             print(f"Error occurred: {e}. Retrying in {delay_exception} seconds...")
-            time.sleep(delay_after_req)
+            time.sleep(delay_exception)
             attempt += 1
 
     print(f"Search for '{query}' failed after {max_retries} attempts.")
     return []
+
+
+
+
+
 search =[
         "recent advancements in scene text recognition 2024-2025",
         "benchmark datasets for scene text recognition beyond ICDAR",
@@ -70,19 +86,3 @@ def jj():
         "href": "https://www.nature.com/articles/s41598-024-77513-4",
         "body": "With the advancement of edge computing devices, an increasing number of lightweight small object detection algorithms now prioritize inference speed on parallel computing edge devices.",
     }
-
-def search_duck(search):
-    list=[]
-    for items in search:
-        search_result =fetch_duckduckgo_results(items)
-        for item in search_result:
-            list.append(item)
-           
-        {
-            "search_querry": items,
-            "search_results":{
-                            "page_title":"",    
-                            "page_body":"",    
-                            "data_from_link":"",    
-                            }
-        }

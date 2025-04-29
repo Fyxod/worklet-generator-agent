@@ -49,10 +49,10 @@ def extract_content_from_link(url,word_limit: int =100):
             text = ""
             for page in doc:
                 text += page.get_text()
-                if len(text.split()) >= 100:
+                if len(text.split()) >= word_limit:
                     break
             print("pdf done")
-            return " ".join(text.split()[:100])
+            return " ".join(text.split()[:word_limit])
 
         elif "image" in content_type:
             return re.sub(r'\s+', ' ', extract_text_from_image(response.content)).strip()
@@ -65,7 +65,7 @@ def extract_content_from_link(url,word_limit: int =100):
                 data = response.json()
                 flat_text = json.dumps(data, indent=2)
                 print("json done")
-                return " ".join(flat_text.split()[:100])
+                return " ".join(flat_text.split()[:word_limit])
             except json.JSONDecodeError:
                 return "Invalid JSON content."
 
@@ -78,7 +78,8 @@ def extract_content_from_link(url,word_limit: int =100):
             return f"Unsupported content type: {content_type}"
 
     except Exception as e:
-        return f"Error occurred: {str(e)}"
+        print(f"Error fetching {url}: {e}")
+        return ""
 
 links = [
 "https://www.techtarget.com/searchmobilecomputing/definition/wearable-technology",
