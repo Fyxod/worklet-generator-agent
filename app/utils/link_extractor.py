@@ -39,7 +39,7 @@ def extract_visible_text(html):
     print("html done")
     return trimmed
 
-def extract_content_from_link(url):
+def extract_content_from_link(url,word_limit: int =100):
     try:
         response = requests.get(url, timeout=10)
         content_type = magic.from_buffer(response.content, mime=True).lower()
@@ -72,7 +72,7 @@ def extract_content_from_link(url):
         elif "plain" in content_type or "markdown" in content_type:
             text = response.text
             print("plain/markdown done")
-            return " ".join(text.split()[:100])
+            return " ".join(text.split()[:word_limit])
 
         else:
             return f"Unsupported content type: {content_type}"
@@ -81,14 +81,11 @@ def extract_content_from_link(url):
         return f"Error occurred: {str(e)}"
 
 links = [
-"https://ml-ops.org/img/crisp-ml-process.jpg",
-"https://github.com/microsoft/RD-Agent/",
+"https://www.techtarget.com/searchmobilecomputing/definition/wearable-technology",
+"https://builtin.com/wearables",
 "https://pypi.org/project/python-magic/",
-"https://arxiv.org/pdf/2407.07506",
-"https://arxiv.org/abs/2407.07506",
-"https://cdn.prod.website-files.com/660ef16a9e0687d9cc27474a/662c3c84010d1a7f60040660_653fd7c778ef8ed0e9498e4a_model_monitoring11.png",
-"https://viso.ai/wp-content/uploads/2021/01/confusion-matrix-ml-model-1.png",
-"https://www.mygreatlearning.com/blog/wp-content/uploads/2023/07/select-right-ml-model.png"
+"https://hubtechinfo.com/10-examples-of-wearable-technology/",
+
 ]
 # end_time = time.time()
 # print(f"Execution time: {end_time - start_time:.2f} seconds")
@@ -103,5 +100,5 @@ def get_links_data(links: list):
     print(obj)
     print("ENDING LINKS DATA")
     return obj
-
-# get_link_data(links)
+# print("ssssssssssssssssssssssssssssssssssss")
+# print(get_links_data(links))

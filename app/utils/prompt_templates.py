@@ -98,29 +98,20 @@ def worklet_gen_prompt():  # worklet data need to be given so that
 ]
 ```
 
----
 
 **MANDATORY CONSTRAINTS**
 
 1. **Domain focus**: Must involve at least one domain: Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT. Cross-domain intersections are encouraged.
 
 2. **Value proposition**: Every problem must enable at least one:
-
-   - Commercial PoC potential for Samsung
-   - Publishable research paper
-   - Viable patent filing
-
+- Commercial PoC potential for Samsung
+- Publishable research paper
+- Viable patent filing
 3. **Feasibility**: Problems must match Tier 1–2 Indian college resources (open-source friendly, moderate infra).
-
 4. **Web enrichment**: Always supplement with public knowledge, datasets, best practices.
-
 5. **Quantity**: Generate exactly {count} problem statements inside the array.
-
 6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
-
 7. **Freshness**: Align with 2025 technology trends. If in doubt, initiate a web search.
-
- 
 
 ---
 
@@ -133,7 +124,7 @@ def worklet_gen_prompt():  # worklet data need to be given so that
 
 def refrence_sort_template(json):  # worklet data need to be given so that
 
-    return f"""ou are an Expert Technology and Innovation Advisor for Samsung PRISM.
+    return f"""you are an Expert Technology and Innovation Advisor for Samsung PRISM.
 You will receive a JSON array containing multiple reference objects.
 Each reference is a locked unit: Title, Link, Description, Tag, and Index belong together.
 

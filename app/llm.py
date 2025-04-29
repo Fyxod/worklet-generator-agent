@@ -75,8 +75,8 @@ def invoke_llm(prompt, model):
     if '`' in cleaned:
         cleaned = cleaned[cleaned.find('`'):]
     cleaned = cleaned.strip()
-    cleaned.replace("```json", "").replace("```", "").strip()
-        # print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
+    cleaned =cleaned.replace("```json", "").replace("```", "").strip()
+    print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
     print(cleaned)
     return cleaned
 
