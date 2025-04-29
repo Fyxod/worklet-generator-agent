@@ -86,9 +86,3 @@ def search_duck(search):
                             "data_from_link":"",    
                             }
         }
-    
-    
-    
-{
-    "search_querry":items
-}

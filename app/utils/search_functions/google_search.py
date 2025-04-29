@@ -1,13 +1,15 @@
 import requests
 import os
 import json
-API_KEY = os.getenv("GOOGLE_API_KEY_DEVANSH"),
+from dotenv import load_dotenv
+load_dotenv()
+API_KEY = os.getenv("GOOGLE_API_KEY_DEVANSH")
 SEARCH_ENGINE_ID =os.getenv("SEARCH_ENGINE_ID")
 print("API_KEY", API_KEY)
 print("SEARCH_ENGINE_ID", SEARCH_ENGINE_ID)
 
 import requests
-search_query ="pm of india"
+search_query = "transformer architectures for scene text recognition - latest research"
 url = 'https://www.googleapis.com/customsearch/v1'
 params = {
     'q': search_query,             # your search term
