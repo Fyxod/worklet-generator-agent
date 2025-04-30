@@ -1,6 +1,6 @@
 from app.utils.llm_response_parser import extract_json_from_llm_response
 from app.llm import invoke_llm
-from app.utils.prompt_templates import worklet_gen_prompt    # all the prompts used in this projects were moved to prompt_templates
+from app.utils.prompt_templates import worklet_gen_prompt,worklet_gen_prompt_with_web_searches   # all the prompts used in this projects were moved to prompt_templates
 from app.socket import sio
 from app.utils.search_functions.search import search 
 async def generate_worklets(worklet_data, linksData, model, sid):
@@ -35,8 +35,20 @@ async def generate_worklets(worklet_data, linksData, model, sid):
 
     print("Extracted worklets:", extracted_worklets)
     if extracted_worklets["websearch"]:
-        search(extracted_worklets["search"])
-        print("sotput from search"*20,search)
-        
-        
+        s = search(extracted_worklets["search"])
+        # print("sotput from search"*20,s)
+        prompt = worklet_gen_prompt_with_web_searches(json= s,count_string=count_string,count=count,context=extracted_worklets["current_context"])
+        try:
+            generated_worklets = invoke_llm(prompt, model)
+        except Exception as e:
+            print("Error in generating worklets:", e)
+            await sio.emit("error", {"message": "ERROR: LLM is not responding. Please try again."}, to=sid)
+        extracted_worklets = []
+        try:
+            extracted_worklets = extract_json_from_llm_response(generated_worklets)# remove back ticks
+        except Exception as e:
+                print("Error in extracting worklets:", e)
+                await sio.emit("error", {"message": "ERROR: Wrong output returned by llm. Please try again."}, to=sid)
+
+
     return extracted_worklets
