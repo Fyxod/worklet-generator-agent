@@ -5,15 +5,11 @@ import json
 api_keys = [
     os.getenv("GOOGLE_API_KEY1"),
     os.getenv("GOOGLE_API_KEY2"),
-    os.getenv("GOOGLE_API_KEY3"),
-    os.getenv("GOOGLE_API_KEY4"),
 ]
 
 search_engine_ids = [
     os.getenv("SEARCH_ENGINE_ID1"),
     os.getenv("SEARCH_ENGINE_ID2"),
-    os.getenv("SEARCH_ENGINE_ID3"),
-    os.getenv("SEARCH_ENGINE_ID4"),
 ]
 
 url = 'https://www.googleapis.com/customsearch/v1'

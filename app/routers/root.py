@@ -147,8 +147,8 @@ async def upload_multiple(
         reference = await loop.run_in_executor(None, getReferenceWork, worklet["Title"], model)
         worklet["Reference Work"] = reference
 
-    await sio.emit("progress", {"message": "Fetching references..."}, to=sid)
     for worklet in worklets:
+        await sio.emit("progress", {"message": f"Fetching references for {worklet["Title"]}"}, to=sid)
         print("fertchign refrences for ",worklet["Title"])
         await process_worklet(worklet)
     
