@@ -127,6 +127,7 @@ async def upload_multiple(
     await sio.emit("progress", {"message": "Generating worklets..."}, to=sid)
     worklets = await generate_worklets(extracted_data_all, linksData, model, sid)
 
+    
     # loop = asyncio.get_running_loop()
     # worklets = await loop.run_in_executor(None, generate_worklets, extracted_data_all, linksData, model)
 
