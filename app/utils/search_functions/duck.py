@@ -50,6 +50,31 @@ def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int 
     print(f"Search for '{query}' failed after {max_retries} attempts.")
     return []
 
+def fetch_duckduckgo_references(query: str, max_results: int = 5):
+    ddgs = DDGS()
+    arr=[]
+    try:
+        results = list(ddgs.text(query, max_results=max_results))
+
+        if results and isinstance(results, list):
+            print(f"Search for '{query}': Success")
+            for result in results:
+                if 'title' in result and 'href' in result:
+                    arr.append({
+                        "Title": result['title'],
+                        "Link": result['href'],
+                        "Description": result.get('body', ''),
+                        "Tag": "google",
+                    })
+            print(f"Results for '{query}': {len(arr)}")
+            print(f"Duckduckgo Total results: {len(arr)}")
+            return arr  # Successful response
+        else:
+            print(f"No results found for references in duckduckgo")
+            return
+    except Exception as e:
+        print(f"Error occurred: {e}. in duckduckgo references")
+        return []
 
 
 

@@ -9,9 +9,9 @@ from app.utils.search_functions.search import search_references
 from concurrent.futures import ThreadPoolExecutor
 from app.utils.prompt_templates import arcive_temp
 from time import sleep
+import json
 
-
-def getReferenceWork(title, model):
+def getReferenceWork(title, model = "gemma3:27b"):
     keyword = ""
     try:
         keyword = getKeyword(title, model)
@@ -22,10 +22,11 @@ def getReferenceWork(title, model):
     with ThreadPoolExecutor() as executor:
         future_github = executor.submit(get_github_references, keyword)
         future_scholar = executor.submit(get_google_scholar_references, keyword)
-        # future_google = executor.submit(search_references, [keyword], max_results=5)
+        future_google = executor.submit(search_references, keyword, max_results=10)
 
         githubReferences = future_github.result()
         googleScholarReferences = future_scholar.result()
+        googleReferences = future_google.result()
 
         if len(googleScholarReferences) == 0:
             sleep(5)
@@ -33,13 +34,19 @@ def getReferenceWork(title, model):
         
         print(f"generated {len(githubReferences)} github references for {title}")
         print(f"generated {len(googleScholarReferences)} google scholar references for {title}")
-        
+        print(f"generated {len(googleReferences)} search engine references for {title}")
     response = []
     response.extend(googleScholarReferences)
-    # print("Github references", githubReferences)
     response.extend(githubReferences)
-    # print(response)
+    response.extend(googleReferences)
+    with open("final_search.json", "w") as f:
+        try:
+            json.dump(response, f, indent=4)
+        except Exception as e:
+            print(f"Failed to write results to file. Error: {e}")
     return response
+
+# getReferenceWork("Job Scheduling with AWS DynamoDB and Spring Reactive Framework", "gemma3:27b")
 
 
 def getKeyword(title, model):

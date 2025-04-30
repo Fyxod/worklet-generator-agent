@@ -22,7 +22,7 @@ def get_google_scholar_references(keyword):
             if description:
                 description = slice_to_100_words(description)
             else:
-                description = "Did not finf any description for this paper just sort them as you see fit try to keep one with tag scholar in front"
+                description = "Did not find any description for this paper just sort them as you see fit try to keep one with tag scholar in front"
             result.append(
                 {
                     "Title": title,
