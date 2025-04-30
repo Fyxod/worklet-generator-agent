@@ -17,13 +17,7 @@ pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 CUSTOM_PAGE_SIZE = (700,900)  # Width x Height in points (1 point = 1/72 inch)
 
 def pre_processing(json, index):
-
-    # model ="llama3.3:latest"
-    # model ="gpt-j "
-    # model ="gemini-flash-2.0"
     model ="gemma3:27b"
-    # for idx, ref in enumerate(json["Reference Work"]):
-    #     ref["index"] = idx  # Add new key "index" to each dictionary
     print("\n")
     json=index_sort(json,model, index)
     return json
