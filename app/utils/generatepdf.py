@@ -14,7 +14,7 @@ UPLOAD_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
 print(UPLOAD_DIR)
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
-CUSTOM_PAGE_SIZE = (700,1500)  # Width x Height in points (1 point = 1/72 inch)
+CUSTOM_PAGE_SIZE = (700,900)  # Width x Height in points (1 point = 1/72 inch)
 
 def pre_processing(json, index):
     model ="gemma3:27b"

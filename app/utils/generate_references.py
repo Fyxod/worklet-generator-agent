@@ -22,16 +22,19 @@ def getReferenceWork(title, model = "gemma3:27b"):
     with ThreadPoolExecutor() as executor:
         future_github = executor.submit(get_github_references, keyword)
         future_scholar = executor.submit(get_google_scholar_references, keyword)
-        future_google = executor.submit(search_references, keyword, max_results=10)
+        # future_google = executor.submit(search_references, keyword, max_results=10)
 
         githubReferences = future_github.result()
         googleScholarReferences = future_scholar.result()
-        googleReferences = future_google.result()
+        googleReferences = []
 
         if len(googleScholarReferences) == 0:
             sleep(5)
             googleScholarReferences = get_google_scholar_references(keyword)
-        
+
+        if len(googleScholarReferences) == 0:
+            googleReferences = search_references(keyword, max_results=10)
+
         print(f"generated {len(githubReferences)} github references for {title}")
         print(f"generated {len(googleScholarReferences)} google scholar references for {title}")
         print(f"generated {len(googleReferences)} search engine references for {title}")

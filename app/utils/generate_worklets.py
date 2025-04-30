@@ -3,6 +3,8 @@ from app.llm import invoke_llm
 from app.utils.prompt_templates import worklet_gen_prompt,worklet_gen_prompt_with_web_searches   # all the prompts used in this projects were moved to prompt_templates
 from app.socket import sio
 from app.utils.search_functions.search import search 
+import asyncio
+
 async def generate_worklets(worklet_data, linksData, model, sid):
     """
     This function is used to ccommunicate with the llm model it 
@@ -35,8 +37,12 @@ async def generate_worklets(worklet_data, linksData, model, sid):
 
     print("Extracted worklets:", extracted_worklets)
     if extracted_worklets["websearch"]:
-        s = search(extracted_worklets["search"],6)
+        await sio.emit("progress", {"message": "LLM requested for web search..."}, to=sid)
+        await asyncio.sleep(0.7)
+        await sio.emit("progress", {"message": "Searching the web..."}, to=sid)
+        s = search(extracted_worklets["search"],6, sid)
         # print("sotput from search"*20,s)
+        await sio.emit("progress", {"message": "Generating worklets with web search results..."}, to=sid)
         prompt = worklet_gen_prompt_with_web_searches(json= s,count_string=count_string,count=count,context=extracted_worklets["current_context"])
         try:
             generated_worklets = invoke_llm(prompt, model)
