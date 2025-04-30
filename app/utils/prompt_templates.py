@@ -240,8 +240,12 @@ IMPORTANT RULES:
 Reminder: If you acci   dentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
 Here is the input JSON:
 {json}
-Your output should be:
+**OUTPUT FORMAT** :
 [<sorted indices array>]
+Mandatory Constraints 
+- follow the output constraints, example OUTPUT =[1,6,2,3,9,8,10]
+-do not return anything else except the output asked for no extra text and formatting
+- sort then in eccreasing order of relevance to the current worklet (most important constraint)
 
 """
 

@@ -14,7 +14,7 @@ UPLOAD_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
 print(UPLOAD_DIR)
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
-CUSTOM_PAGE_SIZE = (700,1500)  # Width x Height in points (1 point = 1/72 inch)
+CUSTOM_PAGE_SIZE = (750,1100)  # Width x Height in points (1 point = 1/72 inch)
 
 def pre_processing(json, index):
     model ="gemma3:27b"
@@ -72,11 +72,11 @@ def generatePdf(json, model, index):
         elements.append(Paragraph("<b>Milestones (6 months):</b>", normal_style))
         milestones = json['Milestones (6 months)']
         if 'M2' in milestones:
-            elements.append(Paragraph(f"• M1: {milestones['M2']}", bullet_style))
+            elements.append(Paragraph(f"• M2: {milestones['M2']}", bullet_style))
         if 'M4' in milestones:
-            elements.append(Paragraph(f"• M2: {milestones['M4']}", bullet_style))
+            elements.append(Paragraph(f"• M4: {milestones['M4']}", bullet_style))
         if 'M6' in milestones:
-            elements.append(Paragraph(f"• M3: {milestones['M6']}", bullet_style))
+            elements.append(Paragraph(f"• M6: {milestones['M6']}", bullet_style))
 
     if 'Reference Work' in json and isinstance(json['Reference Work'], list):
         elements.append(Paragraph("<b>Reference Work:</b>", normal_style))
