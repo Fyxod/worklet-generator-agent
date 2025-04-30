@@ -30,7 +30,8 @@ def scholar_sort(worklet,model,index):
     """
     priority = {
     'scholar': 0,
-    'github': 1
+    'google': 1,
+    'github': 2
     }
     worklet["Reference Work"].sort(key=lambda x: priority.get(x['Tag'], 2))
     filename = f"{index + 1}_scholar_sort.json"

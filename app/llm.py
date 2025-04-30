@@ -43,7 +43,7 @@ def invoke_llm(prompt, model):
                 response = requests.post(url, json=payload)
                 if response.status_code != 200:
                     print(f"Attempt {attempt+1}: Error {response.status_code} - {response.text}")
-                    time.sleep(20)
+                    time.sleep(8)
                     continue
 
                 data = json.loads(response.content)
