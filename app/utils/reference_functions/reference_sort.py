@@ -13,26 +13,14 @@ def inplace_sort(worklet,model, index):
     provided in Increasing order of Relevence
 
     """
-    print("-"*10+"printing worklet before sorting"*10+"-"*10)
-    print("\n")
-    print("\n")
-    print(worklet["Reference Work"])
-    print("\n")
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
     prompt =refrence_sort_template(reference_work_str)  
     sorted_references = invoke_llm(prompt, model)
-    print("Printing Sorted array of ref")
-    print("\n")
-    print("dumped sorted references")
-    #dump to file name index.json
     filename = f"{index + 1}_Inplace_sort.json"
     path = os.path.join(output_directory, filename)
-    print("\n")
     worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
     with open(path, "w") as file:
         json.dump(worklet["Reference Work"], file, indent=4)
-    print("sorted worklet"*5, worklet["Reference Work"])
-    print("\n")
     return worklet
 
 def scholar_sort(worklet,model,index):
@@ -40,34 +28,15 @@ def scholar_sort(worklet,model,index):
     Take Input of a Single Worklet and sort the serefences on the basis of the discription 
     provided in Increasing order of Relevence
     """
-    print("-"*10+"printing worklet before sorting"*10+"-"*10)
-    print("\n")
-    print("\n")
-    print(worklet["Reference Work"])
-    print("\n")
-##   Actual sorting taking place
     priority = {
     'scholar': 0,
     'github': 1
-}
+    }
     worklet["Reference Work"].sort(key=lambda x: priority.get(x['Tag'], 2))
-
-    print("Printing Sorted array of ref")
-    print("\n")
-    print("dumped sorted references")
-    #dump to file name index.json
     filename = f"{index + 1}_scholar_sort.json"
     path = os.path.join(output_directory, filename)
-    print("\n")
-    print("\n")
     with open(path, "w") as file:
         json.dump(worklet["Reference Work"], file, indent=4)
-    print("sorted worklet"*5, worklet["Reference Work"])
-    print("\n")
-    print("\n")
-    print("scholar Sort Used -------------------"*10)
-    print("\n")
-    
     return worklet
 
 def index_sort(worklet,model,index):
@@ -76,45 +45,36 @@ def index_sort(worklet,model,index):
     provided in Increasing order of Relevence
 
     """
-
-    print("\n")
-    print("-"*10+"printing worklet before sorting"*10+"-"*10)
-    print("\n")
-    print(worklet["Reference Work"])
-    print("\n")
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
     prompt =index_sort_template(reference_work_str)  
     sorted_indices = invoke_llm(prompt, model)
     print("\n")
-    print(sorted_indices)
+    print("llm returned",sorted_indices)
     print("\n")
     sorted_indices=convert_to_list(sorted_indices)
-    if sorted_indices :
+    if sorted_indices == "failed":
+        print("\n---index sort failed----"*3)
+        print("\n")
+        print(sorted_indices)
+        print("\n")
         return scholar_sort(worklet,model,index)
 
     sorted_indices=remove_duplicates(sorted_indices)
     sorted_references = rearrange_references(worklet['Reference Work'], sorted_indices)
-    print("Printing Sorted array of ref")
-    print("\n")
-    print("dumped sorted references")
-    print("\n")
-    #dump to file name index.json
     filename = f"{index + 1}_index_sort.json"
     path = os.path.join(output_directory, filename)
-    print("\n")
     worklet["Reference Work"] = sorted_references
     with open(path, "w") as file:
         json.dump(worklet["Reference Work"], file, indent=4)
-    print("\n")
-    print("sorted worklet"*5, worklet["Reference Work"])
-    print("\n")
-    print("Index Sort Used -------------------"*10)
-    print("\n")
     return worklet
 
-
 def rearrange_references(reference_work, sorted_indices):
-    rearranged_references = [reference_work[i] for i in sorted_indices]
+    rearranged_references = []
+    for i in sorted_indices:
+        if 0 <= i < len(reference_work):
+            rearranged_references.append(reference_work[i])
+        else:
+            print(f"Warning: Ignoring invalid index {i}")
     return rearranged_references
 
 def convert_to_list(input_data):
@@ -168,8 +128,8 @@ def convert_to_list(input_data):
         raise ValueError
 
     except (ValueError, TypeError):
-        print("Warning: Input could not be parsed. Using default list [1, 2, 3, 4, 5].")
-        return True
+        
+        return "failed"
 
 def remove_duplicates(numbers):
     """Removes duplicates from a list while keeping order."""

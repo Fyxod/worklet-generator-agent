@@ -35,7 +35,7 @@ async def generate_worklets(worklet_data, linksData, model, sid):
 
     print("Extracted worklets:", extracted_worklets)
     if extracted_worklets["websearch"]:
-        s = search(extracted_worklets["search"],30)
+        s = search(extracted_worklets["search"],6)
         # print("sotput from search"*20,s)
         prompt = worklet_gen_prompt_with_web_searches(json= s,count_string=count_string,count=count,context=extracted_worklets["current_context"])
         try:
