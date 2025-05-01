@@ -15,7 +15,7 @@ from app.utils.discord import  notify_discord_on_error
 def getReferenceWork(title, model = "gemma3:27b"):
     keyword = ""
     try:
-        keyword = getKeyword(title, model="ww")
+        keyword = getKeyword(title, model)
     except Exception as e:
         notify_discord_on_error(message="error in geting keyword",error=e)
         print(f"Error in getKeyword: {e}, using title as keyword")
