@@ -24,6 +24,16 @@ SUPPORTED_EXTENSIONS = {
 }
 
 async def extract_document(name, sid):
+    """
+Extracts text content from a supported document file, including OCR extraction from embedded images.
+
+Parameters:
+    name (str): The name of the uploaded document file.
+    sid (str): The session ID for emitting progress updates via socket.io.
+
+Returns:
+    str: The extracted textual content from the document and its images.
+"""
     file_path = os.path.join(UPLOAD_DIR, name)
     ext = Path(name).suffix.lower()
 

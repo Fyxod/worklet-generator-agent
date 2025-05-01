@@ -10,12 +10,14 @@ from concurrent.futures import ThreadPoolExecutor
 from app.utils.prompt_templates import arcive_temp
 from time import sleep
 import json
+from app.utils.discord import  notify_discord_on_error
 
 def getReferenceWork(title, model = "gemma3:27b"):
     keyword = ""
     try:
-        keyword = getKeyword(title, model)
+        keyword = getKeyword(title, model="ww")
     except Exception as e:
+        notify_discord_on_error(message="error in geting keyword",error=e)
         print(f"Error in getKeyword: {e}, using title as keyword")
         keyword = title
 

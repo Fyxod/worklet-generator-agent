@@ -28,7 +28,7 @@ import time
 from app.socket import sio
 import zipfile
 import re
-
+from app.utils.discord import notify_discord_on_error
 class Query1(BaseModel):
     query: str
 
@@ -181,6 +181,7 @@ async def upload_multiple(
 
             filename = f"{worklet['Title']}.pdf"
         except Exception as e:
+            # notify_discord_on_error()
             print(f"Error generating PDF for {worklet['Title']}: {e}")
             traceback.print_exc()
             filename = "error.pdf"
