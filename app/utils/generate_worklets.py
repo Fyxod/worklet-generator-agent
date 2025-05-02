@@ -5,56 +5,76 @@ from app.socket import sio
 from app.utils.search_functions.search import search 
 import asyncio
 
-async def generate_worklets(worklet_data, linksData, model, sid):
-    """
-    This function is used to ccommunicate with the llm model it 
-    takes  worklet data and the model name as input 
-    and return the worklets in a json format 
+from concurrent.futures import ThreadPoolExecutor
 
-    """
+executor = ThreadPoolExecutor(max_workers=5)
+
+async def generate_worklets(worklet_data, linksData, model, sid):
     count = 6
     count_string = "six"
     if model == "gemini-flash-2.0":
         count = 5
         count_string = "five"
-    
+
     prompt_template = worklet_gen_prompt()
-    prompt = prompt_template.format(worklet_data=worklet_data,linksData=linksData, count=count, count_string=count_string) # populte the prompt with worklet data
-    
+    prompt = prompt_template.format(
+        worklet_data=worklet_data, 
+        linksData=linksData, 
+        count=count, 
+        count_string=count_string
+    )
+
+    loop = asyncio.get_running_loop()
+
     try:
-        generated_worklets = invoke_llm(prompt, model)
+         generated_worklets = await invoke_llm(prompt, model)
     except Exception as e:
         print("Error in generating worklets:", e)
         await sio.emit("error", {"message": "ERROR: LLM is not responding. Please try again."}, to=sid)
+        return
 
-    extracted_worklets = []
     try:
-        
-        extracted_worklets = extract_json_from_llm_response(generated_worklets)# remove back ticks
+        extracted_worklets = extract_json_from_llm_response(generated_worklets)
     except Exception as e:
         print("Error in extracting worklets:", e)
-        await sio.emit("error", {"message": "ERROR: Wrong output returned by llm. Please try again."}, to=sid)
+        await sio.emit("error", {"message": "ERROR: Wrong output returned by LLM. Please try again."}, to=sid)
+        return
 
     print("Extracted worklets:", extracted_worklets)
-    if extracted_worklets["websearch"]:
+
+    if extracted_worklets.get("websearch"):
         await sio.emit("progress", {"message": "LLM requested for web search..."}, to=sid)
         await asyncio.sleep(0.7)
         await sio.emit("progress", {"message": "Searching the web..."}, to=sid)
-        s = search(extracted_worklets["search"],6, sid)
-        # print("sotput from search"*20,s)
-        await sio.emit("progress", {"message": "Generating worklets with web search results..."}, to=sid)
-        prompt = worklet_gen_prompt_with_web_searches(json= s,count_string=count_string,count=count,context=extracted_worklets["current_context"])
-        try:
-            generated_worklets = invoke_llm(prompt, model)
-        except Exception as e:
-            print("Error in generating worklets:", e)
-            await sio.emit("error", {"message": "ERROR: LLM is not responding. Please try again."}, to=sid)
-        extracted_worklets = []
-        try:
-            extracted_worklets = extract_json_from_llm_response(generated_worklets)# remove back ticks
-        except Exception as e:
-                print("Error in extracting worklets:", e)
-                await sio.emit("error", {"message": "ERROR: Wrong output returned by llm. Please try again."}, to=sid)
 
+        try:
+            s = await loop.run_in_executor(executor, search, extracted_worklets["search"], 6)
+        except Exception as e:
+            print("Error in web search:", e)
+            await sio.emit("error", {"message": "ERROR: Web search failed. Please try again."}, to=sid)
+            return
+
+        await sio.emit("progress", {"message": "Generating worklets with web search results..."}, to=sid)
+
+        prompt = worklet_gen_prompt_with_web_searches(
+            json=s,
+            count_string=count_string,
+            count=count,
+            context=extracted_worklets.get("current_context", "")
+        )
+
+        try:
+            generated_worklets = await invoke_llm(prompt, model)
+        except Exception as e:
+            print("Error in generating worklets (with web):", e)
+            await sio.emit("error", {"message": "ERROR: LLM is not responding (after web search). Please try again."}, to=sid)
+            return
+
+        try:
+            extracted_worklets = extract_json_from_llm_response(generated_worklets)
+        except Exception as e:
+            print("Error in extracting worklets (with web):", e)
+            await sio.emit("error", {"message": "ERROR: Wrong output from LLM after web search. Please try again."}, to=sid)
+            return
 
     return extracted_worklets

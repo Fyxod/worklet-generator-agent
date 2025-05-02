@@ -23,50 +23,58 @@ def inplace_sort(worklet,model, index):
         json.dump(worklet["Reference Work"], file, indent=4)
     return worklet
 
-def scholar_sort(worklet,model,index):
+async def scholar_sort(worklet, model, index):
     """
-    Take Input of a Single Worklet and sort the serefences on the basis of the discription 
-    provided in Increasing order of Relevence
+    Take Input of a Single Worklet and sort the references on the basis of the description 
+    provided in Increasing order of Relevance.
     """
     priority = {
-    'scholar': 0,
-    'google': 1,
-    'github': 2
+        'scholar': 0,
+        'google': 1,
+        'github': 2
     }
     worklet["Reference Work"].sort(key=lambda x: priority.get(x['Tag'], 2))
     filename = f"{index + 1}_scholar_sort.json"
     path = os.path.join(output_directory, filename)
+    
     with open(path, "w") as file:
         json.dump(worklet["Reference Work"], file, indent=4)
+
     return worklet
 
-def index_sort(worklet,model,index):
-    """
-    Take Input of a Single Worklet and sort the serefences on the basis of the discription 
-    provided in Increasing order of Relevence
 
+async def index_sort(worklet, model, index):
+    """
+    Take Input of a Single Worklet and sort the references on the basis of the description 
+    provided in Increasing order of Relevance.
     """
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
-    prompt =index_sort_template(reference_work_str)  
-    sorted_indices = invoke_llm(prompt, model)
-    print("\n")
-    print("llm returned",sorted_indices)
-    print("\n")
-    sorted_indices=convert_to_list(sorted_indices)
-    if sorted_indices == "failed":
-        print("\n---index sort failed----"*3)
-        print("\n")
-        print(sorted_indices)
-        print("\n")
-        return scholar_sort(worklet,model,index)
+    prompt = index_sort_template(reference_work_str)  # Assuming this is defined elsewhere
+    
+    try:
+        sorted_indices = await invoke_llm(prompt, model)  # Make sure invoke_llm is async
+        print("LLM returned:", sorted_indices)
+        
+        sorted_indices = convert_to_list(sorted_indices)
+        if sorted_indices == "failed":
+            print("Index sort failed, falling back to scholar sort")
+            return await scholar_sort(worklet, model, index)
+        
+        sorted_indices = remove_duplicates(sorted_indices)
+        sorted_references = rearrange_references(worklet['Reference Work'], sorted_indices)
 
-    sorted_indices=remove_duplicates(sorted_indices)
-    sorted_references = rearrange_references(worklet['Reference Work'], sorted_indices)
-    filename = f"{index + 1}_index_sort.json"
-    path = os.path.join(output_directory, filename)
-    worklet["Reference Work"] = sorted_references
-    with open(path, "w") as file:
-        json.dump(worklet["Reference Work"], file, indent=4)
+        filename = f"{index + 1}_index_sort.json"
+        path = os.path.join(output_directory, filename)
+        
+        worklet["Reference Work"] = sorted_references
+        
+        with open(path, "w") as file:
+            json.dump(worklet["Reference Work"], file, indent=4)
+
+    except Exception as e:
+        print(f"Error during index sorting: {e}")
+        return await scholar_sort(worklet, model, index)
+    
     return worklet
 
 def rearrange_references(reference_work, sorted_indices):

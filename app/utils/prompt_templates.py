@@ -106,7 +106,7 @@ def worklet_gen_prompt():  # worklet data need to be given so that
 - Commercial PoC potential for Samsung
 - Publishable research paper
 - Viable patent filing
-3. **Feasibility**: Problems must match Tier 1–2 Indian college resources (open-source friendly, moderate infra).
+3. **Feasibility**: Problems must match Tier 1-2 Indian college resources (open-source friendly, moderate infra).
 4. **Web enrichment**: Always supplement with public knowledge, datasets, best practices.
 5. **Quantity**: Generate exactly {count} problem statements inside the array.
 6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
@@ -115,6 +115,7 @@ def worklet_gen_prompt():  # worklet data need to be given so that
 ---
 
     """
+    
     )
 
 
@@ -174,7 +175,7 @@ generate exactly {count_string} ({count}) feasible problem statements, following
 - Commercial PoC potential for Samsung
 - Publishable research paper
 - Viable patent filing
-3. **Feasibility**: Problems must match Tier 1–2 Indian college resources (open-source friendly, moderate infra).
+3. **Feasibility**: Problems must match Tier 1-2 Indian college resources (open-source friendly, moderate infra).
 4. **Web enrichment**: Always supplement with public knowledge, datasets, best practices.
 5. **Quantity**: Generate exactly {count} problem statements inside the array.
 6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").

@@ -10,26 +10,28 @@ from concurrent.futures import ThreadPoolExecutor
 from app.utils.prompt_templates import arcive_temp
 from time import sleep
 import json
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
-def getReferenceWork(title, model = "gemma3:27b"):
+async def getReferenceWork(title, model="gemma3:27b"):
     keyword = ""
     try:
-        keyword = getKeyword(title, model)
+        keyword = await getKeyword(title, model)  # Await the async function
     except Exception as e:
         print(f"Error in getKeyword: {e}, using title as keyword")
         keyword = title
 
     with ThreadPoolExecutor() as executor:
-        future_github = executor.submit(get_github_references, keyword)
-        future_scholar = executor.submit(get_google_scholar_references, keyword)
-        # future_google = executor.submit(search_references, keyword, max_results=10)
+        # Run blocking I/O operations in parallel using ThreadPoolExecutor
+        loop = asyncio.get_running_loop()
+        github_future = loop.run_in_executor(None, get_github_references, keyword)
+        scholar_future = loop.run_in_executor(None, get_google_scholar_references, keyword)
 
-        githubReferences = future_github.result()
-        googleScholarReferences = future_scholar.result()
+        githubReferences, googleScholarReferences = await asyncio.gather(github_future, scholar_future)
         googleReferences = []
 
         if len(googleScholarReferences) == 0:
-            sleep(5)
+            await asyncio.sleep(5)  # Non-blocking sleep to prevent freezing the event loop
             googleScholarReferences = get_google_scholar_references(keyword)
 
         if len(googleScholarReferences) == 0:
@@ -38,29 +40,28 @@ def getReferenceWork(title, model = "gemma3:27b"):
         print(f"generated {len(githubReferences)} github references for {title}")
         print(f"generated {len(googleScholarReferences)} google scholar references for {title}")
         print(f"generated {len(googleReferences)} search engine references for {title}")
+
     response = []
     response.extend(googleScholarReferences)
     response.extend(githubReferences)
     response.extend(googleReferences)
-    with open("final_search.json", "w") as f:
-        try:
+
+    try:
+        with open("final_search.json", "w") as f:
             json.dump(response, f, indent=4)
-        except Exception as e:
-            print(f"Failed to write results to file. Error: {e}")
+    except Exception as e:
+        print(f"Failed to write results to file. Error: {e}")
+    print("Final search results saved to ", response)
     return response
+
 
 # getReferenceWork("Job Scheduling with AWS DynamoDB and Spring Reactive Framework", "gemma3:27b")
 
 
-def getKeyword(title, model):
-    print("Inside getKeyword ", title)# test ting web hooks
+async def getKeyword(title, model):
+    print("Inside getKeyword", title)
     prompt = arcive_temp().format(title=title)
-    # print("printing prompt", prompt)
-    # prompt = prompt_template.format_prompt(title=title).to_string()
-    response = invoke_llm(prompt, model)
-    # response = llm.invoke(prompt)
-    # print("printing keyword", response)
-    # response = llm.invoke([HumanMessage(content=prompt)])
+    response = await invoke_llm(prompt, model)
     return response
 
 # getReferenceWork("Job Scheduling with AWS DynamoDB and Spring Reactive Framework", "gemma3:27b")

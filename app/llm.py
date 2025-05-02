@@ -27,39 +27,36 @@ ollama_models = [
     "llama3.3:70b-instruct-fp16"
 ]
 
-def invoke_llm(prompt, model):
+
+import aiohttp
+import asyncio
+
+async def invoke_llm(prompt, model):
     raw_text = ""
     max_retries = 4
 
     if model in ollama_models:
         print("Using Ollama")
         payload = {"prompt": prompt}
-        # print("printing payload", payload)
         url = f"{os.getenv('LLM_URL')}/query?model={model}"
 
-        for attempt in range(max_retries):
-            response = None
+        for attempt in range(1, max_retries + 1):
             try:
-                response = requests.post(url, json=payload)
-                if response.status_code != 200:
-                    print(f"Attempt {attempt+1}: Error {response.status_code} - {response.text}")
-                    time.sleep(8)
-                    continue
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(url, json=payload) as response:
+                        if response.status != 200:
+                            text = await response.text()
+                            print(f"Attempt {attempt}: Error {response.status} - {text}")
+                            await asyncio.sleep(8)
+                            continue
 
-                data = json.loads(response.content)
-                # print("printing response", data)
-                raw_text = data.get("content", "")
-                # print("PRINTING RAW TEXT")
-                # print(type(raw_text))
-                # print(raw_text)
-                # print("ENDING RAW TEXT")
-                break  # Success, exit the loop
-
-            except json.JSONDecodeError: 
-                print(f"Attempt {attempt+1}: Failed to decode JSON - {response}")
-                time.sleep(20)
-
-        if not raw_text:
+                        data = await response.json()
+                        raw_text = data.get("content", "")
+                        break
+            except (aiohttp.ClientError, asyncio.CancelledError) as e:
+                print(f"Attempt {attempt}: HTTP error - {str(e)}")
+                await asyncio.sleep(10)
+        else:
             return "LLM failed after 4 attempts."
 
     else:
@@ -67,17 +64,17 @@ def invoke_llm(prompt, model):
         response = llm.invoke(prompt)
         raw_text = response.content
 
+    # Clean output
     cleaned = re.sub(r"<think>.*?</think>", "", raw_text, flags=re.DOTALL | re.IGNORECASE)
-    cleaned = re.sub(r"\*+", "", cleaned)     # Remove markdown asterisks
-    cleaned = re.sub(r"#", "", cleaned)       # Remove hash symbols
-    cleaned = re.sub(r"\s+", " ", cleaned)    # Normalize whitespace
+    cleaned = re.sub(r"\*+", "", cleaned)
+    cleaned = re.sub(r"#", "", cleaned)
+    cleaned = re.sub(r"\s+", " ", cleaned)
     cleaned = cleaned.replace('")', '"')
     if '`' in cleaned:
         cleaned = cleaned[cleaned.find('`'):]
     cleaned = cleaned.strip()
-    cleaned =cleaned.replace("```json", "").replace("```", "").strip()
-    print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
+    cleaned = cleaned.replace("```json", "").replace("```", "").strip()
+
+    print("PRINTING CLEANED OUTPUT")
     print(cleaned)
     return cleaned
-
-# print(invoke_llm("write a 100 word essay on trees", "llama3.3:latest"))

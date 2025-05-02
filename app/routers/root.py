@@ -143,16 +143,16 @@ async def upload_multiple(
     # 6. Generate references concurrently
     async def process_worklet(worklet):
         print(f"-----------Generating reference for: {worklet['Title']}------------------")
-        loop = asyncio.get_running_loop()
-        reference = await loop.run_in_executor(None, getReferenceWork, worklet["Title"], model)
+        # loop = asyncio.get_running_loop()
+        # reference = await loop.run_in_executor(None, getReferenceWork, worklet["Title"], model)
+        reference = await getReferenceWork(worklet["Title"], model)
+        print("Reference work:", reference)
         worklet["Reference Work"] = reference
 
     for worklet in worklets:
-        await sio.emit("progress", {"message": f"Fetching references for {worklet["Title"]}"}, to=sid)
-        print("fertchign refrences for ",worklet["Title"])
+        await sio.emit("progress", {"message": f"Fetching references for {worklet['Title']}"}, to=sid)
+        print("fetching references for", worklet["Title"])
         await process_worklet(worklet)
-    
-    # await asyncio.gather(*(process_worklet(worklet) for worklet in worklets))
 
     # 7. Save latest generated worklets and give index to references
     for worklet in worklets:
@@ -176,8 +176,7 @@ async def upload_multiple(
             file_name = sanitize_filename(worklet['Title'])
             await sio.emit("fileReceived", {"file_name": f"{file_name}.pdf"}, to=sid)
             await sio.emit("progress", {"message": f"Comparing references for {index + 1}. {worklet['Title']}..."},to=sid)
-            loop = asyncio.get_running_loop()
-            await loop.run_in_executor(None, generatePdf, worklet, model, index)
+            await generatePdf(worklet, model, index)
 
             filename = f"{worklet['Title']}.pdf"
         except Exception as e:
@@ -194,22 +193,21 @@ async def upload_multiple(
     await asyncio.sleep(1)
     return response
 
-
 @router.get('/download/{file_name}')
 async def download(file_name: str):
-    print(file_name)
+    new_file_name = sanitize_filename(file_name)
+    file_path = Path(GENERATED_DIR) / new_file_name
 
-    # Search in GENERATED_DIR first
-    file_path = Path(GENERATED_DIR) / file_name
-    print(file_path)
+    if not file_path.exists():
+        file_path = Path(DESTINATION_DIR) / new_file_name
 
-    if not file_path.exists():  # If not found in GENERATED_DIR, search in DESTINATION_DIR
-        print(f"File not found in {GENERATED_DIR}. Searching in {DESTINATION_DIR}.")
-        file_path = Path(DESTINATION_DIR) / file_name
-
+    safe_filename = file_name.replace(":", " -")
     if file_path.exists():
-        return FileResponse(file_path, media_type="application/pdf", filename=file_name)
-
+        return FileResponse(
+            file_path,
+            media_type="application/pdf",
+            filename=safe_filename  # This controls what the client receives
+        )
     return {"error": "File not found"}
 class FilesRequest(BaseModel):
     files: list[str]  # Array of strings (filenames)
