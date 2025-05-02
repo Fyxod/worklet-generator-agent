@@ -3,9 +3,29 @@ import time
 
 def get_github_references(keyword):
     """
-    Fetches GitHub repositories related to the given keyword.
-    Returns a list of dictionaries containing the title, description, link, and tag.
+    Fetches a list of GitHub repositories based on a given keyword.
+    This function queries the GitHub Search API to retrieve repositories
+    matching the specified keyword. It returns a list of dictionaries
+    containing repository details such as title, description, link, and tag.
+    Args:
+        keyword (str): The search keyword to query GitHub repositories.
+    Returns:
+        list: A list of dictionaries, where each dictionary contains:
+            - "Title" (str): The name of the repository.
+            - "Description" (str): A truncated description of the repository (up to 100 words).
+            - "Link" (str): The URL to the repository.
+            - "Tag" (str): A fixed tag value ("github").
+    Notes:
+        - If the API request fails with a non-200 status code, the function retries once
+          after a 1-second delay.
+        - If the API request continues to fail, an error message is printed, and an empty
+          list is returned.
+        - The function assumes the presence of a helper function `slice_to_100_words`
+          to truncate descriptions to 100 words.
+    Raises:
+        None: The function handles API errors internally and does not raise exceptions.
     """
+
     url = "https://api.github.com/search/repositories"
     params = {"q": keyword, "per_page": 10}
 

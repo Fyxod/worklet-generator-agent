@@ -2,9 +2,25 @@ from app.utils.reference_functions.scholar_package import CustomGoogleScholarOrg
 
 def get_google_scholar_references(keyword):
     """
-    Fetches Google Scholar references related to the given keyword.
-    Returns a list of dictionaries containing the title, description, link, and tag.
+    Fetches references from Google Scholar based on a given keyword.
+    This function uses a custom parser to scrape organic results from Google Scholar.
+    It processes the results to extract relevant information such as the title, link,
+    and description of each paper. Titles are cleaned by removing tags like [PDF], 
+    [HTML], and [DOC]. Descriptions are truncated to 100 words if available, otherwise 
+    a default message is provided. Each reference is tagged with "scholar".
+    Args:
+        keyword (str): The search keyword to query Google Scholar.
+    Returns:
+        list: A list of dictionaries, where each dictionary contains:
+            - "Title" (str): The title of the paper.
+            - "Link" (str): The link to the paper.
+            - "Description" (str): A brief description of the paper.
+            - "Tag" (str): A tag indicating the source ("scholar").
+    Raises:
+        Exception: If an error occurs during the scraping process, it is caught and
+                   logged, and an empty list is returned.
     """
+
     try:
         custom_parser_get_organic_results = (
             CustomGoogleScholarOrganic().scrape_google_scholar_organic_results(
