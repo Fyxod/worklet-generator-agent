@@ -29,8 +29,6 @@ from app.socket import sio
 import zipfile
 import re
 from app.utils.discord import notify_discord_on_error
-class Query1(BaseModel):
-    query: str
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
@@ -51,10 +49,6 @@ router=APIRouter(
 
 templates = Jinja2Templates(directory="templates")
 
-# @router.get('/')
-# def read_root():
-#     return{ "response": "API IS UP AND RUNNING"}
-
 def sanitize_filename(filename):
     return re.sub(r'[\/:*?"<>|]', '_', filename)
 
@@ -62,11 +56,7 @@ def sanitize_filename(filename):
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@router.get("/home")
-def frontend_redirect():
-    return RedirectResponse(url="http://localhost:8501")
-
-# Generate worklets is hitting this endpoint althe function alss happen here
+# Generate worklets is hitting this endpoint all the function alss happen here
 @router.post('/upload')
 async def upload_multiple(
     model: Annotated[str, Query()],
@@ -81,7 +71,6 @@ async def upload_multiple(
     # 1. Save uploaded files
     if files:
         await sio.emit("progress", {"message": "Extracting data from files..."}, to=sid)
-        print("Files have been uploaded")
         for file in files:
             timestamp = int(datetime.now().timestamp() * 1000)
             filename, ext = os.path.splitext(file.filename)
@@ -101,16 +90,11 @@ async def upload_multiple(
         extracted_results = await asyncio.gather(*extracted_data_tasks)
 
         extracted_data_all = {i + 1: data for i, data in enumerate(extracted_results)}
-    else:
-        print("No files uploaded")
 
     # 3. Handle links
     linksData = {}
     try:
         parsed_links = json.loads(links)
-        print(f"Received {len(parsed_links)} links.")
-        print("HEERE ARE LINKS")
-        print(parsed_links)
         
         if parsed_links:
             await sio.emit("progress", {"message": "Extracting data from links..."}, to=sid)
@@ -142,17 +126,14 @@ async def upload_multiple(
 
     # 6. Generate references concurrently
     async def process_worklet(worklet):
-        print(f"-----------Generating reference for: {worklet['Title']}------------------")
         loop = asyncio.get_running_loop()
         reference = await loop.run_in_executor(None, getReferenceWork, worklet["Title"], model)
         worklet["Reference Work"] = reference
 
     for worklet in worklets:
         await sio.emit("progress", {"message": f"Fetching references for {worklet["Title"]}"}, to=sid)
-        print("fertchign refrences for ",worklet["Title"])
         await process_worklet(worklet)
     
-    # await asyncio.gather(*(process_worklet(worklet) for worklet in worklets))
 
     # 7. Save latest generated worklets and give index to references
     for worklet in worklets:
@@ -161,9 +142,6 @@ async def upload_multiple(
             ref["reference_id"] = idx 
     async with aiofiles.open("latest_generated.json", "w") as file:
         await file.write(json.dumps(worklets, indent=4))
-
-    print("\n" + "-------" * 25 + "FINAL" + "---------" * 25 + "\n")
-    print(worklets)
     
     # 8. Generate PDFs
     response = {"files": []}
@@ -171,7 +149,6 @@ async def upload_multiple(
     await sio.emit("progress", {"message": "Generating PDFs..."}, to=sid)
     for index, worklet in enumerate(worklets):
         try:
-            print(f"Generating PDF for: {worklet['Title']}")
             await sio.emit("progress", {"message": f"Generating PDF for {index + 1}. {worklet['Title']}..."}, to=sid)
             file_name = sanitize_filename(worklet['Title'])
             await sio.emit("fileReceived", {"file_name": f"{file_name}.pdf"}, to=sid)
@@ -182,7 +159,6 @@ async def upload_multiple(
             filename = f"{worklet['Title']}.pdf"
         except Exception as e:
             # notify_discord_on_error()
-            print(f"Error generating PDF for {worklet['Title']}: {e}")
             traceback.print_exc()
             filename = "error.pdf"
 
@@ -198,14 +174,11 @@ async def upload_multiple(
 
 @router.get('/download/{file_name}')
 async def download(file_name: str):
-    print(file_name)
 
     # Search in GENERATED_DIR first
     file_path = Path(GENERATED_DIR) / file_name
-    print(file_path)
 
     if not file_path.exists():  # If not found in GENERATED_DIR, search in DESTINATION_DIR
-        print(f"File not found in {GENERATED_DIR}. Searching in {DESTINATION_DIR}.")
         file_path = Path(DESTINATION_DIR) / file_name
 
     if file_path.exists():
@@ -221,10 +194,8 @@ def download_selected(
     ):
     """Zips specified files from GENERATED_DIR or ARCHIVED_DIR and returns the zip file."""
     files = filesss.files  # Extract the list of filenames from the request body
-    print(files)
     if not files:
         return {"error": "No files provided."}
-    print(files)
 
     # Create a temporary zip file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".zip") as temp_zip:
@@ -248,14 +219,3 @@ def download_selected(
                 zipf.write(file_path, arcname=file_name)
 
     return FileResponse(zip_path, filename="worklets.zip", media_type="application/zip")
-
-
-@router.post('/query')
-async def create_query(query:Query1):
-    # will add db soon for authentication and saving llm output
-    print(query.query)
-    message = llm.invoke(query.query)
-    # message = llm.invoke([HumanMessage(content=query.query)])
-    print(message.content)
-    return message.content
-
