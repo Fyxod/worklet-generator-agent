@@ -24,6 +24,20 @@ ollama_models = [
 ]
 
 def invoke_llm(prompt, model):
+    """
+    Invokes a language model (LLM) with the given prompt and model name, processes the response, 
+    and returns the cleaned output.
+    Args:
+        prompt (str): The input prompt to be sent to the LLM.
+        model (str): The name of the model to use. If the model is in `ollama_models`, 
+                     it will use a specific API endpoint; otherwise, it will use a generic LLM invocation.
+    Returns:
+        str: The cleaned response from the LLM. If the LLM fails after 4 attempts (for models in `ollama_models`), 
+             returns an error message indicating the failure.
+    Raises:
+        None: Any exceptions during JSON decoding or HTTP requests are handled internally.
+    """
+
     raw_text = ""
     max_retries = 4
 
