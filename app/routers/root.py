@@ -50,10 +50,28 @@ router=APIRouter(
 templates = Jinja2Templates(directory="templates")
 
 def sanitize_filename(filename):
+    """
+    Sanitizes a filename by replacing invalid characters with underscores.
+
+    Args:
+        filename (str): The original filename.
+
+    Returns:
+        str: The sanitized filename.
+    """
     return re.sub(r'[\/:*?"<>|]', '_', filename)
 
 @router.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
+    """
+    Renders the root page using the Jinja2 template.
+
+    Args:
+        request (Request): The FastAPI request object.
+
+    Returns:
+        HTMLResponse: The rendered HTML response.
+    """
     return templates.TemplateResponse("index.html", {"request": request})
 
 # Generate worklets is hitting this endpoint all the function alss happen here
@@ -64,6 +82,18 @@ async def upload_multiple(
     links: Annotated[str, Form()],  # expecting JSON string from frontend
     files: Annotated[list[UploadFile], File()] = None,
 ):
+    """
+    The main function that handles the upload of multiple files and links, processes them, and generates worklets.
+
+    Args:
+        model (str): The model name for processing.
+        sid (str): The session ID for socket communication.
+        links (str): JSON string containing links to process.
+        files (list[UploadFile], optional): List of uploaded files.
+
+    Returns:
+        dict: A response containing the generated files.
+    """
     saved_files = []
     extracted_data_all = {}
 
@@ -174,6 +204,15 @@ async def upload_multiple(
 
 @router.get('/download/{file_name}')
 async def download(file_name: str):
+    """
+    Downloads a specific file from the generated or archived directories.
+
+    Args:
+        file_name (str): The name of the file to download.
+
+    Returns:
+        FileResponse or dict: The file response if found, or an error message.
+    """
 
     # Search in GENERATED_DIR first
     file_path = Path(GENERATED_DIR) / file_name
@@ -192,7 +231,15 @@ class FilesRequest(BaseModel):
 def download_selected(
     filesss: FilesRequest
     ):
-    """Zips specified files from GENERATED_DIR or ARCHIVED_DIR and returns the zip file."""
+    """
+    Zips specified files from the generated or archived directories and returns the zip file.
+
+    Args:
+        filesss (FilesRequest): A request body containing a list of filenames.
+
+    Returns:
+        FileResponse or dict: The zip file response if successful, or an error message.
+    """
     files = filesss.files  # Extract the list of filenames from the request body
     if not files:
         return {"error": "No files provided."}
