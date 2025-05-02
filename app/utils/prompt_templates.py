@@ -243,3 +243,16 @@ Mandatory Constraints
 - sort then in eccreasing order of relevance to the current worklet (most important constraint)
 
 """
+
+def arcive_temp():
+    return ChatPromptTemplate.from_template(
+        """
+    Only output the keyword/phrase for arXiv search based on this topic: '{title}'. No preamble. No commentary. No punctuation. Just the keyword or phrase.
+    Example outputs : 
+    1. Input - Self supervised Multi-turn dialog emotion recognition | Output - self-supervised dialog emotion
+    2. Input - Language Agnostic Large Language Model | Output - Multilingual LLM
+    3. Input - Network FCAPS Correlation using LLM | Output - LLM FCAPS correlation
+    4. Input - Deep Packet Inspection Traffic Visualization | Output - Deep Packet Inspection
+    5. Input - Real Time Call Video Anti Aliasing | Output - anti-aliasing
+    """
+    )
