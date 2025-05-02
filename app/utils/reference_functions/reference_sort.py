@@ -16,11 +16,7 @@ def inplace_sort(worklet,model, index):
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
     prompt =refrence_sort_template(reference_work_str)  
     sorted_references = invoke_llm(prompt, model)
-    filename = f"{index + 1}_Inplace_sort.json"
-    path = os.path.join(output_directory, filename)
     worklet["Reference Work"] = extract_json_from_llm_response(sorted_references)
-    with open(path, "w") as file:
-        json.dump(worklet["Reference Work"], file, indent=4)
     return worklet
 
 def scholar_sort(worklet,model,index):
@@ -34,10 +30,7 @@ def scholar_sort(worklet,model,index):
     'github': 2
     }
     worklet["Reference Work"].sort(key=lambda x: priority.get(x['Tag'], 2))
-    filename = f"{index + 1}_scholar_sort.json"
-    path = os.path.join(output_directory, filename)
-    with open(path, "w") as file:
-        json.dump(worklet["Reference Work"], file, indent=4)
+
     return worklet
 
 def index_sort(worklet,model,index):
@@ -49,24 +42,14 @@ def index_sort(worklet,model,index):
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
     prompt =index_sort_template(reference_work_str)  
     sorted_indices = invoke_llm(prompt, model)
-    print("\n")
-    print("llm returned",sorted_indices)
-    print("\n")
     sorted_indices=convert_to_list(sorted_indices)
+    
     if sorted_indices == "failed":
-        print("\n---index sort failed----"*3)
-        print("\n")
-        print(sorted_indices)
-        print("\n")
         return scholar_sort(worklet,model,index)
 
     sorted_indices=remove_duplicates(sorted_indices)
     sorted_references = rearrange_references(worklet['Reference Work'], sorted_indices)
-    filename = f"{index + 1}_index_sort.json"
-    path = os.path.join(output_directory, filename)
     worklet["Reference Work"] = sorted_references
-    with open(path, "w") as file:
-        json.dump(worklet["Reference Work"], file, indent=4)
     return worklet
 
 def rearrange_references(reference_work, sorted_indices):
@@ -74,8 +57,7 @@ def rearrange_references(reference_work, sorted_indices):
     for i in sorted_indices:
         if 0 <= i < len(reference_work):
             rearranged_references.append(reference_work[i])
-        else:
-            print(f"Warning: Ignoring invalid index {i}")
+            
     return rearranged_references
 
 def convert_to_list(input_data):
