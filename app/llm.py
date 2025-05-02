@@ -21,10 +21,6 @@ llm2 = ChatGoogleGenerativeAI(
 
 ollama_models = [
     "gemma3:27b",
-    "deepseek-r1:70b",
-    "llama3.3:latest",
-    "command-a:latest",
-    "llama3.3:70b-instruct-fp16"
 ]
 
 def invoke_llm(prompt, model):
@@ -32,9 +28,7 @@ def invoke_llm(prompt, model):
     max_retries = 4
 
     if model in ollama_models:
-        print("Using Ollama")
         payload = {"prompt": prompt}
-        # print("printing payload", payload)
         url = f"{os.getenv('LLM_URL')}/query?model={model}"
 
         for attempt in range(max_retries):
@@ -42,28 +36,20 @@ def invoke_llm(prompt, model):
             try:
                 response = requests.post(url, json=payload)
                 if response.status_code != 200:
-                    print(f"Attempt {attempt+1}: Error {response.status_code} - {response.text}")
                     time.sleep(8)
                     continue
 
                 data = json.loads(response.content)
-                # print("printing response", data)
                 raw_text = data.get("content", "")
-                # print("PRINTING RAW TEXT")
-                # print(type(raw_text))
-                # print(raw_text)
-                # print("ENDING RAW TEXT")
                 break  # Success, exit the loop
 
             except json.JSONDecodeError: 
-                print(f"Attempt {attempt+1}: Failed to decode JSON - {response}")
                 time.sleep(20)
 
         if not raw_text:
             return "LLM failed after 4 attempts."
 
     else:
-        print("Using Google Gemini")
         response = llm.invoke(prompt)
         raw_text = response.content
 
@@ -76,8 +62,4 @@ def invoke_llm(prompt, model):
         cleaned = cleaned[cleaned.find('`'):]
     cleaned = cleaned.strip()
     cleaned =cleaned.replace("```json", "").replace("```", "").strip()
-    print("PRINTING CLEANED CLEADNED CEANDED CLEADED CLEANDE LANDE CLANED CLEANED")
-    print(cleaned)
     return cleaned
-
-# print(invoke_llm("write a 100 word essay on trees", "llama3.3:latest"))
