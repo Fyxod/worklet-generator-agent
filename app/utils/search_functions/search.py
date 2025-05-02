@@ -9,35 +9,9 @@ import time
 start_time = time.time()
 
 def search(queries: list, max_results: int = 5, word_limit: int = 150):
-    """
-    Perform a search using multiple search engines, process the results, and save the output.
-    Args:
-        queries (list): A list of search queries to execute.
-        max_results (int, optional): The maximum number of results to fetch for each query. Defaults to 5.
-        word_limit (int, optional): The maximum number of words to extract from the content of each result. Defaults to 150.
-    Returns:
-        list: A list of dictionaries containing the search query and its corresponding processed search results.
-              Each dictionary has the following structure:
-              {
-                  "search_query": <query>,
-                  "search_results": [
-                      {
-                          "page_title": <title of the page>,
-                          "page_body": <processed content of the page>
-                      },
-                      ...
-    Notes:
-        - The function uses Google and DuckDuckGo as search engines.
-        - Results are processed in parallel using a thread pool to extract content from links.
-        - Processed results are grouped by search query and saved to a JSON file named "search_results_processed.json".
-    Exceptions:
-        - Logs errors encountered during search engine queries, content extraction, and file writing.
-        - Returns an empty list if an unexpected error occurs during the entire process.
-    """
-    
-    
     try:
         results = []
+
         # Fetch search results
         for query in queries:
             try:
@@ -45,6 +19,8 @@ def search(queries: list, max_results: int = 5, word_limit: int = 150):
                 if success:
                     results.extend(result)
                     continue
+                else:
+                    print(f"Google search failed for query: {query}. Trying DuckDuckGo.")
             except Exception as e:
                 print(f"Google search failed for query: {query}. Error: {e}")
 
@@ -52,9 +28,20 @@ def search(queries: list, max_results: int = 5, word_limit: int = 150):
                 duck_results = fetch_duckduckgo_results(query=query, max_results=max_results)
                 if duck_results:
                     results.extend(duck_results)
+                else:
+                    print(f"DuckDuckGo search failed for query: {query}.")
             except Exception as e:
                 print(f"DuckDuckGo search failed for query: {query}. Error: {e}")
-                
+
+        print(f"Total results from all searches: {len(results)}")
+
+        # Save raw results
+        try:
+            with open("search_results_unprocessed.json", "w") as f:
+                json.dump(results, f, indent=4)
+        except Exception as e:
+            print(f"Failed to write results to file. Error: {e}")
+
         # Parallel processing of all entries
         def process_entry(entry):
             try:
@@ -102,27 +89,11 @@ def search(queries: list, max_results: int = 5, word_limit: int = 150):
         return final_output
 
     except Exception as e:
+        print(f"An error occurred in the search function. Error: {e}")
         return []
 
 
 def search_references(keyword: str, max_results: int = 10):
-    """
-    Searches for references using multiple search engines and returns the results.
-    This function attempts to fetch search results from Google and DuckDuckGo
-    for the given keyword. If both searches fail, it returns an empty list.
-    Optionally, the results can be saved to a JSON file.
-    Args:
-        keyword (str): The search keyword to query.
-        max_results (int, optional): The maximum number of results to fetch. Defaults to 10.
-    Returns:
-        list: A list of search results. If no results are found or an error occurs, 
-              an empty list is returned.
-    Notes:
-        - If the Google search fails, it attempts to fetch results from DuckDuckGo.
-        - If both searches fail, the function returns an empty list.
-        - Results are optionally saved to a JSON file named "search_results_references_extra.json".
-    """
-    
     try:
         results = []
         try:
@@ -130,18 +101,43 @@ def search_references(keyword: str, max_results: int = 10):
             if success:
                 results.extend(result)
                 return results
+            else:
+                print(f"Google search failed for keyword: {keyword}. Trying DuckDuckGo.")
         except Exception as e:
             print(f"Google search failed for keyword: {keyword}. Error: {e}")
+
         try:
             duck_results = fetch_duckduckgo_references(query=keyword, max_results=max_results)
             if duck_results:
                 results.extend(duck_results)
                 return results
+            else:
+                print(f"DuckDuckGo search failed for keyword: {keyword}.")
         except Exception as e:
+            print(f"DuckDuckGo search failed for keyword: {keyword}. Error: {e}")
             return results
         with open("search_results_references_extra.json", "w") as f:
             json.dump(results, f, indent=4)
+        print(results)
         return results
 
     except Exception as e:
+        print(f"An error occurred in the search function. Error: {e}")
         return []
+
+
+# search_references("scene text recognition", max_results=5)
+
+
+queries = [
+    "recent advancements in scene text recognition 2024-2025",
+    "benchmark datasets for scene text recognition beyond ICDAR",
+    "on-device AI optimization techniques for scene text recognition models",
+    "transformer architectures for scene text recognition - latest research",
+    "Generative AI applications for synthetic data generation in scene text recognition",
+]
+
+# search(queries)
+
+# end_time = time.time()
+# print(f"Execution time: {end_time - start_time:.2f} seconds")
