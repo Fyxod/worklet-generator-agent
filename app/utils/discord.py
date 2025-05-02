@@ -23,5 +23,3 @@ def notify_discord_on_error(message: str, error: Exception):
             print(f"Failed to send webhook: {response.status_code} - {response.text}")
     except Exception as e:
         print(f"Failed to send error to Discord: {e}")
-
-notify_discord_on_error("")
