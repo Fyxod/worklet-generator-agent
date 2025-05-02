@@ -18,6 +18,11 @@
       padding: 40px 20px;
       color: #e2e8f0;
     }
+    input[type="file"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
     .container {
       background: #1e293b;
       padding: 30px;
@@ -153,22 +158,33 @@
 <body>
 <div class="container">
   <h1>Worklet Generator Agent</h1>
-
+  <!-- "gemma3:27b",
+  "gemma3:27b-8k",
+  "gemma3:27b-15k",
+  "gemma3:27b-45k",
+  'gemma3:27b-90k-8k',
+  "gemma3:27b-128k-8k" -->
   <form id="worklet-form">
-    <label>Upload Files (PDF, DOCX, PPT, TXT, Images) (Max 100MB each):</label>
-    <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,image/*">
-    <div class="file-list" id="file-list"></div>
-
     <label>Select Model:</label>
     <select id="model-select" name="model" required>
       <option value="gemma3:27b">Gemma 3 (27B)</option>
+      <option value="gemma3:27b-8k">Gemma 3 (27B) - 8k</option>
+      <option value="gemma3:27b-15k">Gemma 3 (27B) - 15k</option>
+      <option value="gemma3:27b-45k">Gemma 3 (27B) - 45k</option>
+      <option value="gemma3:27b-90k-8k">Gemma 3 (27B) - 90k - 8k</option>
+      <option value="gemma3:27b-128k-8k">Gemma 3 (27B) - 128k - 8k</option>
       <option value="gemini-flash-2.0">Gemini Flash 2.0</option>
     </select>
+
+    <label>Upload Files (PDF, DOCX, PPT, TXT, Images) (Max 100MB each):</label>
+    <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,image/*">
+    <div class="file-list" id="file-list"></div>
 
     <label>Add Links:</label>
     <div id="link-fields" class="link-list">
       <div><input type="url" name="links[]" placeholder="Enter link"><button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button></div>
     </div>
+
     <button type="button" class="add-link-btn" onclick="addLinkField()">Add Another Link</button>
 
     <button type="submit" class="generate-btn">Generate Worklets</button>

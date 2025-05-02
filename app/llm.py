@@ -21,10 +21,12 @@ llm2 = ChatGoogleGenerativeAI(
 
 ollama_models = [
     "gemma3:27b",
-    "deepseek-r1:70b",
-    "llama3.3:latest",
-    "command-a:latest",
-    "llama3.3:70b-instruct-fp16"
+    "gemma3:27b-8k",
+    "gemma3:27b-15k",
+    "gemma3:27b-45k",
+    'gemma3:27b-90k-8k',
+    "gemma3:27b-128k-8k"
+    
 ]
 
 

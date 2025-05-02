@@ -74,6 +74,7 @@ async def upload_multiple(
     links: Annotated[str, Form()],  # expecting JSON string from frontend
     files: Annotated[list[UploadFile], File()] = None,
 ):
+    start_time = time.time()
     saved_files = []
     extracted_data_all = {}
 
@@ -189,7 +190,9 @@ async def upload_multiple(
         })
 
         await sio.emit("pdf_generated", {"file_name": filename}, to=sid)
-
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    await sio.emit("progress", {"message": f"{elapsed_time}"}, to=sid)
     await asyncio.sleep(1)
     return response
 
