@@ -4,9 +4,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 import os
 import re
-from app.utils.reference_functions.reference_sort import inplace_sort, scholar_sort,index_sort
-from app.socket import sio
-# from reference_functions.reference_sort import Inplace_sort 
+from app.utils.reference_functions.reference_sort import index_sort
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
@@ -17,15 +15,20 @@ pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 CUSTOM_PAGE_SIZE = (750,900)  # Width x Height in points (1 point = 1/72 inch)
 
 def pre_processing(json, index):
+    """
+    Pre-processes the given JSON data by sorting it based on a specified model and index.
+    Args:
+        json (dict): The JSON data to be processed.
+        index (int): The index used for sorting the JSON data.
+    Returns:
+        dict: The sorted JSON data.
+    """
     model ="gemma3:27b"
     print("\n")
     json=index_sort(json,model, index)
     return json
 
 def generatePdf(json, model, index):
-    print("\n")
-    print("----"*25+"Inside generate pdf"+"----"*25)
-    print("\n")
     pre_processing(json, index)
     safe_title =sanitize_filename(json['Title'])
     filename = os.path.join(pdf_path, f"{safe_title}.pdf")
@@ -88,11 +91,6 @@ def generatePdf(json, model, index):
 
     frame.addFromList(elements, pdf)
     pdf.save()
-    print("\n")
-    print(f"PDF generated: {filename}")
-    print("\n")
-    print("\n")
-
 
 def sanitize_filename(filename):
     return re.sub(r'[\/:*?"<>|]', '_', filename)
