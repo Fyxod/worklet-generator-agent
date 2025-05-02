@@ -9,7 +9,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
 UPLOAD_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
-print(UPLOAD_DIR)
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 CUSTOM_PAGE_SIZE = (750,900)  # Width x Height in points (1 point = 1/72 inch)
@@ -24,7 +23,6 @@ def pre_processing(json, index):
         dict: The sorted JSON data.
     """
     model ="gemma3:27b"
-    print("\n")
     json=index_sort(json,model, index)
     return json
 
@@ -85,7 +83,6 @@ def generatePdf(json, model, index):
         elements.append(Paragraph("<b>Reference Work:</b>", normal_style))
         for idx, ref in enumerate(json['Reference Work']):
             if isinstance(ref, dict) and 'Title' in ref and 'Link' in ref:
-                print(idx, " -------------------------------------------------- ", ref)
                 link_paragraph = f'<a href="{ref["Link"]}">{ref["Title"]}</a>'
                 elements.append(Paragraph(link_paragraph, bullet_style))
 
