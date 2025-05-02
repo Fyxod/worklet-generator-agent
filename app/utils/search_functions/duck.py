@@ -36,7 +36,7 @@ def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int 
                         })
                 print(f"Results for '{query}': {len(arr)}")
                 print(f"Duckduckgo Total results: {len(arr)}")
-                return arr  # Successful response
+                return arr 
             else:
                 print(f"No results found. Retrying in {delay_after_req} seconds...")
                 time.sleep(delay_after_req)
