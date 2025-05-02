@@ -83,20 +83,31 @@ async def upload_multiple(
     files: Annotated[list[UploadFile], File()] = None,
 ):
     """
-    The main function that handles the upload of multiple files and links, processes them, and generates worklets.
-
+    The main function of this agent that handles the upload of multiple files and links, processes the data, generates worklets, 
+    fetches references, and creates PDFs.
     Args:
-        model (str): The model name for processing.
-        sid (str): The session ID for socket communication.
-        links (str): JSON string containing links to process.
-        files (list[UploadFile], optional): List of uploaded files.
-
+        model (str): The model type, provided as a query parameter.
+        sid (str): The session ID, provided as a form parameter.
+        links (str): A JSON string containing links, provided as a form parameter.
+        files (list[UploadFile], optional): A list of uploaded files, provided as form data.
     Returns:
-        dict: A response containing the generated files.
+        dict: A dictionary containing the generated PDF file names.
+    Workflow:
+    1. Saves uploaded files to the server.
+    2. Extracts data from the uploaded files concurrently.
+    3. Processes the provided links to extract data.
+    4. Generates worklets based on the extracted data and links.
+    5. Moves previously generated files to a backup directory.
+    6. Fetches references for each generated worklet.
+    7. Saves the latest generated worklets to a JSON file.
+    8. Generates PDFs for each worklet and returns the file names.
+    Raises:
+        json.JSONDecodeError: If the `links` parameter is not a valid JSON string.
+        Exception: If an error occurs during PDF generation or other processing steps.
     """
+
     saved_files = []
     extracted_data_all = {}
-
 
     # 1. Save uploaded files
     if files:
