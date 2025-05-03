@@ -72,8 +72,11 @@ async def upload_multiple(
     model: Annotated[str, Query()],
     sid: Annotated[str, Form()],
     links: Annotated[str, Form()],  # expecting JSON string from frontend
+    custom_prompt: Annotated[str, Form()],  # Optional custom prompt
+    custom_topics: Annotated[str, Form()],  # Optional custom topics as an array
     files: Annotated[list[UploadFile], File()] = None,
 ):
+    parsed_custom_topics = json.loads(custom_topics) if custom_topics else []
     start_time = time.time()
     saved_files = []
     extracted_data_all = {}
@@ -105,6 +108,7 @@ async def upload_multiple(
     else:
         print("No files uploaded")
 
+    print("Extracted data:", extracted_data_all)
     # 3. Handle links
     linksData = {}
     try:
@@ -126,7 +130,7 @@ async def upload_multiple(
 
     # 4. generating worklets here
     await sio.emit("progress", {"message": "Generating worklets..."}, to=sid)
-    worklets = await generate_worklets(extracted_data_all, linksData, model, sid)
+    worklets = await generate_worklets(extracted_data_all, linksData, model, sid, custom_prompt, parsed_custom_topics)
 
     
     # loop = asyncio.get_running_loop()

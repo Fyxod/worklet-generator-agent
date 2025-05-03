@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 executor = ThreadPoolExecutor(max_workers=5)
 
-async def generate_worklets(worklet_data, linksData, model, sid):
+async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, custom_topics):
     count = 6
     count_string = "six"
     if model == "gemini-flash-2.0":

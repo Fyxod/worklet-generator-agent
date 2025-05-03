@@ -6,7 +6,7 @@
   <title>Worklet Generator Agent</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
-  <style>
+  <!-- <style>
     body {
       font-family: 'Inter', sans-serif;
       background: #0f172a;
@@ -152,7 +152,154 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-  </style>
+  </style> -->
+  <style>
+        body {
+          font-family: 'Inter', sans-serif;
+          background: #0f172a;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          min-height: 100vh;
+          margin: 0;
+          padding: 40px 20px;
+          color: #e2e8f0;
+        }
+        input[type="file"] {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+        .container {
+          background: #1e293b;
+          padding: 30px;
+          border-radius: 16px;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+          width: 100%;
+          max-width: 700px;
+          animation: fadeSlideIn 1s ease;
+        }
+        h1 {
+          text-align: center;
+          font-weight: 700;
+          font-size: 2rem;
+          margin-bottom: 30px;
+          color: #f1f5f9;
+        }
+        label {
+          font-weight: 600;
+          margin-top: 20px;
+          display: block;
+          color: #cbd5e1;
+        }
+        input[type="file"], select, input[type="url"] {
+          width: 100%;
+          margin-top: 8px;
+          padding: 10px;
+          background: #334155;
+          border: 1px solid #475569;
+          border-radius: 8px;
+          font-size: 1rem;
+          color: #f1f5f9;
+        }
+        .file-list div, .link-list div {
+          background: #334155;
+          margin-top: 10px;
+          padding: 10px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+        }
+        .file-list button, .link-list button, button[type="submit"], .add-link-btn, .clear-btn {
+          background-color: #6366f1;
+          color: white;
+          border: none;
+          padding: 8px 14px;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+        button:hover {
+          background-color: #4f46e5;
+        }
+        .generate-btn {
+          background-color: #10b981;
+          padding: 14px 24px;
+          font-size: 1.1rem;
+          margin-top: 20px;
+          width: 100%;
+          display: block;
+          border-radius: 12px;
+          transition: background-color 0.3s;
+        }
+        .generate-btn:hover {
+          background-color: #059669;
+        }
+        .loading {
+          margin-top: 20px;
+          text-align: center;
+          color: #6366f1;
+          font-weight: 600;
+        }
+        .progress-container {
+          background: #334155;
+          border-radius: 8px;
+          overflow: hidden;
+          margin-top: 10px;
+          height: 16px;
+        }
+        .progress-bar {
+          background: #4f46e5;
+          height: 100%;
+          width: 0%;
+          transition: width 0.4s ease;
+        }
+        .download-list a {
+          display: block;
+          margin-top: 10px;
+          text-decoration: none;
+          color: #60a5fa;
+          font-weight: 600;
+          transition: color 0.2s, transform 0.3s;
+        }
+        .download-list a:hover {
+          color: #3b82f6;
+          transform: translateY(-2px);
+        }
+        .remove-link-btn {
+          background-color: #f87171;
+        }
+        .remove-link-btn:hover {
+          background-color: #ef4444;
+        }
+            .progress-message {
+          margin-top: 10px;
+          text-align: center;
+          font-weight: 600;
+          color: #38bdf8;
+          animation: fadeIn 0.6s ease forwards;
+        }
+        .clear-btn {
+          background-color: #facc15;
+          color: #1e293b;
+          margin-top: 20px;
+          width: 100%;
+        }
+        .clear-btn:hover {
+          background-color: #eab308;
+        }
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      </style>
 </head>
 
 <body>
@@ -175,17 +322,44 @@
       <option value="gemma3:27b-128k-8k">Gemma 3 (27B) - 128k - 8k</option>
       <option value="gemini-flash-2.0">Gemini Flash 2.0</option>
     </select>
-
     <label>Upload Files (PDF, DOCX, PPT, TXT, Images) (Max 100MB each):</label>
     <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,image/*">
     <div class="file-list" id="file-list"></div>
 
-    <label>Add Links:</label>
+    <!-- Place this inside <form id="worklet-form">, below the upload section -->
+<!-- Custom Prompt Section -->
+<label for="custom-prompt">Custom Prompt:</label>
+<textarea id="custom-prompt" name="custom_prompt" rows="3" placeholder="Enter a custom prompt..." style="width: 100%; padding: 10px; background: #334155; border: 1px solid #475569; border-radius: 8px; color: #f1f5f9;"></textarea>
+
+<!-- Domain Keywords Section -->
+<label>Domains (Optional):</label>
+<div id="keywords-container" class="keywords-container" style="background: #334155; border: 1px solid #475569; padding: 10px; border-radius: 8px; min-height: 42px; display: flex; flex-wrap: wrap; gap: 8px;">
+  <!-- <span id="placeholder" style="color: #94a3b8;">Default: All domains</span> -->
+  <input type="text" id="keyword-input" placeholder="Default: All domains" style="border: none; background: transparent; color: #f1f5f9; outline: none; flex-grow: 1; min-width: 100px;">
+</div>
+<div id="keyword-suggestions" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px;"></div>
+
+<input type="hidden" name="custom_topics" id="keywords-hidden">
+
+
+    <!-- <label>Add Links:</label>
     <div id="link-fields" class="link-list">
       <div><input type="url" name="links[]" placeholder="Enter link"><button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button></div>
     </div>
 
-    <button type="button" class="add-link-btn" onclick="addLinkField()">Add Another Link</button>
+    <button type="button" class="add-link-btn" onclick="addLinkField()">Add Another Link</button> -->
+
+    <label>Add Links:</label>
+    <div id="link-fields" class="link-list">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <input type="url" name="links[]" placeholder="Enter link" style="flex-grow: 1;">
+        <button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button>
+      </div>
+    </div>
+
+    <button type="button" class="add-link-btn" onclick="addLinkField()" style="padding: 6px 10px; font-size: 0.85rem; margin-top: 5px;">Add Another Link</button>
+
+
 
     <button type="submit" class="generate-btn">Generate Worklets</button>
     <button type="button" class="clear-btn" onclick="clearAll()">Clear Files & Links</button>
@@ -199,6 +373,8 @@
 
   <div class="download-list" id="download-list"></div>
 </div>
+
+
 
 <script>
   const fileInput = document.getElementById('file-input');
@@ -417,6 +593,11 @@
     totalWorklets = 6;
 
     try {
+
+      const customPrompt = document.getElementById('custom-prompt')?.value || "";
+formData.append('custom_prompt', customPrompt);
+
+formData.append('custom_topics', JSON.stringify(selectedKeywords));
       const response = await fetch(`/upload?model=${encodeURIComponent(model)}`, {
         method: 'POST',
         body: formData
@@ -492,6 +673,88 @@ downloadAll.addEventListener('click', async () => {
       alert('An error occurred while generating worklets.');
     }
   });
+
+  const keywordInput = document.getElementById("keyword-input");
+const keywordsContainer = document.getElementById("keywords-container");
+const suggestionsBox = document.getElementById("keyword-suggestions");
+const keywordsHiddenInput = document.getElementById("keywords-hidden");
+const placeholder = document.getElementById("placeholder");
+
+let selectedKeywords = [];
+
+const predefinedKeywords = ["Generative AI", "Vision AI", "Voice AI", "On-device AI", "Classical ML", "IoT"];
+
+function renderKeywords() {
+  // Remove existing keyword tags
+  keywordsContainer.querySelectorAll(".keyword-tag").forEach(tag => tag.remove());
+
+  selectedKeywords.forEach((keyword, index) => {
+    const tag = document.createElement("div");
+    tag.className = "keyword-tag";
+    tag.textContent = keyword;
+    tag.style.cssText = `
+      background-color: #6366f1;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    `;
+
+    const close = document.createElement("span");
+    close.textContent = "✖";
+    close.style.cursor = "pointer";
+    close.onclick = () => {
+      selectedKeywords.splice(index, 1);
+      renderKeywords();
+    };
+
+    tag.appendChild(close);
+    keywordsContainer.insertBefore(tag, keywordInput);
+  });
+
+  // Hide or show placeholder
+  placeholder.style.display = selectedKeywords.length ? "none" : "inline";
+
+  // Update hidden input
+  keywordsHiddenInput.value = JSON.stringify(selectedKeywords);
+}
+
+keywordInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && keywordInput.value.trim()) {
+    e.preventDefault();
+    const val = keywordInput.value.trim();
+    if (!selectedKeywords.includes(val)) {
+      selectedKeywords.push(val);
+      renderKeywords();
+    }
+    keywordInput.value = "";
+  }
+});
+
+predefinedKeywords.forEach(kw => {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.textContent = kw;
+  btn.style.cssText = `
+    background-color: #475569;
+    color: #f1f5f9;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  `;
+  btn.onclick = () => {
+    if (!selectedKeywords.includes(kw)) {
+      selectedKeywords.push(kw);
+      renderKeywords();
+    }
+  };
+  suggestionsBox.appendChild(btn);
+});
+
 </script>
 
 
