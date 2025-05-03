@@ -53,7 +53,7 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
         await sio.emit("progress", {"message": "Searching the web..."}, to=sid)
 
         try:
-            s = await loop.run_in_executor(executor, search, extracted_worklets["search"], 6)
+            s = await loop.run_in_executor(executor, search, extracted_worklets["search"], 10)
         except Exception as e:
             print("Error in web search:", e)
             await sio.emit("error", {"message": "ERROR: Web search failed. Please try again."}, to=sid)
@@ -73,7 +73,8 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
             custom_topics=custom_topics,
             count_string=count_string,
         )
-
+        print("\n\n","--------this is the biggest prompt------"*10,"\n\n",prompt)
+        
         try:
             generated_worklets = await invoke_llm(prompt, model)
         except Exception as e:

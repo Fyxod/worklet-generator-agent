@@ -8,7 +8,7 @@ import time
 
 start_time = time.time()
 
-def search(queries: list, max_results: int = 5, word_limit: int = 150):
+def search(queries: list, max_results: int = 5, word_limit: int = 300):
     try:
         results = []
 

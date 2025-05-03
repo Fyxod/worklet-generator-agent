@@ -4,13 +4,13 @@ import json
 from dotenv import load_dotenv
 load_dotenv()
 api_keys = [
-    os.getenv("GOOGLE_API_KEY1"),
     os.getenv("GOOGLE_API_KEY2"),
+    os.getenv("GOOGLE_API_KEY1"),
 ]
 
 search_engine_ids = [
-    os.getenv("SEARCH_ENGINE_ID1"),
     os.getenv("SEARCH_ENGINE_ID2"),
+    os.getenv("SEARCH_ENGINE_ID1"),
 ]
 
 api_key_ref = os.getenv("GOOGLE_API_KEY_ref")
@@ -19,7 +19,7 @@ search_engine_id_ref = os.getenv("SEARCH_ENGINE_ID_ref")
 
 url = 'https://www.googleapis.com/customsearch/v1'
 
-def google_search(query, max_results=5):
+def google_search(query, max_results=10):
     arr = []
 
     for api_key, cx in zip(api_keys, search_engine_ids):
