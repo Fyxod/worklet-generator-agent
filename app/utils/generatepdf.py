@@ -17,8 +17,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
 CUSTOM_PAGE_SIZE = (750,900)  # Width x Height in points (1 point = 1/72 inch)
 
-async def pre_processing(json_data, index):
-    model = "gemma3:27b"
+async def pre_processing(json_data, index, model="gemma3:27b"):
     print("\n")
     json_data = await index_sort(json_data, model, index)
     return json_data
@@ -98,7 +97,7 @@ async def generatePdf(json, model, index):
     print("----" * 25 + "Inside generate pdf" + "----" * 25)
     print("\n")
 
-    json_data = await pre_processing(json, index)  # Assuming pre_processing is async
+    json_data = await pre_processing(json, index, model)  # Assuming pre_processing is async
     safe_title = sanitize_filename(json['Title'])
     filename = os.path.join(pdf_path, f"{safe_title}.pdf")
 
