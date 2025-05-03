@@ -299,6 +299,13 @@
           from { opacity: 0; }
           to { opacity: 1; }
         }
+        #custom-prompt::placeholder {
+    color: #ffffff;
+    opacity: 1; /* Optional: ensures full visibility */
+    /* font-style: italic; Optional: makes it italic */
+    /* font-weight: 400; Optional: makes it normal weight */
+    /* font-size: large; */
+  }
       </style>
 </head>
 
@@ -328,18 +335,18 @@
 
     <!-- Place this inside <form id="worklet-form">, below the upload section -->
 <!-- Custom Prompt Section -->
-<label for="custom-prompt">Custom Prompt:</label>
-<textarea id="custom-prompt" name="custom_prompt" rows="3" placeholder="Enter a custom prompt..." style="width: 100%; padding: 10px; background: #334155; border: 1px solid #475569; border-radius: 8px; color: #f1f5f9;"></textarea>
+    <label for="custom-prompt">Custom Prompt:</label>
+    <textarea id="custom-prompt" name="custom_prompt" rows="3" placeholder="Enter a custom prompt..." style="width: 100%; padding: 10px; background: #334155; border: 1px solid #475569; border-radius: 8px; color: #f1f5f9;"></textarea>
 
-<!-- Domain Keywords Section -->
-<label>Domains (Optional):</label>
-<div id="keywords-container" class="keywords-container" style="background: #334155; border: 1px solid #475569; padding: 10px; border-radius: 8px; min-height: 42px; display: flex; flex-wrap: wrap; gap: 8px;">
-  <!-- <span id="placeholder" style="color: #94a3b8;">Default: All domains</span> -->
-  <input type="text" id="keyword-input" placeholder="Default: All domains" style="border: none; background: transparent; color: #f1f5f9; outline: none; flex-grow: 1; min-width: 100px;">
-</div>
-<div id="keyword-suggestions" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px;"></div>
+    <!-- Domain Keywords Section -->
+    <label>Domains (Optional):</label>
+    <div id="keywords-container" class="keywords-container" style="background: #334155; border: 1px solid #475569; padding: 10px; border-radius: 8px; min-height: 42px; display: flex; flex-wrap: wrap; gap: 8px;">
+      <!-- <span id="placeholder" style="color: #94a3b8;">Default: All domains</span> -->
+    <input type="text" id="keyword-input" placeholder="Default: All domains" style="border: none; background: transparent; color: #f1f5f9; outline: none; flex-grow: 1; min-width: 100px;">
+    </div>
+    <div id="keyword-suggestions" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px;"></div>
 
-<input type="hidden" name="custom_topics" id="keywords-hidden">
+    <input type="hidden" name="custom_topics" id="keywords-hidden">
 
 
     <!-- <label>Add Links:</label>
@@ -417,7 +424,18 @@
     selectedFiles.forEach((item, index) => {
       const wrapper = document.createElement('div');
       const fileLabel = document.createElement('div');
-      fileLabel.textContent = item.name + ' (' + Math.round(item.size/1024/1024) + ' MB)';
+      let sizeInKB = item.size / 1024;
+      let sizeText;
+
+      if (sizeInKB < 1024) {
+          sizeText = sizeInKB.toFixed(1) + ' KB';
+      } else {
+          let sizeInMB = sizeInKB / 1024;
+          sizeText = sizeInMB.toFixed(1) + ' MB';
+      }
+
+      fileLabel.textContent = item.name + ' (' + sizeText + ')';
+
 
       const removeButton = document.createElement('button');
       removeButton.type = 'button';
@@ -563,10 +581,11 @@
     linkInputs.forEach(input => {
       if (input.value.trim()) links.push(input.value.trim());
     });
-
-  if (selectedFiles.length === 0 && links.length === 0) {
-    alert('Please upload at least one file or enter at least one link.');
-    return; // Stop form submission
+    
+    const customPrompt = document.getElementById('custom-prompt')?.value || "";
+  if (selectedFiles.length === 0 && links.length === 0 && !customPrompt) {
+    alert('Please upload at least one file or enter at least one link or a custom prompt.');
+    return;
   }
 
     const formData = new FormData();
@@ -581,7 +600,7 @@
     const model = document.getElementById('model-select').value;
 
     formData.append('links', JSON.stringify(links));
-    formData.append('sid', socket.id); // Add the socket ID to the form data
+    formData.append('sid', socket.id);
 
     loading.style.display = 'block';
     progressContainer.style.display = 'block';
@@ -594,7 +613,6 @@
 
     try {
 
-      const customPrompt = document.getElementById('custom-prompt')?.value || "";
 formData.append('custom_prompt', customPrompt);
 
 formData.append('custom_topics', JSON.stringify(selectedKeywords));
