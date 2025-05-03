@@ -573,6 +573,8 @@
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    progressBar.style.width = '0%';
+    loading.style.display = 'none';
     errorOccurred = false; // reset before sending
     generatedCount = 0; // reset count before sending
 
@@ -696,7 +698,7 @@ downloadAll.addEventListener('click', async () => {
 const keywordsContainer = document.getElementById("keywords-container");
 const suggestionsBox = document.getElementById("keyword-suggestions");
 const keywordsHiddenInput = document.getElementById("keywords-hidden");
-const placeholder = document.getElementById("placeholder");
+// const placeholder = document.getElementById("placeholder");
 
 let selectedKeywords = [];
 
@@ -725,15 +727,28 @@ function renderKeywords() {
     close.style.cursor = "pointer";
     close.onclick = () => {
       selectedKeywords.splice(index, 1);
+
+      const temp = document.getElementById("keyword-input");
+      if(selectedKeywords.length > 0) {
+        temp.placeholder = "Add more keywords...";
+    } else {
+        temp.placeholder = "Default: All domains";
+    }
+
       renderKeywords();
     };
+    if(selectedKeywords.length > 0) {
+      keywordInput.placeholder = "Add more keywords...";
+    } else {
+      keywordInput.placeholder = "Default: All domains";
+    }
 
     tag.appendChild(close);
     keywordsContainer.insertBefore(tag, keywordInput);
   });
 
   // Hide or show placeholder
-  placeholder.style.display = selectedKeywords.length ? "none" : "inline";
+  // placeholder.style.display = selectedKeywords.length ? "none" : "inline";
 
   // Update hidden input
   keywordsHiddenInput.value = JSON.stringify(selectedKeywords);
@@ -747,6 +762,13 @@ keywordInput.addEventListener("keydown", (e) => {
       selectedKeywords.push(val);
       renderKeywords();
     }
+    console.log("lenth ", selectedKeywords.length)
+    if(selectedKeywords.length > 0) {
+      keywordInput.placeholder = "Add more keywords...";
+    } else {
+      keywordInput.placeholder = "Default: All domains";
+    }
+    console.log("but it did")
     keywordInput.value = "";
   }
 });
