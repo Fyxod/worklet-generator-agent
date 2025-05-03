@@ -15,19 +15,24 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
     if model == "gemini-flash-2.0":
         count = 5
         count_string = "five"
-
+    if not custom_topics:
+        custom_topics = "Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT. Cross-domain intersections are encouraged"
+    if not custom_prompt:
+        custom_prompt = " no custon prompt was provide by user please continue"
     prompt_template = worklet_gen_prompt()
     prompt = prompt_template.format(
-        worklet_data=worklet_data, 
-        linksData=linksData, 
-        count=count, 
-        count_string=count_string
+        worklet_data=worklet_data,
+        linksData=linksData,
+        count=count,
+        custom_prompt=custom_prompt,
+        custom_topics=custom_topics,
+        count_string=count_string,
     )
 
     loop = asyncio.get_running_loop()
 
     try:
-         generated_worklets = await invoke_llm(prompt, model)
+        generated_worklets = await invoke_llm(prompt, model)
     except Exception as e:
         print("Error in generating worklets:", e)
         await sio.emit("error", {"message": "ERROR: LLM is not responding. Please try again."}, to=sid)
@@ -55,12 +60,18 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
             return
 
         await sio.emit("progress", {"message": "Generating worklets with web search results..."}, to=sid)
-
+        if not custom_topics:
+            custom_topics = "Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT. Cross-domain intersections are encouraged"
+        if not custom_prompt:
+            custom_prompt = " no custon prompt was provide by user please continue"
         prompt = worklet_gen_prompt_with_web_searches(
             json=s,
-            count_string=count_string,
+            worklet_data=worklet_data,
+            linksData=linksData,
             count=count,
-            context=extracted_worklets.get("current_context", "")
+            custom_prompt=custom_prompt,
+            custom_topics=custom_topics,
+            count_string=count_string,
         )
 
         try:
