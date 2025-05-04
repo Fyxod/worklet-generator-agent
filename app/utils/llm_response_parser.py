@@ -1,30 +1,24 @@
 import json
 
-def extract_json_from_llm_response(llm_response):
-    """
-    Extracts and converts a JSON-like response from an LLM into a valid JSON object.
+def extract_and_parse_first_dict(raw_text):
+    stack = []
+    start_idx = None
+    # Clean up markdown-style formatting if it exists
+    cleaned_text = raw_text.replace("```json", "").replace("```", "").strip()
 
-    :param llm_response: A string with the JSON wrapped in backticks.
-    :return: Parsed JSON object (dictionary)
-    """
+    for i, char in enumerate(cleaned_text):
+        if char == '{':
+            if not stack:
+                start_idx = i
+            stack.append('{')
+        elif char == '}':
+            if stack:
+                stack.pop()
+                if not stack:
+                    dict_str = cleaned_text[start_idx:i+1]
+                    try:
+                        return json.loads(dict_str)
+                    except json.JSONDecodeError as e:
+                        raise ValueError(f"Found candidate but failed to parse JSON: {e}")
     
-    raw_json_string = llm_response
-     
-     
-     
-    print( " \ninput to extractor below------------- "*2,"\n" )
-    print(raw_json_string)
-    # Remove backticks and "json" keyword if present
-    cleaned_json_string = raw_json_string.replace("```json", "").replace("```", "").strip()
-    print(cleaned_json_string)
-    print("\n","try---"*10,"\n")
-    
-    try:
-        print("\n inside try"*5)
-        parsed_json = json.loads(cleaned_json_string)
-        print("\n","returning this ---"*10,"\n")
-        print(parsed_json)
-        return parsed_json
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Failed to parse JSON: {e}")
-
+    raise ValueError("No valid JSON dictionary found in input.")

@@ -1,4 +1,4 @@
-from app.utils.llm_response_parser import extract_json_from_llm_response
+from app.utils.llm_response_parser import extract_and_parse_first_dict
 from app.llm import invoke_llm
 from app.utils.prompt_templates import worklet_gen_prompt,worklet_gen_prompt_with_web_searches   # all the prompts used in this projects were moved to prompt_templates
 from app.socket import sio
@@ -39,7 +39,7 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
         return
 
     try:
-        extracted_worklets = extract_json_from_llm_response(generated_worklets)
+        extracted_worklets = extract_and_parse_first_dict(generated_worklets)
     except Exception as e:
         print("Error in extracting worklets:", e)
         await sio.emit("error", {"message": "ERROR: Wrong output returned by LLM. Please try again."}, to=sid)
@@ -74,7 +74,7 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
             count_string=count_string,
         )
         print("\n\n","--------this is the biggest prompt------"*10,"\n\n",prompt)
-        
+
         try:
             generated_worklets = await invoke_llm(prompt, model)
         except Exception as e:
@@ -83,7 +83,7 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
             return
 
         try:
-            extracted_worklets = extract_json_from_llm_response(generated_worklets)
+            extracted_worklets = extract_and_parse_first_dict(generated_worklets)
         except Exception as e:
             print("Error in extracting worklets (with web):", e)
             await sio.emit("error", {"message": "ERROR: Wrong output from LLM after web search. Please try again."}, to=sid)
