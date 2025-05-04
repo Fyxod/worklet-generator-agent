@@ -3,6 +3,7 @@ from app.llm import invoke_llm
 from app.utils.prompt_templates import worklet_gen_prompt,worklet_gen_prompt_with_web_searches   # all the prompts used in this projects were moved to prompt_templates
 from app.socket import sio
 from app.utils.search_functions.search import search 
+from app.socket import is_client_connected
 import asyncio
 
 from concurrent.futures import ThreadPoolExecutor
@@ -47,6 +48,10 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
 
     print("Extracted worklets:", extracted_worklets)
 
+    if not is_client_connected(sid):
+        print(f"Client {sid} is not connected. Skipping web search. Exiting...")
+        return
+    
     if extracted_worklets.get("websearch"):
         await sio.emit("progress", {"message": "LLM requested for web search..."}, to=sid)
         await asyncio.sleep(0.7)
@@ -74,6 +79,10 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
             count_string=count_string,
         )
         print("\n\n","--------this is the biggest prompt------"*10,"\n\n",prompt)
+
+        if not is_client_connected(sid):
+            print(f"Client {sid} is not connected. Skipping 2nd prompt generation. Exiting...")
+            return
         
         try:
             generated_worklets = await invoke_llm(prompt, model)
