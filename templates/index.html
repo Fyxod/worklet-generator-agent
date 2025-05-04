@@ -595,8 +595,10 @@
     e.preventDefault();
     progressBar.style.width = '0%';
     loading.style.display = 'none';
+    loading.textContent = ''
     errorOccurred = false; // reset before sending
     generatedCount = 0; // reset count before sending
+    receivedFiles = []; // reset received files
 
     const linkInputs = document.querySelectorAll('input[name="links[]"]');
     let links = [];
