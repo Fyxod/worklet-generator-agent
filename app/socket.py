@@ -1,6 +1,7 @@
 import socketio
 import asyncio
 
+active_connections = set()
 # Create the Socket.IO server
 # sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*")
 sio = socketio.AsyncServer(
@@ -16,6 +17,7 @@ heartbeat_tasks = {}
 @sio.event
 async def connect(sid, environ):
     print(f"Client {sid} connected")
+    active_connections.add(sid)
 
     async def send_heartbeat():
         try:
@@ -31,6 +33,7 @@ async def connect(sid, environ):
 @sio.event
 async def disconnect(sid):
     print(f"Client {sid} disconnected")
+    active_connections.discard(sid)
     # Stop heartbeat task when client disconnects
     task = heartbeat_tasks.pop(sid, None)
     if task:
@@ -39,3 +42,7 @@ async def disconnect(sid):
             await task
         except asyncio.CancelledError:
             pass
+
+def is_client_connected(sid):
+    """Check if a client is connected."""
+    return sid in active_connections

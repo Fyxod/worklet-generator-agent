@@ -40,7 +40,7 @@ def google_search(query, max_results=10):
         try:
             print(f"Searching Google with API key ending in {api_key[-4:]} and cx {cx}...")
             print("Starting search... for query: ", query)
-            response = requests.get(url, params=params)
+            response = requests.get(url, params=params, timeout=6)
             response.raise_for_status()
             results = response.json()
 

@@ -28,6 +28,7 @@ import time
 from app.socket import sio
 import zipfile
 import re
+from app.socket import is_client_connected
 
 class Query1(BaseModel):
     query: str
@@ -130,8 +131,16 @@ async def upload_multiple(
 
     # 4. generating worklets here
     await sio.emit("progress", {"message": "Generating worklets..."}, to=sid)
+    
+    if not is_client_connected(sid):
+        print(f"Client {sid} is not connected. Skipping worklet generation. Returning error.")
+        return {"error": "Client not connected."}
+    
     worklets = await generate_worklets(extracted_data_all, linksData, model, sid, custom_prompt, parsed_custom_topics)
 
+    if not is_client_connected(sid):
+        print(f"Client {sid} is not connected. Skipping fetching references. Returning error.")
+        return {"error": "Client not connected."}
     
     # loop = asyncio.get_running_loop()
     # worklets = await loop.run_in_executor(None, generate_worklets, extracted_data_all, linksData, model)
@@ -173,6 +182,10 @@ async def upload_multiple(
     # 8. Generate PDFs
     response = {"files": []}
 
+    if not is_client_connected(sid):
+        print(f"Client {sid} is not connected. Skipping PDF generation. Returning error.")
+        return {"error": "Client not connected."}
+
     await sio.emit("progress", {"message": "Generating PDFs..."}, to=sid)
     for index, worklet in enumerate(worklets):
         try:
@@ -194,6 +207,10 @@ async def upload_multiple(
         })
 
         await sio.emit("pdf_generated", {"file_name": filename}, to=sid)
+        if not is_client_connected(sid):
+            print(f"Client {sid} is not connected. Skipping next file. Returning error.")
+            return {"error": "Client not connected."}
+        
     end_time = time.time()
     elapsed_time = end_time - start_time
     await sio.emit("progress", {"message": f"{elapsed_time}"}, to=sid)
