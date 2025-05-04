@@ -169,7 +169,7 @@
       width: 100%;
       box-sizing: border-box;
     }
-    
+        
         .container {
           background: #1e293b;
           padding: 30px;
@@ -221,6 +221,25 @@
           font-size: 0.9rem;
           cursor: pointer;
           transition: background-color 0.3s;
+        }
+        .file-list div {
+          background: #334155;
+          margin-top: 10px;
+          padding: 10px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          overflow: hidden;
+        }
+
+        .file-name {
+          flex: 1;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: #f1f5f9;
         }
         button:hover {
           background-color: #4f46e5;
@@ -424,6 +443,7 @@
     selectedFiles.forEach((item, index) => {
       const wrapper = document.createElement('div');
       const fileLabel = document.createElement('div');
+      fileLabel.className = 'file-name';
       let sizeInKB = item.size / 1024;
       let sizeText;
 
