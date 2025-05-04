@@ -9,8 +9,6 @@ __pycache__/
 #ignoring pdf files
 *.pdf
 #poetry
-poetry.lock
-pyproject.toml
 resources
 *.jpg
 *.jpeg
