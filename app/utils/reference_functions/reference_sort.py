@@ -1,6 +1,6 @@
 from app.llm import invoke_llm
 from app.utils.prompt_templates import refrence_sort_template, index_sort_template
-from app.utils.llm_response_parser import extract_and_parse_first_dict
+from app.utils.llm_response_parser import extract_dicts_smart
 import json, os
 import ast
 
@@ -18,7 +18,7 @@ def inplace_sort(worklet,model, index):
     sorted_references = invoke_llm(prompt, model)
     filename = f"{index + 1}_Inplace_sort.json"
     path = os.path.join(output_directory, filename)
-    worklet["Reference Work"] = extract_and_parse_first_dict(sorted_references)
+    worklet["Reference Work"] = extract_dicts_smart(sorted_references)
     with open(path, "w") as file:
         json.dump(worklet["Reference Work"], file, indent=4)
     return worklet
