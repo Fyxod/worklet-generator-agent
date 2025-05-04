@@ -6,15 +6,15 @@ load_dotenv()
 api_keys = [
     os.getenv("GOOGLE_API_KEY3"),
     os.getenv("GOOGLE_API_KEY4"),
-    os.getenv("GOOGLE_API_KEY1"),
     os.getenv("GOOGLE_API_KEY2"),
+    os.getenv("GOOGLE_API_KEY1"),
 ]
 
 search_engine_ids = [
     os.getenv("SEARCH_ENGINE_ID3"),
     os.getenv("SEARCH_ENGINE_ID4"),
-    os.getenv("SEARCH_ENGINE_ID1"),
     os.getenv("SEARCH_ENGINE_ID2"),
+    os.getenv("SEARCH_ENGINE_ID1"),
 ]
 
 api_key_ref = os.getenv("GOOGLE_API_KEY_ref")
