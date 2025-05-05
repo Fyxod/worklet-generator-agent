@@ -41,8 +41,16 @@ def google_search(query, max_results=10):
 
         try:
             response = requests.get(url, params=params, timeout=6)
+
+            if response.status_code == 429:
+                print(f"Rate limit hit for API key ending with {api_key[-4:]}. Skipping.")
+                continue
+            
             response.raise_for_status()
             results = response.json()
+            with open('search_resultsjberhgbregbrgbrh.json', 'w') as f:
+                json.dump(results, f, indent=4)
+            print(f"API key ending with {api_key[-4:]} with cx {cx} succeeded.")
 
             if 'items' in results and results['items']:
                 for item in results['items']:

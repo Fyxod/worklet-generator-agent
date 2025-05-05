@@ -8,7 +8,7 @@ from app.utils.reference_functions.google_scholar import get_google_scholar_refe
 from app.utils.search_functions.search import search_references
 
 
-async def getReferenceWork(title, model="gemma3:27b"):
+async def getReferenceWork(problem_statement, title, model="gemma3:27b"):
     """
     Asynchronously generates a list of references related to a given title by querying 
     GitHub, Google Scholar, and other sources.
@@ -27,7 +27,7 @@ async def getReferenceWork(title, model="gemma3:27b"):
 
     keyword = ""
     try:
-        keyword = await getKeyword(title, model)
+        keyword = await getKeyword(problem_statement, model)
     except Exception as e:
         keyword = title
 
