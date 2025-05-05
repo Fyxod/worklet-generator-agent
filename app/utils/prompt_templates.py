@@ -267,7 +267,7 @@ Input data:
     )
 
 
-def arcive_temp():
+def keyword_prompt():
     return ChatPromptTemplate.from_template(
         """
     Only output the keyword/phrase for arXiv search based on this topic: '{title}'. No preamble. No commentary. No punctuation. Just the keyword or phrase.

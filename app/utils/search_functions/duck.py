@@ -33,14 +33,12 @@ def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int 
                             "body": result.get('body', ''),
                             "query": query,
                         })
-                return arr  # Successful response
+                return arr
             else:
-                print(f"No results found. Retrying in {delay_after_req} seconds...")
                 time.sleep(delay_after_req)
                 attempt += 1
 
         except Exception as e:
-            print(f"Error occurred: {e}. Retrying in {delay_exception} seconds...")
             time.sleep(delay_exception)
             attempt += 1
 
@@ -69,7 +67,6 @@ def fetch_duckduckgo_references(query: str, max_results: int = 5):
         results = list(ddgs.text(query, max_results=max_results))
 
         if results and isinstance(results, list):
-            print(f"Search for '{query}': Success")
             for result in results:
                 if 'title' in result and 'href' in result:
                     arr.append({
@@ -78,9 +75,8 @@ def fetch_duckduckgo_references(query: str, max_results: int = 5):
                         "Description": result.get('body', ''),
                         "Tag": "google",
                     })
-            return arr  # Successful response
+            return arr
         else:
             return
     except Exception as e:
-        print(f"Error occurred: {e}. in duckduckgo references")
         return []

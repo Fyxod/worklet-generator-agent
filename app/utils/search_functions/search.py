@@ -1,14 +1,32 @@
+import time
 from app.utils.search_functions.duck import fetch_duckduckgo_results, fetch_duckduckgo_references
 from app.utils.search_functions.google_search import google_search, google_search_references
 from app.utils.link_extractor import extract_content_from_link
-import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
-import time
 
 start_time = time.time()
 
 def search(queries: list, max_results: int = 5, word_limit: int = 300):
+    """
+    Performs a search operation using multiple search engines and processes the results.
+    Args:
+        queries (list): A list of search queries to execute.
+        max_results (int, optional): The maximum number of results to fetch for each query. Defaults to 5.
+        word_limit (int, optional): The maximum number of words to extract from each result's content. Defaults to 300.
+    Returns:
+        list: A list of dictionaries, where each dictionary contains:
+            - "search_query" (str): The original search query.
+            - "search_results" (list): A list of dictionaries for each search result, containing:
+                - "page_title" (str): The title of the page.
+                - "page_body" (str): The body content of the page (including extracted content).
+    Notes:
+        - The function attempts to fetch results from Google and DuckDuckGo.
+        - Results are processed in parallel using a thread pool for efficiency.
+        - If an error occurs during any stage of the process, it is logged, and the function continues with the remaining queries.
+        - The results are grouped by the original search query.
+    """
+
     try:
         results = []
 
@@ -42,7 +60,6 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
                     # "link": link,
                 }
             except Exception as e:
-                print(f"Error processing link: {entry.get('link')}. Error: {e}")
                 return None
 
         all_processed = []
@@ -70,7 +87,6 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
         return final_output
 
     except Exception as e:
-        print(f"An error occurred in the search function. Error: {e}")
         return []
 
 
@@ -82,8 +98,6 @@ def search_references(keyword: str, max_results: int = 10):
             if success:
                 results.extend(result)
                 return results
-            else:
-                print(f"Google search failed for keyword: {keyword}. Trying DuckDuckGo.")
         except Exception as e:
             print(f"Google search failed for keyword: {keyword}. Error: {e}")
 
@@ -94,11 +108,9 @@ def search_references(keyword: str, max_results: int = 10):
                 return results
             
         except Exception as e:
-            print(f"DuckDuckGo search failed for keyword: {keyword}. Error: {e}")
             return results
 
         return results
 
     except Exception as e:
-        print(f"An error occurred in the search function. Error: {e}")
         return []

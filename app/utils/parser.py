@@ -2,7 +2,7 @@ from pathlib import Path
 from kreuzberg import extract_file
 from kreuzberg import ExtractionResult
 import os
-import fitz  # PyMuPDF
+import fitz
 import pytesseract
 from PIL import Image
 import io
@@ -24,6 +24,26 @@ SUPPORTED_EXTENSIONS = {
 }
 
 async def extract_document(name, sid):
+    """
+    Extracts text content and images from a document file, performs OCR on the images, 
+    and emits progress updates via a socket connection.
+    Args:
+        name (str): The name of the document file to be processed.
+        sid (str): The session ID for emitting progress updates via socket.
+    Raises:
+        ValueError: If the file type is not supported.
+    Returns:
+        str: The extracted text content from the document, including OCR results from images.
+    Workflow:
+        1. Validates the file extension against supported types.
+        2. Extracts the file content using an asynchronous extraction function.
+        3. Moves any existing images in the image directory to an archive directory.
+        4. Opens the document and iterates through its pages to extract images.
+        5. Saves extracted images to the image directory.
+        6. Performs OCR on the images and appends the extracted text to the result.
+        7. Emits progress updates during the OCR process.
+    """
+
     file_path = os.path.join(UPLOAD_DIR, name)
     ext = Path(name).suffix.lower()
 
@@ -45,8 +65,6 @@ async def extract_document(name, sid):
     for page_number in range(len(doc)):
         page = doc.load_page(page_number)
         image_list = page.get_images(full=True)
-
-        print(f"Page {page_number + 1} has {len(image_list)} images.")
 
         for img_index, img in enumerate(image_list):
             xref = img[0]

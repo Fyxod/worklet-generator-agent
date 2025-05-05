@@ -92,5 +92,4 @@ def google_search_references(query, max_results=10):
             return True, arr
         
     except requests.exceptions.RequestException as e:
-        print(f"API key ending with {api_key_ref[-4:]} with cx {search_engine_id_ref} failed: {e} for references")
         return False, arr

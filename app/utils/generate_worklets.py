@@ -1,10 +1,9 @@
+import asyncio
 from app.utils.llm_response_parser import extract_dicts_smart
 from app.llm import invoke_llm
 from app.utils.prompt_templates import worklet_gen_prompt,worklet_gen_prompt_with_web_searches   # all the prompts used in this projects were moved to prompt_templates
-from app.socket import sio
-from app.utils.search_functions.search import search 
-from app.socket import is_client_connected
-import asyncio
+from app.socket import sio, is_client_connected
+from app.utils.search_functions.search import search
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -46,8 +45,6 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
         await sio.emit("error", {"message": "ERROR: Wrong output returned by LLM. Please try again."}, to=sid)
         return
 
-    print("Extracted worklets:", extracted_worklets)
-
     if not is_client_connected(sid):
         print(f"Client {sid} is not connected. Skipping web search. Exiting...")
         return
@@ -60,7 +57,6 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
         try:
             s = await loop.run_in_executor(executor, search, extracted_worklets["search"], 10)
         except Exception as e:
-            print("Error in web search:", e)
             await sio.emit("error", {"message": "ERROR: Web search failed. Please try again."}, to=sid)
             return
 
@@ -78,7 +74,6 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
             custom_topics=custom_topics,
             count_string=count_string,
         )
-        print("\n\n","--------this is the biggest prompt------"*10,"\n\n",prompt)
 
         if not is_client_connected(sid):
             print(f"Client {sid} is not connected. Skipping 2nd prompt generation. Exiting...")
@@ -87,14 +82,12 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
         try:
             generated_worklets = await invoke_llm(prompt, model)
         except Exception as e:
-            print("Error in generating worklets (with web):", e)
             await sio.emit("error", {"message": "ERROR: LLM is not responding (after web search). Please try again."}, to=sid)
             return
 
         try:
             extracted_worklets = extract_dicts_smart(generated_worklets)
         except Exception as e:
-            print("Error in extracting worklets (with web):", e)
             await sio.emit("error", {"message": "ERROR: Wrong output from LLM after web search. Please try again."}, to=sid)
             return
 

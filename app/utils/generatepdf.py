@@ -6,8 +6,6 @@ from reportlab.lib import colors
 import os
 import re
 from app.utils.reference_functions.reference_sort import index_sort
-from app.socket import sio
-# from reference_functions.reference_sort import Inplace_sort 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
@@ -91,17 +89,15 @@ def create_pdf(filename, json_data):
 
     print(f"PDF generated: {filename}")
 
-# Asynchronous function to manage the async flow
 async def generatePdf(json, model, index):
     print("\n")
     print("----" * 25 + "Inside generate pdf" + "----" * 25)
     print("\n")
 
-    json_data = await pre_processing(json, index, model)  # Assuming pre_processing is async
+    json_data = await pre_processing(json, index, model)
     safe_title = sanitize_filename(json['Title'])
     filename = os.path.join(pdf_path, f"{safe_title}.pdf")
 
-    # Run the blocking PDF generation in an executor
     loop = asyncio.get_running_loop()
     await loop.run_in_executor(None, create_pdf, filename, json_data)
 
