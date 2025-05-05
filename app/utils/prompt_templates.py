@@ -23,9 +23,9 @@ def worklet_gen_prompt():  # worklet data need to be given so that
     Existing Worklets for Reference:
     {worklet_data}
     {linksData}
-    along with these refferences  here is a prompt provided by the user take it into consideration
+    Along with these references, here is a prompt provided by the user. Let us call it user prompt. Please make sure to follow it strictly.
     {custom_prompt}
-
+    If you dont understand anything inside the custom prompt, add a search query for that too
 ---
 
 **TWO OPTIONS AFTER ANALYSIS:**
@@ -36,7 +36,6 @@ def worklet_gen_prompt():  # worklet data need to be given so that
 
    - Do not generate problem statements yet.
    - Instead, return a JSON object in this structure:
-   - 
 
 
 
@@ -96,7 +95,7 @@ Follow the format below to iniceate a web search:
 
 **MANDATORY CONSTRAINTS**
 
-1. **Domain focus**: Must involve at least one domain: {custom_topics}.
+1. **Domain focus**: Must involve at least one domain from {custom_topics}, and no other domains should be included.
 2. **Value proposition**: Every problem must enable at least one:
 - Commercial PoC potential for Samsung
 - Publishable research paper
@@ -105,7 +104,8 @@ Follow the format below to iniceate a web search:
 4. **Web enrichment**: Always supplement with public knowledge, datasets, best practices.
 5. **Quantity**: Generate exactly {count} problem statements inside the array.
 6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
-7. **Freshness**: Align with 2025(or latest) technology trends,frameworks,tools,libraries etc. If in doubt, initiate a web search.ask as many questions you want to asl
+7. **Freshness**: Align with 2025(or latest) technology trends,frameworks,tools,libraries etc. If in doubt, initiate a web search. Ask as many questions you want to ask at once
+8. If a user prompt is provided, ensure strict adherence to its instructions and constraints. Here is the user prompt {custom_prompt}
 
 ---
 
@@ -124,11 +124,17 @@ def worklet_gen_prompt_with_web_searches(count_string, linksData,json, worklet_d
     Existing Worklets for Reference:
     {worklet_data}
     {linksData}
-    along with these refferences  here is a prompt provided by the user, take it into consideration
-    {custom_prompt}
+    
 
     In one of our previous conversation you requested son=me information from the web i have attached it below 
     {json}   
+    
+** USER PROMPT (STRICTLY FOLLOW THIS):**  
+Please use the following prompt as the definitive guide. All outputs must directly address this prompt. In case of any conflict with general instructions, the custom prompt takes precedence.  
+
+**User Prompt:**  
+{custom_prompt}
+    
 generate exactly {count_string} ({count}) feasible problem statements, following the output format described below
 **OUTPUT FORMAT** :
 
@@ -169,7 +175,7 @@ generate exactly {count_string} ({count}) feasible problem statements, following
 
 **MANDATORY CONSTRAINTS**
 
-1. **Domain focus**: Must involve at least one domain:{custom_topics}
+1. **Domain focus**: Must involve at least one domain from {custom_topics}, and no other domains should be included.
 2. **Value proposition**: Every problem must enable at least one:
 - Commercial PoC potential for Samsung
 - Publishable research paper
@@ -179,14 +185,13 @@ generate exactly {count_string} ({count}) feasible problem statements, following
 5. **Quantity**: Generate exactly {count} problem statements inside the array.
 6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
 7. **Freshness**: use the lates provided web results to the worklets up to date
-
+8. If a user prompt is provided, ensure strict adherence to its instructions and constraints. Here is the user prompt {custom_prompt}, use this information in the worklet generation process to make it more relevant to the user. Ensure the user prompt's language and intention is fully captured in each worklet. Each output should clearly reflect its intent.
+   Ensure the content provided in the user prompt is actually being used in the generating the problem statements for worklets.
     """
 
-# llm -> search -> refead llm 
-            # |
-        # 
 
-def refrence_sort_template(json):  # worklet data need to be given so that
+
+def refrence_sort_template(json):
 
     return f"""you are an Expert Technology and Innovation Advisor for Samsung PRISM.
 You will receive a JSON array containing multiple reference objects.
@@ -210,7 +215,7 @@ IMPORTANT STRICT RULES:
 
     Output ONLY the reordered list wrapped in triple backticks.
 
-Reminder: If you acci   dentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
+Reminder: If you accidentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
 Here is the input JSON:
 {json}
 Your output should be:
@@ -265,15 +270,16 @@ Input data:
     )
 
 
-def arcive_temp():
+def keyword_prompt():
     return ChatPromptTemplate.from_template(
         """
-    Only output the keyword/phrase for arXiv search based on this topic: '{title}'. No preamble. No commentary. No punctuation. Just the keyword or phrase.
+    Only output the keyword/phrase for google scholar search based on this problem statement: '{title}'. No preamble. No commentary. No punctuation. Just the keyword or phrase.
     Example outputs : 
-    1. Input - Self supervised Multi-turn dialog emotion recognition | Output - self-supervised dialog emotion
-    2. Input - Language Agnostic Large Language Model | Output - Multilingual LLM
-    3. Input - Network FCAPS Correlation using LLM | Output - LLM FCAPS correlation
-    4. Input - Deep Packet Inspection Traffic Visualization | Output - Deep Packet Inspection
-    5. Input - Real Time Call Video Anti Aliasing | Output - anti-aliasing
+    1. Output - self-supervised dialog emotion
+    2. Output - Multilingual LLM
+    3. Output - LLM FCAPS correlation
+    4. Output - Deep Packet Inspection
+    5. Output - anti-aliasing
+    6. Output - LLM for code generation and debugging
     """
     )

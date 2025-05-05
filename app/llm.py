@@ -1,11 +1,12 @@
+import asyncio
+import os
+import re
+import aiohttp
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
-import requests
-import os
-import json
-import re
-import time
+
 load_dotenv()
+
 
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash",
@@ -29,16 +30,12 @@ ollama_models = [
     
 ]
 
-
-import aiohttp
-import asyncio
-
 async def invoke_llm(prompt, model):
     raw_text = ""
     max_retries = 4
 
     if model in ollama_models:
-        print("Using Ollama")
+        # using ollama gemma
         payload = {"prompt": prompt}
         url = f"{os.getenv('LLM_URL')}/query?model={model}"
 
@@ -62,7 +59,7 @@ async def invoke_llm(prompt, model):
             return "LLM failed after 4 attempts."
 
     else:
-        print("Using Google Gemini")
+        # using google gemini
         response = llm.invoke(prompt)
         raw_text = response.content
 
@@ -77,6 +74,5 @@ async def invoke_llm(prompt, model):
     cleaned = cleaned.strip()
     cleaned = cleaned.replace("```json", "").replace("```", "").strip()
 
-    print("PRINTING CLEANED OUTPUT")
     print(cleaned)
     return cleaned

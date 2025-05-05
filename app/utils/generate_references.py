@@ -1,28 +1,37 @@
-import requests
-from langchain.prompts import ChatPromptTemplate
-import xml.etree.ElementTree as ET
-from app.llm import invoke_llm
-from langchain.schema.messages import HumanMessage
-from app.utils.reference_functions.github import get_github_references
-from app.utils.reference_functions.google_scholar import get_google_scholar_references
-from app.utils.search_functions.search import search_references
-from concurrent.futures import ThreadPoolExecutor
-from app.utils.prompt_templates import arcive_temp
-from time import sleep
-import json
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
-async def getReferenceWork(title, model="gemma3:27b"):
+from app.llm import invoke_llm
+from app.utils.prompt_templates import keyword_prompt
+from app.utils.reference_functions.github import get_github_references
+from app.utils.reference_functions.google_scholar import get_google_scholar_references
+from app.utils.search_functions.search import search_references
+
+
+async def getReferenceWork(problem_statement, title, model="gemma3:27b"):
+    """
+    Asynchronously generates a list of references related to a given title by querying 
+    GitHub, Google Scholar, and other sources.
+    Args:
+        title (str): The title or topic for which references are to be generated.
+        model (str, optional): The model to use for generating keywords. Defaults to "gemma3:27b".
+    Returns:
+        list: A list of references obtained from GitHub, Google Scholar, and other sources.
+    Raises:
+        Exception: If an error occurs while generating the keyword.
+    Notes:
+        - The function uses a ThreadPoolExecutor to run blocking I/O operations in separate threads.
+        - If Google Scholar references are not found initially, the function retries after a delay.
+        - Additional references are fetched using a fallback search if Google Scholar references remain unavailable.
+    """
+
     keyword = ""
     try:
-        keyword = await getKeyword(title, model)  # Await the async function
+        keyword = await getKeyword(problem_statement, model)
     except Exception as e:
-        print(f"Error in getKeyword: {e}, using title as keyword")
         keyword = title
 
     with ThreadPoolExecutor() as executor:
-        # Run blocking I/O operations in parallel using ThreadPoolExecutor
         loop = asyncio.get_running_loop()
         github_future = loop.run_in_executor(None, get_github_references, keyword)
         scholar_future = loop.run_in_executor(None, get_google_scholar_references, keyword)
@@ -31,77 +40,29 @@ async def getReferenceWork(title, model="gemma3:27b"):
         googleReferences = []
 
         if len(googleScholarReferences) == 0:
-            await asyncio.sleep(5)  # Non-blocking sleep to prevent freezing the event loop
+            await asyncio.sleep(5)
             googleScholarReferences = get_google_scholar_references(keyword)
 
         if len(googleScholarReferences) == 0:
             googleReferences = search_references(keyword, max_results=10)
-
-        print(f"generated {len(githubReferences)} github references for {title}")
-        print(f"generated {len(googleScholarReferences)} google scholar references for {title}")
-        print(f"generated {len(googleReferences)} search engine references for {title}")
 
     response = []
     response.extend(googleScholarReferences)
     response.extend(githubReferences)
     response.extend(googleReferences)
 
-    try:
-        with open("final_search.json", "w") as f:
-            json.dump(response, f, indent=4)
-    except Exception as e:
-        print(f"Failed to write results to file. Error: {e}")
-    print("Final search results saved to ", response)
     return response
-
-
-# getReferenceWork("Job Scheduling with AWS DynamoDB and Spring Reactive Framework", "gemma3:27b")
-
 
 async def getKeyword(title, model):
-    print("Inside getKeyword", title)
-    prompt = arcive_temp().format(title=title)
+    """
+    Asynchronously generates a keyword based on the given title using a specified language model.
+    Args:
+        title (str): The title or text input for which a keyword needs to be generated.
+        model (Any): The language model to be used for generating the keyword.
+    Returns:
+        Any: The response from the language model containing the generated keyword.
+    """
+
+    prompt = keyword_prompt().format(title=title)
     response = await invoke_llm(prompt, model)
     return response
-
-# getReferenceWork("Job Scheduling with AWS DynamoDB and Spring Reactive Framework", "gemma3:27b")
-# print(getKeyword("Job Scheduling with AWS DynamoDB and Spring Reactive Framework", "deepseek-r1:70b"))
-# def getReferenceWorkOld(title, model):
-#     """
-#     Fetches reference papers from arXiv based on a keyword derived from the title.
-#     Returns a list of dictionaries with title and pdf link, or an empty list on failure.
-#     """
-#     # print("Inside reference work", title)
-    
-#     try:
-#         keyword = getKeyword(title, model)
-#         url = f"http://export.arxiv.org/api/query?search_query=all:{keyword}"
-
-#         headers = {
-#             'User-Agent': 'MyApp/1.0 (Contact: your-email@example.com)'  # replace with your actual contact
-#         }
-
-#         response = requests.get(url, headers=headers, timeout=10)
-#         response.raise_for_status()
-
-#         root = ET.fromstring(response.content)
-#         ns = {'atom': 'http://www.w3.org/2005/Atom'}
-
-#         reference_work = []
-#         for entry in root.findall('atom:entry', ns):
-#             entry_title = entry.find('atom:title', ns).text 
-#             pdf_link = None
-
-#             for link in entry.findall('atom:link', ns):
-#                 if link.get('title') == 'pdf':
-#                     pdf_link = link.get('href')
-#                     break 
-
-#             if pdf_link:
-#                 reference_work.append({"title": entry_title, "link": pdf_link})
-        
-#         return reference_work
-
-#     except Exception as e:
-#         print(f"Error in getReferenceWork: {e}")
-#         return []

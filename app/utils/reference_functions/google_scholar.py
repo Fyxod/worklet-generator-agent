@@ -1,11 +1,26 @@
 from app.utils.reference_functions.scholar_package import CustomGoogleScholarOrganic
 
-# from .scholar_package import CustomGoogleScholarOrganic
-
-
 def get_google_scholar_references(keyword):
+    """
+    Fetches references from Google Scholar based on the provided keyword.
+    This function uses a custom parser to scrape organic results from Google Scholar.
+    It processes the results to extract the title, link, and description of each paper,
+    and formats them into a structured list of dictionaries.
+    Args:
+        keyword (str): The search keyword to query Google Scholar.
+    Returns:
+        list: A list of dictionaries, where each dictionary contains:
+            - "Title" (str): The title of the paper, with certain tags like [PDF], [HTML], and [DOC] removed.
+            - "Link" (str): The URL link to the paper.
+            - "Description" (str): A brief description of the paper, truncated to 100 words if available.
+              If no description is found, a default message is provided.
+            - "Tag" (str): A tag indicating the source, set to "scholar".
+    Raises:
+        Exception: If an error occurs during the scraping process, it is caught and logged,
+                   and an empty list is returned.
+    """
+
     try:
-        print("printing google keyword inside", keyword)
         custom_parser_get_organic_results = (
             CustomGoogleScholarOrganic().scrape_google_scholar_organic_results(
                 query=keyword, pagination=False, save_to_csv=False, save_to_json=True
@@ -31,7 +46,6 @@ def get_google_scholar_references(keyword):
                     "Tag": "scholar",
                 }
             )
-        # print("google scholar inside", result)
         return result
 
     except Exception as e:
@@ -45,31 +59,3 @@ def slice_to_100_words(text):
         return text
     else:
         return " ".join(words[:100])
-
-
-# example_usage()
-# keywords = [
-#     'blizzard',
-#     'encrypt malware',
-#     'genai iot',
-#     'deep q learning',
-#     'deep reinforcement learning',
-# ]
-
-# #using threads
-# from concurrent.futures import ThreadPoolExecutor
-# def fetch_data(keyword):
-#     return CustomGoogleScholarOrganic().scrape_google_scholar_organic_results(
-#         query=keyword,
-#         pagination=False,
-#         save_to_csv=False,
-#         save_to_json=True
-#     )
-# with ThreadPoolExecutor(max_workers=5) as executor:
-#     results = list(executor.map(fetch_data, keywords))
-#     for result in results:
-#         print(json.dumps(result, indent=2, ensure_ascii=False))
-# end_time = time.time()
-# print(f"Execution time: {end_time - start_time} seconds")
-# # print(json.dumps(serpapi_parser_get_organic_results, indent=2, ensure_ascii=False))
-# # print(json.dumps(top_publication_citation, indent=2, ensure_ascii=False))
