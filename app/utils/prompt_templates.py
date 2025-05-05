@@ -25,7 +25,7 @@ def worklet_gen_prompt():  # worklet data need to be given so that
     {linksData}
     along with these refferences  here is a prompt provided by the user take it into consideration
     {custom_prompt}
-
+    If you dont understand anything inside the custom prompt, add a search query for that too
 ---
 
 **TWO OPTIONS AFTER ANALYSIS:**
@@ -36,7 +36,6 @@ def worklet_gen_prompt():  # worklet data need to be given so that
 
    - Do not generate problem statements yet.
    - Instead, return a JSON object in this structure:
-   - 
 
 
 
@@ -124,11 +123,13 @@ def worklet_gen_prompt_with_web_searches(count_string, linksData,json, worklet_d
     Existing Worklets for Reference:
     {worklet_data}
     {linksData}
-    along with these refferences  here is a prompt provided by the user, take it into consideration
-    {custom_prompt}
+    
 
     In one of our previous conversation you requested son=me information from the web i have attached it below 
     {json}   
+    
+    along with these refferences  here is a prompt provided by the user, take it into consideration you need to adheare to it strictly
+    {custom_prompt}
 generate exactly {count_string} ({count}) feasible problem statements, following the output format described below
 **OUTPUT FORMAT** :
 
