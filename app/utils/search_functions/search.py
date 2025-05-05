@@ -19,8 +19,6 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
                 if success:
                     results.extend(result)
                     continue
-                else:
-                    print(f"Google search failed for query: {query}. Trying DuckDuckGo.")
             except Exception as e:
                 print(f"Google search failed for query: {query}. Error: {e}")
 
@@ -28,19 +26,9 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
                 duck_results = fetch_duckduckgo_results(query=query, max_results=max_results)
                 if duck_results:
                     results.extend(duck_results)
-                else:
-                    print(f"DuckDuckGo search failed for query: {query}.")
+                    
             except Exception as e:
                 print(f"DuckDuckGo search failed for query: {query}. Error: {e}")
-
-        print(f"Total results from all searches: {len(results)}")
-
-        # Save raw results
-        try:
-            with open("search_results_unprocessed.json", "w") as f:
-                json.dump(results, f, indent=4)
-        except Exception as e:
-            print(f"Failed to write results to file. Error: {e}")
 
         # Parallel processing of all entries
         def process_entry(entry):
@@ -79,13 +67,6 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
             for query, entries in grouped_results.items()
         ]
 
-        # Save processed results
-        try:
-            with open("search_results_processed.json", "w") as f:
-                json.dump(final_output, f, indent=4)
-        except Exception as e:
-            print(f"Failed to write processed results to file. Error: {e}")
-
         return final_output
 
     except Exception as e:
@@ -111,33 +92,13 @@ def search_references(keyword: str, max_results: int = 10):
             if duck_results:
                 results.extend(duck_results)
                 return results
-            else:
-                print(f"DuckDuckGo search failed for keyword: {keyword}.")
+            
         except Exception as e:
             print(f"DuckDuckGo search failed for keyword: {keyword}. Error: {e}")
             return results
-        with open("search_results_references_extra.json", "w") as f:
-            json.dump(results, f, indent=4)
-        print(results)
+
         return results
 
     except Exception as e:
         print(f"An error occurred in the search function. Error: {e}")
         return []
-
-
-# search_references("scene text recognition", max_results=5)
-
-
-queries = [
-    "recent advancements in scene text recognition 2024-2025",
-    "benchmark datasets for scene text recognition beyond ICDAR",
-    "on-device AI optimization techniques for scene text recognition models",
-    "transformer architectures for scene text recognition - latest research",
-    "Generative AI applications for synthetic data generation in scene text recognition",
-]
-
-# search(queries)
-
-# end_time = time.time()
-# print(f"Execution time: {end_time - start_time:.2f} seconds")

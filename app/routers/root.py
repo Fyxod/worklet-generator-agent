@@ -52,10 +52,6 @@ router=APIRouter(
 
 templates = Jinja2Templates(directory="templates")
 
-# @router.get('/')
-# def read_root():
-#     return{ "response": "API IS UP AND RUNNING"}
-
 def sanitize_filename(filename):
     return re.sub(r'[\/:*?"<>|]', '_', filename)
 
@@ -63,11 +59,6 @@ def sanitize_filename(filename):
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@router.get("/home")
-def frontend_redirect():
-    return RedirectResponse(url="http://localhost:8501")
-
-# Generate worklets is hitting this endpoint althe function alss happen here
 @router.post('/upload')
 async def upload_multiple(
     model: Annotated[str, Query()],
@@ -77,6 +68,35 @@ async def upload_multiple(
     custom_topics: Annotated[str, Form()],  # Optional custom topics as an array
     files: Annotated[list[UploadFile], File()] = None,
 ):
+    """
+    The main route that handles the upload of multiple files and links, processes the data, generates worklets, 
+    fetches references, and creates PDFs.
+    Args:
+        model (str): The model to be used for processing.
+        sid (str): The session ID for the client.
+        links (str): A JSON string containing links to be processed.
+        custom_prompt (str): An optional custom prompt for processing.
+        custom_topics (str): An optional JSON string containing custom topics as an array.
+        files (list[UploadFile], optional): A list of files uploaded by the user.
+    Returns:
+        dict: A response containing the generated files or an error message if the client is not connected.
+    Raises:
+        json.JSONDecodeError: If the `links` or `custom_topics` JSON strings cannot be parsed.
+        Exception: If an error occurs during PDF generation or other processing steps.
+    Workflow:
+        1. Saves uploaded files to the server.
+        2. Extracts data from the uploaded files concurrently.
+        3. Processes the provided links and extracts data.
+        4. Generates worklets based on the extracted data, links, and custom inputs.
+        5. Moves old generated files to a backup directory.
+        6. Fetches references for each generated worklet.
+        7. Saves the latest generated worklets to a JSON file.
+        8. Generates PDFs for each worklet and sends progress updates to the client.
+    Notes:
+        - Emits progress updates to the client using Socket.IO.
+        - Checks if the client is connected at various stages and halts processing if disconnected.
+    """
+
     parsed_custom_topics = json.loads(custom_topics) if custom_topics else []
     start_time = time.time()
     saved_files = []
@@ -86,7 +106,6 @@ async def upload_multiple(
     # 1. Save uploaded files
     if files:
         await sio.emit("progress", {"message": "Extracting data from files..."}, to=sid)
-        print("Files have been uploaded")
         for file in files:
             timestamp = int(datetime.now().timestamp() * 1000)
             filename, ext = os.path.splitext(file.filename)
@@ -106,21 +125,15 @@ async def upload_multiple(
         extracted_results = await asyncio.gather(*extracted_data_tasks)
 
         extracted_data_all = {i + 1: data for i, data in enumerate(extracted_results)}
-    else:
-        print("No files uploaded")
 
-    print("Extracted data:", extracted_data_all)
+
     # 3. Handle links
     linksData = {}
     try:
         parsed_links = json.loads(links)
-        print(f"Received {len(parsed_links)} links.")
-        print("HEERE ARE LINKS")
-        print(parsed_links)
         
         if parsed_links:
             await sio.emit("progress", {"message": "Extracting data from links..."}, to=sid)
-            # Assuming get_links_data is sync, offload it
             loop = asyncio.get_running_loop()
             linksData = await loop.run_in_executor(None, get_links_data, parsed_links)
     except json.JSONDecodeError as e:
@@ -142,8 +155,6 @@ async def upload_multiple(
         print(f"Client {sid} is not connected. Skipping fetching references. Returning error.")
         return {"error": "Client not connected."}
     
-    # loop = asyncio.get_running_loop()
-    # worklets = await loop.run_in_executor(None, generate_worklets, extracted_data_all, linksData, model)
 
     # 5. Move old generated files
     loop = asyncio.get_running_loop()
@@ -156,16 +167,11 @@ async def upload_multiple(
 
     # 6. Generate references concurrently
     async def process_worklet(worklet):
-        print(f"-----------Generating reference for: {worklet['Title']}------------------")
-        # loop = asyncio.get_running_loop()
-        # reference = await loop.run_in_executor(None, getReferenceWork, worklet["Title"], model)
         reference = await getReferenceWork(worklet["Title"], model)
-        print("Reference work:", reference)
         worklet["Reference Work"] = reference
 
     for worklet in worklets:
         await sio.emit("progress", {"message": f"Fetching references for {worklet['Title']}"}, to=sid)
-        print("fetching references for", worklet["Title"])
         await process_worklet(worklet)
 
     # 7. Save latest generated worklets and give index to references
@@ -176,9 +182,6 @@ async def upload_multiple(
     async with aiofiles.open("latest_generated.json", "w") as file:
         await file.write(json.dumps(worklets, indent=4))
 
-    print("\n" + "-------" * 25 + "FINAL" + "---------" * 25 + "\n")
-    print(worklets)
-    
     # 8. Generate PDFs
     response = {"files": []}
 
@@ -189,7 +192,6 @@ async def upload_multiple(
     await sio.emit("progress", {"message": "Generating PDFs..."}, to=sid)
     for index, worklet in enumerate(worklets):
         try:
-            print(f"Generating PDF for: {worklet['Title']}")
             await sio.emit("progress", {"message": f"Generating PDF for {index + 1}. {worklet['Title']}..."}, to=sid)
             file_name = sanitize_filename(worklet['Title'])
             await sio.emit("fileReceived", {"file_name": f"{file_name}.pdf"}, to=sid)
@@ -198,7 +200,6 @@ async def upload_multiple(
 
             filename = f"{worklet['Title']}.pdf"
         except Exception as e:
-            print(f"Error generating PDF for {worklet['Title']}: {e}")
             traceback.print_exc()
             filename = "error.pdf"
 
@@ -230,22 +231,36 @@ async def download(file_name: str):
         return FileResponse(
             file_path,
             media_type="application/pdf",
-            filename=safe_filename  # This controls what the client receives
+            filename=safe_filename 
         )
     return {"error": "File not found"}
 class FilesRequest(BaseModel):
-    files: list[str]  # Array of strings (filenames)
+    files: list[str] 
 
 @router.post("/download_all")
-def download_selected(
-    filesss: FilesRequest
-    ):
-    """Zips specified files from GENERATED_DIR or ARCHIVED_DIR and returns the zip file."""
-    files = filesss.files  # Extract the list of filenames from the request body
-    print(files)
+def download_selected(filesss: FilesRequest):
+    """
+    Handles the creation of a downloadable ZIP file containing the specified files.
+    Args:
+        filesss (FilesRequest): An object containing a list of file names to be included in the ZIP file.
+    Returns:
+        FileResponse: A response object containing the generated ZIP file for download.
+        dict: An error message if no files are provided.
+    Workflow:
+        1. Validates the input to ensure files are provided.
+        2. Creates a temporary ZIP file.
+        3. Searches for the specified files in the `GENERATED_DIR` directory and adds them to the ZIP file.
+        4. Searches for any remaining files in the `DESTINATION_DIR` directory and adds them to the ZIP file.
+        5. Returns the ZIP file as a downloadable response.
+    Notes:
+        - The function assumes the existence of `GENERATED_DIR` and `DESTINATION_DIR` directories.
+        - If a file is not found in either directory, it will be skipped without raising an error.
+        - The temporary ZIP file is not automatically deleted after the response is sent.
+    """
+
+    files = filesss.files 
     if not files:
         return {"error": "No files provided."}
-    print(files)
 
     # Create a temporary zip file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".zip") as temp_zip:
@@ -273,10 +288,5 @@ def download_selected(
 
 @router.post('/query')
 async def create_query(query:Query1):
-    # will add db soon for authentication and saving llm output
-    print(query.query)
     message = llm.invoke(query.query)
-    # message = llm.invoke([HumanMessage(content=query.query)])
-    print(message.content)
     return message.content
-

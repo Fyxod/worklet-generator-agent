@@ -5,7 +5,6 @@ start_time = time.time()
 
 
 def get_github_references(keyword):
-    print("printing keyword inside github", keyword)
     url = "https://api.github.com/search/repositories"
     params = {"q": keyword, "per_page": 10}
 
@@ -48,26 +47,3 @@ def slice_to_100_words(text):
         return text
     else:
         return " ".join(words[:100])
-
-
-# print(get_github_references("q learning"))
-# keywords = [
-#     'blizzard',
-#     'encrypt malware',
-#     'genai iot',
-#     'deep q learning',
-#     'deep reinforcement learning',
-# ]
-# from concurrent.futures import ThreadPoolExecutor
-
-# with ThreadPoolExecutor() as executor:
-#     results = list(executor.map(get_github_references, keywords))
-#     for keyword, result in zip(keywords, results):
-#         print(f"Keyword: {keyword}")
-#         for item in result:
-#             print(f"Title: {item['title']}, Description: {item['description']}, Link: {item['link']}")
-#         print("\n")
-
-# end_time = time.time()
-# execution_time = end_time - start_time
-# print(f"Execution time: {execution_time} seconds")

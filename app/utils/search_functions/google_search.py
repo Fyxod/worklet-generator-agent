@@ -3,6 +3,8 @@ import os
 import json
 from dotenv import load_dotenv
 load_dotenv()
+
+# 4 api keys - 400 requests per day after which it'll fall back to duckduckgo search
 api_keys = [
     os.getenv("GOOGLE_API_KEY3"),
     os.getenv("GOOGLE_API_KEY4"),
@@ -28,7 +30,7 @@ def google_search(query, max_results=10):
 
     for api_key, cx in zip(api_keys, search_engine_ids):
         if not api_key or not cx:
-            continue  # Skip if either is missing
+            continue
 
         params = {
             'q': query,
@@ -38,8 +40,6 @@ def google_search(query, max_results=10):
         }
 
         try:
-            print(f"Searching Google with API key ending in {api_key[-4:]} and cx {cx}...")
-            print("Starting search... for query: ", query)
             response = requests.get(url, params=params, timeout=6)
             response.raise_for_status()
             results = response.json()
@@ -56,17 +56,12 @@ def google_search(query, max_results=10):
                 with open('search_results.json', 'w') as f:
                     json.dump(results['items'], f, indent=4)
 
-                print(f"Google Search for '{query}' with API key ending in {api_key[-4:]} and cx {cx}: Success")
-                print(f"Total results: {len(arr)}")
-                return True, arr  # Successful response
-
-            else:
-                print(f"No items found for API key ending with {api_key[-4:]} and cx {cx}.")
+                return True, arr
 
         except requests.exceptions.RequestException as e:
             print(f"API key ending with {api_key[-4:]} with cx {cx} failed: {e}")
 
-    print("All API key and search engine ID combinations failed.")
+    # If all API keys fail, return an empty list
     return False, arr
 
 def google_search_references(query, max_results=10):
@@ -78,10 +73,8 @@ def google_search_references(query, max_results=10):
         'cx': search_engine_id_ref,
         "num": max_results,
     }
-    print("here")
+    
     try:
-        print(f"Searching Google for references API key ending in {api_key_ref} and cx {search_engine_id_ref}...")
-        print("Starting search... for query: ", query)
 
         response = requests.get(url, params=params)
         response.raise_for_status()
@@ -96,14 +89,8 @@ def google_search_references(query, max_results=10):
                     "Tag": "google",
                 })
 
-            with open('google_search_references.json', 'w') as f:
-                json.dump(results['items'], f, indent=4)
-            print(f"Google Search for '{query}' with API key ending in {api_key_ref[-4:]} and cx {search_engine_id_ref}: Success")
-            print(f"Total results for google references: {len(arr)}")
             return True, arr
-        else:
-            print(f"No items found google references for API key ending with {api_key_ref[-4:]} and cx {search_engine_id_ref}.")
-
+        
     except requests.exceptions.RequestException as e:
         print(f"API key ending with {api_key_ref[-4:]} with cx {search_engine_id_ref} failed: {e} for references")
         return False, arr
