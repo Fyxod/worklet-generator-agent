@@ -23,7 +23,7 @@ def worklet_gen_prompt():  # worklet data need to be given so that
     Existing Worklets for Reference:
     {worklet_data}
     {linksData}
-    along with these refferences  here is a prompt provided by the user take it into consideration
+    Along with these references, here is a prompt provided by the user. Please make sure to follow it strictly.
     {custom_prompt}
     If you dont understand anything inside the custom prompt, add a search query for that too
 ---
@@ -128,7 +128,7 @@ def worklet_gen_prompt_with_web_searches(count_string, linksData,json, worklet_d
     In one of our previous conversation you requested son=me information from the web i have attached it below 
     {json}   
     
-    along with these refferences  here is a prompt provided by the user, take it into consideration you need to adheare to it strictly
+    Along with these references, here is a prompt provided by the user. Please make sure to follow it strictly.
     {custom_prompt}
 generate exactly {count_string} ({count}) feasible problem statements, following the output format described below
 **OUTPUT FORMAT** :
@@ -211,7 +211,7 @@ IMPORTANT STRICT RULES:
 
     Output ONLY the reordered list wrapped in triple backticks.
 
-Reminder: If you acci   dentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
+Reminder: If you accidentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
 Here is the input JSON:
 {json}
 Your output should be:
