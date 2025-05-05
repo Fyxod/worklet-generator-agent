@@ -1,34 +1,29 @@
-from app.llm import llm
-from typing import Annotated
-from fastapi import  UploadFile, File, Query, Form
-import os
 import aiofiles
-from datetime import datetime
-from fastapi import APIRouter
-import traceback
+import asyncio
+import json
+import os
+import re
 import shutil
+import tempfile
+import time
+import traceback
+import zipfile
+from datetime import datetime
 from pathlib import Path
+from typing import Annotated
+
+from fastapi import APIRouter, File, Form, Query, Request, UploadFile
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
-from fastapi.responses import RedirectResponse, FileResponse
-from app.utils.parser import extract_document
+
+from app.llm import llm
+from app.socket import is_client_connected, sio
+from app.utils.generate_references import getReferenceWork
 from app.utils.generate_worklets import generate_worklets
 from app.utils.generatepdf import generatePdf
-from app.utils.generate_references import getReferenceWork
-import tempfile
-import concurrent.futures
-from langchain.schema.messages import HumanMessage
-from concurrent.futures import ThreadPoolExecutor
-import asyncio
 from app.utils.link_extractor import get_links_data
-import json
-from fastapi import Request
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-import time
-from app.socket import sio
-import zipfile
-import re
-from app.socket import is_client_connected
+from app.utils.parser import extract_document
 
 class Query1(BaseModel):
     query: str
@@ -63,9 +58,9 @@ async def read_root(request: Request):
 async def upload_multiple(
     model: Annotated[str, Query()],
     sid: Annotated[str, Form()],
-    links: Annotated[str, Form()],  # expecting JSON string from frontend
-    custom_prompt: Annotated[str, Form()],  # Optional custom prompt
-    custom_topics: Annotated[str, Form()],  # Optional custom topics as an array
+    links: Annotated[str, Form()],
+    custom_prompt: Annotated[str, Form()],
+    custom_topics: Annotated[str, Form()],
     files: Annotated[list[UploadFile], File()] = None,
 ):
     """
@@ -155,7 +150,6 @@ async def upload_multiple(
         print(f"Client {sid} is not connected. Skipping fetching references. Returning error.")
         return {"error": "Client not connected."}
     
-
     # 5. Move old generated files
     loop = asyncio.get_running_loop()
 

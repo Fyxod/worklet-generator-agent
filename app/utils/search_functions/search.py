@@ -1,9 +1,11 @@
 import time
-from app.utils.search_functions.duck import fetch_duckduckgo_results, fetch_duckduckgo_references
-from app.utils.search_functions.google_search import google_search, google_search_references
-from app.utils.link_extractor import extract_content_from_link
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+from app.utils.link_extractor import extract_content_from_link
+from app.utils.search_functions.duck import fetch_duckduckgo_references, fetch_duckduckgo_results
+from app.utils.search_functions.google_search import google_search, google_search_references
+
 
 start_time = time.time()
 

@@ -1,11 +1,14 @@
 import asyncio
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import Paragraph, Frame
-from reportlab.pdfgen import canvas
-from reportlab.lib import colors
 import os
 import re
+
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Frame, Paragraph
+
 from app.utils.reference_functions.reference_sort import index_sort
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 

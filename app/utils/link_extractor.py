@@ -1,14 +1,15 @@
-import requests
-import magic
-import fitz  # PyMuPDF
-from bs4 import BeautifulSoup
-import time
-from PIL import Image
-import pytesseract
-import io
-import re
-import json
 import concurrent.futures
+import io
+import json
+import re
+import time
+
+import fitz
+import magic
+import pytesseract
+import requests
+from PIL import Image
+from bs4 import BeautifulSoup
 
 start_time = time.time()
 

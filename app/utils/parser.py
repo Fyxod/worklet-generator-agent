@@ -1,12 +1,11 @@
-from pathlib import Path
-from kreuzberg import extract_file
-from kreuzberg import ExtractionResult
+import io
 import os
+import shutil
 import fitz
 import pytesseract
+from pathlib import Path
 from PIL import Image
-import io
-import shutil
+from kreuzberg import ExtractionResult, extract_file
 from app.socket import sio
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

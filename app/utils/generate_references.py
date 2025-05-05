@@ -1,10 +1,12 @@
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
+
 from app.llm import invoke_llm
+from app.utils.prompt_templates import keyword_prompt
 from app.utils.reference_functions.github import get_github_references
 from app.utils.reference_functions.google_scholar import get_google_scholar_references
 from app.utils.search_functions.search import search_references
-from concurrent.futures import ThreadPoolExecutor
-from app.utils.prompt_templates import keyword_prompt
+
 
 async def getReferenceWork(title, model="gemma3:27b"):
     """

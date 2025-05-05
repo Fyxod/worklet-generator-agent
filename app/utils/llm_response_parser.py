@@ -1,6 +1,25 @@
 import json
 
 def extract_dicts_smart(raw_text):
+    """
+    Extracts JSON dictionaries from a raw text input.
+    This function processes a given raw text, identifies JSON-like dictionary structures,
+    and attempts to parse them into Python dictionaries. It handles cases where multiple
+    JSON dictionaries are present in the input and returns either a single dictionary
+    or a list of dictionaries.
+    Args:
+        raw_text (str): The input text containing JSON-like dictionary structures.
+    Returns:
+        dict or list: A single dictionary if one valid JSON dictionary is found,
+                      or a list of dictionaries if multiple valid JSON dictionaries are found.
+    Raises:
+        ValueError: If no valid JSON dictionaries are found in the input.
+    Notes:
+        - The function removes any occurrences of "```json" and "```" from the input text
+          before processing.
+        - If the input contains malformed JSON, those parts are ignored.
+    """
+
     stack = []
     start_idx = None
     results = []

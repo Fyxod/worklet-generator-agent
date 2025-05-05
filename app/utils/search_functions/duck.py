@@ -1,5 +1,5 @@
-from duckduckgo_search import DDGS
 import time
+from duckduckgo_search import DDGS
 
 
 def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int = 10,delay_after_req: float=0.75, delay_exception: int = 3):
