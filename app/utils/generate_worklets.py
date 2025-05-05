@@ -30,6 +30,12 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
         count_string=count_string,
     )
 
+    try:
+        with open("saved_prompt1.txt", "w", encoding="utf-8") as file:
+            file.write(prompt)
+    except Exception as e:
+        print(f"Failed to write prompt to file. Error: {e}")
+
     loop = asyncio.get_running_loop()
 
     try:
@@ -83,6 +89,12 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
         if not is_client_connected(sid):
             print(f"Client {sid} is not connected. Skipping 2nd prompt generation. Exiting...")
             return
+
+        try:
+            with open("saved_prompt2.txt", "w", encoding="utf-8") as file:
+                file.write(prompt)
+        except Exception as e:
+            print(f"Failed to write prompt to file. Error: {e}")
 
         try:
             generated_worklets = await invoke_llm(prompt, model)
