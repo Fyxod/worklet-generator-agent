@@ -1,13 +1,10 @@
-import time
+import json
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from app.utils.link_extractor import extract_content_from_link
 from app.utils.search_functions.duck import fetch_duckduckgo_references, fetch_duckduckgo_results
 from app.utils.search_functions.google_search import google_search, google_search_references
-
-
-start_time = time.time()
 
 def search(queries: list, max_results: int = 5, word_limit: int = 300):
     """
@@ -37,6 +34,8 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
             try:
                 success, result = google_search(query=query, max_results=max_results)
                 if success:
+                    for r in result:
+                        r["query"] = query
                     results.extend(result)
                     continue
             except Exception as e:
@@ -45,28 +44,40 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
             try:
                 duck_results = fetch_duckduckgo_results(query=query, max_results=max_results)
                 if duck_results:
+                    for r in duck_results:
+                        r["query"] = query
                     results.extend(duck_results)
-                    
             except Exception as e:
                 print(f"DuckDuckGo search failed for query: {query}. Error: {e}")
 
-        # Parallel processing of all entries
-        def process_entry(entry):
+        # Group results by query
+        grouped = defaultdict(list)
+        for entry in results:
+            grouped[entry.get("query", "")].append(entry)
+
+        # Flatten the results again with word_limit info
+        entries_with_limit = []
+        for query, entries in grouped.items():
+            for i, entry in enumerate(entries):
+                limit = 10000 if i < 1 else word_limit
+                entries_with_limit.append((entry, limit))
+
+        # Process entries in parallel
+        def process_entry(entry, word_limit_in):
             try:
                 link = entry.get("link")
-                extracted = extract_content_from_link(link, word_limit=word_limit) if link else ""
+                extracted = extract_content_from_link(link, word_limit=word_limit_in) if link else ""
                 return {
                     "search_query": entry.get("query", ""),
                     "page_title": entry.get("title", ""),
                     "page_body": f"{entry.get('body', '')} {extracted}",
-                    # "link": link,
                 }
-            except Exception as e:
+            except Exception:
                 return None
 
         all_processed = []
         with ThreadPoolExecutor(max_workers=15) as executor:
-            futures = [executor.submit(process_entry, entry) for entry in results]
+            futures = [executor.submit(process_entry, entry, limit) for entry, limit in entries_with_limit]
             for future in as_completed(futures):
                 result = future.result()
                 if result:
@@ -89,6 +100,7 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
         return final_output
 
     except Exception as e:
+        print(f"Overall search error: {e}")
         return []
 
 

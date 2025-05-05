@@ -11,9 +11,6 @@ import requests
 from PIL import Image
 from bs4 import BeautifulSoup
 
-start_time = time.time()
-
-
 def extract_text_from_image(content_bytes):
     """
     Extracts text from an image provided as byte content.
@@ -34,7 +31,7 @@ def extract_text_from_image(content_bytes):
     return text
 
 
-def extract_visible_text(html):
+def extract_visible_text(html, word_limit: int = 300):
     """
     Extracts and returns the first 100 words of visible text from the given HTML content.
     This function processes the HTML content to remove non-visible elements such as 
@@ -63,10 +60,10 @@ def extract_visible_text(html):
 
     full_text = f"{title}. {meta_desc}. {body_text}".strip()
     words = full_text.split()
-    trimmed = " ".join(words[:100])
+    trimmed = " ".join(words[50:word_limit + 50])
     return trimmed
 
-def extract_content_from_link(url,word_limit: int =100):
+def extract_content_from_link(url,word_limit: int =300):
     try:
         response = requests.get(url, timeout=10)
         content_type = magic.from_buffer(response.content, mime=True).lower()
@@ -78,25 +75,25 @@ def extract_content_from_link(url,word_limit: int =100):
                 text += page.get_text()
                 if len(text.split()) >= word_limit:
                     break
-            return " ".join(text.split()[:word_limit])
+            return " ".join(text.split()[50:word_limit + 50])
 
         elif "image" in content_type:
             return re.sub(r'\s+', ' ', extract_text_from_image(response.content)).strip()
 
         elif "html" in content_type:
-            return extract_visible_text(response.text)
+            return extract_visible_text(response.text, word_limit)
 
         elif "json" in content_type:
             try:
                 data = response.json()
                 flat_text = json.dumps(data, indent=2)
-                return " ".join(flat_text.split()[:word_limit])
+                return " ".join(flat_text.split()[50:word_limit + 50])
             except json.JSONDecodeError:
                 return "Invalid JSON content."
 
         elif "plain" in content_type or "markdown" in content_type:
             text = response.text
-            return " ".join(text.split()[:word_limit])
+            return " ".join(text.split()[50:word_limit + 50])
 
         else:
             return f"Unsupported content type: {content_type}"
@@ -112,5 +109,4 @@ def get_links_data(links: list):
     obj = {};
     for url, result in zip(links, results):
         obj[url] = result
-    print(obj)
     return obj
