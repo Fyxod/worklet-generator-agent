@@ -6,6 +6,7 @@ from app.socket import is_client_connected, sio
 from app.utils.llm_response_parser import extract_dicts_smart
 from app.utils.prompt_templates import worklet_gen_prompt, worklet_gen_prompt_with_web_searches
 from app.utils.search_functions.search import search
+import random
 
 executor = ThreadPoolExecutor(max_workers=5)
 
@@ -44,7 +45,7 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
     if not custom_topics:
         custom_topics = "Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT. Cross-domain intersections are encouraged"
     if not custom_prompt:
-        custom_prompt = " no custon prompt was provide by user please continue"
+        custom_prompt = " no custom prompt was provide by user please continue"
         
     prompt_template = worklet_gen_prompt()
     
@@ -57,8 +58,11 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
         count_string=count_string,
     )
 
+
+    random_int = random.randint(1, 1000)
+    
     try:
-        with open("saved_prompt1.txt", "w", encoding="utf-8") as file:
+        with open(f"saved_prompt1_{random_int}.txt", "w", encoding="utf-8") as file:
             file.write(prompt)
     except Exception as e:
         print(f"Failed to write prompt to file. Error: {e}")
@@ -114,7 +118,7 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
             return
 
         try:
-            with open("saved_prompt2.txt", "w", encoding="utf-8") as file:
+            with open(f"saved_prompt2_{random_int}.txt", "w", encoding="utf-8") as file:
                 file.write(prompt)
         except Exception as e:
             print(f"Failed to write prompt to file. Error: {e}")
