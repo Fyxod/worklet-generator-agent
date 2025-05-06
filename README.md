@@ -1,19 +1,19 @@
 
 # Worklet Generator 
-## Colne the repo from GitHub 
+## Clone the repo from GitHub 
 ```
 git clone https://github.com/bedrockSp/Backend.git
 ```
 ## Create a virtual environment
 Make sure Python is installed and added to your system PATH.
 ```
-python -m venv  my_env
+python -m venv my_env
 ```
 
 Activate the virtual environment
 
 ```
-my_env\Scripts\activate.bat
+.\my_env\Scripts\activate
 
 ```
 
@@ -28,7 +28,7 @@ pip install -r requirements.txt
 
 ## Make env file
 
-copy the content of env.example  and past it into .env 
+copy the content of env.example and past it into .env 
 then fill it up 
 
 ## Download TeseractOCR
