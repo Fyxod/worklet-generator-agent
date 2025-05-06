@@ -145,7 +145,6 @@ async def upload_multiple(
         return {"error": "Client not connected."}
     
     worklets = await generate_worklets(extracted_data_all, linksData, model, sid, custom_prompt, parsed_custom_topics)
-
     if not is_client_connected(sid):
         print(f"Client {sid} is not connected. Skipping fetching references. Returning error.")
         return {"error": "Client not connected."}

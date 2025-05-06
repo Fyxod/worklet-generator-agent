@@ -40,10 +40,6 @@ async def getReferenceWork(problem_statement, title, model="gemma3:27b"):
         googleReferences = []
 
         if len(googleScholarReferences) == 0:
-            await asyncio.sleep(5)
-            googleScholarReferences = get_google_scholar_references(keyword)
-
-        if len(googleScholarReferences) == 0:
             googleReferences = search_references(keyword, max_results=10)
 
     response = []
