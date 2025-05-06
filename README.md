@@ -36,6 +36,15 @@ https://github.com/tesseract-ocr/tesseract/releases
 
 from the  link download latest model and install it 
 
+
+## Test it out
+Your are all set to go!
+Run the following **command from the Worklet Generator Folder** to start the server
+
+```
+uvicorn app.main:app 
+```
+
 ## File structure
 
 
@@ -93,3 +102,13 @@ from the  link download latest model and install it
     └── README.md
     └── requirements.txt
 ```
+## Folder Descriptions
+- **app**: Contains the main application code, including the FastAPI app, routers, and utility functions.
+- **public**: Contains static files, such as icons and images.
+- **resources**: Contains directories for archived images, archived worklets, extracted images, and generated worklets.
+- **routers**: Contains the FastAPI routers for handling different API endpoints.
+- **socket.py**: Contains the WebSocket implementation for real-time communication between the server and client.
+- **utils**: Contains utility functions for generating references, worklets, PDFs, and parsing LLM responses.
+- **templates**: Contains templates for rendering HTML pages.
+
+#### Start reading from app/routers/root.py and follow the imports to understand the flow of the code.

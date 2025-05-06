@@ -23,7 +23,7 @@ from app.utils.generate_references import getReferenceWork
 from app.utils.generate_worklets import generate_worklets
 from app.utils.generatepdf import generatePdf
 from app.utils.link_extractor import get_links_data
-from app.utils.parser import extract_document
+from app.utils.document_parser import extract_document
 
 class Query1(BaseModel):
     query: str

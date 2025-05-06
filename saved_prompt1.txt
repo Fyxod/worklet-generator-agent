@@ -1,0 +1,105 @@
+Human: 
+**ROLE & CONTEXT**
+
+    You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
+
+    You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files) and any prior information. Based on your analysis, you have two capabilities:
+
+    1. **Internal Knowledge Generation**:
+   If you find the provided material and your internal knowledge sufficient,  generate exactly six (6) feasible problem statements, strictly following the output format specified below.
+
+    2. **Web Search Assistance**:
+   If you determine that additional external information is necessary to enhance the quality, relevance, or feasibility of the problem statements, you have the ability to request a web search.   To do this, you must return a JSON object in the structure provided below:
+
+   Use this option proactively whenever you suspect that external sources could improve accuracy, freshness, or richness of the problem statements give all the queries at once .
+   **When unsure, prefer to request a web search rather than relying solely on internal knowledge.**
+    Existing Worklets for Reference:
+    {1: '<!-- Slide number: 1 --> # ML and NLP with Python <!-- Slide number: 2 --> # Python Libraries NumPy Numerical computing, arrays Pandas Data manipulation Matplotlib Data visualization Seaborn Statistical data visualization Scikit-Learn Machine learning algorithms TensorFlow Deep learning, neural networks Keras High-level API for deep learning PyTorch Deep learning (research-focused) XGBoost Gradient boosting for structured data LightGBM Fast boosting algorithm OpenCV Computer vision and image processing NLTK Natural Language Tool Kit SpaCy Advanced NLP <!-- Slide number: 3 --> ![Picture 3](Picture3.jpg) # NLP Libraries in Python Python has number of libraries for NLP to perform tokenization, sentiment analysis, machine translation, text summarization, and more. NLTK (Natural Language Toolkit) spaCy TextBlob Transformers (by Hugging Face) Gensim Tesseract OCR (for Text Extraction from Images) Polyglot Keras (for deep learning NLTK) <!-- Slide number: 4 --> # Text Preprocessing in Python Text Cleaning/Tokenization using Python RegEx Module. Regular Expressions - Sequence of characters that defines a search pattern. It is commonly used for: Finding specific patterns in text (e.g., emails, dates, phone numbers). Replacing or cleaning text (e.g., removing special characters). Splitting text into meaningful components. Python has a built-in module named “re” that is used for regular expressions in Python Import re It allows pattern matching operations like search, match, findall, etc. <!-- Slide number: 5 --> # RegEx - Example import re s = “CognitiveComputing: A computer science subject for geeks” match = re.search(‘subject\', s) print(\'Start Index:\', match.start()) print(\'End Index:\', match.end()) Output: Start Index: 39 End Index: 46 <!-- Slide number: 6 --> # re.findall() - finds and returns all matching occurrences in a list import re string = """Hello my Number is 987654321 and my friend\'s number is 123456789""" regex = r\'\\d+\' match = re.findall(regex, string) // Finds all matches of a regex in text output will be the List of strings print(match) Output: [\'987654321\', \'123456789\'] Here r character (r’portal’) stands for raw, not regex. The raw string is slightly different from a regular string, it won’t interpret the \\ character as an escape character. This is because the regular expression engine uses \\ character for its own escaping purpose. [] : A set of characters. \\w : Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character). + : One or more occurrences. <!-- Slide number: 7 --> # re.findall() - finds and returns all matching occurrences in a list \\d → digit \\w → word character \\s → space character [] : A set of characters. \\w : Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character). + : One or more occurrences. <!-- Slide number: 8 --> # Other Regex Functions <table><tr><th>re.compile() </th><th>Regular expressions are compiled into pattern objects</th></tr><tr><td>re.split() </td><td>Split string by the occurrences of a character or a pattern.</td></tr><tr><td>re.sub() </td><td>Replaces all occurrences of a character or patter with a replacement string.</td></tr><tr><td>re.escape()</td><td>Escapes special character</td></tr><tr><td>re.search()</td><td>Searches for first occurrence of character or pattern</td></tr></table> <!-- Slide number: 9 --> # Split() for word tokenization import re text = """There are multiple ways we can perform tokenization on given text data. We can choose any method based on langauge, library and purpose of modeling.""" # Split text by whitespace tokens = text.split() print(tokens) [\'There\', \'are\', \'multiple\', \'ways\', \'we\', \'can\', \'perform\', \'tokenization\', \'on\', \'given\', \'text\', \'data.\', \'We\', \'can\', \'choose\', \'any\', \'method\', \'based\', \'on\', \'langauge,\', \'library\', \'and\', \'purpose\', \'of\', \'modeling.\'] <!-- Slide number: 10 --> # Tokenization using NLTK Tokenizer NLTK provides several built-in tokenizers for different NLP tasks. Sentence Tokenization (sent_tokenize) Word Tokenization (word_tokenize) Regular Expression Tokenizer (RegexpTokenizer) - Custom regex-based tokenization White Space Tokenizer (WhitespaceTokenizer) WordPunct Tokenizer (WordPunctTokenizer) Tweet Tokenizer (TweetTokenizer) SyllableTokenizer <!-- Slide number: 11 --> # Steps before using NLTK in Jupyter Notebook !pip install nltk==3.8.1 import nltk nltk.download(\'punkt\') print(nltk.__version__) If don’t have stable Internet connection import os print(os.getcwd()) //to know current working directory import os nltk_path = os.path.expanduser("drive/nltk_data/tokenizers") os.makedirs(nltk_path, exist_ok=True) print(f"Created directory: {nltk_path}") https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip //dowkload punkt.zip file import nltk nltk.data.path.append(os.path.expanduser("drive/nltk_data")) print("NLTK path updated!") import zipfile nltk_path = os.path.expanduser("drive/nltk_data/tokenizers") with zipfile.ZipFile("punkt.zip", "r") as zip_ref: // NLTK requires the punkt tokenizer model zip_ref.extractall(nltk_path) print("Extracted `punkt` successfully!") nltk.download(\'punkt’) //can lead to error then download manually Manually: https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip Download punkt in Jupyter Notebook Run the following command before tokenization: import nltk nltk.download(\'punkt\') NLTK requires the punkt tokenizer model for word_tokenize(), but it is not downloaded. <!-- Slide number: 12 --> # What is punkt punkt is an unsupervised machine learning sentence tokenizer. It uses language-independent rules to find sentence boundaries. It is part of the NLTK package. Problem with latest version(3.9.1) of nltk -That punkt_tab is a strange bug from a newer version. nltk.download(\'punkt’) //can lead to error then download manually Manually: https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip Download punkt in Jupyter Notebook Run the following command before tokenization: import nltk nltk.download(\'punkt\') NLTK requires the punkt tokenizer model for word_tokenize(), but it is not downloaded. <!-- Slide number: 13 --> # Word Tokenization from nltk.tokenize import word_tokenize text = """There are multiple ways we can perform tokenization on given text data. We can choose any method based on langauge, library and purpose of modeling.""" tokens = word_tokenize(text) print(tokens) [\'There\', \'are\', \'multiple\', \'ways\', \'we\', \'can\', \'perform\', \'tokenization\', \'on\', \'given\', \'text\', \'data\', \'.\', \'We\', \'can\', \'choose\', \'any\', \'method\', \'based\', \'on\', \'langauge\', \',\', \'library\', \'and\', \'purpose\', \'of\', \'modeling\', \'.\'] <!-- Slide number: 14 --> # Sentence Tokenization from nltk.tokenize import sent_tokenize text = """Characters like periods, exclamation point and newline char are used to separate the sentences. But one drawback with split() method, that we can only use one separator at a time! So sentence tonenization wont be foolproof with split() method.""" sent_tokenize(text) [\'Characters like periods, exclamation point and newline char are used to separate the sentences.’, \'But one drawback with split() method, that we can only use one separator at a time!’, \'So sentence tonenization wont be foolproof with split() method.\'] <!-- Slide number: 15 --> # Split() for sentence tokenization text = """Characters like periods, exclamation point and newline char are used to separate the sentences. But one drawback with split() method, that we can only use one separator at a time! So sentence tonenization wont be foolproof with split() method.""" text.split(". ") # Note the space after the full stop makes sure that we dont get empty element at the end of list. [\'Characters like periods, exclamation point and newline char are used to separate the sentences\', \'But one drawback with split() method, that we can only use one separator at a time! So sentence tonenization wont be foolproof with split() method.\'] <!-- Slide number: 16 --> # Stemming RegexpStemmer - custom stemming rules using regular expressions (regex). PorterStemmer LancasterStemmer SnowballStemmer – Supports multiple languages <!-- Slide number: 17 --> # PorterStemmer from nltk.stem import PorterStemmer from nltk.tokenize import word_tokenize ps = PorterStemmer() sentence = "Programmers program with programming languages" words = word_tokenize(sentence) for w in words: print(w, " : ", ps.stem(w)) Programmers : programm program : program with : with programming : program languages : languag <!-- Slide number: 18 --> # RegexpStemmer from nltk.stem import RegexpStemmer # Define a regex pattern to remove common suffixes like "ing", "ed", "es" regexp_stemmer = RegexpStemmer(r"ing$|ed$|es$") words = ["running", "flies", "studies", "happiness", "played", "jumps"] stemmed_words = [regexp_stemmer.stem(word) for word in words] print(stemmed_words) Output: [\'runn\', \'fli\', \'studi\', \'happiness\', \'play\', \'jumps\'] <!-- Slide number: 19 --> # Lemmatization The WordNetLemmatizer in NLTK uses the WordNet lexical database to find the base form of words. from nltk.stem import WordNetLemmatizer lemmatizer = WordNetLemmatizer() words = ["running", "flies", "studies", "better", "happily", "geese"] lemmatized_words = [lemmatizer.lemmatize(word) for word in words] print(lemmatized_words) Output: [\'running\', \'fly\', \'study\', \'better\', \'happily\', \'goose\'] TRY YOURSELF: Lemmatization with POS (Part of Speech) Tags ### Notes: Wordnet.zip <!-- Slide number: 20 --> # Lemmatization # import these modules from nltk.stem import WordNetLemmatizer lemmatizer = WordNetLemmatizer() print("rocks :", lemmatizer.lemmatize("rocks")) print("corpora :", lemmatizer.lemmatize("corpora")) # a denotes adjective in "pos" print("better :", lemmatizer.lemmatize("better", pos="a")) rocks : rock corpora : corpus better : good <!-- Slide number: 21 --> # StopWord Removal from nltk.corpus import stopwords # Get English stopwords stop_words = set(stopwords.words("english")) print(stop_words) # Display some stopwords stop_words.add("example") # Adding "example" to stopwords list stop_words.remove("not") # Removing "not" (if negation is important) <!-- Slide number: 22 --> # Removing StopWord from Sentence from nltk.tokenize import word_tokenize text = "This is a simple example to demonstrate the removal of stopwords in NLP." # Tokenizing the text tokens = word_tokenize(text) # Remove stopwords filtered_tokens = [word for word in tokens if word.lower() not in stop_words] print(filtered_tokens) <!-- Slide number: 23 --> # Do it Yourself! Singularize and Pluralize text using TextBlob TextBlob: Translate a sentence from Spanish to English'}
+    {}
+    Along with these references, here is a prompt provided by the user. Let us call it user prompt. Please make sure to follow it strictly.
+     no custon prompt was provide by user please continue
+    If you dont understand anything inside the custom prompt, add a search query for that too
+---
+
+**TWO OPTIONS AFTER ANALYSIS:**
+
+1. **If you believe you have enough information**,  generate exactly six (6) feasible problem statements, following the output format described below.
+
+2. **If you believe additional external information is needed** to improve quality, relevance, or feasibility:
+
+   - Do not generate problem statements yet.
+   - Instead, return a JSON object in this structure:
+
+
+
+
+**OUTPUT FORMAT** (Mandatory if proceeding without websearch):
+
+
+Follow the format below to iniceate a web search:
+   ```json
+   {
+     "websearch": true,
+     "search": [
+       "<search query 1>",
+       "<search query 2>",
+       "<search query 3>"
+     ]
+   }
+   ```
+   
+   
+ Follow the below output format in order to generate worklets if you think no web search is required (Mandatory if proceeding without websearch):
+```json
+[
+    {
+        "websearch": false,
+        "Title": "<one-line title>",
+        "Problem Statement": "<28-33 word problem statement>",
+        "Description": "<background, maximum 100 words>",
+        "Challenge / Use Case": "<pain-point or user scenario>",
+        "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
+        "KPIs": [
+            "<metric 1 with value>",
+            "<metric 2 with value>",
+            "<metric 3 with value>",
+            "<metric 4 with value>"
+        ],
+        "Prerequisites": [
+            "<prerequisite 1>",
+            "<prerequisite 2>",
+            "<prerequisite 3>",
+            "<prerequisite 4>",
+            "<prerequisite 5>",
+            "<prerequisite 6>"
+        ],
+        "Infrastructure Requirements": "<minimum and recommended hardware>",
+        "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
+        "Milestones (6 months)": {
+            "M2": "<checkpoint>",
+            "M4": "<checkpoint>",
+            "M6": "<final deliverable>"
+        }
+    },
+    ...
+]
+```
+
+
+**MANDATORY CONSTRAINTS**
+
+1. **Domain focus**: Must involve at least one domain from Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT. Cross-domain intersections are encouraged, and no other domains should be included.
+2. **Value proposition**: Every problem must enable at least one:
+- Commercial PoC potential for Samsung
+- Publishable research paper
+- Viable patent filing
+3. **Feasibility**: Problems must match Tier 1-2 Indian college resources (open-source friendly, moderate infra).
+4. **Web enrichment**: Always supplement with public knowledge, datasets, best practices.
+5. **Quantity**: Generate exactly 6 problem statements inside the array.
+6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
+7. **Freshness**: Align with 2025(or latest) technology trends,frameworks,tools,libraries etc. If in doubt, initiate a web search. Ask as many questions you want to ask at once
+8. If a user prompt is provided, ensure strict adherence to its instructions and constraints. Here is the user prompt  no custon prompt was provide by user please continue
+
+---
+
+    
