@@ -1,16 +1,20 @@
 
 # Worklet Generator 
-
+## Colne the repo from GitHub 
+```
+git clone https://github.com/bedrockSp/Backend.git
+```
 ## Create a virtual environment
 Make sure Python is installed and added to your system PATH.
 ```
-python -m venv venv
+python -m venv  my_env
 ```
 
 Activate the virtual environment
 
 ```
-venv\Scripts\activate
+my_env\Scripts\activate.bat
+
 ```
 
 Install required dependencies
