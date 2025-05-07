@@ -1,7 +1,8 @@
 from langchain.prompts import ChatPromptTemplate
 
 
-def worklet_gen_prompt():  # worklet data need to be given so that
+# This Prompt is meant to search for web only
+def web_search_prompt():
 
     return ChatPromptTemplate.from_template(
         """
@@ -9,40 +10,46 @@ def worklet_gen_prompt():  # worklet data need to be given so that
 
     You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
 
-    You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files) and any prior information. Based on your analysis, you have two capabilities:
+    You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files) and any prior information.
 
     1. **Internal Knowledge Generation**:
-   If you find the provided material and your internal knowledge sufficient,  generate exactly {count_string} ({count}) feasible problem statements, strictly following the output format specified below.
-
+   If you find the provided material and your internal knowledge sufficient,  generate exactly {count_string} ({count}) feasible problem statements.
     2. **Web Search Assistance**:
-   If you determine that additional external information is necessary to enhance the quality, relevance, or feasibility of the problem statements, you have the ability to request a web search.\
+   If you determine that additional external information is necessary to enhance the quality, relevance, or feasibility of the problem statements, you have the ability to request a web search.
    To do this, you must return a JSON object in the structure provided below:
 
    Use this option proactively whenever you suspect that external sources could improve accuracy, freshness, or richness of the problem statements give all the queries at once .
    **When unsure, prefer to request a web search rather than relying solely on internal knowledge.**
     Existing Worklets for Reference:
     {worklet_data}
-    {linksData}
+    {links_data}
     Along with these references, here is a prompt provided by the user. Let us call it user prompt. Please make sure to follow it strictly.
     {custom_prompt}
-    If you dont understand anything inside the custom prompt, add a search query for that too
+    If you dont understand anything inside the custom prompt or you need more clarificationon the topic , add a search query for that too
 ---
 
 **TWO OPTIONS AFTER ANALYSIS:**
 
-1. **If you believe you have enough information**,  generate exactly {count_string} ({count}) feasible problem statements, following the output format described below.
+1. **If you believe you have enough information** just retuern a json as follows 
+```json
+   {{
+     "websearch": false
+   }}
+   ```
 
 2. **If you believe additional external information is needed** to improve quality, relevance, or feasibility:
-
-   - Do not generate problem statements yet.
-   - Instead, return a JSON object in this structure:
-
-
-
-
+     retuen a json in this format 
+     ```json
+   {{
+     "websearch": true,
+     "search": [
+       "<search query 1>",
+       "<search query 2>",
+       "<search query 3>"
+     ]
+   }}
+   ```
 **OUTPUT FORMAT** (Mandatory if proceeding without websearch):
-
-
 Follow the format below to iniceate a web search:
    ```json
    {{
@@ -54,76 +61,104 @@ Follow the format below to iniceate a web search:
      ]
    }}
    ```
-   
-   
- Follow the below output format in order to generate worklets if you think no web search is required (Mandatory if proceeding without websearch):
+Follow the format below if you think you have enough information to generate worklets  :
+
 ```json
-[
-    {{
-        "websearch": false,
-        "Title": "<one-line title>",
-        "Problem Statement": "<28-33 word problem statement>",
-        "Description": "<background, maximum 100 words>",
-        "Challenge / Use Case": "<pain-point or user scenario>",
-        "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
-        "KPIs": [
-            "<metric 1 with value>",
-            "<metric 2 with value>",
-            "<metric 3 with value>",
-            "<metric 4 with value>"
-        ],
-        "Prerequisites": [
-            "<prerequisite 1>",
-            "<prerequisite 2>",
-            "<prerequisite 3>",
-            "<prerequisite 4>",
-            "<prerequisite 5>",
-            "<prerequisite 6>"
-        ],
-        "Infrastructure Requirements": "<minimum and recommended hardware>",
-        "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
-        "Milestones (6 months)": {{
-            "M2": "<checkpoint>",
-            "M4": "<checkpoint>",
-            "M6": "<final deliverable>"
-        }}
-    }},
-    ...
-]
+   {{
+     "websearch": false
+   }}
 ```
 
 
 **MANDATORY CONSTRAINTS**
 
-1. **Domain focus**: Must involve at least one domain from {custom_topics}, and no other domains should be included.
+1. **Domain focus**: Must involve at least one domain from {custom_topics}, and no other domains should be included.(cross-domain intersections are encouraged)
 2. **Value proposition**: Every problem must enable at least one:
 - Commercial PoC potential for Samsung
 - Publishable research paper
 - Viable patent filing
+(more than one may apply)
 3. **Feasibility**: Problems must match Tier 1-2 Indian college resources (open-source friendly, moderate infra).
-4. **Web enrichment**: Always supplement with public knowledge, datasets, best practices.
+4. **Web enrichment**: do NOT limit yourself to the provided documents; supplement with current public knowledge, standards, datasets, and best practices to keep the problems rich and relevant.
 5. **Quantity**: Generate exactly {count} problem statements inside the array.
 6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
 7. **Freshness**: Align with 2025(or latest) technology trends,frameworks,tools,libraries etc. If in doubt, initiate a web search. Ask as many questions you want to ask at once
 8. If a user prompt is provided, ensure strict adherence to its instructions and constraints. Here is the user prompt {custom_prompt}
+"""
+    )
+
+# this prompt will be used to extract keywords from the data
+def keywords_from_worklets_custom_prompt(custom_prompt, worklet_data, links_data):
+    return f"""
+**ROLE & CONTEXT**
+
+You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
+
+Your task is to carefully examine the provided set of documents (PPTs, PDFs, Word files, Excel sheets) and the extracted data from provided links. Based on this analysis, extract **relevant and high-impact keywords** from:
+
+1. Existing Worklets
+2. Data Extracted from Links
+3. Custom User Prompt
 
 ---
 
-    """
-    
-    )
+**Guidelines and Constraints:**
+
+- Focus on **technical themes**, **emerging technologies**, **problem domains**, **solution approaches**, and **application areas**.
+- Keywords should be **concise**, preferably **one to three words** long.
+- Avoid common stopwords or generic terms like "project", "engineering", "data", unless highly domain-specific.
+- Do not repeat keywords across different sections unless necessary.
+- Prioritize **novelty**, **relevance**, and **potential research directions**.
+
+---
+
+**Existing Worklets for Reference:**
+
+{worklet_data}
+
+---
+
+**Data Extracted from Links:**
+
+{links_data}
+
+---
+
+**Custom Prompt from User:**
+
+{custom_prompt}
+
+---
+
+**Output Format (JSON):**
+
+{{
+    "worklet": ["keyword1", "keyword2", ...],
+    "link": ["keyword1", "keyword2", ...],
+    "custom_prompt": ["keyword1", "keyword2", ...]
+}}
+"""
 
 
-def worklet_gen_prompt_with_web_searches(count_string, linksData,json, worklet_data,custom_topics,custom_prompt, count: int = 6):  
+# This Prompt is meant to Generate The Final Worklets
+def worklet_gen_prompt_with_web_searches(
+    count_string,
+    links_data,
+    json,
+    worklet_data,
+    custom_topics,
+    custom_prompt,
+    count: int = 6,
+):
 
     return f"""
 **ROLE & CONTEXT**
 
     You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
-    You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files) and any prior information. Based on your analysis,
+    You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files) and any prior information.
     Existing Worklets for Reference:
     {worklet_data}
-    {linksData}
+    {links_data}
     
 
     In one of our previous conversation you requested son=me information from the web i have attached it below 
@@ -175,20 +210,20 @@ generate exactly {count_string} ({count}) feasible problem statements, following
 
 **MANDATORY CONSTRAINTS**
 
-1. **Domain focus**: Must involve at least one domain from {custom_topics}, and no other domains should be included.
+
+1. **Domain focus**: Must involve at least one domain from {custom_topics}, and no other domains should be included.(cross-domain intersections are encouraged)
 2. **Value proposition**: Every problem must enable at least one:
 - Commercial PoC potential for Samsung
 - Publishable research paper
 - Viable patent filing
+(more than one may apply)
 3. **Feasibility**: Problems must match Tier 1-2 Indian college resources (open-source friendly, moderate infra).
-4. **Web enrichment**: Always supplement with public knowledge, datasets, best practices.
+4. **Web enrichment**: do NOT limit yourself to the provided documents; supplement with current public knowledge, standards, datasets, and best practices to keep the problems rich and relevant.
 5. **Quantity**: Generate exactly {count} problem statements inside the array.
 6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
-7. **Freshness**: use the lates provided web results to the worklets up to date
-8. If a user prompt is provided, ensure strict adherence to its instructions and constraints. Here is the user prompt {custom_prompt}, use this information in the worklet generation process to make it more relevant to the user. Ensure the user prompt's language and intention is fully captured in each worklet. Each output should clearly reflect its intent.
-   Ensure the content provided in the user prompt is actually being used in the generating the problem statements for worklets.
-    """
-
+7. **Freshness**: Align with 2025(or latest) technology trends,frameworks,tools,libraries etc. If in doubt, initiate a web search. Ask as many questions you want to ask at once
+8. If a user prompt is provided, ensure strict adherence to its instructions and constraints. Here is the user prompt {custom_prompt}
+"""
 
 
 def refrence_sort_template(json):

@@ -4,19 +4,25 @@ from concurrent.futures import ThreadPoolExecutor
 from app.llm import invoke_llm
 from app.socket import is_client_connected, sio
 from app.utils.llm_response_parser import extract_dicts_smart
-from app.utils.prompt_templates import worklet_gen_prompt, worklet_gen_prompt_with_web_searches
+from app.utils.prompt_templates import (
+    web_search_prompt,
+    worklet_gen_prompt_with_web_searches,
+)
 from app.utils.search_functions.search import search
 
 executor = ThreadPoolExecutor(max_workers=5)
 
-async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, custom_topics):
+
+async def generate_worklets(
+    worklet_data, links_data, model, sid, custom_prompt, custom_topics
+):
     """
     Asynchronously generates worklets based on provided data, model, and optional customizations.
-    This function interacts with a language model (LLM) to generate worklets using the provided 
+    This function interacts with a language model (LLM) to generate worklets using the provided
     data and parameters. It also supports web search integration if requested by the LLM.
     Args:
         worklet_data (str): The primary data to be used for generating worklets.
-        linksData (str): Additional link-related data to be included in the prompt.
+        links_data (str): Additional link-related data to be included in the prompt.
         model (str): The name of the LLM model to be used (e.g., "gemini-flash-2.0").
         sid (str): The session ID of the client, used for emitting progress and error messages.
         custom_prompt (str): A custom prompt provided by the user. Defaults to a fallback message if not provided.
@@ -24,33 +30,33 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
     Returns:
         dict: A dictionary containing the extracted worklets, or None if an error occurs.
     Raises:
-        Exception: Emits error messages to the client in case of issues with LLM invocation, 
+        Exception: Emits error messages to the client in case of issues with LLM invocation,
                    output extraction, or web search.
     Notes:
-        - If the LLM requests a web search, the function performs the search and re-generates 
+        - If the LLM requests a web search, the function performs the search and re-generates
           worklets using the search results.
-        - The function ensures that the client is connected before performing operations that 
+        - The function ensures that the client is connected before performing operations that
           require client interaction.
         - Emits progress updates and error messages to the client via Socket.IO.
     """
 
     count = 6
     count_string = "six"
-    
+
     if model == "gemini-flash-2.0":
         count = 5
         count_string = "five"
-        
+
     if not custom_topics:
         custom_topics = "Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT. Cross-domain intersections are encouraged"
     if not custom_prompt:
         custom_prompt = " no custom prompt was provide by user please continue"
-        
-    prompt_template = worklet_gen_prompt()
-    
+
+    prompt_template = web_search_prompt()
+
     prompt = prompt_template.format(
         worklet_data=worklet_data,
-        linksData=linksData,
+        links_data=links_data,
         count=count,
         custom_prompt=custom_prompt,
         custom_topics=custom_topics,
@@ -92,11 +98,11 @@ async def generate_worklets(worklet_data, linksData, model, sid, custom_prompt, 
             custom_topics = "Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT. Cross-domain intersections are encouraged"
         if not custom_prompt:
             custom_prompt = " no custon prompt was provide by user please continue"
-            
+
         prompt = worklet_gen_prompt_with_web_searches(
             json=s,
             worklet_data=worklet_data,
-            linksData=linksData,
+            links_data=links_data,
             count=count,
             custom_prompt=custom_prompt,
             custom_topics=custom_topics,

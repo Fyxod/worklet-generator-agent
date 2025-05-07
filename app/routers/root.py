@@ -97,7 +97,6 @@ async def upload_multiple(
     saved_files = []
     extracted_data_all = {}
 
-
     # 1. Save uploaded files
     if files:
         await sio.emit("progress", {"message": "Extracting data from files..."}, to=sid)
@@ -121,34 +120,34 @@ async def upload_multiple(
 
         extracted_data_all = {i + 1: data for i, data in enumerate(extracted_results)}
 
-
     # 3. Handle links
-    linksData = {}
+    links_data = {}
     try:
         parsed_links = json.loads(links)
-        
+
         if parsed_links:
             await sio.emit("progress", {"message": "Extracting data from links..."}, to=sid)
             loop = asyncio.get_running_loop()
-            linksData = await loop.run_in_executor(None, get_links_data, parsed_links)
+            links_data = await loop.run_in_executor(None, get_links_data, parsed_links)
     except json.JSONDecodeError as e:
         print("Error decoding links JSON:", e)
 
-    #Summarise extracted data into worklets
-
+    # Summarise extracted data into worklets
 
     # 4. generating worklets here
     await sio.emit("progress", {"message": "Generating worklets..."}, to=sid)
-    
+
     if not is_client_connected(sid):
         print(f"Client {sid} is not connected. Skipping worklet generation. Returning error.")
         return {"error": "Client not connected."}
-    
-    worklets = await generate_worklets(extracted_data_all, linksData, model, sid, custom_prompt, parsed_custom_topics)
+
+    worklets = await generate_worklets(
+        extracted_data_all, links_data, model, sid, custom_prompt, parsed_custom_topics
+    )
     if not is_client_connected(sid):
         print(f"Client {sid} is not connected. Skipping fetching references. Returning error.")
         return {"error": "Client not connected."}
-    
+
     # 5. Move old generated files
     loop = asyncio.get_running_loop()
 
@@ -204,7 +203,7 @@ async def upload_multiple(
         if not is_client_connected(sid):
             print(f"Client {sid} is not connected. Skipping next file. Returning error.")
             return {"error": "Client not connected."}
-        
+
     end_time = time.time()
     elapsed_time = end_time - start_time
     await sio.emit("progress", {"message": f"{elapsed_time}"}, to=sid)
