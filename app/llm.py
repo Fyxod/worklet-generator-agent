@@ -22,12 +22,9 @@ llm2 = ChatGoogleGenerativeAI(
 
 ollama_models = [
     "gemma3:27b",
-    "gemma3:27b-8k",
-    "gemma3:27b-15k",
-    "gemma3:27b-45k",
     'gemma3:27b-90k-8k',
-    "gemma3:27b-128k-8k"
-    
+    "gemma3:12b-it-fp16-45k",
+    "gemma3:12b-it-fp16-90k"
 ]
 
 async def invoke_llm(prompt, model):
@@ -36,6 +33,7 @@ async def invoke_llm(prompt, model):
 
     if model in ollama_models:
         # using ollama gemma
+        print(f"Using model: {model}")
         payload = {"prompt": prompt}
         url = f"{os.getenv('LLM_URL')}/query?model={model}"
 
@@ -60,6 +58,7 @@ async def invoke_llm(prompt, model):
 
     else:
         # using google gemini
+        print(f"Using model: {model}")
         response = llm.invoke(prompt)
         raw_text = response.content
 

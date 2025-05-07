@@ -340,13 +340,11 @@
   <form id="worklet-form">
     <label>Select Model:</label>
     <select id="model-select" name="model" required>
-      <option value="gemma3:27b-90k-8k">Gemma 3 (27B) Context - 90k</option>
-      <option value="gemma3:27b-45k">Gemma 3 (27B) Context - 45k</option>
-      <option value="gemma3:27b-15k">Gemma 3 (27B) Context - 15k</option>
-      <option value="gemma3:27b-8k">Gemma 3 (27B) Context - 8k</option>
-      <option value="gemma3:27b">Gemma 3 (27B) Context - 2k</option>
-      <option value="gemma3:27b-128k-8k">Gemma 3 (27B) Context - 128k (may crash)</option>
+      <option value="gemma3:12b-it-fp16-90k">Gemma 3 (12B) fp16(higher quality) Context - 90k</option>
       <option value="gemini-flash-2.0">Gemini Flash 2.0</option>
+      <option value="gemma3:27b-90k-8k">Gemma 3 (27B) Context - 90k</option>
+      <option value="gemma3:27b">Gemma 3 (27B) Context - 2k</option>
+      <option value="gemma3:12b-it-fp16-45k">Gemma 3 (12B) fp16(higher quality) Context - 45k</option>
     </select>
     <label>Upload Files (PDF, DOCX, PPT, TXT, Images) (Max 100MB each):</label>
     <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,image/*">
