@@ -7,51 +7,43 @@ from app.utils.llm_response_parser import extract_dicts_smart
 from app.utils.prompt_templates import (
     web_search_prompt,
     worklet_gen_prompt_with_web_searches,
+    keywords_from_worklets_custom_prompt
 )
 from app.utils.search_functions.search import search
 
 executor = ThreadPoolExecutor(max_workers=5)
 
 
-async def generate_worklets(
-    worklet_data, links_data, model, sid, custom_prompt, custom_topics
-):
-    """
-    Asynchronously generates worklets based on provided data, model, and optional customizations.
-    This function interacts with a language model (LLM) to generate worklets using the provided
-    data and parameters. It also supports web search integration if requested by the LLM.
-    Args:
-        worklet_data (str): The primary data to be used for generating worklets.
-        links_data (str): Additional link-related data to be included in the prompt.
-        model (str): The name of the LLM model to be used (e.g., "gemini-flash-2.0").
-        sid (str): The session ID of the client, used for emitting progress and error messages.
-        custom_prompt (str): A custom prompt provided by the user. Defaults to a fallback message if not provided.
-        custom_topics (str): Custom topics provided by the user. Defaults to a predefined set of topics if not provided.
-    Returns:
-        dict: A dictionary containing the extracted worklets, or None if an error occurs.
-    Raises:
-        Exception: Emits error messages to the client in case of issues with LLM invocation,
-                   output extraction, or web search.
-    Notes:
-        - If the LLM requests a web search, the function performs the search and re-generates
-          worklets using the search results.
-        - The function ensures that the client is connected before performing operations that
-          require client interaction.
-        - Emits progress updates and error messages to the client via Socket.IO.
-    """
+async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt, custom_topics):
 
-    count = 6
-    count_string = "six"
-
-    if model == "gemini-flash-2.0":
-        count = 5
-        count_string = "five"
+    count = 10
+    count_string = "ten"
 
     if not custom_topics:
-        custom_topics = "Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT. Cross-domain intersections are encouraged"
+        custom_topics = "Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT"
     if not custom_prompt:
         custom_prompt = " no custom prompt was provide by user please continue"
 
+  
+
+    loop = asyncio.get_running_loop()
+    # New order
+    # keywords -> websearch -> frontend ->  update keywords and web search -> do websearch -> Final worklet generation prompt 
+    
+    # key words
+    keyword_prompt =keywords_from_worklets_custom_prompt(custom_prompt,worklet_data,links_data)
+    try:
+        keywords=await invoke_llm(prompt=keyword_prompt,model=model)
+    except Exception as e:
+        await sio.emit("error", {"message": "ERROR: LLM is not responding. Please try again."}, to=sid)
+        return
+    
+    try:
+        keywords = extract_dicts_smart(keywords)
+    except Exception as e:
+        await sio.emit("error", {"message": "ERROR: Wrong output returned by LLM. Please try again."}, to=sid)
+        return    
+#------------------------------------------------------------------------------------------------------------
     prompt_template = web_search_prompt()
 
     prompt = prompt_template.format(
@@ -63,7 +55,6 @@ async def generate_worklets(
         count_string=count_string,
     )
 
-    loop = asyncio.get_running_loop()
 
     try:
         generated_worklets = await invoke_llm(prompt, model)
