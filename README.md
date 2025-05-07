@@ -116,3 +116,5 @@ uvicorn app.main:app
 - **templates**: Contains templates for rendering HTML pages.
 
 #### Start reading from app/routers/root.py and follow the imports to understand the flow of the code.
+#### The main.py file is the entry point of the application, where the FastAPI app is created and configured.
+#### The app is run using Uvicorn, which is an ASGI server for running FastAPI applications.
