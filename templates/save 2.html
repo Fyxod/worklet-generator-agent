@@ -118,10 +118,6 @@ left: -9999px;
 top: -9999px;
 }
 
-.hidden{
-  display: none;
-}
-
 
   </style>
 </head>
@@ -157,8 +153,8 @@ top: -9999px;
 
 
 
-    <button type="submit" class="generate-btn" id="gen-work" >Generate Worklets</button>
-    <button type="button" class="clear-btn" id="clear-but" onclick="clearAll()">Clear Files & Links</button>
+    <button type="submit" class="generate-btn">Generate Worklets</button>
+    <button type="button" class="clear-btn" onclick="clearAll()">Clear Files & Links</button>
 
     <div class="loading" id="loading" style="display: none;"></div>
     <div class="progress-container" id="progress-container" style="display: none;">
@@ -170,7 +166,7 @@ top: -9999px;
   <div class="download-list" id="download-list"></div>
 </div>
 
-<div id="query-modal" class="modal hidden"> <div class="modal-content"> <h2>Approve or Edit Queries</h2> <h5 id="show_message"></h5><form id="query-form"> <div id="query-list"></div> <button type="button" id="add-query-btn">➕ Add Query</button> <button type="submit" class="generate-btn">Send Queries</button> </form> </div> </div>
+<div id="query-modal" class="modal hidden"> <div class="modal-content"> <h2>Approve or Edit Queries</h2> <form id="query-form"> <div id="query-list"></div> <button type="button" id="add-query-btn">➕ Add Query</button> <button type="submit" class="generate-btn">Send Queries</button> </form> </div> </div>
 
 <div id="topic-modal" class="modal hidden"> <div class="modal-content modal-topic"> <h2>Approve or Edit Topics</h2> <form id="topic-form" class="topic-grid"> <!-- Keywords Column --> <div class="topic-column" id="keywords-column"> <h3>Keywords</h3> <div class="section-container" id="keywords-sections"></div> <div class="user-section" id="user-keywords-section"> <h4>Keywords added by you:</h4> <div class="user-keywords-list" id="user-keywords-list"></div> <button type="button" id="add-keyword-btn">➕ Add Keyword</button> </div> </div>
   <!-- Divider -->
@@ -198,8 +194,6 @@ top: -9999px;
   const progressBar = document.getElementById('progress-bar');
   const progressMessage = document.getElementById('progress-message');
   const downloadList = document.getElementById('download-list');
-  const genWorkButton = document.getElementById('gen-work');
-  const clearButton = document.getElementById('clear-but');
   let sid = "";
   const socket = io('/', {
     transports: ['websocket'],
@@ -387,7 +381,7 @@ top: -9999px;
     errorOccurred = false; // reset before sending
     generatedCount = 0; // reset count before sending
     receivedFiles = []; // reset received files
-    
+
     const linkInputs = document.querySelectorAll('input[name="links[]"]');
     let links = [];
     linkInputs.forEach(input => {
@@ -395,11 +389,11 @@ top: -9999px;
     });
     
     const customPrompt = document.getElementById('custom-prompt')?.value || "";
-    if (selectedFiles.length === 0 && links.length === 0 && !customPrompt) {
-      alert('Please upload at least one file or enter at least one link or a custom prompt.');
-      return;
-    }
-    
+  if (selectedFiles.length === 0 && links.length === 0 && !customPrompt) {
+    alert('Please upload at least one file or enter at least one link or a custom prompt.');
+    return;
+  }
+
     const formData = new FormData();
     selectedFiles.forEach(file => {
       if (file.size > 100 * 1024 * 1024) {
@@ -408,35 +402,32 @@ top: -9999px;
       }
       formData.append('files', file);
     });
-    
+
     const model = document.getElementById('model-select').value;
-    
+
     formData.append('links', JSON.stringify(links));
     formData.append('sid', socket.id);
-    
+
     loading.style.display = 'block';
     progressContainer.style.display = 'block';
     progressMessage.style.display = 'block';
     progressMessage.textContent = 'Sending...';
     downloadList.innerHTML = '';
-    
+
     generatedCount = 0;
     totalWorklets = 6;
-    
+
     try {
-      
-      formData.append('custom_prompt', customPrompt);
-      
-      genWorkButton.classList.add('hidden');
-      clearButton.classList.add('hidden');
+
+formData.append('custom_prompt', customPrompt);
+
       const response = await fetch(`/upload?model=${encodeURIComponent(model)}`, {
         method: 'POST',
         body: formData
       });
-      
+
       if (errorOccurred) return; // If an error came in during the wait, don't continue.
-      genWorkButton.classList.remove('hidden');
-      clearButton.classList.remove('hidden');
+
       const data = await response.json();
 
       if (data.worklet_count) {
@@ -504,9 +495,6 @@ socket.on('query_approval', (data) => {
 const modal = document.getElementById('query-modal');
 const list = document.getElementById('query-list');
 list.innerHTML = ''; // clear old entries
-
-const heading = document.getElementById('show_message');
-heading.textContent = data.show_message || 'Please approve or edit the queries:';
 
 if (!Array.isArray(data.queries)) return;
 

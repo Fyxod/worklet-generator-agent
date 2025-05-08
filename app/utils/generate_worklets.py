@@ -12,92 +12,16 @@ from app.utils.prompt_templates import (
 from app.utils.search_functions.search import search
 from app.utils.search_functions.modify_websearch_queries import get_approved_queries
 from app.utils.search_functions.modify_keywords_domains import get_approved_content
-
 executor = ThreadPoolExecutor(max_workers=5)
 
-
 async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt):
-
     count = 10
     count_string = "ten"
 
-    # if not custom_topics:
-    #     custom_topics = "Generative AI, Vision AI, Voice AI, On-device AI, Classical ML, IoT"
-    if not custom_prompt:
-        custom_prompt = " no custom prompt was provide by user please continue"
-
-    domains = {
-        "worklet_domains":[
-            "Generative AI",
-            "Vision AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            ],
-        "link_domains":[
-            "link 1",
-            "link 2",
-            "link 3",],
-        "custom_prompt_domains":[
-            "custom prompt 1",
-            "custom prompt 2",
-            "custom prompt 3",],
-    }
-    
-    keywords =  {
-        "worklet_keywords":[
-            "Generative AI",
-            "Vision AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            "Voice AI",
-            ],
-        "link_keywords":[
-            "link 1",
-            "link 2",
-            "link 3",],
-        "custom_prompt_keywords":[
-            "custom prompt 1",
-            "custom prompt 2",
-            "custom prompt 3",],
-    }
-    
-    domains, keywords = await get_approved_content(domains=domains, keywords=keywords, sid=sid)
-    return;
     loop = asyncio.get_running_loop()
     # New order
     # keywords -> websearch -> frontend ->  update keywords and web search -> do websearch -> Final worklet generation prompt 
-    await sio.emit("progress", {"message": "Extracting keywords..."}, to=sid)
+    await sio.emit("progress", {"message": "Extracting keywords and domains..."}, to=sid)
     
     # key words
     keyword_domain_prompt =keywords_from_worklets_custom_prompt(custom_prompt,worklet_data,links_data)
@@ -112,15 +36,26 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
     except Exception as e:
         await sio.emit("error", {"message": "ERROR: Wrong output returned by LLM. Please try again."}, to=sid)
         return    
-#------------------------------------------------------------------------------------------------------------
-    prompt_template = web_search_prompt()
 
-    prompt = prompt_template.format(
+    domains = {
+    "worklet_domains": topics.get("worklet", {}).get("domains", []),
+    "link_domains": topics.get("link", {}).get("domains", []),
+    "custom_prompt_domains": topics.get("custom_prompt", {}).get("domains", []),
+    }
+    
+    keywords = {
+    "worklet_keywords": topics.get("worklet", {}).get("keywords", []),
+    "link_keywords": topics.get("link", {}).get("keywords", []),
+    "custom_prompt_keywords": topics.get("custom_prompt", {}).get("keywords", []),
+    }
+
+    domains, keywords = await get_approved_content(domains=domains, keywords=keywords, sid=sid)
+    
+    prompt = web_search_prompt(
         worklet_data=worklet_data,
         links_data=links_data,
         count=count,
         custom_prompt=custom_prompt,
-        # custom_topics=custom_topics,
         count_string=count_string,
     )
 
@@ -152,21 +87,6 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
         
     queries = await get_approved_queries(queries=queries, sid=sid, show_message=show_message)
 
-    # await sio.emit("progress", {"message": "LLM requested for web search..."}, to=sid)
-    # await asyncio.sleep(0.7)
-    domains = {
-        "worklet_domains": topics.get("worklet", {}).get("domains", []),
-        "link_domains": topics.get("link", {}).get("domains", []),
-        "custom_prompt_domains": topics.get("custom_prompt", {}).get("domains", []),
-    }
-    keywords = {
-        "worklet_keywords": topics.get("worklet", {}).get("keywords", []),
-        "link_keywords": topics.get("link", {}).get("keywords", []),
-        "custom_prompt_keywords": topics.get("custom_prompt", {}).get("keywords", []),
-    }
-    
-    return;
-    
     socket_message = "Generating worklets..."
     if queries != []:
         await sio.emit("progress", {"message": "Searching the web..."}, to=sid)
@@ -178,8 +98,6 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
             return
         socket_message = "Generating worklets with web search results..."
 
-    # keywords = 
-
     await sio.emit("progress", {"message": socket_message}, to=sid)
 
     prompt = worklet_gen_prompt_with_web_searches(
@@ -188,7 +106,6 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
         links_data=links_data,
         count=count,
         custom_prompt=custom_prompt,
-        # custom_topics=custom_topics,
         count_string=count_string,
     )
 
