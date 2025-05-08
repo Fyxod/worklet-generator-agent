@@ -72,7 +72,7 @@ Follow the format below if you think you have enough information to generate wor
 
 **MANDATORY CONSTRAINTS**
 
-1. **Domain focus**: Must involve at least one domain from {custom_topics}, and no other domains should be included.(cross-domain intersections are encouraged)
+1. **Domain focus**: Must involve at least one domain from {Domain}, and no other domains should be included.(cross-domain intersections are encouraged)
 2. **Value proposition**: Every problem must enable at least one:
 - Commercial PoC potential for Samsung
 - Publishable research paper
@@ -89,56 +89,90 @@ Follow the format below if you think you have enough information to generate wor
 
 # this prompt will be used to extract keywords from the data
 def keywords_from_worklets_custom_prompt(custom_prompt, worklet_data, links_data):
-    return f"""
-**ROLE & CONTEXT**
+    return f"""# ROLE & CONTEXT
 
 You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
 
-Your task is to carefully examine the provided set of documents (PPTs, PDFs, Word files, Excel sheets) and the extracted data from provided links. Based on this analysis, extract **relevant and high-impact keywords** from:
+Your task is to analyze the provided documents and extracted data and identify **high-impact keywords** and **relevant domains** from the following sources:
 
 1. Existing Worklets
 2. Data Extracted from Links
 3. Custom User Prompt
 
+Extraction Goals
+ A. Keywords
+Extract concise keywords focusing on:
+
+ Technical concepts
+ Emerging technologies
+ Problem domains
+ Solution approaches
+ Application areas
+ 
+Keyword Rules:
+ 1 to 3 words max
+ Avoid generic terms like "project" or "engineering" unless domain-specific
+ No repetition across sections unless essential
+ Prioritize novelty and relevance
+ 
+B. Domains
+Identify broad application or research domains, such as(therse are just examples do not limit your self to these only):
+Healthcare,
+Smart Cities,
+AgriTech,
+FinTech,
+Cybersecurity,
+Automotive,
+EdTech,
+IoT
+Energ
+Do not limit to this list** — include any domain that is:
+Clearly stated or strongly implied
+Relevant to the context of innovation or research
+Specific enough to categorize the project's purpose or area of application
+
 ---
 
-**Guidelines and Constraints:**
+Input Sections
 
-- Focus on **technical themes**, **emerging technologies**, **problem domains**, **solution approaches**, and **application areas**.
-- Keywords should be **concise**, preferably **one to three words** long.
-- Avoid common stopwords or generic terms like "project", "engineering", "data", unless highly domain-specific.
-- Do not repeat keywords across different sections unless necessary.
-- Prioritize **novelty**, **relevance**, and **potential research directions**.
-
----
-
-**Existing Worklets for Reference:**
+### **Existing Worklets for Reference:**
 
 {worklet_data}
 
 ---
 
-**Data Extracted from Links:**
+### **Data Extracted from Links:**
 
 {links_data}
 
 ---
 
-**Custom Prompt from User:**
+### **Custom Prompt from User:**
 
 {custom_prompt}
 
 ---
 
-**Output Format (JSON):**
+##  Output Format (JSON)
 
+```json
 {{
-    "worklet": ["keyword1", "keyword2", ...],
-    "link": ["keyword1", "keyword2", ...],
-    "custom_prompt": ["keyword1", "keyword2", ...]
+  "worklet": {{
+    "keywords": ["keyword1", "keyword2", "..."],
+    "domains": ["domain1", "domain2", "..."]
+  }},
+  "link": {{
+    "keywords": ["keyword1", "keyword2", "..."],
+    "domains": ["domain1", "domain2", "..."]
+  }},
+  "custom_prompt": {{
+    "keywords": ["keyword1", "keyword2", "..."],
+    "domains": ["domain1", "domain2", "..."]
+  }}
 }}
-"""
+```
 
+"""
 
 # This Prompt is meant to Generate The Final Worklets
 def worklet_gen_prompt_with_web_searches(
@@ -146,85 +180,121 @@ def worklet_gen_prompt_with_web_searches(
     links_data,
     json,
     worklet_data,
-    custom_topics,
+    Domain,
     custom_prompt,
+    keywords,
     count: int = 6,
 ):
 
     return f"""
-**ROLE & CONTEXT**
+ROLE & CONTEXT
 
-    You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
-    You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files) and any prior information.
-    Existing Worklets for Reference:
-    {worklet_data}
-    {links_data}
-    
+You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
 
-    In one of our previous conversation you requested son=me information from the web i have attached it below 
-    {json}   
-    
-** USER PROMPT (STRICTLY FOLLOW THIS):**  
-Please use the following prompt as the definitive guide. All outputs must directly address this prompt. In case of any conflict with general instructions, the custom prompt takes precedence.  
+You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files), as well as any prior extracted information or links.
 
-**User Prompt:**  
+Included:
+Existing Worklets for Reference:
+{worklet_data}
+Data Extracted from External Links:
+{links_data}
+Web search results previously requested in one of our previous interactions:
+{json}
+
+USER PROMPT (STRICTLY FOLLOW THIS):
+
+Please use the following prompt as the definitive guide. All outputs must directly address this prompt. In case of any conflict with general instructions, the user prompt takes precedence.
+User Prompt:  
 {custom_prompt}
-    
-generate exactly {count_string} ({count}) feasible problem statements, following the output format described below
-**OUTPUT FORMAT** :
+
+Your objective is to generate exactly {count_string} ({count}) feasible problem statements, following the format below.
+
+KEY DIFFERENTIATION: KEYWORDS vs DOMAINS
+
+Keywords: Specific technologies, methods, models, or terms.  
+Examples: "federated learning", "quantization", "LLM fine-tuning", "YOLOv8", "LoRaWAN", "diffusion models".
+Domains: Broad areas of application or research.  
+Examples: "Healthcare", "Cybersecurity", "AgriTech", "Smart Cities", "Climate Tech", "EdTech", "SpaceTech", "AR/VR".
+
+Each problem must be grounded in a valid domain and include relevant, cutting-edge keywords.
+
+---
+
+MANDATORY CONSTRAINTS
+
+1. Domain Focus:  
+   Each problem must involve at least one domain from {Domain}.  
+   Cross-domain intersections are allowed and encouraged.  
+   No unrelated domains should be included.
+2. Keyword Focus  
+   Keywords must be the central focus of the problem statement.  
+   Use keywords {keywords}to define the technical approach, methods, and technologies involved.  
+   Do not stray from the provided keywords, avoid generic or unrelated terms.
+
+2. Value Proposition:  
+    Each problem must target at least one of:
+    Commercial PoC potential for Samsung
+    Publishable academic research
+    Patentable novelty
+
+3. Feasibility:  
+   Must be realistic for Tier 1 or Tier 2 Indian engineering colleges  
+   Infrastructure must be moderate (cloud credits, GPUs, open data, etc.
+4. Web Enrichment:  
+    Do not rely only on internal material  
+    Supplement with 2025 (or latest) benchmarks, tools, APIs, datasets, literature, etc.
+5. Quantity:  
+   Generate exactly {count} problem statements
+
+6. KPIs:  
+   Include 3–4 real, measurable targets per problem (e.g., “Accuracy ≥ 92%”, “Latency ≤ 200ms”)
+
+7. Freshness:  
+   Use the latest frameworks, methods, or libraries.  
+   When in doubt or encountering ambiguity, initiate a web search.  
+   Ask multiple queries at once to clarify technology, problem scope, or domain gaps.
+
+8. Prompt Adherence:  
+   - All generated content must strictly follow the User Prompt:  
+    {custom_prompt}
+
+---
+
+OUTPUT FORMAT
 
 ```json
 [
-    {{
-        "Title": "<one-line title>",
-        "Problem Statement": "<28-33 word problem statement>",
-        "Description": "<background, maximum 100 words>",
-        "Challenge / Use Case": "<pain-point or user scenario>",
-        "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
-        "KPIs": [
-            "<metric 1 with value>",
-            "<metric 2 with value>",
-            "<metric 3 with value>",
-            "<metric 4 with value>"
-        ],
-        "Prerequisites": [
-            "<prerequisite 1>",
-            "<prerequisite 2>",
-            "<prerequisite 3>",
-            "<prerequisite 4>",
-            "<prerequisite 5>",
-            "<prerequisite 6>"
-        ],
-        "Infrastructure Requirements": "<minimum and recommended hardware>",
-        "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
-        "Milestones (6 months)": {{
-            "M2": "<checkpoint>",
-            "M4": "<checkpoint>",
-            "M6": "<final deliverable>"
-        }}
-    }},
-    ...
+  {
+    "Title": "<one-line title>",
+    "Problem Statement": "<28-33 word problem statement>",
+    "Description": "<background, maximum 100 words>",
+    "Challenge / Use Case": "<pain-point or user scenario>",
+    "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
+    "KPIs": [
+      "<metric 1 with value>",
+      "<metric 2 with value>",
+      "<metric 3 with value>",
+      "<metric 4 with value>"
+    ],
+    "Prerequisites": [
+      "<prerequisite 1>",
+      "<prerequisite 2>",
+      "<prerequisite 3>",
+      "<prerequisite 4>",
+      "<prerequisite 5>",
+      "<prerequisite 6>"
+    ],
+    "Infrastructure Requirements": "<minimum and recommended hardware>",
+    "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
+    "Milestones (6 months)": {
+      "M2": "<checkpoint>",
+      "M4": "<checkpoint>",
+      "M6": "<final deliverable>"
+    }
+  }
 ]
-```
 
-
-**MANDATORY CONSTRAINTS**
-
-
-1. **Domain focus**: Must involve at least one domain from {custom_topics}, and no other domains should be included.(cross-domain intersections are encouraged)
-2. **Value proposition**: Every problem must enable at least one:
-- Commercial PoC potential for Samsung
-- Publishable research paper
-- Viable patent filing
-(more than one may apply)
-3. **Feasibility**: Problems must match Tier 1-2 Indian college resources (open-source friendly, moderate infra).
-4. **Web enrichment**: do NOT limit yourself to the provided documents; supplement with current public knowledge, standards, datasets, and best practices to keep the problems rich and relevant.
-5. **Quantity**: Generate exactly {count} problem statements inside the array.
-6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
-7. **Freshness**: Align with 2025(or latest) technology trends,frameworks,tools,libraries etc. If in doubt, initiate a web search. Ask as many questions you want to ask at once
-8. If a user prompt is provided, ensure strict adherence to its instructions and constraints. Here is the user prompt {custom_prompt}
 """
-
 
 def refrence_sort_template(json):
 
@@ -258,7 +328,6 @@ Your output should be:
 
 """
 
-
 def index_sort_template(json):  # worklet data need to be given so that
 
     return f"""You are an Expert Technology and Innovation Advisor for Samsung PRISM.
@@ -289,7 +358,6 @@ Mandatory Constraints
 
 """
 
-
 def summariser_template():
     return ChatPromptTemplate.from_template(
         """
@@ -304,7 +372,6 @@ Input data:
 """
     )
 
-
 def keyword_prompt():
     return ChatPromptTemplate.from_template(
         """
@@ -318,3 +385,37 @@ def keyword_prompt():
     6. Output - LLM for code generation and debugging
     """
     )
+
+# ```json
+# [
+#     {{
+#         "Title": "<one-line title>",
+#         "Problem Statement": "<28-33 word problem statement>",
+#         "Description": "<background, maximum 100 words>",
+#         "Challenge / Use Case": "<pain-point or user scenario>",
+#         "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
+#         "KPIs": [
+#             "<metric 1 with value>",
+#             "<metric 2 with value>",
+#             "<metric 3 with value>",
+#             "<metric 4 with value>"
+#         ],
+#         "Prerequisites": [
+#             "<prerequisite 1>",
+#             "<prerequisite 2>",
+#             "<prerequisite 3>",
+#             "<prerequisite 4>",
+#             "<prerequisite 5>",
+#             "<prerequisite 6>"
+#         ],
+#         "Infrastructure Requirements": "<minimum and recommended hardware>",
+#         "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
+#         "Milestones (6 months)": {{
+#             "M2": "<checkpoint>",
+#             "M4": "<checkpoint>",
+#             "M6": "<final deliverable>"
+#         }}
+#     }},
+#     ...
+# ]
+# ```
