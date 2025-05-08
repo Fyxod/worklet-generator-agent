@@ -1,0 +1,169 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0f172a;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: 40px 20px;
+  color: #e2e8f0;
+}
+input[type="file"] {
+width: 100%;
+box-sizing: border-box;
+}
+
+.container {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  width: 100%;
+  max-width: 700px;
+  animation: fadeSlideIn 1s ease;
+}
+h1 {
+  text-align: center;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #f1f5f9;
+}
+label {
+  font-weight: 600;
+  margin-top: 20px;
+  display: block;
+  color: #cbd5e1;
+}
+input[type="file"], select, input[type="url"] {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  background: #334155;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #f1f5f9;
+}
+.file-list div, .link-list div {
+  background: #334155;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.file-list button, .link-list button, button[type="submit"], .add-link-btn, .clear-btn {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.file-list div {
+  background: #334155;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.file-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #f1f5f9;
+}
+button:hover {
+  background-color: #4f46e5;
+}
+.generate-btn {
+  background-color: #10b981;
+  padding: 14px 24px;
+  font-size: 1.1rem;
+  margin-top: 20px;
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  transition: background-color 0.3s;
+}
+.generate-btn:hover {
+  background-color: #059669;
+}
+.loading {
+  margin-top: 20px;
+  text-align: center;
+  color: #6366f1;
+  font-weight: 600;
+}
+.progress-container {
+  background: #334155;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 10px;
+  height: 16px;
+}
+.progress-bar {
+  background: #4f46e5;
+  height: 100%;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+.download-list a {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #60a5fa;
+  font-weight: 600;
+  transition: color 0.2s, transform 0.3s;
+}
+.download-list a:hover {
+  color: #3b82f6;
+  transform: translateY(-2px);
+}
+.remove-link-btn {
+  background-color: #f87171;
+}
+.remove-link-btn:hover {
+  background-color: #ef4444;
+}
+    .progress-message {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 600;
+  color: #38bdf8;
+  animation: fadeIn 0.6s ease forwards;
+}
+.clear-btn {
+  background-color: #facc15;
+  color: #1e293b;
+  margin-top: 20px;
+  width: 100%;
+}
+.clear-btn:hover {
+  background-color: #eab308;
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+#custom-prompt::placeholder {
+color: #ffffff;
+opacity: 1;
+
+}

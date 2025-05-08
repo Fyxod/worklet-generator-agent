@@ -135,7 +135,6 @@ async def upload_multiple(
     # Summarise extracted data into worklets
 
     # 4. generating worklets here
-    await sio.emit("progress", {"message": "Generating worklets..."}, to=sid)
 
     if not is_client_connected(sid):
         print(f"Client {sid} is not connected. Skipping worklet generation. Returning error.")
@@ -144,6 +143,8 @@ async def upload_multiple(
     worklets = await generate_worklets(
         extracted_data_all, links_data, model, sid, custom_prompt, parsed_custom_topics
     )
+    print("returning")
+    return;
     if not is_client_connected(sid):
         print(f"Client {sid} is not connected. Skipping fetching references. Returning error.")
         return {"error": "Client not connected."}

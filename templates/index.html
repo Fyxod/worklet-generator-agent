@@ -6,337 +6,14 @@
   <title>Worklet Generator Agent</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
-  <!-- <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #0f172a;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      padding: 40px 20px;
-      color: #e2e8f0;
-    }
-    input[type="file"] {
-  width: 100%;
-  box-sizing: border-box;
-}
+  <link rel="stylesheet" href="/static/styles.css">
 
-    .container {
-      background: #1e293b;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-      width: 100%;
-      max-width: 700px;
-      animation: fadeSlideIn 1s ease;
-    }
-    h1 {
-      text-align: center;
-      font-weight: 700;
-      font-size: 2rem;
-      margin-bottom: 30px;
-      color: #f1f5f9;
-    }
-    label {
-      font-weight: 600;
-      margin-top: 20px;
-      display: block;
-      color: #cbd5e1;
-    }
-    input[type="file"], select, input[type="url"] {
-      width: 100%;
-      margin-top: 8px;
-      padding: 10px;
-      background: #334155;
-      border: 1px solid #475569;
-      border-radius: 8px;
-      font-size: 1rem;
-      color: #f1f5f9;
-    }
-    .file-list div, .link-list div {
-      background: #334155;
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .file-list button, .link-list button, button[type="submit"], button.add-link-btn, .clear-btn {
-      background-color: #6366f1;
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      background-color: #4f46e5;
-    }
-    .generate-btn {
-      background-color: #10b981;
-      padding: 14px 24px;
-      font-size: 1.1rem;
-      margin-top: 20px;
-      width: 100%;
-      display: block;
-      border-radius: 12px;
-      transition: background-color 0.3s;
-    }
-    .generate-btn:hover {
-      background-color: #059669;
-    }
-    .loading {
-      margin-top: 20px;
-      text-align: center;
-      color: #6366f1;
-      font-weight: 600;
-    }
-    .progress-container {
-      background: #334155;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-top: 10px;
-      height: 16px;
-    }
-    .progress-bar {
-      background: #4f46e5;
-      height: 100%;
-      width: 0%;
-      transition: width 0.4s ease;
-    }
-    .download-list a {
-      display: block;
-      margin-top: 10px;
-      text-decoration: none;
-      color: #60a5fa;
-      font-weight: 600;
-      transition: color 0.2s, transform 0.3s;
-    }
-    .download-list a:hover {
-      color: #3b82f6;
-      transform: translateY(-2px);
-    }
-    .remove-link-btn {
-      background-color: #f87171;
-    }
-    .remove-link-btn:hover {
-      background-color: #ef4444;
-    }
-        .progress-message {
-      margin-top: 10px;
-      text-align: center;
-      font-weight: 600;
-      color: #38bdf8;
-      animation: fadeIn 0.6s ease forwards;
-    }
-    .clear-btn {
-      background-color: #facc15;
-      color: #1e293b;
-      margin-top: 20px;
-      width: 100%;
-    }
-    .clear-btn:hover {
-      background-color: #eab308;
-    }
-    @keyframes fadeSlideIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-  </style> -->
-  <style>
-        body {
-          font-family: 'Inter', sans-serif;
-          background: #0f172a;
-          display: flex;
-          justify-content: center;
-          align-items: flex-start;
-          min-height: 100vh;
-          margin: 0;
-          padding: 40px 20px;
-          color: #e2e8f0;
-        }
-        input[type="file"] {
-      width: 100%;
-      box-sizing: border-box;
-    }
-        
-        .container {
-          background: #1e293b;
-          padding: 30px;
-          border-radius: 16px;
-          box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-          width: 100%;
-          max-width: 700px;
-          animation: fadeSlideIn 1s ease;
-        }
-        h1 {
-          text-align: center;
-          font-weight: 700;
-          font-size: 2rem;
-          margin-bottom: 30px;
-          color: #f1f5f9;
-        }
-        label {
-          font-weight: 600;
-          margin-top: 20px;
-          display: block;
-          color: #cbd5e1;
-        }
-        input[type="file"], select, input[type="url"] {
-          width: 100%;
-          margin-top: 8px;
-          padding: 10px;
-          background: #334155;
-          border: 1px solid #475569;
-          border-radius: 8px;
-          font-size: 1rem;
-          color: #f1f5f9;
-        }
-        .file-list div, .link-list div {
-          background: #334155;
-          margin-top: 10px;
-          padding: 10px;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-        }
-        .file-list button, .link-list button, button[type="submit"], .add-link-btn, .clear-btn {
-          background-color: #6366f1;
-          color: white;
-          border: none;
-          padding: 8px 14px;
-          border-radius: 8px;
-          font-size: 0.9rem;
-          cursor: pointer;
-          transition: background-color 0.3s;
-        }
-        .file-list div {
-          background: #334155;
-          margin-top: 10px;
-          padding: 10px;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-          overflow: hidden;
-        }
-
-        .file-name {
-          flex: 1;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          color: #f1f5f9;
-        }
-        button:hover {
-          background-color: #4f46e5;
-        }
-        .generate-btn {
-          background-color: #10b981;
-          padding: 14px 24px;
-          font-size: 1.1rem;
-          margin-top: 20px;
-          width: 100%;
-          display: block;
-          border-radius: 12px;
-          transition: background-color 0.3s;
-        }
-        .generate-btn:hover {
-          background-color: #059669;
-        }
-        .loading {
-          margin-top: 20px;
-          text-align: center;
-          color: #6366f1;
-          font-weight: 600;
-        }
-        .progress-container {
-          background: #334155;
-          border-radius: 8px;
-          overflow: hidden;
-          margin-top: 10px;
-          height: 16px;
-        }
-        .progress-bar {
-          background: #4f46e5;
-          height: 100%;
-          width: 0%;
-          transition: width 0.4s ease;
-        }
-        .download-list a {
-          display: block;
-          margin-top: 10px;
-          text-decoration: none;
-          color: #60a5fa;
-          font-weight: 600;
-          transition: color 0.2s, transform 0.3s;
-        }
-        .download-list a:hover {
-          color: #3b82f6;
-          transform: translateY(-2px);
-        }
-        .remove-link-btn {
-          background-color: #f87171;
-        }
-        .remove-link-btn:hover {
-          background-color: #ef4444;
-        }
-            .progress-message {
-          margin-top: 10px;
-          text-align: center;
-          font-weight: 600;
-          color: #38bdf8;
-          animation: fadeIn 0.6s ease forwards;
-        }
-        .clear-btn {
-          background-color: #facc15;
-          color: #1e293b;
-          margin-top: 20px;
-          width: 100%;
-        }
-        .clear-btn:hover {
-          background-color: #eab308;
-        }
-        @keyframes fadeSlideIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        #custom-prompt::placeholder {
-    color: #ffffff;
-    opacity: 1; /* Optional: ensures full visibility */
-    /* font-style: italic; Optional: makes it italic */
-    /* font-weight: 400; Optional: makes it normal weight */
-    /* font-size: large; */
-  }
-      </style>
+  <style> .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.75); display: flex; justify-content: center; align-items: center; z-index: 9999; } .modal.hidden { display: none; } .modal-content { background-color: #1e293b; padding: 30px; border-radius: 16px; max-width: 600px; width: 90%; color: white; box-shadow: 0 0 10px rgba(0,0,0,0.3); } .modal-content h2 { margin-top: 0; margin-bottom: 16px; font-size: 1.5rem; } #query-list .query-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; } #query-list input { flex: 1; padding: 6px 10px; border-radius: 6px; background: #334155; border: 1px solid #475569; color: white; } .remove-query-btn { background: #ef4444; border: none; color: white; padding: 4px 8px; border-radius: 6px; cursor: pointer; } </style>
 </head>
 
 <body>
 <div class="container">
   <h1>Worklet Generator Agent</h1>
-  <!-- "gemma3:27b",
-  "gemma3:27b-8k",
-  "gemma3:27b-15k",
-  "gemma3:27b-45k",
-  'gemma3:27b-90k-8k',
-  "gemma3:27b-128k-8k" -->
   <form id="worklet-form">
     <label>Select Model:</label>
     <select id="model-select" name="model" required>
@@ -350,28 +27,17 @@
     <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,image/*">
     <div class="file-list" id="file-list"></div>
 
-    <!-- Place this inside <form id="worklet-form">, below the upload section -->
-<!-- Custom Prompt Section -->
     <label for="custom-prompt">Custom Prompt:</label>
     <textarea id="custom-prompt" name="custom_prompt" rows="3" placeholder="Enter a custom prompt..." style="width: 100%; padding: 10px; background: #334155; border: 1px solid #475569; border-radius: 8px; color: #f1f5f9;"></textarea>
 
-    <!-- Domain Keywords Section -->
     <label>Domains (Optional):</label>
     <div id="keywords-container" class="keywords-container" style="background: #334155; border: 1px solid #475569; padding: 10px; border-radius: 8px; min-height: 42px; display: flex; flex-wrap: wrap; gap: 8px;">
-      <!-- <span id="placeholder" style="color: #94a3b8;">Default: All domains</span> -->
+
     <input type="text" id="keyword-input" placeholder="Default: All domains mentioned below" style="border: none; background: transparent; color: #f1f5f9; outline: none; flex-grow: 1; min-width: 100px;">
     </div>
     <div id="keyword-suggestions" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px;"></div>
 
     <input type="hidden" name="custom_topics" id="keywords-hidden">
-
-
-    <!-- <label>Add Links:</label>
-    <div id="link-fields" class="link-list">
-      <div><input type="url" name="links[]" placeholder="Enter link"><button type="button" class="remove-link-btn" onclick="removeLinkField(this)">✖</button></div>
-    </div>
-
-    <button type="button" class="add-link-btn" onclick="addLinkField()">Add Another Link</button> -->
 
     <label>Add Links:</label>
     <div id="link-fields" class="link-list">
@@ -397,6 +63,8 @@
 
   <div class="download-list" id="download-list"></div>
 </div>
+
+<div id="query-modal" class="modal hidden"> <div class="modal-content"> <h2>Approve or Edit Queries</h2> <form id="query-form"> <div id="query-list"></div> <button type="button" id="add-query-btn">➕ Add Query</button> <button type="submit" class="generate-btn">Send Queries</button> </form> </div> </div>
 
 
 
@@ -428,8 +96,8 @@
   let selectedFiles = [];
   let totalWorklets = 6;
   let generatedCount = 0;
-  let errorOccurred = false;  // <-- New flag
-  let receivedFiles = []; // Store received files
+  let errorOccurred = false;
+  let receivedFiles = [];
 
   fileInput.addEventListener('change', (e) => {
     selectedFiles = Array.from(e.target.files);
@@ -506,7 +174,6 @@
     progressMessage.textContent = 'Sending...';
     downloadList.innerHTML = '';
     fileInput.value = '';
-    modelSelect.value = 'gemma3:27b'; // Reset to default model
 
     const linkFields = document.getElementById('link-fields');
     linkFields.innerHTML = `
@@ -535,7 +202,7 @@
   a.style.gap = '8px'; // small space between icon and text
 
   const icon = document.createElement('img');
-  icon.src = '/static/icon.png'; // <-- Your icon path here
+  icon.src = '/static/icon.png';
   icon.alt = 'File Icon';
   icon.style.width = '20px'; 
   icon.style.height = '20px';
@@ -655,13 +322,6 @@ formData.append('custom_topics', JSON.stringify(selectedKeywords));
       progressContainer.style.display = 'none';
       progressMessage.style.display = 'none';
 
-      // const downloadAll = document.createElement('a');
-      // downloadAll.href = `/download_all/`;
-      // downloadAll.textContent = '⬇️ Download All as ZIP';
-      // downloadAll.style.fontWeight = '700';
-      // downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
-      // downloadList.appendChild(downloadAll);
-
       const downloadAll = document.createElement('button');
       downloadAll.classList.add('generate-btn');
 downloadAll.textContent = 'Download All as ZIP';
@@ -705,7 +365,7 @@ downloadAll.addEventListener('click', async () => {
 });
 
     } catch (error) {
-      if (errorOccurred) return; // Already handled
+      if (errorOccurred) return; 
       console.error('Error:', error);
       loading.style.display = 'none';
       progressContainer.style.display = 'none';
@@ -718,14 +378,12 @@ downloadAll.addEventListener('click', async () => {
 const keywordsContainer = document.getElementById("keywords-container");
 const suggestionsBox = document.getElementById("keyword-suggestions");
 const keywordsHiddenInput = document.getElementById("keywords-hidden");
-// const placeholder = document.getElementById("placeholder");
 
 let selectedKeywords = [];
 
 const predefinedKeywords = ["Generative AI", "Vision AI", "Voice AI", "On-device AI", "Classical ML", "IoT"];
 
 function renderKeywords() {
-  // Remove existing keyword tags
   keywordsContainer.querySelectorAll(".keyword-tag").forEach(tag => tag.remove());
 
   selectedKeywords.forEach((keyword, index) => {
@@ -766,11 +424,6 @@ function renderKeywords() {
     tag.appendChild(close);
     keywordsContainer.insertBefore(tag, keywordInput);
   });
-
-  // Hide or show placeholder
-  // placeholder.style.display = selectedKeywords.length ? "none" : "inline";
-
-  // Update hidden input
   keywordsHiddenInput.value = JSON.stringify(selectedKeywords);
 }
 
@@ -814,6 +467,66 @@ predefinedKeywords.forEach(kw => {
   };
   suggestionsBox.appendChild(btn);
 });
+
+// Show query approval modal
+socket.on('query_approval', (data) => {
+const modal = document.getElementById('query-modal');
+const list = document.getElementById('query-list');
+list.innerHTML = ''; // clear old entries
+
+if (!Array.isArray(data.queries)) return;
+
+data.queries.forEach((q, i) => {
+list.appendChild(createQueryInput(q));
+});
+
+modal.classList.remove('hidden');
+document.body.classList.add('modal-active');
+});
+
+function createQueryInput(value = "") {
+const wrapper = document.createElement('div');
+wrapper.className = 'query-item';
+
+const input = document.createElement('input');
+input.type = 'text';
+input.value = value;
+
+const removeBtn = document.createElement('button');
+removeBtn.className = 'remove-query-btn';
+removeBtn.textContent = '✖';
+removeBtn.onclick = () => wrapper.remove();
+
+wrapper.appendChild(input);
+wrapper.appendChild(removeBtn);
+
+return wrapper;
+}
+
+document.getElementById('add-query-btn').addEventListener('click', () => {
+const list = document.getElementById('query-list');
+list.appendChild(createQueryInput());
+});
+
+document.getElementById('query-form').addEventListener('submit', (e) => {
+e.preventDefault();
+const modal = document.getElementById('query-modal');
+const inputs = document.querySelectorAll('#query-list input');
+const updatedQueries = Array.from(inputs)
+.map(i => i.value.trim())
+.filter(val => val);
+
+socket.emit('query_response', { queries: updatedQueries,sid: sid });
+modal.classList.add('hidden');
+document.body.classList.remove('modal-active');
+});
+
+// Optional: blur background when modal is active
+const observer = new MutationObserver(() => {
+const modalActive = document.body.classList.contains('modal-active');
+document.querySelector('.container').style.filter = modalActive ? 'blur(5px)' : '';
+});
+observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
 </script>
 
