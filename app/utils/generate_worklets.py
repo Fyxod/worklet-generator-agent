@@ -53,7 +53,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
     # Prompting the user to approve the domains and keywords and add any new ones
     domains, keywords = await get_approved_content(domains=domains, keywords=keywords, sid=sid)
     
-    web_search_prompt = web_search_prompt(
+    web_search_prompt_template = web_search_prompt(
         worklet_data=worklet_data,
         links_data=links_data,
         count=count,
@@ -67,7 +67,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
 
     # Asking the LLM if it wants to do a web search or not
     try:
-        web_search_output = await invoke_llm(web_search_prompt, model)
+        web_search_output = await invoke_llm(web_search_prompt_template, model)
     except Exception as e:
         await sio.emit("error", {"message": "ERROR: LLM is not responding. Please try again."}, to=sid)
         return

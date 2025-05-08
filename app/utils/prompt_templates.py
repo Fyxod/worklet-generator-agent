@@ -175,19 +175,16 @@ MANDATORY CONSTRAINTS
     Supplement provided data with 2025 (or latest) tools, benchmarks, standards, and best practices
     If unsure about a topic, tool, or trend, trigger web search
     
-6. Quantity
-    Generate exactly {count} problem statements in the defined format
-
-7. KPIs
-    Include 3-4 measurable KPIs per problem (e.g., "Accuracy ≥ 90%", "Latency ≤ 150ms")
     
-8. Freshness
+6. Freshness
     Ensure alignment with 2025-era trends, tech stacks, models, APIs, frameworks, etc.
     Do not use outdated standards unless explicitly asked
 
-9. User Prompt Adherence
+7. User Prompt Adherence
     Follow all constraints and intentions in the `{custom_prompt}` strictly
     It overrides any general instruction if a conflict occurs
+
+8. Strict adhearence to the output provided: if you provide an output which  does not align with the provided format then it will be considered invalid submition
 """
 
 # This Prompt is meant to Generate The Final Worklets
