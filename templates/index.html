@@ -98,15 +98,6 @@ cursor: pointer;
   min-width: 40px;
   width: auto;
 }
-/* 
-.text-measurer {
-  visibility: hidden;
-  position: absolute;
-  white-space: pre;
-  font-size: 0.85rem;
-  padding: 4px 6px;
-  font-family: inherit;
-} */
 
 .text-measurer {
 visibility: hidden;
@@ -600,66 +591,6 @@ section.appendChild(createItemEntry(item, type, section));
 
 container.appendChild(section);
 }
-
-// function createItemEntry(value, type, section) {
-// const div = document.createElement("div");
-// div.className = "item-entry";
-
-// const input = document.createElement("input");
-// input.type = "text";
-// input.value = value;
-
-// input.oninput = () => autoResizeInput(input);
-// autoResizeInput(input); // set initial size
-
-// const btn = document.createElement("button");
-// btn.className = "remove-btn";
-// btn.textContent = "✖";
-// btn.onclick = () => {
-// div.remove();
-// const remainingInputs = section.querySelectorAll("input");
-// if (remainingInputs.length === 0) {
-// section.remove();
-// }
-// };
-
-// div.appendChild(input);
-// div.appendChild(btn);
-// return div;
-// }
-
-// function createItemEntry(value, type, section) {
-
-// const div = document.createElement("div");
-// div.className = "item-entry";
-
-// const input = document.createElement("input");
-// input.type = "text";
-// input.value = value;
-
-// const span = document.createElement("span");
-// span.className = "text-measurer";
-
-// input.oninput = () => autoResizeInput(input, span);
-// autoResizeInput(input, span); // Initial sizing
-
-// const btn = document.createElement("button");
-// btn.className = "remove-btn";
-// btn.textContent = "✖";
-// btn.onclick = () => {
-// div.remove();
-// const remainingInputs = section.querySelectorAll("input");
-// if (remainingInputs.length === 0) {
-// section.remove();
-// }
-// };
-
-// div.appendChild(input);
-// div.appendChild(span); // Hidden span for measurement
-// div.appendChild(btn);
-
-// return div;
-// }
 
 function createItemEntry(value, type, section) {
 const div = document.createElement("div");
