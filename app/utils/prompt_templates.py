@@ -1,99 +1,118 @@
 from langchain.prompts import ChatPromptTemplate
 
 
-# This Prompt is meant to search for web only
+ This Prompt is meant to search for web only
 def web_search_prompt():
 
     return ChatPromptTemplate.from_template(
-        """
-**ROLE & CONTEXT**
+        """ROLE & CONTEXT
+You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Tier 1 and Tier 2 engineering colleges across India.
 
-    You are an expert Technology and Innovation Advisor for Samsung PRISM (an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges).
+You are tasked with analyzing:
 
-    You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files) and any prior information.
+ A set of internal documents (PPTs, PDFs, Word, Excel files)
+ Extracted content from provided links
+ Previously extracted keywords and domains
+ A custom user prompt (see below)
 
-    1. **Internal Knowledge Generation**:
-   If you find the provided material and your internal knowledge sufficient,  generate exactly {count_string} ({count}) feasible problem statements.
-    2. **Web Search Assistance**:
-   If you determine that additional external information is necessary to enhance the quality, relevance, or feasibility of the problem statements, you have the ability to request a web search.
-   To do this, you must return a JSON object in the structure provided below:
+Your final objective is to generate {count_string} ({count}) feasible problem statements that align with the user's research and innovation goals.
 
-   Use this option proactively whenever you suspect that external sources could improve accuracy, freshness, or richness of the problem statements give all the queries at once .
-   **When unsure, prefer to request a web search rather than relying solely on internal knowledge.**
-    Existing Worklets for Reference:
-    {worklet_data}
-    {links_data}
-    Along with these references, here is a prompt provided by the user. Let us call it user prompt. Please make sure to follow it strictly.
-    {custom_prompt}
-    If you dont understand anything inside the custom prompt or you need more clarificationon the topic , add a search query for that too
 ---
 
-**TWO OPTIONS AFTER ANALYSIS:**
+Inputs Provided
+Worklet References:
+{worklet_data}
 
-1. **If you believe you have enough information** just retuern a json as follows 
+Extracted Data from External Links:
+{links_data}
+Custom User Prompt (must follow strictly):
+{custom_prompt}
+Keywords:
+{keywords}
+Domains:
+{Domains}
+
+INFORMATION GATHERING
+You may use internal knowledge and provided material to generate problems.
+However, if you suspect any gap in your understanding, you MUST initiate a web search for clarification or enrichment.
+
+If clarification is needed for any keyword, domain, or part of the user prompt, add it to the web queries.
+Default bias: When unsure, prefer to trigger a web search.
+---
+TWO PATHWAYS (Web Search Decision)
+Option 1: You have enough information
+Return:
 ```json
-   {{
-     "websearch": false
-   }}
-   ```
-
-2. **If you believe additional external information is needed** to improve quality, relevance, or feasibility:
-     retuen a json in this format 
-     ```json
-   {{
-     "websearch": true,
-     "search": [
-       "<search query 1>",
-       "<search query 2>",
-       "<search query 3>"
-     ]
-   }}
-   ```
-**OUTPUT FORMAT** (Mandatory if proceeding without websearch):
-Follow the format below to iniceate a web search:
-   ```json
-   {{
-     "websearch": true,
-     "search": [
-       "<search query 1>",
-       "<search query 2>",
-       "<search query 3>"
-     ]
-   }}
-   ```
-Follow the format below if you think you have enough information to generate worklets  :
-
-```json
-   {{
-     "websearch": false
-   }}
+{{
+  "websearch": false
+}}
 ```
 
+ Option 2: You need external information
+Return:
+```json
+{{
+  "websearch": true,
+  "search": [
+    "<search query 1>",
+    "<search query 2>",
+    "<search query 3>"
+  ]
+}}
+```
+You may ask about:
 
-**MANDATORY CONSTRAINTS**
+Gaps in understanding the user prompt
+Missing context about keywords
+Deeper insight into domains
+New technology trends or datasets
 
-1. **Domain focus**: Must involve at least one domain from {Domain}, and no other domains should be included.(cross-domain intersections are encouraged)
-2. **Value proposition**: Every problem must enable at least one:
-- Commercial PoC potential for Samsung
-- Publishable research paper
-- Viable patent filing
-(more than one may apply)
-3. **Feasibility**: Problems must match Tier 1-2 Indian college resources (open-source friendly, moderate infra).
-4. **Web enrichment**: do NOT limit yourself to the provided documents; supplement with current public knowledge, standards, datasets, and best practices to keep the problems rich and relevant.
-5. **Quantity**: Generate exactly {count} problem statements inside the array.
-6. **KPIs**: Must be real, measurable targets (e.g., "Accuracy ≥ 92%", "Latency ≤ 200ms").
-7. **Freshness**: Align with 2025(or latest) technology trends,frameworks,tools,libraries etc. If in doubt, initiate a web search. Ask as many questions you want to ask at once
-8. If a user prompt is provided, ensure strict adherence to its instructions and constraints. Here is the user prompt {custom_prompt}
+MANDATORY CONSTRAINTS
+1. Domain Focus
+    Each problem must involve at least one domain from `{Domains}`.
+    Cross-domain intersections are encouraged.
+    No unrelated domains should be included.
+2. Keyword Focus
+    Use provided keywords to describe technical methods, tools, models, or emerging technologies.
+    Keywords must appear naturally in the problem context, and directly support the problem statement.
+    Avoid overuse of generic terms unless domain-specific.
+3. Value Proposition
+    Each problem should enable at least one of the following:
+    A Commercial PoC potential for Samsung
+    A Publishable research paper
+    A Viable patent filing
+    
+4. Feasibility
+    Must be achievable by Tier 1-2 Indian colleges
+    Should use moderate infrastructure (e.g., open-source tools, cloud credits, public datasets)
+
+5. Web Enrichment
+    Supplement provided data with 2025 (or latest) tools, benchmarks, standards, and best practices
+    If unsure about a topic, tool, or trend, trigger web search
+    
+6. Quantity
+    Generate exactly {count} problem statements in the defined format
+
+7. KPIs
+    Include 3-4 measurable KPIs per problem (e.g., "Accuracy ≥ 90%", "Latency ≤ 150ms")
+    
+8. Freshness
+    Ensure alignment with 2025-era trends, tech stacks, models, APIs, frameworks, etc.
+    Do not use outdated standards unless explicitly asked
+
+9. User Prompt Adherence
+    Follow all constraints and intentions in the `{custom_prompt}` strictly
+    It overrides any general instruction if a conflict occurs
 """
     )
 
 # this prompt will be used to extract keywords from the data
 def keywords_from_worklets_custom_prompt(custom_prompt, worklet_data, links_data):
-    return f"""# ROLE & CONTEXT
+    return f""" ROLE & CONTEXT
 
 You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
 
-Your task is to analyze the provided documents and extracted data and identify **high-impact keywords** and **relevant domains** from the following sources:
+Your task is to analyze the provided documents and extracted data and identify high-impact keywords and relevant domains from the following sources:
 
 1. Existing Worklets
 2. Data Extracted from Links
@@ -126,7 +145,7 @@ Automotive,
 EdTech,
 IoT
 Energ
-Do not limit to this list** — include any domain that is:
+Do not limit to this list — include any domain that is:
 Clearly stated or strongly implied
 Relevant to the context of innovation or research
 Specific enough to categorize the project's purpose or area of application
@@ -135,25 +154,25 @@ Specific enough to categorize the project's purpose or area of application
 
 Input Sections
 
-### **Existing Worklets for Reference:**
+ Existing Worklets for Reference:
 
 {worklet_data}
 
 ---
 
-### **Data Extracted from Links:**
+ Data Extracted from Links:
 
 {links_data}
 
 ---
 
-### **Custom Prompt from User:**
+ Custom Prompt from User:
 
 {custom_prompt}
 
 ---
 
-##  Output Format (JSON)
+  Output Format (JSON)
 
 ```json
 {{
@@ -349,16 +368,16 @@ IMPORTANT RULES:
     Ensure that the returned indices correspond exactly to the indices of the references in the sorted order (i.e., the indices should be from the original list, but sorted by relevance).
     Sometimes you return extra text please make sure that does not happen i just need a alist of reference_id sorted in order of relevance
 
-Reminder: If you acci   dentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
+Reminder: If you accidentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
 Here is the input JSON:
 {json}
-**OUTPUT FORMAT** :
+OUTPUT FORMAT :
 [<sorted indices array>]
-Mandatory Constraints 
-- follow the output constraints, example OUTPUT =[1,6,2,3,9,8,10]
--do not return anything else except the output asked for no extra text and formatting
-- sort then in eccreasing order of relevance to the current worklet (most important constraint)
 
+Mandatory Constraints 
+follow the output constraints, example OUTPUT =[1,6,2,3,9,8,10]
+do not return anything else except the output asked for no extra text and formatting
+sort then in eccreasing order of relevance to the current worklet (most important constraint)
 """
 
 def summariser_template():
