@@ -1,5 +1,91 @@
 from langchain.prompts import ChatPromptTemplate
 
+# this prompt will be used to extract keywords from the data
+def keywords_from_worklets_custom_prompt(custom_prompt, worklet_data, links_data):
+    return f""" ROLE & CONTEXT
+
+You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
+
+Your task is to analyze the provided documents and extracted data and identify high-impact keywords and relevant domains from the following sources:
+
+1. Existing Worklets
+2. Data Extracted from Links
+3. Custom User Prompt
+
+Extraction Goals
+ A. Keywords
+Extract concise keywords focusing on:
+
+ Technical concepts
+ Emerging technologies
+ Problem domains
+ Solution approaches
+ Application areas
+ 
+Keyword Rules:
+ 1 to 3 words max
+ Avoid generic terms like "project" or "engineering" unless domain-specific
+ No repetition across sections unless essential
+ Prioritize novelty and relevance
+ 
+B. Domains
+Identify broad application or research domains, such as(therse are just examples do not limit your self to these only):
+Healthcare,
+Smart Cities,
+AgriTech,
+FinTech,
+Cybersecurity,
+Automotive,
+EdTech,
+IoT
+Energ
+Do not limit to this list — include any domain that is:
+Clearly stated or strongly implied
+Relevant to the context of innovation or research
+Specific enough to categorize the project's purpose or area of application
+
+---
+
+Input Sections
+
+ Existing Worklets for Reference:
+
+{worklet_data}
+
+---
+
+ Data Extracted from Links:
+
+{links_data}
+
+---
+
+ Custom Prompt from User:
+
+{custom_prompt}
+
+---
+
+  Output Format (JSON)
+
+```json
+{{
+  "worklet": {{
+    "keywords": ["keyword1", "keyword2", "..."],
+    "domains": ["domain1", "domain2", "..."]
+  }},
+  "link": {{
+    "keywords": ["keyword1", "keyword2", "..."],
+    "domains": ["domain1", "domain2", "..."]
+  }},
+  "custom_prompt": {{
+    "keywords": ["keyword1", "keyword2", "..."],
+    "domains": ["domain1", "domain2", "..."]
+  }}
+}}
+```
+
+"""
 
 #  This Prompt is meant to search for web only
 def web_search_prompt(count,count_string,worklet_data,links_data,custom_prompt,keywords,domains,):
@@ -102,93 +188,6 @@ MANDATORY CONSTRAINTS
 9. User Prompt Adherence
     Follow all constraints and intentions in the `{custom_prompt}` strictly
     It overrides any general instruction if a conflict occurs
-"""
-
-# this prompt will be used to extract keywords from the data
-def keywords_from_worklets_custom_prompt(custom_prompt, worklet_data, links_data):
-    return f""" ROLE & CONTEXT
-
-You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
-
-Your task is to analyze the provided documents and extracted data and identify high-impact keywords and relevant domains from the following sources:
-
-1. Existing Worklets
-2. Data Extracted from Links
-3. Custom User Prompt
-
-Extraction Goals
- A. Keywords
-Extract concise keywords focusing on:
-
- Technical concepts
- Emerging technologies
- Problem domains
- Solution approaches
- Application areas
- 
-Keyword Rules:
- 1 to 3 words max
- Avoid generic terms like "project" or "engineering" unless domain-specific
- No repetition across sections unless essential
- Prioritize novelty and relevance
- 
-B. Domains
-Identify broad application or research domains, such as(therse are just examples do not limit your self to these only):
-Healthcare,
-Smart Cities,
-AgriTech,
-FinTech,
-Cybersecurity,
-Automotive,
-EdTech,
-IoT
-Energ
-Do not limit to this list — include any domain that is:
-Clearly stated or strongly implied
-Relevant to the context of innovation or research
-Specific enough to categorize the project's purpose or area of application
-
----
-
-Input Sections
-
- Existing Worklets for Reference:
-
-{worklet_data}
-
----
-
- Data Extracted from Links:
-
-{links_data}
-
----
-
- Custom Prompt from User:
-
-{custom_prompt}
-
----
-
-  Output Format (JSON)
-
-```json
-{{
-  "worklet": {{
-    "keywords": ["keyword1", "keyword2", "..."],
-    "domains": ["domain1", "domain2", "..."]
-  }},
-  "link": {{
-    "keywords": ["keyword1", "keyword2", "..."],
-    "domains": ["domain1", "domain2", "..."]
-  }},
-  "custom_prompt": {{
-    "keywords": ["keyword1", "keyword2", "..."],
-    "domains": ["domain1", "domain2", "..."]
-  }}
-}}
-```
-
 """
 
 # This Prompt is meant to Generate The Final Worklets

@@ -53,25 +53,27 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
     # Prompting the user to approve the domains and keywords and add any new ones
     domains, keywords = await get_approved_content(domains=domains, keywords=keywords, sid=sid)
     
-    prompt = web_search_prompt(
+    web_search_prompt = web_search_prompt(
         worklet_data=worklet_data,
         links_data=links_data,
         count=count,
         custom_prompt=custom_prompt,
         count_string=count_string,
+        keywords=keywords,
+        domains=domains
     )
 
     await sio.emit("progress", {"message": "Prompting LLM for web search decision..."}, to=sid)
 
     # Asking the LLM if it wants to do a web search or not
     try:
-        generated_worklets = await invoke_llm(prompt, model)
+        web_search_output = await invoke_llm(web_search_prompt, model)
     except Exception as e:
         await sio.emit("error", {"message": "ERROR: LLM is not responding. Please try again."}, to=sid)
         return
 
     try:
-        extracted_worklets = extract_dicts_smart(generated_worklets)
+        web_search_output = extract_dicts_smart(web_search_output)
     except Exception as e:
         await sio.emit("error", {"message": "ERROR: Wrong output returned by LLM. Please try again."}, to=sid)
         return
@@ -80,10 +82,9 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
         print(f"Client {sid} is not connected. Skipping web search. Exiting...")
         return
 
-    if extracted_worklets.get("websearch"):
+    if web_search_output.get("websearch",False):
         show_message = "LLM requested for web search. Queries: "
-        queries = extracted_worklets["websearch"]
-        
+        queries = web_search_output.get("websearch")  
     else:
         show_message = "LLM refused web search. Add any queries if needed: "
         queries = []
@@ -96,7 +97,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
         await sio.emit("progress", {"message": "Searching the web..."}, to=sid)
 
         try:
-            search_data = await loop.run_in_executor(executor, search, extracted_worklets["search"], 10)
+            search_data = await loop.run_in_executor(executor, search, web_search_output["search"], 10,500)
         except Exception as e:
             await sio.emit("error", {"message": "ERROR: Web search failed. Please try again."}, to=sid)
             return
@@ -104,13 +105,15 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
 
     await sio.emit("progress", {"message": socket_message}, to=sid)
 
-    prompt = worklet_gen_prompt_with_web_searches(
+    worklet_prompt = worklet_gen_prompt_with_web_searches(
         json=search_data,
         worklet_data=worklet_data,
         links_data=links_data,
         count=count,
         custom_prompt=custom_prompt,
         count_string=count_string,
+        domains=domains,
+        keywords=keywords
     )
 
     if not is_client_connected(sid):
@@ -119,7 +122,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
 
     # Prompting the LLM for worklet generation with web search results
     try:
-        generated_worklets = await invoke_llm(prompt, model)
+        generated_worklets = await invoke_llm(worklet_prompt, model)
     except Exception as e:
         await sio.emit("error", {"message": "ERROR: LLM is not responding (after web search). Please try again."}, to=sid)
         return
