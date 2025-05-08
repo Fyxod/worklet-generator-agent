@@ -2,10 +2,9 @@ from langchain.prompts import ChatPromptTemplate
 
 
 #  This Prompt is meant to search for web only
-def web_search_prompt():
+def web_search_prompt(count,count_string,worklet_data,links_data,custom_prompt,keywords,domains,):
 
-    return ChatPromptTemplate.from_template(
-        """ROLE & CONTEXT
+    return f"""ROLE & CONTEXT
 You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Tier 1 and Tier 2 engineering colleges across India.
 
 You are tasked with analyzing:
@@ -30,7 +29,7 @@ Custom User Prompt (must follow strictly):
 Keywords:
 {keywords}
 Domains:
-{Domains}
+{domains}
 
 INFORMATION GATHERING
 You may use internal knowledge and provided material to generate problems.
@@ -69,7 +68,7 @@ New technology trends or datasets
 
 MANDATORY CONSTRAINTS
 1. Domain Focus
-    Each problem must involve at least one domain from `{Domains}`.
+    Each problem must involve at least one domain from `{domains}`.
     Cross-domain intersections are encouraged.
     No unrelated domains should be included.
 2. Keyword Focus
@@ -104,7 +103,6 @@ MANDATORY CONSTRAINTS
     Follow all constraints and intentions in the `{custom_prompt}` strictly
     It overrides any general instruction if a conflict occurs
 """
-    )
 
 # this prompt will be used to extract keywords from the data
 def keywords_from_worklets_custom_prompt(custom_prompt, worklet_data, links_data):
@@ -199,7 +197,7 @@ def worklet_gen_prompt_with_web_searches(
     links_data,
     json,
     worklet_data,
-    Domain,
+    domains,
     custom_prompt,
     keywords,
     count: int = 6,
@@ -242,7 +240,7 @@ Each problem must be grounded in a valid domain and include relevant, cutting-ed
 MANDATORY CONSTRAINTS
 
 1. Domain Focus:  
-   Each problem must involve at least one domain from {Domain}.  
+   Each problem must involve at least one domain from {domains}.  
    Cross-domain intersections are allowed and encouraged.  
    No unrelated domains should be included.
 2. Keyword Focus  
