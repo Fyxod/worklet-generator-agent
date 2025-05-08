@@ -107,3 +107,33 @@ async def generatePdf(json, model, index):
     print("\n")
     print(f"PDF generated: {filename}")
     print("\n")
+
+
+json={
+        "Title": "Optimized Integer Sequence Generation using Parallel Processing",
+        "Problem Problem": "Design and implement a novel algorithm to create large sets of ordered number sets. Focus on accelerating time-to-output for complex formulas of numbers such as fibonacci, triangular, prime and quadratic numbers. ",
+        "Description": "Number sequence generation is useful in creating large sets of numbers used in algorithms. Computation of this can be very slow, and parallelization offers a considerable efficiency increase. ",
+        "Challenge / Use Case": "Use parallel computing to reduce the time it takes to compute sequences of numbers.",
+        "Deliverables": "A Multi-threading C++ implementation of the algorithms, and a comparison of performance to sequential versions",
+        "KPIs": [
+            "Time to generate 1 million numbers: < 5 seconds",
+            "CPU utilization: >=80%",
+            "Memory footprint: <2GB",
+            "Correctness: All generated values match reference implementation.",
+        ],
+        "Prerequisites": [
+            "C++",
+            "Multi-thread programming",
+            "Number theory",
+            "Algorithmic optimization",
+            "Parallel computing concepts",
+        ],
+        "Infrastructure Requirements": "8 cores, 16 GB RAM, SSD storage, a modern compiler (g++), and a good code editor",
+        "Tentative Tech Stack": "C++20, g++, OpenMP, parallel STL",
+        "Milestones (6 months)": {
+            "M2": "Implement and test basic prime number generation",
+            "M4": "Integrate other algorithms using to achieve significant speedups.",
+            "M6": "Create a comprehensive performance benchmark",
+        },
+    }
+create_pdf("test.pdf",json)
