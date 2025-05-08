@@ -93,9 +93,9 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
     queries = await get_approved_queries(queries=queries, sid=sid, show_message=show_message)
 
     socket_message = "Generating worklets..."
+    search_data=''
     if queries != []:
         await sio.emit("progress", {"message": "Searching the web..."}, to=sid)
-
         try:
             search_data = await loop.run_in_executor(executor, search, web_search_output["search"], 10,500)
         except Exception as e:
