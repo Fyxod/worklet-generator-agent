@@ -155,7 +155,11 @@ async def upload_multiple(
 
     # 6. Generate references concurrently
     async def process_worklet(worklet):
-        reference = await getReferenceWork(worklet["Problem Statement"], worklet["Title"], model)
+        try:
+            reference = await getReferenceWork(worklet["Problem Statement"], worklet["Title"], model)
+        except Exception as e:
+            reference=[]
+            
         worklet["Reference Work"] = reference
 
     for worklet in worklets:
