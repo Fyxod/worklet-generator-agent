@@ -5,7 +5,7 @@ from app.llm import invoke_llm
 from app.socket import is_client_connected, sio
 from app.utils.llm_response_parser import extract_dicts_smart
 from app.utils.prompt_templates import (
-    web_search_prompt,
+    web_search_prompt,  
     worklet_gen_prompt_with_web_searches,
     keywords_from_worklets_custom_prompt
 )
@@ -15,8 +15,8 @@ from app.utils.search_functions.modify_keywords_domains import get_approved_cont
 executor = ThreadPoolExecutor(max_workers=5)
 
 async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt):
-    count = 10
-    count_string = "ten"
+    count = 5
+    count_string = "five"
 
     loop = asyncio.get_running_loop()
     # New order
@@ -32,7 +32,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
         return
     
     try:
-        topics = extract_dicts_smart(topics)
+        topics = extract_dicts_smart(topics,True)
     except Exception as e:
         await sio.emit("error", {"message": "ERROR: Wrong output returned by LLM. Please try again."}, to=sid)
         return    
@@ -73,7 +73,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
         return
 
     try:
-        web_search_output = extract_dicts_smart(web_search_output)
+        web_search_output = extract_dicts_smart(web_search_output,True)
     except Exception as e:
         await sio.emit("error", {"message": "ERROR: Wrong output returned by LLM. Please try again."}, to=sid)
         return
@@ -128,7 +128,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
         return
 
     try:
-        extracted_worklets = extract_dicts_smart(generated_worklets)
+        extracted_worklets = extract_dicts_smart(generated_worklets,False)
     except Exception as e:
         await sio.emit("error", {"message": "ERROR: Wrong output from LLM after web search. Please try again."}, to=sid)
         return

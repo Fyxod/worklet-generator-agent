@@ -85,6 +85,10 @@ Input Sections
 }}
 ```
 
+Mandatory constraints 
+Strictly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above — no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
+
+
 """
 
 #  This Prompt is meant to search for web only
@@ -99,8 +103,6 @@ You are tasked with analyzing:
  Extracted content from provided links
  Previously extracted keywords and domains
  A custom user prompt (see below)
-
-Your final objective is to generate {count_string} ({count}) feasible problem statements that align with the user's research and innovation goals.
 
 ---
 
@@ -153,38 +155,29 @@ Deeper insight into domains
 New technology trends or datasets
 
 MANDATORY CONSTRAINTS
-1. Domain Focus
-    Each problem must involve at least one domain from `{domains}`.
-    Cross-domain intersections are encouraged.
-    No unrelated domains should be included.
-2. Keyword Focus
-    Use provided keywords to describe technical methods, tools, models, or emerging technologies.
-    Keywords must appear naturally in the problem context, and directly support the problem statement.
-    Avoid overuse of generic terms unless domain-specific.
-3. Value Proposition
+
+1 Value Proposition
     Each problem should enable at least one of the following:
     A Commercial PoC potential for Samsung
     A Publishable research paper
     A Viable patent filing
     
-4. Feasibility
+2 Feasibility
     Must be achievable by Tier 1-2 Indian colleges
     Should use moderate infrastructure (e.g., open-source tools, cloud credits, public datasets)
 
-5. Web Enrichment
+3 Web Enrichment
     Supplement provided data with 2025 (or latest) tools, benchmarks, standards, and best practices
     If unsure about a topic, tool, or trend, trigger web search
     
     
-6. Freshness
+4 Freshness
     Ensure alignment with 2025-era trends, tech stacks, models, APIs, frameworks, etc.
     Do not use outdated standards unless explicitly asked
+    
+5. desigh your web querries keeping the above  points in mind and ask for as much querries as you want 
 
-7. User Prompt Adherence
-    Follow all constraints and intentions in the `{custom_prompt}` strictly
-    It overrides any general instruction if a conflict occurs
-
-8. Strict adhearence to the output provided: if you provide an output which  does not align with the provided format then it will be considered invalid submition
+6. ctly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above — no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
 """
 
 # This Prompt is meant to Generate The Final Worklets
@@ -270,6 +263,8 @@ MANDATORY CONSTRAINTS
 9. Prompt Adherence:  
    - All generated content must strictly follow the User Prompt:  
     {custom_prompt}
+    
+10 Strictly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above — no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
 
 ---
 

@@ -1,6 +1,6 @@
 import json
 
-def extract_dicts_smart(raw_text):
+def extract_dicts_smart(raw_text,return_first):
     """
     Extracts JSON dictionaries from a raw text input.
     This function processes a given raw text, identifies JSON-like dictionary structures,
@@ -45,4 +45,6 @@ def extract_dicts_smart(raw_text):
     if not results:
         raise ValueError("No valid JSON dictionaries found in input.")
     
+    if(return_first):
+        return results[0]
     return results[0] if len(results) == 1 else results
