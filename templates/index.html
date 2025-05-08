@@ -492,6 +492,7 @@ downloadAll.addEventListener('click', async () => {
 
 // Show query approval modal
 socket.on('query_approval', (data) => {
+  console.log("request received", data);
 const modal = document.getElementById('query-modal');
 const list = document.getElementById('query-list');
 list.innerHTML = ''; // clear old entries

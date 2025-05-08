@@ -19,6 +19,8 @@ async def get_approved_queries(queries: list, sid: str, show_message: str) -> li
     Returns:
         list: The list of approved/modified queries returned by the client.
     """
+
+    print(f"get_approved_queries called with queries: {queries} and sid: {sid}")
     if not is_client_connected(sid):
         print(f"Client {sid} is not connected. Cannot proceed with query approval.")
         return []

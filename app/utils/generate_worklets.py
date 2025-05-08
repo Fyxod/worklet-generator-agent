@@ -84,7 +84,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
 
     if web_search_output.get("websearch",False):
         show_message = "LLM requested for web search. Queries: "
-        queries = web_search_output.get("websearch")  
+        queries = web_search_output.get("search", [])  
     else:
         show_message = "LLM refused web search. Add any queries if needed: "
         queries = []
