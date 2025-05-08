@@ -231,30 +231,30 @@ MANDATORY CONSTRAINTS
    Use keywords {keywords}to define the technical approach, methods, and technologies involved.  
    Do not stray from the provided keywords, avoid generic or unrelated terms.
 
-2. Value Proposition:  
+3. Value Proposition:  
     Each problem must target at least one of:
     Commercial PoC potential for Samsung
     Publishable academic research
     Patentable novelty
 
-3. Feasibility:  
+4. Feasibility:  
    Must be realistic for Tier 1 or Tier 2 Indian engineering colleges  
    Infrastructure must be moderate (cloud credits, GPUs, open data, etc.
-4. Web Enrichment:  
+5. Web Enrichment:  
     Do not rely only on internal material  
     Supplement with 2025 (or latest) benchmarks, tools, APIs, datasets, literature, etc.
-5. Quantity:  
+6. Quantity:  
    Generate exactly {count} problem statements
 
-6. KPIs:  
-   Include 3–4 real, measurable targets per problem (e.g., “Accuracy ≥ 92%”, “Latency ≤ 200ms”)
+7. KPIs:  
+   Include 3-4 real, measurable targets per problem (e.g., “Accuracy ≥ 92%”, “Latency ≤ 200ms”)
 
-7. Freshness:  
+8. Freshness:  
    Use the latest frameworks, methods, or libraries.  
    When in doubt or encountering ambiguity, initiate a web search.  
    Ask multiple queries at once to clarify technology, problem scope, or domain gaps.
 
-8. Prompt Adherence:  
+9. Prompt Adherence:  
    - All generated content must strictly follow the User Prompt:  
     {custom_prompt}
 
@@ -262,37 +262,40 @@ MANDATORY CONSTRAINTS
 
 OUTPUT FORMAT
 
+
 ```json
 [
-  {
-    "Title": "<one-line title>",
-    "Problem Statement": "<28-33 word problem statement>",
-    "Description": "<background, maximum 100 words>",
-    "Challenge / Use Case": "<pain-point or user scenario>",
-    "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
-    "KPIs": [
-      "<metric 1 with value>",
-      "<metric 2 with value>",
-      "<metric 3 with value>",
-      "<metric 4 with value>"
-    ],
-    "Prerequisites": [
-      "<prerequisite 1>",
-      "<prerequisite 2>",
-      "<prerequisite 3>",
-      "<prerequisite 4>",
-      "<prerequisite 5>",
-      "<prerequisite 6>"
-    ],
-    "Infrastructure Requirements": "<minimum and recommended hardware>",
-    "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
-    "Milestones (6 months)": {
-      "M2": "<checkpoint>",
-      "M4": "<checkpoint>",
-      "M6": "<final deliverable>"
-    }
-  }
+    {{
+        "Title": "<one-line title>",
+        "Problem Statement": "<28-33 word problem statement>",
+        "Description": "<background, maximum 100 words>",
+        "Challenge / Use Case": "<pain-point or user scenario>",
+        "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
+        "KPIs": [
+            "<metric 1 with value>",
+            "<metric 2 with value>",
+            "<metric 3 with value>",
+            "<metric 4 with value>"
+        ],
+        "Prerequisites": [
+            "<prerequisite 1>",
+            "<prerequisite 2>",
+            "<prerequisite 3>",
+            "<prerequisite 4>",
+            "<prerequisite 5>",
+            "<prerequisite 6>"
+        ],
+        "Infrastructure Requirements": "<minimum and recommended hardware>",
+        "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
+        "Milestones (6 months)": {{
+            "M2": "<checkpoint>",
+            "M4": "<checkpoint>",
+            "M6": "<final deliverable>"
+        }}
+    }},
+    ...
 ]
+```
 
 """
 
@@ -385,37 +388,3 @@ def keyword_prompt():
     6. Output - LLM for code generation and debugging
     """
     )
-
-# ```json
-# [
-#     {{
-#         "Title": "<one-line title>",
-#         "Problem Statement": "<28-33 word problem statement>",
-#         "Description": "<background, maximum 100 words>",
-#         "Challenge / Use Case": "<pain-point or user scenario>",
-#         "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
-#         "KPIs": [
-#             "<metric 1 with value>",
-#             "<metric 2 with value>",
-#             "<metric 3 with value>",
-#             "<metric 4 with value>"
-#         ],
-#         "Prerequisites": [
-#             "<prerequisite 1>",
-#             "<prerequisite 2>",
-#             "<prerequisite 3>",
-#             "<prerequisite 4>",
-#             "<prerequisite 5>",
-#             "<prerequisite 6>"
-#         ],
-#         "Infrastructure Requirements": "<minimum and recommended hardware>",
-#         "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
-#         "Milestones (6 months)": {{
-#             "M2": "<checkpoint>",
-#             "M4": "<checkpoint>",
-#             "M6": "<final deliverable>"
-#         }}
-#     }},
-#     ...
-# ]
-# ```
