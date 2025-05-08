@@ -301,7 +301,118 @@ OUTPUT FORMAT
             "M6": "<final deliverable>"
         }}
     }},
-    ...
+    {{
+        "Title": "<one-line title>",
+        "Problem Statement": "<28-33 word problem statement>",
+        "Description": "<background, maximum 100 words>",
+        "Challenge / Use Case": "<pain-point or user scenario>",
+        "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
+        "KPIs": [
+            "<metric 1 with value>",
+            "<metric 2 with value>",
+            "<metric 3 with value>",
+            "<metric 4 with value>"
+        ],
+        "Prerequisites": [
+            "<prerequisite 1>",
+            "<prerequisite 2>",
+            "<prerequisite 3>",
+            "<prerequisite 4>",
+            "<prerequisite 5>",
+            "<prerequisite 6>"
+        ],
+        "Infrastructure Requirements": "<minimum and recommended hardware>",
+        "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
+        "Milestones (6 months)": {{
+            "M2": "<checkpoint>",
+            "M4": "<checkpoint>",
+            "M6": "<final deliverable>"
+        }}
+    }},
+    {{
+        "Title": "<one-line title>",
+        "Problem Statement": "<28-33 word problem statement>",
+        "Description": "<background, maximum 100 words>",
+        "Challenge / Use Case": "<pain-point or user scenario>",
+        "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
+        "KPIs": [
+            "<metric 1 with value>",
+            "<metric 2 with value>",
+            "<metric 3 with value>",
+            "<metric 4 with value>"
+        ],
+        "Prerequisites": [
+            "<prerequisite 1>",
+            "<prerequisite 2>",
+            "<prerequisite 3>",
+            "<prerequisite 4>",
+            "<prerequisite 5>",
+            "<prerequisite 6>"
+        ],
+        "Infrastructure Requirements": "<minimum and recommended hardware>",
+        "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
+        "Milestones (6 months)": {{
+            "M2": "<checkpoint>",
+            "M4": "<checkpoint>",
+            "M6": "<final deliverable>"
+        }}
+    }},
+    {{
+        "Title": "<one-line title>",
+        "Problem Statement": "<28-33 word problem statement>",
+        "Description": "<background, maximum 100 words>",
+        "Challenge / Use Case": "<pain-point or user scenario>",
+        "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
+        "KPIs": [
+            "<metric 1 with value>",
+            "<metric 2 with value>",
+            "<metric 3 with value>",
+            "<metric 4 with value>"
+        ],
+        "Prerequisites": [
+            "<prerequisite 1>",
+            "<prerequisite 2>",
+            "<prerequisite 3>",
+            "<prerequisite 4>",
+            "<prerequisite 5>",
+            "<prerequisite 6>"
+        ],
+        "Infrastructure Requirements": "<minimum and recommended hardware>",
+        "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
+        "Milestones (6 months)": {{
+            "M2": "<checkpoint>",
+            "M4": "<checkpoint>",
+            "M6": "<final deliverable>"
+        }}
+    }},
+    {{
+        "Title": "<one-line title>",
+        "Problem Statement": "<28-33 word problem statement>",
+        "Description": "<background, maximum 100 words>",
+        "Challenge / Use Case": "<pain-point or user scenario>",
+        "Deliverables": "<outputs - e.g., app, model, diagram, etc.>",
+        "KPIs": [
+            "<metric 1 with value>",
+            "<metric 2 with value>",
+            "<metric 3 with value>",
+            "<metric 4 with value>"
+        ],
+        "Prerequisites": [
+            "<prerequisite 1>",
+            "<prerequisite 2>",
+            "<prerequisite 3>",
+            "<prerequisite 4>",
+            "<prerequisite 5>",
+            "<prerequisite 6>"
+        ],
+        "Infrastructure Requirements": "<minimum and recommended hardware>",
+        "Tentative Tech Stack": "<languages, libraries, platforms, etc.>",
+        "Milestones (6 months)": {{
+            "M2": "<checkpoint>",
+            "M4": "<checkpoint>",
+            "M6": "<final deliverable>"
+        }}
+    }}
 ]
 ```
 
