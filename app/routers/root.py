@@ -60,7 +60,7 @@ async def upload_multiple(
     sid: Annotated[str, Form()],
     links: Annotated[str, Form()],
     custom_prompt: Annotated[str, Form()],
-    custom_topics: Annotated[str, Form()],
+    # custom_topics: Annotated[str, Form()],
     files: Annotated[list[UploadFile], File()] = None,
 ):
     """
@@ -92,7 +92,7 @@ async def upload_multiple(
         - Checks if the client is connected at various stages and halts processing if disconnected.
     """
 
-    parsed_custom_topics = json.loads(custom_topics) if custom_topics else []
+    # parsed_custom_topics = json.loads(custom_topics) if custom_topics else []
     start_time = time.time()
     saved_files = []
     extracted_data_all = {}
@@ -141,7 +141,7 @@ async def upload_multiple(
         return {"error": "Client not connected."}
 
     worklets = await generate_worklets(
-        extracted_data_all, links_data, model, sid, custom_prompt, parsed_custom_topics
+        extracted_data_all, links_data, model, sid, custom_prompt, 
     )
     print("returning")
     return;

@@ -1,7 +1,7 @@
 from langchain.prompts import ChatPromptTemplate
 
 
- This Prompt is meant to search for web only
+#  This Prompt is meant to search for web only
 def web_search_prompt():
 
     return ChatPromptTemplate.from_template(

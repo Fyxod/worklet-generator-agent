@@ -10,25 +10,7 @@
 
   <style> .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.75); display: flex; justify-content: center; align-items: center; z-index: 9999; } .modal.hidden { display: none; } .modal-content { background-color: #1e293b; padding: 30px; border-radius: 16px; max-width: 600px; width: 90%; color: white; box-shadow: 0 0 10px rgba(0,0,0,0.3); } .modal-content h2 { margin-top: 0; margin-bottom: 16px; font-size: 1.5rem; } #query-list .query-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; } #query-list input { flex: 1; padding: 6px 10px; border-radius: 6px; background: #334155; border: 1px solid #475569; color: white; } .remove-query-btn { background: #ef4444; border: none; color: white; padding: 4px 8px; border-radius: 6px; cursor: pointer; } </style>
 
-  <style> .modal-topic { width: 90%; max-width: 1000px; display: flex; flex-direction: column; gap: 20px; 
-  overflow-y: auto;
-  max-height: 90vh;
-} .topic-grid { display: grid; grid-template-columns: 1fr 2px 1fr; gap: 20px; } .topic-column { display: flex; flex-direction: column; gap: 16px; } .divider { width: 2px; background: #475569; } .section { background: #0f172a; padding: 12px; border-radius: 10px; } .section h4 { margin-top: 0; margin-bottom: 8px; font-size: 0.95rem; color: #cbd5e1; } .item-entry { display: flex; align-items: center; margin-bottom: 6px; gap: 10px; } .item-entry input { flex: 1; padding: 6px; background: #334155; border: 1px solid #475569; color: white; border-radius: 6px; } .remove-btn { background: #ef4444; border: none; color: white; padding: 4px 8px; border-radius: 6px; cursor: pointer; } .user-section h4 { margin-bottom: 8px; font-size: 0.95rem; } .generate-btn { align-self: center; padding: 10px 20px; background: #3b82f6; border: none; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; } 
-
-
-.modal-topic {
-overflow-y: auto;
-max-height: 80vh;
-padding: 20px;
-display: flex;
-flex-direction: column;
-}
-
-.topic-grid {
-overflow-y: auto;
-flex: 1;
-}
-  </style>
+  <style> .modal-topic { width: 90%; max-width: 1000px; display: flex; flex-direction: column; gap: 20px; } .topic-grid { display: grid; grid-template-columns: 1fr 2px 1fr; gap: 20px; } .topic-column { display: flex; flex-direction: column; gap: 16px; } .divider { width: 2px; background: #475569; } .section { background: #0f172a; padding: 12px; border-radius: 10px; } .section h4 { margin-top: 0; margin-bottom: 8px; font-size: 0.95rem; color: #cbd5e1; } .item-entry { display: flex; align-items: center; margin-bottom: 6px; gap: 10px; } .item-entry input { flex: 1; padding: 6px; background: #334155; border: 1px solid #475569; color: white; border-radius: 6px; } .remove-btn { background: #ef4444; border: none; color: white; padding: 4px 8px; border-radius: 6px; cursor: pointer; } .user-section h4 { margin-bottom: 8px; font-size: 0.95rem; } .generate-btn { align-self: center; padding: 10px 20px; background: #3b82f6; border: none; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; } </style>
 </head>
 
 <body>
@@ -92,7 +74,7 @@ flex: 1;
     </div>
   </div>
 </form>
-<button type="submit" class="generate-btn" id="submit-topics">Send sometjhing</button>
+<button type="submit" class="generate-btn" id="submit-topics">Send Topics</button>
 
 <script>
   const fileInput = document.getElementById('file-input');
