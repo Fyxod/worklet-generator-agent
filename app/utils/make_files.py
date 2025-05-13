@@ -15,25 +15,8 @@ from app.utils.reference_functions.reference_sort import index_sort
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
-# UPLOAD_DIR_PDF = os.path.join(PROJECT_ROOT, "resources/generated_worklets/pdf")
-# UPLOAD_DIR_PPT = os.path.join(PROJECT_ROOT, "resources/generated_worklets/ppt")
-
-
 ppt_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/ppt")
 pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/pdf")
-
-
-# pdf_path = UPLOAD_DIR_PDF
-# pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/pdf")
-# ppt_path = UPLOAD_DIR_PPT
-# ppt_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/ppt")
-
-# print(UPLOAD_DIR_PPT)
-# print(UPLOAD_DIR_PDF)
-
-# os.makedirs(UPLOAD_DIR_PDF, exist_ok=True)
-# os.makedirs(UPLOAD_DIR_PPT, exist_ok=True)
-
 
 os.makedirs(pdf_path, exist_ok=True)
 os.makedirs(ppt_path, exist_ok=True)
@@ -51,7 +34,7 @@ async def generatePdf(json, model, index):
     safe_title = sanitize_filename(json.get("Title", "untitled"))
     
     filename_pdf = os.path.join(pdf_path, f"{safe_title}.pdf")
-    filename_ppt = os.path.join(pdf_path, f"{safe_title}.pptx")
+    filename_ppt = os.path.join(ppt_path, f"{safe_title}.pptx")
 
     loop = asyncio.get_running_loop()
     await loop.run_in_executor(None, create_pdf, filename_pdf, json_data)
