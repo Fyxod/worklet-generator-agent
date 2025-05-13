@@ -6,29 +6,74 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Frame, Paragraph
+from pptx import Presentation
+from pptx.util import Inches, Pt
+from pptx.enum.shapes import MSO_SHAPE
 
 from app.utils.reference_functions.reference_sort import index_sort
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
-UPLOAD_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
-print(UPLOAD_DIR)
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/")
-CUSTOM_PAGE_SIZE = (750,900)  # Width x Height in points (1 point = 1/72 inch)
+# UPLOAD_DIR_PDF = os.path.join(PROJECT_ROOT, "resources/generated_worklets/pdf")
+# UPLOAD_DIR_PPT = os.path.join(PROJECT_ROOT, "resources/generated_worklets/ppt")
 
-async def pre_processing(json_data, index, model="gemma3:27b"):
+
+ppt_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/ppt")
+pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/pdf")
+
+
+# pdf_path = UPLOAD_DIR_PDF
+# pdf_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/pdf")
+# ppt_path = UPLOAD_DIR_PPT
+# ppt_path = os.path.join(PROJECT_ROOT, "resources/generated_worklets/ppt")
+
+# print(UPLOAD_DIR_PPT)
+# print(UPLOAD_DIR_PDF)
+
+# os.makedirs(UPLOAD_DIR_PDF, exist_ok=True)
+# os.makedirs(UPLOAD_DIR_PPT, exist_ok=True)
+
+
+os.makedirs(pdf_path, exist_ok=True)
+os.makedirs(ppt_path, exist_ok=True)
+
+
+CUSTOM_PAGE_SIZE = (750,900)  # Width x Height in points (1 point = 1/72 inch)  used by both ppt and pdf
+
+async def generatePdf(json, model, index):
     print("\n")
+    print("----" * 25 + "Inside make_file " + "----" * 25)
+    print("\n")
+
+    json_data = await pre_processing(json, index, model) # json after sorting
+    
+    safe_title = sanitize_filename(json.get("Title", "untitled"))
+    
+    filename_pdf = os.path.join(pdf_path, f"{safe_title}.pdf")
+    filename_ppt = os.path.join(pdf_path, f"{safe_title}.pptx")
+
+    loop = asyncio.get_running_loop()
+    await loop.run_in_executor(None, create_pdf, filename_pdf, json_data)
+    await loop.run_in_executor(None, create_ppt, filename_ppt, json_data)
+    
+
+    print("\n")
+    print(f"PDF generated: {filename_pdf}")
+    print("\n")
+    
+    
+    
+async def pre_processing(json_data, index, model="gemma3:27b"):
     json_data = await index_sort(json_data, model, index)
     return json_data
 
 def sanitize_filename(filename):
     return re.sub(r'[\/:*?"<>|]', '_', filename)
 
+
 # Function to handle the actual blocking PDF generation using ReportLab
 def create_pdf(filename, json_data):
-    """Blocking function for creating PDF with ReportLab."""
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
     width, height = CUSTOM_PAGE_SIZE
 
@@ -92,18 +137,54 @@ def create_pdf(filename, json_data):
 
     print(f"PDF generated: {filename}")
 
-async def generatePdf(json, model, index):
-    print("\n")
-    print("----" * 25 + "Inside generate pdf" + "----" * 25)
-    print("\n")
+# Blocking PPT creation function
+def create_ppt(filename, json_data):
+    # print("insideppt")
+    prs = Presentation()
+    title_slide_layout = prs.slide_layouts[0]
+    bullet_slide_layout = prs.slide_layouts[1]
 
-    json_data = await pre_processing(json, index, model)
-    safe_title = sanitize_filename(json['Title'])
-    filename = os.path.join(pdf_path, f"{safe_title}.pdf")
+    def add_title_slide(title, subtitle=""):
+        slide = prs.slides.add_slide(title_slide_layout)
+        slide.shapes.title.text = title
+        slide.placeholders[1].text = subtitle
 
-    loop = asyncio.get_running_loop()
-    await loop.run_in_executor(None, create_pdf, filename, json_data)
+    def add_bullet_slide(title, bullets):
+        slide = prs.slides.add_slide(bullet_slide_layout)
+        shapes = slide.shapes
+        shapes.title.text = title
+        body_shape = shapes.placeholders[1]
+        tf = body_shape.text_frame
+        tf.clear()
+        for bullet in bullets:
+            p = tf.add_paragraph()
+            p.text = bullet
+            p.level = 0
 
-    print("\n")
-    print(f"PDF generated: {filename}")
-    print("\n")
+    add_title_slide(json_data.get("Title", "Worklet"), json_data.get("Problem Statement", ""))
+
+    # Normal text fields
+    for key in ["Description", "Challenge / Use Case", "Deliverables", "Infrastructure Requirements", "Tentative Tech Stack"]:
+        if key in json_data:
+            add_bullet_slide(key, [json_data[key]])
+
+    # List fields
+    for key in ["KPIs", "Prerequisites"]:
+        if key in json_data and isinstance(json_data[key], list):
+            add_bullet_slide(key, json_data[key])
+
+    # Milestones
+    if "Milestones (6 months)" in json_data:
+        milestones = json_data["Milestones (6 months)"]
+        bullets = [f"{k}: {v}" for k, v in milestones.items()]
+        add_bullet_slide("Milestones (6 months)", bullets)
+
+    # Reference Work
+    if "Reference Work" in json_data:
+        refs = json_data["Reference Work"]
+        links = [f"{ref['Title']} - {ref['Link']}" for ref in refs if isinstance(ref, dict)]
+        add_bullet_slide("Reference Work", links)
+
+    prs.save(filename)
+    print(filename)
+
