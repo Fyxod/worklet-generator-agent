@@ -21,7 +21,7 @@ from app.llm import llm
 from app.socket import is_client_connected, sio
 from app.utils.generate_references import getReferenceWork
 from app.utils.generate_worklets import generate_worklets
-from app.utils.generatepdf import generatePdf
+from app.utils.make_files import generatePdf
 from app.utils.link_extractor import get_links_data
 from app.utils.document_parser import extract_document
 
