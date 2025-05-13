@@ -97,7 +97,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
     if queries != []:
         await sio.emit("progress", {"message": "Searching the web..."}, to=sid)
         try:
-            search_data = await loop.run_in_executor(executor, search, web_search_output["search"], 10,500)
+            search_data = await loop.run_in_executor(executor, search, queries, 10,500)
         except Exception as e:
             await sio.emit("error", {"message": "ERROR: Web search failed. Please try again."}, to=sid)
             return
