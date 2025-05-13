@@ -91,13 +91,14 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
 
     # prompting the user to approve the web queries and add any new ones
     queries = await get_approved_queries(queries=queries, sid=sid, show_message=show_message)
-
+    print("printing updated queriies")
+    print(queries)
     socket_message = "Generating worklets..."
     search_data=''
     if queries != []:
         await sio.emit("progress", {"message": "Searching the web..."}, to=sid)
         try:
-            search_data = await loop.run_in_executor(executor, search, web_search_output["search"], 10,500)
+            search_data = await loop.run_in_executor(executor, search, queries, 10,500)
         except Exception as e:
             await sio.emit("error", {"message": "ERROR: Web search failed. Please try again."}, to=sid)
             return

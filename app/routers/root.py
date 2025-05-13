@@ -34,9 +34,8 @@ PROJECT_ROOT = os.path.dirname(BASE_DIR)
 UPLOAD_DIR = os.path.join(PROJECT_ROOT, "../worklets")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-GENERATED_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
+GENERATED_DIR = os.path.join(PROJECT_ROOT, "resources/generated_worklets")
 DESTINATION_DIR = os.path.join(PROJECT_ROOT, "./resources/archived_worklets")
-os.makedirs(GENERATED_DIR, exist_ok=True)
 os.makedirs(DESTINATION_DIR, exist_ok=True)
 os.makedirs("templates", exist_ok=True)
 
