@@ -4,7 +4,7 @@ from langchain.prompts import ChatPromptTemplate
 def keywords_from_worklets_custom_prompt(custom_prompt, worklet_data, links_data):
     return f""" ROLE & CONTEXT
 
-You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
+You are an expert Technology and Innovation Advisor for Samsung PRISM - an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
 
 Your task is to analyze the provided documents and extracted data and identify high-impact keywords and relevant domains from the following sources:
 
@@ -29,7 +29,7 @@ Keyword Rules:
  Prioritize novelty and relevance
  
 B. Domains
-Identify broad application or research domains, such as(therse are just examples do not limit your self to these only):
+Identify broad application or research domains, such as(these are just examples do not limit your self to these only):
 Healthcare,
 Smart Cities,
 AgriTech,
@@ -38,8 +38,8 @@ Cybersecurity,
 Automotive,
 EdTech,
 IoT
-Energ
-Do not limit to this list — include any domain that is:
+Energy
+Do not limit to this list - include any domain that is:
 Clearly stated or strongly implied
 Relevant to the context of innovation or research
 Specific enough to categorize the project's purpose or area of application
@@ -86,7 +86,7 @@ Input Sections
 ```
 
 Mandatory constraints 
-Strictly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above — no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
+Strictly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above - no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
 
 
 """
@@ -95,7 +95,7 @@ Strictly adhere to the specified output format. Your response must be a valid JS
 def web_search_prompt(count,count_string,worklet_data,links_data,custom_prompt,keywords,domains,):
 
     return f"""ROLE & CONTEXT
-You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Tier 1 and Tier 2 engineering colleges across India.
+You are an expert Technology and Innovation Advisor for Samsung PRISM - an industry-academia collaboration that engages Tier 1 and Tier 2 engineering colleges across India.
 
 You are tasked with analyzing:
 
@@ -175,9 +175,9 @@ MANDATORY CONSTRAINTS
     Ensure alignment with 2025-era trends, tech stacks, models, APIs, frameworks, etc.
     Do not use outdated standards unless explicitly asked
     
-5. desigh your web querries keeping the above  points in mind and ask for as much querries as you want 
+5. Design your web queries keeping the above points in mind and ask for as many queries as you want 
 
-6. ctly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above — no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
+6. Strictly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above - no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
 """
 
 # This Prompt is meant to Generate The Final Worklets
@@ -195,7 +195,7 @@ def worklet_gen_prompt_with_web_searches(
     return f"""
 ROLE & CONTEXT
 
-You are an expert Technology and Innovation Advisor for Samsung PRISM — an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
+You are an expert Technology and Innovation Advisor for Samsung PRISM - an industry-academia collaboration that engages Indian Tier 1 and Tier 2 engineering colleges.
 
 You are tasked with carefully examining the provided document set (PPT, PDF, Word, Excel files), as well as any prior extracted information or links.
 
@@ -264,7 +264,7 @@ MANDATORY CONSTRAINTS
    - All generated content must strictly follow the User Prompt:  
     {custom_prompt}
     
-10 Strictly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above — no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
+10 Strictly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above - no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
 
 ---
 
@@ -307,7 +307,7 @@ OUTPUT FORMAT
 
 """
 
-def refrence_sort_template(json):
+def reference_sort_template(json):
 
     return f"""you are an Expert Technology and Innovation Advisor for Samsung PRISM.
 You will receive a JSON array containing multiple reference objects.
@@ -355,7 +355,7 @@ IMPORTANT RULES:
     Only return an array of sorted indices (based on relevance).
 
     Ensure that the returned indices correspond exactly to the indices of the references in the sorted order (i.e., the indices should be from the original list, but sorted by relevance).
-    Sometimes you return extra text please make sure that does not happen i just need a alist of reference_id sorted in order of relevance
+    Sometimes you return extra text please make sure that does not happen I just need a list of reference_id sorted in order of relevance
 
 Reminder: If you accidentally edit, mismatch, or modify any field (Title, Link, Description, etc.), the submission is invalid.
 Here is the input JSON:
@@ -366,7 +366,7 @@ OUTPUT FORMAT :
 Mandatory Constraints 
 follow the output constraints, example OUTPUT =[1,6,2,3,9,8,10]
 do not return anything else except the output asked for no extra text and formatting
-sort then in eccreasing order of relevance to the current worklet (most important constraint)
+sort them in decreasing order of relevance to the current worklet (most important constraint)
 """
 
 def summariser_template():
@@ -375,7 +375,7 @@ def summariser_template():
 You are an experienced researcher, but you have a short context window. 
 To handle large information, you summarize and extract only the most critical details needed for future use. 
 You will later use this summarized data to generate research worklets. 
-Optimize your summaries specifically for LLM consumption — no need for human readability. 
+Optimize your summaries specifically for LLM consumption - no need for human readability. 
 Focus on compressing information efficiently, preserving only facts, key points, and critical context.
 
 Input data:
