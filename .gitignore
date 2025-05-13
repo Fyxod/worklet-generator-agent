@@ -13,6 +13,8 @@ resources
 *.jpg
 *.jpeg
 *.json
+*.pptx
+*.pdf
 # Distribution / packaging
 latest_generated.json
 google_scholar_organic_results_data.json

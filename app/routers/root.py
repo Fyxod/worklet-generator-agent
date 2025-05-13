@@ -21,7 +21,7 @@ from app.llm import llm
 from app.socket import is_client_connected, sio
 from app.utils.generate_references import getReferenceWork
 from app.utils.generate_worklets import generate_worklets
-from app.utils.generatepdf import generatePdf
+from app.utils.make_files import generatePdf
 from app.utils.link_extractor import get_links_data
 from app.utils.document_parser import extract_document
 
@@ -34,9 +34,8 @@ PROJECT_ROOT = os.path.dirname(BASE_DIR)
 UPLOAD_DIR = os.path.join(PROJECT_ROOT, "../worklets")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-GENERATED_DIR = os.path.join(PROJECT_ROOT, "./resources/generated_worklets")
+GENERATED_DIR = os.path.join(PROJECT_ROOT, "resources/generated_worklets")
 DESTINATION_DIR = os.path.join(PROJECT_ROOT, "./resources/archived_worklets")
-os.makedirs(GENERATED_DIR, exist_ok=True)
 os.makedirs(DESTINATION_DIR, exist_ok=True)
 os.makedirs("templates", exist_ok=True)
 

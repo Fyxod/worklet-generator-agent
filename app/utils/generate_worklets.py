@@ -91,7 +91,8 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
 
     # prompting the user to approve the web queries and add any new ones
     queries = await get_approved_queries(queries=queries, sid=sid, show_message=show_message)
-
+    print("printing updated queriies")
+    print(queries)
     socket_message = "Generating worklets..."
     search_data=''
     if queries != []:
