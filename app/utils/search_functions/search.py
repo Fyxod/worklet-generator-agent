@@ -27,6 +27,7 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
     """
 
     try:
+        # return ["no web search results found"]
         results = []
 
         # Fetch search results
