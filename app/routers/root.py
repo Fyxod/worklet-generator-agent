@@ -34,9 +34,16 @@ PROJECT_ROOT = os.path.dirname(BASE_DIR)
 UPLOAD_DIR = os.path.join(PROJECT_ROOT, "../worklets")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-GENERATED_DIR = os.path.join(PROJECT_ROOT, "resources/generated_worklets")
-DESTINATION_DIR = os.path.join(PROJECT_ROOT, "./resources/archived_worklets")
-os.makedirs(DESTINATION_DIR, exist_ok=True)
+GENERATED_DIR_PDF = os.path.join(PROJECT_ROOT, "resources/generated_worklets/pdf")
+os.makedirs(GENERATED_DIR_PDF, exist_ok=True)
+DESTINATION_DIR_PDF = os.path.join(PROJECT_ROOT, "./resources/archived_worklets/pdf")
+os.makedirs(DESTINATION_DIR_PDF, exist_ok=True)
+
+GENERATED_DIR_PPT = os.path.join(PROJECT_ROOT, "resources/generated_worklets/ppt")
+os.makedirs(GENERATED_DIR_PPT, exist_ok=True)
+DESTINATION_DIR_PPT = os.path.join(PROJECT_ROOT, "./resources/archived_worklets/ppt")
+os.makedirs(DESTINATION_DIR_PPT, exist_ok=True)
+
 os.makedirs("templates", exist_ok=True)
 
 router=APIRouter(
@@ -146,9 +153,15 @@ async def upload_multiple(
     # 5. Move old generated files
     loop = asyncio.get_running_loop()
 
-    for filename in os.listdir(GENERATED_DIR):
-        source_path = os.path.join(GENERATED_DIR, filename)
-        destination_path = os.path.join(DESTINATION_DIR, filename)
+    for filename in os.listdir(GENERATED_DIR_PDF):
+        source_path = os.path.join(GENERATED_DIR_PDF, filename)
+        destination_path = os.path.join(DESTINATION_DIR_PDF, filename)
+        if os.path.isfile(source_path):
+            await loop.run_in_executor(None, shutil.move, source_path, destination_path)
+
+    for filename in os.listdir(GENERATED_DIR_PPT):
+        source_path = os.path.join(GENERATED_DIR_PPT, filename)
+        destination_path = os.path.join(DESTINATION_DIR_PPT, filename)
         if os.path.isfile(source_path):
             await loop.run_in_executor(None, shutil.move, source_path, destination_path)
 
@@ -156,6 +169,7 @@ async def upload_multiple(
     async def process_worklet(worklet):
         try:
             reference = await getReferenceWork(worklet["Problem Statement"], worklet["Title"], model)
+            # reference = []
         except Exception as e:
             reference=[]
             
@@ -165,6 +179,7 @@ async def upload_multiple(
         await sio.emit("progress", {"message": f"Fetching references for {worklet['Title']}"}, to=sid)
         await process_worklet(worklet)
 
+    await sio.emit("total_worklets", {"total_worklets": len(worklets)}, to=sid)
     # 7. Save latest generated worklets and give index to references
     for worklet in worklets:
         idx = 12
@@ -185,24 +200,22 @@ async def upload_multiple(
         try:
             await sio.emit("progress", {"message": f"Generating PDF for {index + 1}. {worklet['Title']}..."}, to=sid)
             file_name = sanitize_filename(worklet['Title'])
-            await sio.emit("fileReceived", {"file_name": f"{file_name}.pdf"}, to=sid)
+            await sio.emit("fileReceived", {"file_name": f"{file_name}"}, to=sid)
             await sio.emit("progress", {"message": f"Comparing references for {index + 1}. {worklet['Title']}..."},to=sid)
             await generatePdf(worklet, model, index)
 
-            filename = f"{worklet['Title']}.pdf"
         except Exception as e:
             traceback.print_exc()
-            filename = "error.pdf"
+            file_name = "error"
 
-        response["files"].append({
-            "name": filename,
-        })
+        response["files"].append(file_name)
 
-        await sio.emit("pdf_generated", {"file_name": filename}, to=sid)
+        await sio.emit("pdf_generated", {"file_name": file_name}, to=sid)
         if not is_client_connected(sid):
             print(f"Client {sid} is not connected. Skipping next file. Returning error.")
             return {"error": "Client not connected."}
 
+    response["worklet_count"] = len(worklets)
     end_time = time.time()
     elapsed_time = end_time - start_time
     await sio.emit("progress", {"message": f"{elapsed_time}"}, to=sid)
@@ -211,13 +224,13 @@ async def upload_multiple(
 
 @router.get('/download/{file_name}')
 async def download(file_name: str):
-    new_file_name = sanitize_filename(file_name)
-    file_path = Path(GENERATED_DIR) / new_file_name
+    new_file_name = sanitize_filename(file_name) + ".pdf"
+    file_path = Path(GENERATED_DIR_PDF) / new_file_name
 
     if not file_path.exists():
-        file_path = Path(DESTINATION_DIR) / new_file_name
+        file_path = Path(DESTINATION_DIR_PDF) / new_file_name
 
-    safe_filename = file_name.replace(":", " -")
+    safe_filename = new_file_name.replace(":", " -")
     if file_path.exists():
         return FileResponse(
             file_path,
@@ -229,27 +242,30 @@ class FilesRequest(BaseModel):
     files: list[str] 
 
 @router.post("/download_all")
-def download_selected(filesss: FilesRequest):
+def download_selected(received_files: FilesRequest, type: str = Query(...)):
     """
-    Handles the creation of a downloadable ZIP file containing the specified files.
+    Handles the download of selected files by creating a zip archive containing the requested files.
     Args:
-        filesss (FilesRequest): An object containing a list of file names to be included in the ZIP file.
+        received_files (FilesRequest): An object containing a list of file names to be downloaded.
+        type (str): The type of files to download, either "pdf" or "ppt". This is passed as a query parameter.
     Returns:
-        FileResponse: A response object containing the generated ZIP file for download.
-        dict: An error message if no files are provided.
-    Workflow:
-        1. Validates the input to ensure files are provided.
-        2. Creates a temporary ZIP file.
-        3. Searches for the specified files in the `GENERATED_DIR` directory and adds them to the ZIP file.
-        4. Searches for any remaining files in the `DESTINATION_DIR` directory and adds them to the ZIP file.
-        5. Returns the ZIP file as a downloadable response.
+        FileResponse: A response containing the zip file for download if successful.
+        dict: An error message if no files are provided or if the type is invalid.
+    Raises:
+        None
     Notes:
-        - The function assumes the existence of `GENERATED_DIR` and `DESTINATION_DIR` directories.
-        - If a file is not found in either directory, it will be skipped without raising an error.
-        - The temporary ZIP file is not automatically deleted after the response is sent.
+        - The function searches for files in two directories based on the type:
+          - For "pdf": Searches in GENERATED_DIR_PDF and DESTINATION_DIR_PDF.
+          - For "ppt": Searches in GENERATED_DIR_PPT and DESTINATION_DIR_PPT.
+        - Files are added to the zip archive if they exist in the specified directories.
+        - If no valid files are found, an error message is returned.
+        - The zip file is created as a temporary file and returned as a downloadable response.
     """
 
-    files = filesss.files 
+    print(type)
+
+    files = received_files.files 
+    print(files)
     if not files:
         return {"error": "No files provided."}
 
@@ -261,18 +277,42 @@ def download_selected(filesss: FilesRequest):
         # Make a copy so we can modify files safely
         remaining_files = files.copy()
 
-        # First, search and add files from GENERATED_DIR
-        for file_name in files:
-            file_path = os.path.join(GENERATED_DIR, file_name)
-            if os.path.isfile(file_path):
-                zipf.write(file_path, arcname=file_name)
-                remaining_files.remove(file_name)
+        if(type == "pdf"):
+            # First, search and add files from GENERATED_DIR_PDF
+            for file_name in files:
+                search_name = file_name + ".pdf"
+                file_path = os.path.join(GENERATED_DIR_PDF, search_name)
+                print(file_path)
+                if os.path.isfile(file_path):
+                    zipf.write(file_path, arcname=search_name)
+                    remaining_files.remove(file_name)
 
-        # Then, search remaining files in ARCHIVED_DIR
-        for file_name in remaining_files:
-            file_path = os.path.join(DESTINATION_DIR, file_name)
-            if os.path.isfile(file_path):
-                zipf.write(file_path, arcname=file_name)
+            # Then, search remaining files in DESTINATION_DIR_PDF
+            for file_name in remaining_files:
+                search_name = file_name + ".pdf"
+                file_path = os.path.join(DESTINATION_DIR_PDF, search_name)
+                if os.path.isfile(file_path):
+                    zipf.write(file_path, arcname=search_name)
+
+        elif(type == "ppt"):
+            # First, search and add files from GENERATED_DIR_PPT
+            for file_name in files:
+                search_name = file_name + ".pptx"
+                file_path = os.path.join(GENERATED_DIR_PPT, search_name)
+                print(file_path)
+                if os.path.isfile(file_path):
+                    zipf.write(file_path, arcname=search_name)
+                    remaining_files.remove(file_name)
+
+            # Then, search remaining files in DESTINATION_DIR_PPT
+            for file_name in remaining_files:
+                search_name = file_name + ".pptx"
+                file_path = os.path.join(DESTINATION_DIR_PPT, search_name)
+                if os.path.isfile(file_path):
+                    zipf.write(file_path, arcname=search_name)
+        else:
+            return {"error": "Invalid type. Must be 'pdf' or 'ppt'."}
+
 
     return FileResponse(zip_path, filename="worklets.zip", media_type="application/zip")
 

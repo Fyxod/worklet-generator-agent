@@ -15,6 +15,14 @@
   max-height: 90vh;
 } .topic-grid { display: grid; grid-template-columns: 1fr 2px 1fr; gap: 20px; } .topic-column { display: flex; flex-direction: column; gap: 16px; } .divider { width: 2px; background: #475569; } .section { background: #0f172a; padding: 12px; border-radius: 10px; } .section h4 { margin-top: 0; margin-bottom: 8px; font-size: 0.95rem; color: #cbd5e1; } .item-entry { display: flex; align-items: center; margin-bottom: 6px; gap: 10px; } .item-entry input { flex: 1; padding: 6px; background: #334155; border: 1px solid #475569; color: white; border-radius: 6px; } .remove-btn { background: #ef4444; border: none; color: white; padding: 4px 8px; border-radius: 6px; cursor: pointer; } .user-section h4 { margin-bottom: 8px; font-size: 0.95rem; } .generate-btn { align-self: center; padding: 10px 20px; background: #3b82f6; border: none; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; } 
 
+.modal {
+  z-index: 9999; /* Ensure it is above other elements */
+}
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .modal-topic {
 overflow-y: auto;
@@ -23,7 +31,6 @@ padding: 20px;
 display: flex;
 flex-direction: column;
 }
-
 .topic-grid {
 overflow-y: auto;
 flex: 1;
@@ -157,8 +164,23 @@ top: -9999px;
     </div>
     <div class="progress-message" id="progress-message" style="display: none;">Sending...</div>
   </form>
-
+  
   <div class="download-list" id="download-list"></div>
+</div>
+<div id="file-type-modal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Select File Type</h2>
+    <div style="display: flex; justify-content: center; gap: 20px;">
+      <button id="download-pdf-btn" style="background: none; border: none; cursor: pointer;">
+        <img src="/static/pdficon.png" alt="PDF Icon" style="width: 100px; height: 100px;">
+        <p style="color: white; text-align: center;">Download PDF</p>
+      </button>
+      <button id="download-ppt-btn" style="background: none; border: none; cursor: pointer;">
+        <img src="/static/ppticon.png" alt="PPT Icon" style="width: 100px; height: 100px;">
+        <p style="color: white; text-align: center;">Download PPT</p>
+      </button>
+    </div>
+  </div>
 </div>
 
 <div id="query-modal" class="modal hidden"> <div class="modal-content"> <h2>Approve or Edit Queries</h2> <h5 id="show_message"></h5><form id="query-form"> <div id="query-list"></div> <button type="button" id="add-query-btn">➕ Add Query</button> <button type="submit" class="generate-btn">Send Queries</button> </form> </div> </div>
@@ -179,6 +201,8 @@ top: -9999px;
   </div>
 </form>
 <button type="submit" class="generate-btn" id="submit-topics">Proceed</button>
+
+<!-- Add Modal for File Type Selection -->
 
 <script>
   const fileInput = document.getElementById('file-input');
@@ -212,11 +236,6 @@ top: -9999px;
   let generatedCount = 0;
   let errorOccurred = false;
   let receivedFiles = [];
-
-  socket.on("total_worklets", (data) => {
-    console.log("Total worklets:", data.total_worklets);
-    totalWorklets = data.total_worklets;
-  });
 
   fileInput.addEventListener('change', (e) => {
     selectedFiles = Array.from(e.target.files);
@@ -305,40 +324,96 @@ top: -9999px;
     downloadList.innerHTML = '';
   }
 
+  let selectedFileName = "";
+
+  // Modify individual file download logic
   socket.on('pdf_generated', (data) => {
     if (errorOccurred) return;
     console.log('PDF generated:', data);
     generatedCount++;
     updateLoadingText();
 
-  if (data.file_name) {
-  const a = document.createElement('a');
-  a.href = `/download/${encodeURIComponent(data.file_name)}`;
-  a.download = data.file_name;
-  a.style.animation = 'fadeIn 0.6s ease forwards';
-  a.style.display = 'flex'; 
-  a.style.alignItems = 'center'; 
-  a.style.gap = '8px'; // small space between icon and text
+    if (data.file_name) {
+      const a = document.createElement('a');
+      a.style.animation = 'fadeIn 0.6s ease forwards';
+      a.style.display = 'flex';
+      a.style.alignItems = 'center';
+      a.style.gap = '8px';
 
-  const icon = document.createElement('img');
-  icon.src = '/static/icon.png';
-  icon.alt = 'File Icon';
-  icon.style.width = '20px'; 
-  icon.style.height = '20px';
+      const icon = document.createElement('img');
+      icon.src = '/static/icon.png';
+      icon.alt = 'File Icon';
+      icon.style.width = '20px';
+      icon.style.height = '20px';
 
-  const fileName = document.createElement('span');
-  fileName.textContent = data.file_name;
+      const fileName = document.createElement('span');
+      fileName.textContent = data.file_name;
 
-  a.appendChild(icon);
-  a.appendChild(fileName);
+      a.appendChild(icon);
+      a.appendChild(fileName);
 
-  downloadList.appendChild(a);
-}
+      a.onclick = (e) => {
+        e.preventDefault();
+        selectedFileName = data.file_name;
+        showFileTypeModal();
+      };
 
+      downloadList.appendChild(a);
+    }
 
     const percent = (generatedCount / totalWorklets) * 100;
     progressBar.style.width = `${percent}%`;
   });
+
+  // Show file type modal
+  function showFileTypeModal() {
+    const modal = document.getElementById('file-type-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      document.body.classList.add('modal-active');
+    } else {
+      console.error('File type modal not found');
+    }
+  }
+
+  // Hide file type modal
+  function hideFileTypeModal() {
+    const modal = document.getElementById('file-type-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.classList.remove('modal-active');
+    }
+  }
+
+  // Handle file type selection
+  document.getElementById('download-pdf-btn').addEventListener('click', () => {
+    downloadFile('pdf');
+  });
+
+  document.getElementById('download-ppt-btn').addEventListener('click', () => {
+    downloadFile('ppt');
+  });
+
+  function downloadFile(type) {
+    if (!selectedFileName) return;
+
+    const url = `/download?type=${type}&file=${encodeURIComponent(selectedFileName)}`;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = selectedFileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    hideFileTypeModal();
+  }
+
+  // Optional: blur background when modal is active
+  const observer2 = new MutationObserver(() => {
+    const modalActive = document.body.classList.contains('modal-active');
+    document.querySelector('.container').style.filter = modalActive ? 'blur(5px)' : '';
+  });
+  observer2.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
   socket.on('progress', (data) => {
     if (errorOccurred) return;
@@ -416,6 +491,9 @@ top: -9999px;
     progressMessage.textContent = 'Sending...';
     downloadList.innerHTML = '';
     
+    generatedCount = 0;
+    totalWorklets = 5;
+    
     try {
       
       formData.append('custom_prompt', customPrompt);
@@ -435,108 +513,52 @@ top: -9999px;
       if (data.worklet_count) {
         totalWorklets = data.worklet_count;
       }
-      console.log("printign data files")
-      console.log(data.files)
-      if(data.files){
-        receivedFiles = data.files;
-      }
 
       loading.style.display = 'none';
       progressContainer.style.display = 'none';
       progressMessage.style.display = 'none';
 
-      // Place the two download buttons side by side in a flex container
-      const downloadBtnContainer = document.createElement('div');
-      downloadBtnContainer.style.display = 'flex';
-      downloadBtnContainer.style.gap = '16px';
-      downloadBtnContainer.style.justifyContent = 'center';
-      downloadBtnContainer.style.marginTop = '20px';
+      const downloadAll = document.createElement('button');
+      downloadAll.classList.add('generate-btn');
+downloadAll.textContent = 'Download All as ZIP';
+downloadAll.style.fontWeight = '700';
+downloadAll.style.animation = 'fadeIn 0.6s ease forwards';
+downloadAll.style.cursor = 'pointer';
+downloadList.appendChild(downloadAll);
 
-      const downloadAllPdf = document.createElement('button');
-      downloadAllPdf.classList.add('generate-btn');
-      downloadAllPdf.textContent = 'Download zip as PDF';
-      downloadAllPdf.style.fontWeight = '700';
-      downloadAllPdf.style.width = 'auto';
-      downloadAllPdf.style.minWidth = '160px';
-      downloadAllPdf.style.marginTop = '0';
+downloadAll.addEventListener('click', async () => {
+  if (receivedFiles.length === 0) {
+    alert('No files to download.');
+    return;
+  }
 
-      const downloadAllPpt = document.createElement('button');
-      downloadAllPpt.classList.add('generate-btn');
-      downloadAllPpt.textContent = 'Download zip as PPT';
-      downloadAllPpt.style.fontWeight = '700';
-      downloadAllPpt.style.width = 'auto';
-      downloadAllPpt.style.minWidth = '160px';
-      downloadAllPpt.style.marginTop = '0';
+  try {
+    const response = await fetch('/download_all/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ files: receivedFiles }),
+    });
 
-      downloadBtnContainer.appendChild(downloadAllPdf);
-      downloadBtnContainer.appendChild(downloadAllPpt);
-      downloadList.appendChild(downloadBtnContainer);
+    if (!response.ok) {
+      throw new Error('Failed to download ZIP');
+    }
 
-      downloadAllPdf.addEventListener('click', async () => {
-        if (receivedFiles.length === 0) {
-          alert('No files to download.');
-          return;
-        }
-        try {
-          const response = await fetch('/download_all?type=pdf', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ files: receivedFiles }),
-          });
-
-          if (!response.ok) {
-            throw new Error('Failed to download ZIP');
-          }
-
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'worklets_pdf.zip';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          window.URL.revokeObjectURL(url);
-        } catch (error) {
-          console.error('Download error:', error);
-          alert('Error downloading ZIP file.');
-        }
-      });
-
-      downloadAllPpt.addEventListener('click', async () => {
-        if (receivedFiles.length === 0) {
-          alert('No files to download.');
-          return;
-        }
-        try {
-          const response = await fetch('/download_all?type=ppt', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ files: receivedFiles }),
-          });
-
-          if (!response.ok) {
-            throw new Error('Failed to download ZIP');
-          }
-
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'worklets_ppt.zip';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          window.URL.revokeObjectURL(url);
-        } catch (error) {
-          console.error('Download error:', error);
-          alert('Error downloading ZIP file.');
-        }
-      });
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'worklets.zip'; // or any filename you want
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Download error:', error);
+    alert('Error downloading ZIP file.');
+  }
+});
 
     } catch (error) {
       if (errorOccurred) return; 
@@ -738,12 +760,6 @@ function collectUserItems(listId) {
 const container = document.getElementById(listId);
 return Array.from(container.querySelectorAll("input")).map(i => i.value.trim()).filter(Boolean);
 }
-
-// function autoResizeInput(input) {
-// input.style.width = "1ch";
-// input.style.width = input.scrollWidth + "px";
-// }
-
 function autoResizeInput(input) {
 measurer.textContent = input.value || input.placeholder || '';
 const computedStyle = window.getComputedStyle(input);
@@ -760,9 +776,7 @@ const measurer = document.createElement("span");
 measurer.className = "text-measurer";
 document.body.appendChild(measurer);
 
-
 </script>
-
 
 </body>
 </html>

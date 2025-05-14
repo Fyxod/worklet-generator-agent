@@ -17,6 +17,7 @@ def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int 
         list: A list of search results (each result is a dictionary).
               Returns an empty list if all retries fail.
     """
+    print(f"Fetching DuckDuckGo results for query: {query}")
     attempt = 0
     ddgs = DDGS()
     arr=[]
