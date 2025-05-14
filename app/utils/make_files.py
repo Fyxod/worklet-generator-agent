@@ -6,10 +6,11 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Frame, Paragraph
+
 from pptx import Presentation
 from pptx.util import Inches, Pt
-from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import PP_ALIGN
+from pptx.dml.color import RGBColor
 
 from app.utils.reference_functions.reference_sort import index_sort
 
@@ -23,7 +24,7 @@ os.makedirs(pdf_path, exist_ok=True)
 os.makedirs(ppt_path, exist_ok=True)
 
 
-CUSTOM_PAGE_SIZE = (750,900)  # Width x Height in points (1 point = 1/72 inch)  used by both ppt and pdf
+CUSTOM_PAGE_SIZE = (750,900)  # Width x Height in points (1 point = 1/72 inch)  used by pdf
 
 async def generatePdf(json, model, index):
     print("\n")
@@ -46,15 +47,12 @@ async def generatePdf(json, model, index):
     print(f"PDF generated: {filename_pdf}")
     print("\n")
     
-    
-    
 async def pre_processing(json_data, index, model="gemma3:27b"):
     json_data = await index_sort(json_data, model, index)
     return json_data
 
 def sanitize_filename(filename):
     return re.sub(r'[\/:*?"<>|]', '_', filename)
-
 
 # Function to handle the actual blocking PDF generation using ReportLab
 def create_pdf(filename, json_data):
@@ -123,154 +121,134 @@ def create_pdf(filename, json_data):
 
 
 def create_ppt(output_filename, json_data):
+    data = [json_data]
+    gap =0.3
     prs = Presentation()
-    # Set slide dimensions to 16:9 (typical widescreen)
-    prs.slide_width = Inches(13.33)
-    prs.slide_height = Inches(7.5)
-    
-    # --- Title Slide ---
-    # Use a blank layout so we control every element
-    blank_slide_layout = prs.slide_layouts[6]
-    slide = prs.slides.add_slide(blank_slide_layout)
-    
-    # Title Text Box (centered)
-    title_left = Inches(1)
-    title_top = Inches(1)
-    title_width = prs.slide_width - Inches(2)
-    title_height = Inches(1.5)
-    title_box = slide.shapes.add_textbox(title_left, title_top, title_width, title_height)
-    title_tf = title_box.text_frame
-    title_paragraph = title_tf.paragraphs[0]
-    title_paragraph.text = json_data.get("Title", "Untitled Project")
-    title_paragraph.font.size = Pt(44)
-    title_paragraph.font.bold = True
-    title_paragraph.alignment = PP_ALIGN.CENTER
+    prs.slide_width = Pt(750)
+    prs.slide_height = Pt(1100)
+    slide_layout = prs.slide_layouts[6]
+    for entry in data:
+        slide = prs.slides.add_slide(slide_layout)
+        top = 0.5
 
-    # Subtitle / Problem Statement Text Box (below the title)
-    subtitle_left = Inches(1)
-    subtitle_top = Inches(2.7)
-    subtitle_width = prs.slide_width - Inches(2)
-    subtitle_height = Inches(1)
-    subtitle_box = slide.shapes.add_textbox(subtitle_left, subtitle_top, subtitle_width, subtitle_height)
-    subtitle_tf = subtitle_box.text_frame
-    subtitle_paragraph = subtitle_tf.paragraphs[0]
-    subtitle_paragraph.text = json_data.get("Problem Statement", "")
-    subtitle_paragraph.font.size = Pt(28)
-    subtitle_paragraph.alignment = PP_ALIGN.CENTER
+        top = add_textbox_Title(slide, "Title", entry.get("Title", ""), top)
+        top = add_textbox(slide, "Problem Statement", entry.get("Problem Statement", ""), top)
+        top = add_textbox(slide, "Description", entry.get("Description", ""), top)
+        top = add_textbox(slide, "Challenge / Use Case", entry.get("Challenge / Use Case", ""), top)
+        top = add_textbox(slide, "Deliverables", entry.get("Deliverables", ""), top)
 
-    # --- Content Slide Function ---
-    def add_content_slide(slide_title, content_lines):
-        slide = prs.slides.add_slide(blank_slide_layout)
-        # Title area for the content slide
-        t_left = Inches(0.5)
-        t_top = Inches(0.5)
-        t_width = prs.slide_width - Inches(1)
-        t_height = Inches(1)
-        title_box = slide.shapes.add_textbox(t_left, t_top, t_width, t_height)
-        title_tf = title_box.text_frame
-        title_par = title_tf.paragraphs[0]
-        title_par.text = slide_title
-        title_par.font.size = Pt(32)
-        title_par.font.bold = True
+        kpis = entry.get("KPIs", [])
+        if kpis:
+            kpi_text = "\n".join([f"• {k}" for k in kpis])
+            top = add_textbox(slide, "KPIs", kpi_text, top)
 
-        # Content Text Box (for bullet points or paragraphs)
-        c_left = Inches(0.5)
-        c_top = Inches(1.5)
-        c_width = prs.slide_width - Inches(1)
-        c_height = prs.slide_height - Inches(2)
-        content_box = slide.shapes.add_textbox(c_left, c_top, c_width, c_height)
-        content_tf = content_box.text_frame
-        content_tf.word_wrap = True
+        preq = entry.get("Prerequisites", [])
+        if preq:
+            preq_text = "\n".join([f"• {p}" for p in preq])
+            top = add_textbox(slide, "Prerequisites", preq_text, top)
 
-        # For each content line, create a bullet
-        for line in content_lines:
-            p = content_tf.add_paragraph()
-            p.text = line
-            p.font.size = Pt(24)
-            p.level = 0
+        top = add_textbox(slide, "Infrastructure Requirements", entry.get("Infrastructure Requirements", ""), top)
+        top = add_textbox(slide, "Tentative Tech Stack", entry.get("Tentative Tech Stack", ""), top)
 
-    # --- Generate Slides from JSON ---
-    # One-line text fields: show as a single bullet (or paragraph)
-    for key in ["Description", "Challenge / Use Case", "Deliverables", 
-                "Infrastructure Requirements", "Tentative Tech Stack"]:
-        if key in json_data:
-            add_content_slide(key, [json_data[key]])
+        milestones = entry.get("Milestones (6 months)", {})
+        if milestones:
+            milestone_text = "\n".join([f"{k}: {v}" for k, v in milestones.items()])
+            top = add_textbox(slide, "Milestones (6 months)", milestone_text, top)
 
-    # List-based fields (e.g. KPIs, Prerequisites)
-    for key in ["KPIs", "Prerequisites"]:
-        if key in json_data and isinstance(json_data[key], list):
-            add_content_slide(key, json_data[key])
+        references = entry.get("Reference Work", [])
+        if references:
+            left = Inches(0.5)
+            top_inch = Inches(top)
+            width = Inches(9.5)
+            height = Inches(len(references) * 0.4 + 0.2)
+            textbox = slide.shapes.add_textbox(left, top_inch, width, height)
+            tf = textbox.text_frame
+            tf.word_wrap = True
+            tf.clear()
 
-    # Milestones: Key-value pairs; combine each into a single line
-    if "Milestones (6 months)" in json_data:
-        milestones = json_data["Milestones (6 months)"]
-        milestone_lines = [f"{k}: {v}" for k, v in milestones.items()]
-        add_content_slide("Milestones (6 months)", milestone_lines)
+            title_para = tf.paragraphs[0]
+            title_run = title_para.add_run()
+            title_run.font.size = Pt(16)
+            title_run.font.bold = True
+            title_run.font.name = 'Calibri'
+            title_run.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
+            title_run.text = "Reference Work:"
 
-    # Reference Work: Each reference as a line with title and link
-    if "Reference Work" in json_data:
-        refs = json_data["Reference Work"]
-        links = [f"{ref['Title']} - {ref['Link']}" for ref in refs if isinstance(ref, dict)]
-        add_content_slide("Reference Work", links)
+            for ref in references:
+                p = tf.add_paragraph()
+                p.level = 1
+                run = p.add_run()
+                run.text = f"• {ref['Title']}"
+                run.font.size = Pt(15)
+                run.font.name = 'Calibri'
+                run.font.color.rgb = RGBColor(0, 102, 204)
+                run.hyperlink.address = ref['Link']
+
+            top += height.inches + gap
+
+    def estimate_height_wrapped(text, chars_per_line=105, line_height_pt=18):
+        lines = 0
+        for para in text.split('\n'):
+            para = para.strip()
+            if not para:
+                continue
+            lines += max(1, int(len(para) / chars_per_line) + 1)
+        return Pt(lines * line_height_pt).inches
+
+    def add_textbox(slide, title, content, top_inch):
+        left = Inches(0.5)
+        top = Inches(top_inch)
+        width = Inches(9.5)
+        height = estimate_height_wrapped(content)
+        textbox = slide.shapes.add_textbox(left, top, width, height)
+        tf = textbox.text_frame
+        tf.word_wrap = True
+        tf.clear()
+
+        p = tf.paragraphs[0]
+        p.alignment = PP_ALIGN.LEFT
+
+        run_title = p.add_run()
+        run_title.text = f"{title}:\n"
+        run_title.font.size = Pt(16)
+        run_title.font.bold = True
+        run_title.font.name = 'Calibri'
+        run_title.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
+
+        run_content = p.add_run()
+        run_content.text = content
+        run_content.font.size = Pt(15)
+        run_content.font.name = 'Calibri'
+
+        return top_inch + height + gap
+
+    def add_textbox_Title(slide, title, content, top_inch):
+        left = Inches(0.5)
+        top = Inches(top_inch)
+        width = Inches(9.5)
+        height = estimate_height_wrapped(content)
+        textbox = slide.shapes.add_textbox(left, top, width, height)
+        tf = textbox.text_frame
+        tf.word_wrap = True
+        tf.clear()
+
+        p = tf.paragraphs[0]
+        p.alignment = PP_ALIGN.LEFT
+
+        run_title = p.add_run()
+        run_title.text = f"{title}: "
+        run_title.font.size = Pt(20)
+        run_title.font.name = 'Calibri'
+        run_title.font.bold = True
+        run_title.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
+
+        run_content = p.add_run()
+        run_content.text = content
+        run_content.font.size = Pt(20)
+        run_content.font.name = 'Calibri'
+        run_content.font.bold = True
+        run_content.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
+
+        return top_inch +height+ gap
 
     prs.save(output_filename)
-    print(f"Saved presentation to {output_filename}")
-
-# --- Example Usage ---
-
-sample_json = {
-        "Title": "Federated Learning for Personalized Healthcare in Rural India",
-        "Problem Statement": "Develop a federated learning framework leveraging edge devices to train a personalized disease prediction model for rural Indian patients, addressing data privacy and limited internet connectivity.",
-        "Description": "Healthcare access in rural India is limited by data silos and privacy concerns. This project aims to create a distributed AI model using federated learning, enabling healthcare providers to learn from patient data without direct data sharing, improving diagnostic accuracy and treatment planning.",
-        "Challenge / Use Case": "Limited access to specialized healthcare and challenges in data sharing due to privacy regulations in rural Indian clinics.",
-        "Deliverables": "A federated learning framework, a trained disease prediction model, a secure data aggregation mechanism, and a detailed performance report.",
-        "KPIs": [
-            "Accuracy ≥ 10% improvement over centralized model",
-            "Communication Rounds ≤ 15",
-            "Data Privacy: Differential Privacy budget (ε) ≤ 1.0",
-            "Model Convergence: Achieve convergence within 30 epochs"
-        ],
-        "Prerequisites": [
-            "Understanding of federated learning principles",
-            "Familiarity with machine learning algorithms (e.g., logistic regression, SVM)",
-            "Knowledge of privacy-preserving techniques (e.g., differential privacy)",
-            "Experience with Python and TensorFlow/PyTorch",
-            "Basic networking concepts",
-            "Familiarity with Indian healthcare data formats (if available)"
-        ],
-        "Infrastructure Requirements": "Cloud credits (Google Cloud/AWS) for model training and edge device simulation; 2-4 GPUs recommended for accelerated training.",
-        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, Federated Learning Framework (Flower/FedML), Differential Privacy library (Opacus), Scikit-learn",
-        "Milestones (6 months)": {
-            "M2": "Implement basic federated learning setup with synthetic data",
-            "M4": "Integrate with a simulated rural healthcare dataset and implement privacy budget",
-            "M6": "Develop and deploy the federated learning model with a final performance report"
-        },
-        "Reference Work": [
-            {
-                "Title": "Case Studies in Federated Learning for Healthcare",
-                "Link": "https://www.igi-global.com/viewtitle.aspx?titleid=346276"
-            },
-            {
-                "Title": "Federated Learning: Advancing Healthcare through Collaborative Artificial Intelligence",
-                "Link": "https://journals.lww.com/ijcn/fulltext/2024/01000/federated_learning__advancing_healthcare_through.15.aspx"
-            },
-            {
-                "Title": "Federated Learning for Diabetic Retinopathy Diagnosis: Enhancing Accuracy and Generalizability in Under-Resourced Regions",
-                "Link": "https://arxiv.org/abs/2411.00869"
-            },
-            {
-                "Title": "Federated Learning: The much-needed intervention in Healthcare Informatics.",
-                "Link": "https://search.ebscohost.com/login.aspx?direct=true&profile=ehost&scope=site&authtype=crawler&jrnl=26767104&AN=184661859"
-            },
-            {
-                "Title": "Federated learning framework for consumer IoMT-edge resource recommendation under telemedicine services",
-                "Link": "https://ieeexplore.ieee.org/abstract/document/10793078/"
-            },
-            {
-                "Title": "Federated learning for the internet-of-medical-things: A survey",
-                "Link": "https://www.mdpi.com/2227-7390/11/1/151"
-            }
-        ]
-    }
-
-create_ppt("GeneratedPresentation.pptx", sample_json)
