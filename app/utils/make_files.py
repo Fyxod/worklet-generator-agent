@@ -9,6 +9,7 @@ from reportlab.platypus import Frame, Paragraph
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.text import PP_ALIGN
 
 from app.utils.reference_functions.reference_sort import index_sort
 
@@ -120,54 +121,156 @@ def create_pdf(filename, json_data):
 
     print(f"PDF generated: {filename}")
 
-# Blocking PPT creation function
-def create_ppt(filename, json_data):
-    # print("insideppt")
+
+def create_ppt(output_filename, json_data):
     prs = Presentation()
-    title_slide_layout = prs.slide_layouts[0]
-    bullet_slide_layout = prs.slide_layouts[1]
+    # Set slide dimensions to 16:9 (typical widescreen)
+    prs.slide_width = Inches(13.33)
+    prs.slide_height = Inches(7.5)
+    
+    # --- Title Slide ---
+    # Use a blank layout so we control every element
+    blank_slide_layout = prs.slide_layouts[6]
+    slide = prs.slides.add_slide(blank_slide_layout)
+    
+    # Title Text Box (centered)
+    title_left = Inches(1)
+    title_top = Inches(1)
+    title_width = prs.slide_width - Inches(2)
+    title_height = Inches(1.5)
+    title_box = slide.shapes.add_textbox(title_left, title_top, title_width, title_height)
+    title_tf = title_box.text_frame
+    title_paragraph = title_tf.paragraphs[0]
+    title_paragraph.text = json_data.get("Title", "Untitled Project")
+    title_paragraph.font.size = Pt(44)
+    title_paragraph.font.bold = True
+    title_paragraph.alignment = PP_ALIGN.CENTER
 
-    def add_title_slide(title, subtitle=""):
-        slide = prs.slides.add_slide(title_slide_layout)
-        slide.shapes.title.text = title
-        slide.placeholders[1].text = subtitle
+    # Subtitle / Problem Statement Text Box (below the title)
+    subtitle_left = Inches(1)
+    subtitle_top = Inches(2.7)
+    subtitle_width = prs.slide_width - Inches(2)
+    subtitle_height = Inches(1)
+    subtitle_box = slide.shapes.add_textbox(subtitle_left, subtitle_top, subtitle_width, subtitle_height)
+    subtitle_tf = subtitle_box.text_frame
+    subtitle_paragraph = subtitle_tf.paragraphs[0]
+    subtitle_paragraph.text = json_data.get("Problem Statement", "")
+    subtitle_paragraph.font.size = Pt(28)
+    subtitle_paragraph.alignment = PP_ALIGN.CENTER
 
-    def add_bullet_slide(title, bullets):
-        slide = prs.slides.add_slide(bullet_slide_layout)
-        shapes = slide.shapes
-        shapes.title.text = title
-        body_shape = shapes.placeholders[1]
-        tf = body_shape.text_frame
-        tf.clear()
-        for bullet in bullets:
-            p = tf.add_paragraph()
-            p.text = bullet
+    # --- Content Slide Function ---
+    def add_content_slide(slide_title, content_lines):
+        slide = prs.slides.add_slide(blank_slide_layout)
+        # Title area for the content slide
+        t_left = Inches(0.5)
+        t_top = Inches(0.5)
+        t_width = prs.slide_width - Inches(1)
+        t_height = Inches(1)
+        title_box = slide.shapes.add_textbox(t_left, t_top, t_width, t_height)
+        title_tf = title_box.text_frame
+        title_par = title_tf.paragraphs[0]
+        title_par.text = slide_title
+        title_par.font.size = Pt(32)
+        title_par.font.bold = True
+
+        # Content Text Box (for bullet points or paragraphs)
+        c_left = Inches(0.5)
+        c_top = Inches(1.5)
+        c_width = prs.slide_width - Inches(1)
+        c_height = prs.slide_height - Inches(2)
+        content_box = slide.shapes.add_textbox(c_left, c_top, c_width, c_height)
+        content_tf = content_box.text_frame
+        content_tf.word_wrap = True
+
+        # For each content line, create a bullet
+        for line in content_lines:
+            p = content_tf.add_paragraph()
+            p.text = line
+            p.font.size = Pt(24)
             p.level = 0
 
-    add_title_slide(json_data.get("Title", "Worklet"), json_data.get("Problem Statement", ""))
-
-    # Normal text fields
-    for key in ["Description", "Challenge / Use Case", "Deliverables", "Infrastructure Requirements", "Tentative Tech Stack"]:
+    # --- Generate Slides from JSON ---
+    # One-line text fields: show as a single bullet (or paragraph)
+    for key in ["Description", "Challenge / Use Case", "Deliverables", 
+                "Infrastructure Requirements", "Tentative Tech Stack"]:
         if key in json_data:
-            add_bullet_slide(key, [json_data[key]])
+            add_content_slide(key, [json_data[key]])
 
-    # List fields
+    # List-based fields (e.g. KPIs, Prerequisites)
     for key in ["KPIs", "Prerequisites"]:
         if key in json_data and isinstance(json_data[key], list):
-            add_bullet_slide(key, json_data[key])
+            add_content_slide(key, json_data[key])
 
-    # Milestones
+    # Milestones: Key-value pairs; combine each into a single line
     if "Milestones (6 months)" in json_data:
         milestones = json_data["Milestones (6 months)"]
-        bullets = [f"{k}: {v}" for k, v in milestones.items()]
-        add_bullet_slide("Milestones (6 months)", bullets)
+        milestone_lines = [f"{k}: {v}" for k, v in milestones.items()]
+        add_content_slide("Milestones (6 months)", milestone_lines)
 
-    # Reference Work
+    # Reference Work: Each reference as a line with title and link
     if "Reference Work" in json_data:
         refs = json_data["Reference Work"]
         links = [f"{ref['Title']} - {ref['Link']}" for ref in refs if isinstance(ref, dict)]
-        add_bullet_slide("Reference Work", links)
+        add_content_slide("Reference Work", links)
 
-    prs.save(filename)
-    print(filename)
+    prs.save(output_filename)
+    print(f"Saved presentation to {output_filename}")
 
+# --- Example Usage ---
+
+sample_json = {
+        "Title": "Federated Learning for Personalized Healthcare in Rural India",
+        "Problem Statement": "Develop a federated learning framework leveraging edge devices to train a personalized disease prediction model for rural Indian patients, addressing data privacy and limited internet connectivity.",
+        "Description": "Healthcare access in rural India is limited by data silos and privacy concerns. This project aims to create a distributed AI model using federated learning, enabling healthcare providers to learn from patient data without direct data sharing, improving diagnostic accuracy and treatment planning.",
+        "Challenge / Use Case": "Limited access to specialized healthcare and challenges in data sharing due to privacy regulations in rural Indian clinics.",
+        "Deliverables": "A federated learning framework, a trained disease prediction model, a secure data aggregation mechanism, and a detailed performance report.",
+        "KPIs": [
+            "Accuracy ≥ 10% improvement over centralized model",
+            "Communication Rounds ≤ 15",
+            "Data Privacy: Differential Privacy budget (ε) ≤ 1.0",
+            "Model Convergence: Achieve convergence within 30 epochs"
+        ],
+        "Prerequisites": [
+            "Understanding of federated learning principles",
+            "Familiarity with machine learning algorithms (e.g., logistic regression, SVM)",
+            "Knowledge of privacy-preserving techniques (e.g., differential privacy)",
+            "Experience with Python and TensorFlow/PyTorch",
+            "Basic networking concepts",
+            "Familiarity with Indian healthcare data formats (if available)"
+        ],
+        "Infrastructure Requirements": "Cloud credits (Google Cloud/AWS) for model training and edge device simulation; 2-4 GPUs recommended for accelerated training.",
+        "Tentative Tech Stack": "Python, TensorFlow/PyTorch, Federated Learning Framework (Flower/FedML), Differential Privacy library (Opacus), Scikit-learn",
+        "Milestones (6 months)": {
+            "M2": "Implement basic federated learning setup with synthetic data",
+            "M4": "Integrate with a simulated rural healthcare dataset and implement privacy budget",
+            "M6": "Develop and deploy the federated learning model with a final performance report"
+        },
+        "Reference Work": [
+            {
+                "Title": "Case Studies in Federated Learning for Healthcare",
+                "Link": "https://www.igi-global.com/viewtitle.aspx?titleid=346276"
+            },
+            {
+                "Title": "Federated Learning: Advancing Healthcare through Collaborative Artificial Intelligence",
+                "Link": "https://journals.lww.com/ijcn/fulltext/2024/01000/federated_learning__advancing_healthcare_through.15.aspx"
+            },
+            {
+                "Title": "Federated Learning for Diabetic Retinopathy Diagnosis: Enhancing Accuracy and Generalizability in Under-Resourced Regions",
+                "Link": "https://arxiv.org/abs/2411.00869"
+            },
+            {
+                "Title": "Federated Learning: The much-needed intervention in Healthcare Informatics.",
+                "Link": "https://search.ebscohost.com/login.aspx?direct=true&profile=ehost&scope=site&authtype=crawler&jrnl=26767104&AN=184661859"
+            },
+            {
+                "Title": "Federated learning framework for consumer IoMT-edge resource recommendation under telemedicine services",
+                "Link": "https://ieeexplore.ieee.org/abstract/document/10793078/"
+            },
+            {
+                "Title": "Federated learning for the internet-of-medical-things: A survey",
+                "Link": "https://www.mdpi.com/2227-7390/11/1/151"
+            }
+        ]
+    }
+
+create_ppt("GeneratedPresentation.pptx", sample_json)
