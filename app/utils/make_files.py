@@ -236,7 +236,7 @@ def add_textbox_Title(slide, title, content, top_inch):
     left = Inches(0.5)
     top = Inches(top_inch)
     width = Inches(9.5)
-    height = estimate_height_wrapped_Title(content)
+    height = Inches(2)
     textbox = slide.shapes.add_textbox(left, top, width, height)
     tf = textbox.text_frame
     tf.word_wrap = True
