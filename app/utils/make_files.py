@@ -1,3 +1,4 @@
+gap =0.3
 import asyncio
 import os
 import re
@@ -122,7 +123,6 @@ def create_pdf(filename, json_data):
 
 def create_ppt(output_filename, json_data):
     data = [json_data]
-    gap =0.3
     prs = Presentation()
     prs.slide_width = Pt(750)
     prs.slide_height = Pt(1100)
@@ -185,70 +185,70 @@ def create_ppt(output_filename, json_data):
                 run.hyperlink.address = ref['Link']
 
             top += height.inches + gap
-
-    def estimate_height_wrapped(text, chars_per_line=105, line_height_pt=18):
-        lines = 0
-        for para in text.split('\n'):
-            para = para.strip()
-            if not para:
-                continue
-            lines += max(1, int(len(para) / chars_per_line) + 1)
-        return Pt(lines * line_height_pt).inches
-
-    def add_textbox(slide, title, content, top_inch):
-        left = Inches(0.5)
-        top = Inches(top_inch)
-        width = Inches(9.5)
-        height = estimate_height_wrapped(content)
-        textbox = slide.shapes.add_textbox(left, top, width, height)
-        tf = textbox.text_frame
-        tf.word_wrap = True
-        tf.clear()
-
-        p = tf.paragraphs[0]
-        p.alignment = PP_ALIGN.LEFT
-
-        run_title = p.add_run()
-        run_title.text = f"{title}:\n"
-        run_title.font.size = Pt(16)
-        run_title.font.bold = True
-        run_title.font.name = 'Calibri'
-        run_title.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
-
-        run_content = p.add_run()
-        run_content.text = content
-        run_content.font.size = Pt(15)
-        run_content.font.name = 'Calibri'
-
-        return top_inch + height + gap
-
-    def add_textbox_Title(slide, title, content, top_inch):
-        left = Inches(0.5)
-        top = Inches(top_inch)
-        width = Inches(9.5)
-        height = estimate_height_wrapped(content)
-        textbox = slide.shapes.add_textbox(left, top, width, height)
-        tf = textbox.text_frame
-        tf.word_wrap = True
-        tf.clear()
-
-        p = tf.paragraphs[0]
-        p.alignment = PP_ALIGN.LEFT
-
-        run_title = p.add_run()
-        run_title.text = f"{title}: "
-        run_title.font.size = Pt(20)
-        run_title.font.name = 'Calibri'
-        run_title.font.bold = True
-        run_title.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
-
-        run_content = p.add_run()
-        run_content.text = content
-        run_content.font.size = Pt(20)
-        run_content.font.name = 'Calibri'
-        run_content.font.bold = True
-        run_content.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
-
-        return top_inch +height+ gap
-
     prs.save(output_filename)
+
+def estimate_height_wrapped(text, chars_per_line=100, line_height_pt=18):
+    lines = 0
+    for para in text.split('\n'):
+        para = para.strip()
+        if not para:
+            continue
+        lines += max(1, int(len(para) / chars_per_line) + 1)
+    return Pt(lines * line_height_pt).inches
+
+def add_textbox(slide, title, content, top_inch):
+    left = Inches(0.5)
+    top = Inches(top_inch)
+    width = Inches(9.5)
+    height = estimate_height_wrapped(content)
+    textbox = slide.shapes.add_textbox(left, top, width, height)
+    tf = textbox.text_frame
+    tf.word_wrap = True
+    tf.clear()
+
+    p = tf.paragraphs[0]
+    p.alignment = PP_ALIGN.LEFT
+
+    run_title = p.add_run()
+    run_title.text = f"{title}:\n"
+    run_title.font.size = Pt(16)
+    run_title.font.bold = True
+    run_title.font.name = 'Calibri'
+    run_title.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
+
+    run_content = p.add_run()
+    run_content.text = content
+    run_content.font.size = Pt(15)
+    run_content.font.name = 'Calibri'
+
+    return top_inch + height + gap
+
+def add_textbox_Title(slide, title, content, top_inch):
+    left = Inches(0.5)
+    top = Inches(top_inch)
+    width = Inches(9.5)
+    height = estimate_height_wrapped(content)
+    textbox = slide.shapes.add_textbox(left, top, width, height)
+    tf = textbox.text_frame
+    tf.word_wrap = True
+    tf.clear()
+
+    p = tf.paragraphs[0]
+    p.alignment = PP_ALIGN.LEFT
+
+    run_title = p.add_run()
+    run_title.text = f"{title}: "
+    run_title.font.size = Pt(20)
+    run_title.font.name = 'Calibri'
+    run_title.font.bold = True
+    run_title.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
+
+    run_content = p.add_run()
+    run_content.text = content
+    run_content.font.size = Pt(20)
+    run_content.font.name = 'Calibri'
+    run_content.font.bold = True
+    run_content.font.color.rgb = RGBColor(0x00, 0x66, 0xCC)
+
+    return top_inch +height+ gap
+
