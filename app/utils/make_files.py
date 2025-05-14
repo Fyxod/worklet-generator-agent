@@ -131,7 +131,7 @@ def create_ppt(output_filename, json_data):
         slide = prs.slides.add_slide(slide_layout)
         top = 0.5
 
-        top = add_textbox_Title(slide, "Title", entry.get("Title", ""), top)
+        top = add_textbox_Title(slide, "Title", entry.get("Title", ""), top)+0.1
         top = add_textbox(slide, "Problem Statement", entry.get("Problem Statement", ""), top)
         top = add_textbox(slide, "Description", entry.get("Description", ""), top)
         top = add_textbox(slide, "Challenge / Use Case", entry.get("Challenge / Use Case", ""), top)
@@ -196,7 +196,7 @@ def estimate_height_wrapped_content(text, chars_per_line=100, line_height_pt=18)
         lines += max(1, int(len(para) / chars_per_line) + 1)
     return Pt(lines * line_height_pt).inches
 
-def estimate_height_wrapped_Title(text, chars_per_line=6, line_height_pt=22):
+def estimate_height_wrapped_Title(text, chars_per_line=65, line_height_pt=20):
     lines = 0
     for para in text.split('\n'):
         para = para.strip()
@@ -236,7 +236,7 @@ def add_textbox_Title(slide, title, content, top_inch):
     left = Inches(0.5)
     top = Inches(top_inch)
     width = Inches(9.5)
-    height = Inches(2)
+    height = estimate_height_wrapped_Title(content)
     textbox = slide.shapes.add_textbox(left, top, width, height)
     tf = textbox.text_frame
     tf.word_wrap = True

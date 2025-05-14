@@ -60,7 +60,7 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
         entries_with_limit = []
         for query, entries in grouped.items():
             for i, entry in enumerate(entries):
-                limit = 500 if i < 1 else word_limit
+                limit = 800 if i < 1 else word_limit
                 entries_with_limit.append((entry, limit))
 
         # Process entries in parallel
