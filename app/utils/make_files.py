@@ -187,7 +187,16 @@ def create_ppt(output_filename, json_data):
             top += height.inches + gap
     prs.save(output_filename)
 
-def estimate_height_wrapped(text, chars_per_line=100, line_height_pt=18):
+def estimate_height_wrapped_content(text, chars_per_line=100, line_height_pt=18):
+    lines = 0
+    for para in text.split('\n'):
+        para = para.strip()
+        if not para:
+            continue
+        lines += max(1, int(len(para) / chars_per_line) + 1)
+    return Pt(lines * line_height_pt).inches
+
+def estimate_height_wrapped_Title(text, chars_per_line=6, line_height_pt=22):
     lines = 0
     for para in text.split('\n'):
         para = para.strip()
@@ -200,7 +209,7 @@ def add_textbox(slide, title, content, top_inch):
     left = Inches(0.5)
     top = Inches(top_inch)
     width = Inches(9.5)
-    height = estimate_height_wrapped(content)
+    height = estimate_height_wrapped_content(content)
     textbox = slide.shapes.add_textbox(left, top, width, height)
     tf = textbox.text_frame
     tf.word_wrap = True
@@ -227,7 +236,7 @@ def add_textbox_Title(slide, title, content, top_inch):
     left = Inches(0.5)
     top = Inches(top_inch)
     width = Inches(9.5)
-    height = estimate_height_wrapped(content)
+    height = estimate_height_wrapped_Title(content)
     textbox = slide.shapes.add_textbox(left, top, width, height)
     tf = textbox.text_frame
     tf.word_wrap = True
