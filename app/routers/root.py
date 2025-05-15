@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Annotated
 
 from fastapi import APIRouter, File, Form, Query, Request, UploadFile
-from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
@@ -184,9 +184,7 @@ async def upload_multiple(
     for worklet in worklets:
         idx = 12
         for idx, ref in enumerate(worklet["Reference Work"]):
-            ref["reference_id"] = idx 
-    async with aiofiles.open("latest_generated.json", "w") as file:
-        await file.write(json.dumps(worklets, indent=4))
+            ref["reference_id"] = idx
 
     # 8. Generate PDFs
     response = {"files": []}
@@ -262,10 +260,7 @@ def download_selected(received_files: FilesRequest, type: str = Query(...)):
         - The zip file is created as a temporary file and returned as a downloadable response.
     """
 
-    print(type)
-
     files = received_files.files 
-    print(files)
     if not files:
         return {"error": "No files provided."}
 

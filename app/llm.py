@@ -73,5 +73,4 @@ async def invoke_llm(prompt, model):
     cleaned = cleaned.strip()
     cleaned = cleaned.replace("```json", "").replace("```", "").strip()
 
-    print(cleaned)
     return cleaned
