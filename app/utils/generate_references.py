@@ -10,7 +10,7 @@ from app.utils.search_functions.search import search_references
 
 async def getReferenceWork(problem_statement, title, model="gemma3:27b"):
     """
-    Asynchronously generates a list of references related to a given title by querying 
+    Asynchronously generates a list of references related to a given title by querying
     GitHub, Google Scholar, and other sources.
     Args:
         title (str): The title or topic for which references are to be generated.
@@ -48,6 +48,7 @@ async def getReferenceWork(problem_statement, title, model="gemma3:27b"):
     response.extend(googleReferences)
 
     return response
+
 
 async def getKeyword(title, model):
     """

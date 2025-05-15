@@ -1,6 +1,7 @@
 import json
 
-def extract_dicts_smart(raw_text,return_first):
+
+def extract_dicts_smart(raw_text, return_first):
     """
     Extracts JSON dictionaries from a raw text input.
     This function processes a given raw text, identifies JSON-like dictionary structures,
@@ -27,15 +28,15 @@ def extract_dicts_smart(raw_text,return_first):
     cleaned_text = raw_text.replace("```json", "").replace("```", "").strip()
 
     for i, char in enumerate(cleaned_text):
-        if char == '{':
+        if char == "{":
             if not stack:
                 start_idx = i
-            stack.append('{')
-        elif char == '}':
+            stack.append("{")
+        elif char == "}":
             if stack:
                 stack.pop()
                 if not stack and start_idx is not None:
-                    dict_str = cleaned_text[start_idx:i+1]
+                    dict_str = cleaned_text[start_idx : i + 1]
                     try:
                         parsed = json.loads(dict_str)
                         results.append(parsed)
@@ -44,7 +45,7 @@ def extract_dicts_smart(raw_text,return_first):
 
     if not results:
         raise ValueError("No valid JSON dictionaries found in input.")
-    
-    if(return_first):
+
+    if return_first:
         return results[0]
     return results[0] if len(results) == 1 else results

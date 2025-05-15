@@ -22,9 +22,10 @@ SUPPORTED_EXTENSIONS = {
     '.pdf', '.docx', '.rtf', '.txt', '.epub', '.odt','.ppt', '.pptx','.xls', '.xlsx', '.csv','.jpg', '.jpeg', '.png', '.tiff', '.bmp', '.gif','.html', '.xml',
 }
 
+
 async def extract_document(name, sid):
     """
-    Extracts text content and images from a document file, performs OCR on the images, 
+    Extracts text content and images from a document file, performs OCR on the images,
     and emits progress updates via a socket connection.
     Args:
         name (str): The name of the document file to be processed.
@@ -48,7 +49,7 @@ async def extract_document(name, sid):
 
     if ext not in SUPPORTED_EXTENSIONS:
         raise ValueError(f"Unsupported file type: {ext}")
-    
+
     result: ExtractionResult = await extract_file(file_path)
 
     if result.content is None:
@@ -72,12 +73,14 @@ async def extract_document(name, sid):
             image_ext = base_image["ext"]
             image = Image.open(io.BytesIO(image_bytes))
 
-            image_path = os.path.join(image_dir, f"page{page_number + 1}_img{img_index + 1}.{image_ext}")
+            image_path = os.path.join(
+                image_dir, f"page{page_number + 1}_img{img_index + 1}.{image_ext}"
+            )
             image.save(image_path)
 
             # OCR the image
             await sio.emit("progress", {"message": "Extracting data from images..."}, to=sid)
             text = pytesseract.image_to_string(image)
             result.content += f" {text} \n"
-            
+
     return result.content

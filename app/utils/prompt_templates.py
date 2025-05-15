@@ -1,5 +1,6 @@
 from langchain.prompts import ChatPromptTemplate
 
+
 # this prompt will be used to extract keywords from the data
 def keywords_from_worklets_custom_prompt(custom_prompt, worklet_data, links_data):
     return f""" ROLE & CONTEXT
@@ -91,8 +92,17 @@ Strictly adhere to the specified output format. Your response must be a valid JS
 
 """
 
+
 #  This Prompt is meant to search for web only
-def web_search_prompt(count,count_string,worklet_data,links_data,custom_prompt,keywords,domains,):
+def web_search_prompt(
+    count,
+    count_string,
+    worklet_data,
+    links_data,
+    custom_prompt,
+    keywords,
+    domains,
+):
 
     return f"""ROLE & CONTEXT
 You are an expert Technology and Innovation Advisor for Samsung PRISM - an industry-academia collaboration that engages Tier 1 and Tier 2 engineering colleges across India.
@@ -179,6 +189,7 @@ MANDATORY CONSTRAINTS
 
 6. Strictly adhere to the specified output format. Your response must be a valid JSON object exactly as defined above - no additional text, explanations, markdown, or disclaimers are allowed. Any deviation from this format will be considered an invalid submission.
 """
+
 
 # This Prompt is meant to Generate The Final Worklets
 def worklet_gen_prompt_with_web_searches(
@@ -418,6 +429,7 @@ OUTPUT FORMAT
 
 """
 
+
 def reference_sort_template(json):
 
     return f"""you are an Expert Technology and Innovation Advisor for Samsung PRISM.
@@ -450,6 +462,7 @@ Your output should be:
 
 """
 
+
 def index_sort_template(json):  # worklet data need to be given so that
 
     return f"""You are an Expert Technology and Innovation Advisor for Samsung PRISM.
@@ -480,6 +493,7 @@ do not return anything else except the output asked for no extra text and format
 sort them in decreasing order of relevance to the current worklet (most important constraint)
 """
 
+
 def summariser_template():
     return ChatPromptTemplate.from_template(
         """
@@ -493,6 +507,7 @@ Input data:
 {worklet_data}
 """
     )
+
 
 def keyword_prompt():
     return ChatPromptTemplate.from_template(

@@ -11,6 +11,7 @@ sio = socketio.AsyncServer(
 
 heartbeat_tasks = {}
 
+
 @sio.event
 async def connect(sid, environ):
     active_connections.add(sid)
@@ -18,12 +19,13 @@ async def connect(sid, environ):
     async def send_heartbeat():
         try:
             while True:
-                await sio.emit('heartbeat', {'status': 'processing...'}, to=sid)
+                await sio.emit("heartbeat", {"status": "processing..."}, to=sid)
                 await asyncio.sleep(20)
         except asyncio.CancelledError:
             pass
 
     heartbeat_tasks[sid] = asyncio.create_task(send_heartbeat())
+
 
 @sio.event
 async def disconnect(sid):
@@ -35,6 +37,7 @@ async def disconnect(sid):
             await task
         except asyncio.CancelledError:
             pass
+
 
 def is_client_connected(sid):
     """Check if a client is connected."""

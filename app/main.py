@@ -15,7 +15,7 @@ fastapi_app.add_middleware(
     allow_origins=["*"],  # Allow all origins for now
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],  
+    allow_headers=["*"],
 )
 
 fastapi_app.mount("/static", StaticFiles(directory="app/public"), name="static")

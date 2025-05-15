@@ -28,9 +28,6 @@ os.makedirs(ppt_path, exist_ok=True)
 CUSTOM_PAGE_SIZE = (750,900)  # Width x Height in points (1 point = 1/72 inch)  used by pdf
 
 async def generatePdf(json, model, index):
-    print("\n")
-    print("----" * 25 + "Inside make_file " + "----" * 25)
-    print("\n")
 
     json_data = await pre_processing(json, index, model) # json after sorting
     
@@ -42,11 +39,6 @@ async def generatePdf(json, model, index):
     loop = asyncio.get_running_loop()
     await loop.run_in_executor(None, create_pdf, filename_pdf, json_data)
     await loop.run_in_executor(None, create_ppt, filename_ppt, json_data)
-    
-
-    print("\n")
-    print(f"PDF generated: {filename_pdf}")
-    print("\n")
     
 async def pre_processing(json_data, index, model="gemma3:27b"):
     json_data = await index_sort(json_data, model)

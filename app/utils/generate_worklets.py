@@ -12,6 +12,8 @@ from app.utils.prompt_templates import (
 from app.utils.search_functions.search import search
 from app.utils.search_functions.modify_websearch_queries import get_approved_queries
 from app.utils.search_functions.modify_keywords_domains import get_approved_content
+
+
 executor = ThreadPoolExecutor(max_workers=5)
 
 async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt):
@@ -19,6 +21,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
     count_string = "five"
 
     loop = asyncio.get_running_loop()
+    
     # New order
     # keywords -> websearch -> frontend ->  update keywords and web search -> do websearch -> Final worklet generation prompt 
     await sio.emit("progress", {"message": "Extracting keywords and domains..."}, to=sid)
@@ -91,10 +94,10 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
 
     # prompting the user to approve the web queries and add any new ones
     queries = await get_approved_queries(queries=queries, sid=sid, show_message=show_message)
-    print("printing updated queriies")
-    print(queries)
+    
     socket_message = "Generating worklets..."
     search_data=''
+    
     if queries != []:
         await sio.emit("progress", {"message": "Searching the web..."}, to=sid)
         try:
@@ -102,6 +105,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
         except Exception as e:
             await sio.emit("error", {"message": "ERROR: Web search failed. Please try again."}, to=sid)
             return
+
         socket_message = "Generating worklets with web search results..."
 
     await sio.emit("progress", {"message": socket_message}, to=sid)

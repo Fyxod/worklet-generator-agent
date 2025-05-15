@@ -134,7 +134,7 @@ socket.on("pdf_generated", (data) => {
     a.style.animation = "fadeIn 0.6s ease forwards";
     a.style.display = "flex";
     a.style.alignItems = "center";
-    a.style.gap = "8px"; // small space between icon and text
+    a.style.gap = "8px";
 
     const icon = document.createElement("img");
     icon.src = "/static/icon.png";
@@ -171,7 +171,6 @@ socket.on("fileReceived", (data) => {
   receivedFiles.push(data.file_name);
 });
 
-// 🛑 NEW: Listen for error event
 socket.on("error", (data) => {
   console.error("Error event received:", data);
   errorOccurred = true;
@@ -421,7 +420,6 @@ document.getElementById("query-form").addEventListener("submit", (e) => {
   document.body.classList.remove("modal-active");
 });
 
-// Optional: blur background when modal is active
 const observer = new MutationObserver(() => {
   const modalActive = document.body.classList.contains("modal-active");
   document.querySelector(".container").style.filter = modalActive
