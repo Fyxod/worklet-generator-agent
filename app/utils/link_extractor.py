@@ -65,6 +65,20 @@ def extract_visible_text(html, word_limit: int = 300):
 
 
 def extract_content_from_link(url, word_limit: int = 300):
+    """
+    Extracts and returns a snippet of text content from a given URL, handling various content types.
+    Parameters:
+        url (str): The URL to fetch content from.
+        word_limit (int, optional): The maximum number of words to extract (default is 300).
+    Returns:
+        str: Extracted text content from the URL, limited to the specified number of words.
+             For PDFs, images, HTML, JSON, plain text, and markdown, the function attempts to extract and return
+             a snippet of text. If the content type is unsupported or an error occurs, an appropriate message or
+             an empty string is returned.
+    Raises:
+        None: All exceptions are caught internally and handled gracefully.
+    """
+
     try:
         response = requests.get(url, timeout=10)
         content_type = magic.from_buffer(response.content, mime=True).lower()
@@ -105,6 +119,16 @@ def extract_content_from_link(url, word_limit: int = 300):
 
 
 def get_links_data(links: list):
+    """
+    Fetches and processes content from a list of URLs concurrently.
+    Args:
+        links (list): A list of URLs (strings) to extract content from.
+    Returns:
+        dict: A dictionary mapping each URL to its extracted content, as returned by `extract_content_from_link`.
+    Note:
+        This function uses a ThreadPoolExecutor to perform concurrent extraction of content from the provided links.
+    """
+
     with concurrent.futures.ThreadPoolExecutor() as executor:
         results = list(executor.map(extract_content_from_link, links))
     obj = {}

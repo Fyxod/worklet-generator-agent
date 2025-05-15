@@ -115,6 +115,18 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
 
 
 def search_references(keyword: str, max_results: int = 10):
+    """
+    Searches for references related to a given keyword using multiple search engines.
+    Attempts to retrieve search results from Google first. If Google search fails,
+    it falls back to DuckDuckGo. Returns a list of references found, up to the specified
+    maximum number of results.
+    Args:
+        keyword (str): The search term to query.
+        max_results (int, optional): The maximum number of results to return. Defaults to 10.
+    Returns:
+        list: A list of references found for the given keyword. Returns an empty list if no results are found or if all searches fail.
+    """
+
     try:
         results = []
         try:
