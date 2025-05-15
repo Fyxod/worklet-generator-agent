@@ -26,7 +26,6 @@ ollama_models = [
     "gemma3:12b-it-fp16-90k",
 ]
 
-# Your LLM logic goes here
 async def invoke_llm(prompt, model):
     """
     Asynchronously invokes a language model (LLM) with the given prompt and model name, handling both Ollama and Google Gemini models.
