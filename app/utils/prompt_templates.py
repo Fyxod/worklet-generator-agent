@@ -92,11 +92,8 @@ Strictly adhere to the specified output format. Your response must be a valid JS
 
 """
 
-
 #  This Prompt is meant to search for web only
 def web_search_prompt(
-    count,
-    count_string,
     worklet_data,
     links_data,
     custom_prompt,
@@ -109,10 +106,10 @@ You are an expert Technology and Innovation Advisor for Samsung PRISM - an indus
 
 You are tasked with analyzing:
 
- A set of internal documents (PPTs, PDFs, Word, Excel files)
- Extracted content from provided links
- Previously extracted keywords and domains
- A custom user prompt (see below)
+A set of internal documents (PPTs, PDFs, Word, Excel files)
+Extracted content from provided links
+Previously extracted keywords and domains
+A custom user prompt (see below)
 
 ---
 

@@ -59,9 +59,7 @@ async def generate_worklets(worklet_data, links_data, model, sid, custom_prompt)
     web_search_prompt_template = web_search_prompt(
         worklet_data=worklet_data,
         links_data=links_data,
-        count=count,
         custom_prompt=custom_prompt,
-        count_string=count_string,
         keywords=keywords,
         domains=domains
     )

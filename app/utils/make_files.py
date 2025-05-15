@@ -47,7 +47,6 @@ async def pre_processing(json_data, index, model="gemma3:27b"):
 def sanitize_filename(filename):
     return re.sub(r'[\/:*?"<>|]', '_', filename)
 
-# Function to handle the actual blocking PDF generation using ReportLab
 def create_pdf(filename, json_data):
     pdf = canvas.Canvas(filename, pagesize=CUSTOM_PAGE_SIZE)
     width, height = CUSTOM_PAGE_SIZE
@@ -178,6 +177,8 @@ def create_ppt(output_filename, json_data):
 
             top += height.inches + gap
     prs.save(output_filename)
+
+#  some function that are used by create ppt 
 
 def estimate_height_wrapped_content(text, chars_per_line=100, line_height_pt=18):
     lines = 0
