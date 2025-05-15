@@ -69,7 +69,6 @@ class CustomGoogleScholarOrganic:
                 'pdf_file': pdf_file
             })
 
-    #TODO: add lang support. https://serpapi.com/google-languages
     def scrape_google_scholar_organic_results(
             self,
             query: str,

@@ -1,8 +1,6 @@
 import requests
 import time
 
-start_time = time.time()
-
 
 def get_github_references(keyword):
     url = "https://api.github.com/search/repositories"

@@ -49,7 +49,7 @@ async def generatePdf(json, model, index):
     print("\n")
     
 async def pre_processing(json_data, index, model="gemma3:27b"):
-    json_data = await index_sort(json_data, model, index)
+    json_data = await index_sort(json_data, model)
     return json_data
 
 def sanitize_filename(filename):

@@ -11,21 +11,21 @@ load_dotenv()
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash",
     temperature=1,
-    google_api_key = os.getenv("GOOGLE_API_KEY_gemini"),
+    google_api_key=os.getenv("GOOGLE_API_KEY_gemini"),
 )
 
 llm2 = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash",
     temperature=1,
-    google_api_key = os.getenv("GOOGLE_API_KEY_gemini2"),
+    google_api_key=os.getenv("GOOGLE_API_KEY_gemini2"),
 )
 
 ollama_models = [
-    "gemma3:27b",
-    'gemma3:27b-90k-8k',
+    "gemma3:27b-90k",
     "gemma3:12b-it-fp16-45k",
-    "gemma3:12b-it-fp16-90k"
+    "gemma3:12b-it-fp16-90k",
 ]
+
 
 async def invoke_llm(prompt, model):
     raw_text = ""
@@ -68,8 +68,8 @@ async def invoke_llm(prompt, model):
     cleaned = re.sub(r"#", "", cleaned)
     cleaned = re.sub(r"\s+", " ", cleaned)
     cleaned = cleaned.replace('")', '"')
-    if '`' in cleaned:
-        cleaned = cleaned[cleaned.find('`'):]
+    if "`" in cleaned:
+        cleaned = cleaned[cleaned.find("`") :]
     cleaned = cleaned.strip()
     cleaned = cleaned.replace("```json", "").replace("```", "").strip()
 

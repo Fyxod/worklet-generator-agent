@@ -1,5 +1,6 @@
 from app.utils.reference_functions.scholar_package import CustomGoogleScholarOrganic
 
+
 def get_google_scholar_references(keyword):
     """
     Fetches references from Google Scholar based on the provided keyword.
@@ -23,7 +24,7 @@ def get_google_scholar_references(keyword):
     try:
         custom_parser_get_organic_results = (
             CustomGoogleScholarOrganic().scrape_google_scholar_organic_results(
-                query=keyword, pagination=False, save_to_csv=False, save_to_json=True
+                query=keyword, pagination=False, save_to_csv=False, save_to_json=False
             )
         )
 

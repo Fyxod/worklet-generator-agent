@@ -1,10 +1,10 @@
-import json
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from app.utils.link_extractor import extract_content_from_link
 from app.utils.search_functions.duck import fetch_duckduckgo_references, fetch_duckduckgo_results
 from app.utils.search_functions.google_search import google_search, google_search_references
+
 
 def search(queries: list, max_results: int = 5, word_limit: int = 300):
     """
@@ -67,7 +67,11 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
         def process_entry(entry, word_limit_in):
             try:
                 link = entry.get("link")
-                extracted = extract_content_from_link(link, word_limit=word_limit_in) if link else ""
+                extracted = (
+                    extract_content_from_link(link, word_limit=word_limit_in)
+                    if link
+                    else ""
+                )
                 return {
                     "search_query": entry.get("query", ""),
                     "page_title": entry.get("title", ""),
@@ -78,7 +82,10 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
 
         all_processed = []
         with ThreadPoolExecutor(max_workers=15) as executor:
-            futures = [executor.submit(process_entry, entry, limit) for entry, limit in entries_with_limit]
+            futures = [
+                executor.submit(process_entry, entry, limit)
+                for entry, limit in entries_with_limit
+            ]
             for future in as_completed(futures):
                 result = future.result()
                 if result:
@@ -87,11 +94,13 @@ def search(queries: list, max_results: int = 5, word_limit: int = 300):
         # Regroup by search_query
         grouped_results = defaultdict(list)
         for item in all_processed:
-            grouped_results[item["search_query"]].append({
-                "page_title": item["page_title"],
-                "page_body": item["page_body"],
-                # "link": item["link"]
-            })
+            grouped_results[item["search_query"]].append(
+                {
+                    "page_title": item["page_title"],
+                    "page_body": item["page_body"],
+                    # "link": item["link"]
+                }
+            )
 
         final_output = [
             {"search_query": query, "search_results": entries}
@@ -121,7 +130,7 @@ def search_references(keyword: str, max_results: int = 10):
             if duck_results:
                 results.extend(duck_results)
                 return results
-            
+
         except Exception as e:
             return results
 

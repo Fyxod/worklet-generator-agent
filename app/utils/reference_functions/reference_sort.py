@@ -1,83 +1,102 @@
-from app.llm import invoke_llm
-from app.utils.prompt_templates import reference_sort_template, index_sort_template
-from app.utils.llm_response_parser import extract_dicts_smart
-import json, os
 import ast
+import json
 
-output_directory = "sorted_references"
-os.makedirs(output_directory, exist_ok=True)
+from app.llm import invoke_llm
+from app.utils.llm_response_parser import extract_dicts_smart
+from app.utils.prompt_templates import reference_sort_template, index_sort_template
 
-def inplace_sort(worklet,model, index):
+
+def inplace_sort(worklet,model):
     """
-    Take Input of a Single Worklet and sort the serefences on the basis of the discription 
-    provided in Increasing order of Relevence
-
+    Sorts the 'Reference Work' entries within a worklet in place using an LLM-based sorting mechanism.
+    Args:
+        worklet (dict): A dictionary containing a 'Reference Work' key with references to be sorted.
+        model (Any): The language model to be used for sorting the references.
+    Returns:
+        dict: The updated worklet dictionary with the 'Reference Work' entries sorted.
+    Raises:
+        KeyError: If 'Reference Work' key is not present in the worklet.
+        Exception: If the LLM invocation or extraction of sorted references fails.
     """
+
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
     prompt =reference_sort_template(reference_work_str)  
     sorted_references = invoke_llm(prompt, model)
-    filename = f"{index + 1}_Inplace_sort.json"
-    path = os.path.join(output_directory, filename)
     worklet["Reference Work"] = extract_dicts_smart(sorted_references)
-    with open(path, "w") as file:
-        json.dump(worklet["Reference Work"], file, indent=4)
     return worklet
 
-async def scholar_sort(worklet, model, index):
+
+async def scholar_sort(worklet):
     """
-    Take Input of a Single Worklet and sort the references on the basis of the description 
-    provided in Increasing order of Relevance.
+    Sorts the "Reference Work" list in the given worklet dictionary based on the priority of the 'Tag' field.
+    The sorting priority is as follows:
+        - 'scholar': 0 (highest priority)
+        - 'google': 1
+        - 'github': 2 (lowest priority)
+    Any tag not listed will be assigned the lowest priority (2).
+    Args:
+        worklet (dict): A dictionary containing a "Reference Work" key, which maps to a list of references. 
+                        Each reference is expected to be a dictionary with a 'Tag' key.
+    Returns:
+        dict: The input worklet dictionary with its "Reference Work" list sorted by tag priority.
     """
+
     priority = {
         'scholar': 0,
         'google': 1,
         'github': 2
     }
     worklet["Reference Work"].sort(key=lambda x: priority.get(x['Tag'], 2))
-    filename = f"{index + 1}_scholar_sort.json"
-    path = os.path.join(output_directory, filename)
-    
-    with open(path, "w") as file:
-        json.dump(worklet["Reference Work"], file, indent=4)
 
     return worklet
 
 
-async def index_sort(worklet, model, index):
+async def index_sort(worklet, model):
     """
-    Take Input of a Single Worklet and sort the references on the basis of the description 
-    provided in Increasing order of Relevance.
+    Asynchronously sorts the 'Reference Work' entries in a worklet using an LLM-based index sorting approach.
+    Args:
+        worklet (dict): A dictionary containing a 'Reference Work' key with a list of references to be sorted.
+        model (str): The identifier or name of the language model to use for sorting.
+    Returns:
+        dict: The updated worklet dictionary with the 'Reference Work' list sorted according to the LLM's output.
+              If the LLM-based sorting fails, falls back to scholar_sort for sorting.
+    Raises:
+        Exception: If an unexpected error occurs during the sorting process, the function falls back to scholar_sort.
     """
+
     reference_work_str = json.dumps(worklet['Reference Work'], indent=2)
-    prompt = index_sort_template(reference_work_str)  # Assuming this is defined elsewhere
+    prompt = index_sort_template(reference_work_str)
     
     try:
-        sorted_indices = await invoke_llm(prompt, model)  # Make sure invoke_llm is async
-        print("LLM returned:", sorted_indices)
-        
+        sorted_indices = await invoke_llm(prompt, model)
+
         sorted_indices = convert_to_list(sorted_indices)
         if sorted_indices == "failed":
             print("Index sort failed, falling back to scholar sort")
-            return await scholar_sort(worklet, model, index)
-        
+            return await scholar_sort(worklet)
+
         sorted_indices = remove_duplicates(sorted_indices)
         sorted_references = rearrange_references(worklet['Reference Work'], sorted_indices)
 
-        filename = f"{index + 1}_index_sort.json"
-        path = os.path.join(output_directory, filename)
-        
         worklet["Reference Work"] = sorted_references
-        
-        with open(path, "w") as file:
-            json.dump(worklet["Reference Work"], file, indent=4)
 
     except Exception as e:
         print(f"Error during index sorting: {e}")
-        return await scholar_sort(worklet, model, index)
-    
+        return await scholar_sort(worklet)
+
     return worklet
 
+
 def rearrange_references(reference_work, sorted_indices):
+    """
+    Rearranges the elements of reference_work according to the order specified in sorted_indices.
+    Args:
+        reference_work (list): The list of references to be rearranged.
+        sorted_indices (list of int): The list of indices specifying the new order.
+    Returns:
+        list: A new list of references rearranged as per sorted_indices.
+    """
+
     rearranged_references = []
     for i in sorted_indices:
         if 0 <= i < len(reference_work):
@@ -85,6 +104,7 @@ def rearrange_references(reference_work, sorted_indices):
         else:
             print(f"Warning: Ignoring invalid index {i}")
     return rearranged_references
+
 
 def convert_to_list(input_data):
     """
@@ -106,7 +126,6 @@ def convert_to_list(input_data):
         elif isinstance(input_data, str):
             input_data = input_data.strip()
 
-            # Try JSON loading first
             try:
                 parsed = json.loads(input_data)
                 if isinstance(parsed, list):
@@ -139,6 +158,7 @@ def convert_to_list(input_data):
     except (ValueError, TypeError):
         
         return "failed"
+
 
 def remove_duplicates(numbers):
     """Removes duplicates from a list while keeping order."""

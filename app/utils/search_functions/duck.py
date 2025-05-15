@@ -2,7 +2,13 @@ import time
 from duckduckgo_search import DDGS
 
 
-def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int = 10,delay_after_req: float=0.75, delay_exception: int = 3):
+def fetch_duckduckgo_results(
+    query: str,
+    max_results: int = 5,
+    max_retries: int = 10,
+    delay_after_req: float = 0.75,
+    delay_exception: int = 3,
+):
     """
     Searches DuckDuckGo for a given query and returns JSON results.
 
@@ -20,20 +26,22 @@ def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int 
     print(f"Fetching DuckDuckGo results for query: {query}")
     attempt = 0
     ddgs = DDGS()
-    arr=[]
+    arr = []
     while attempt < max_retries:
         try:
             results = list(ddgs.text(query, max_results=max_results))
 
             if results and isinstance(results, list):
                 for result in results:
-                    if 'title' in result and 'href' in result:
-                        arr.append({
-                            "title": result['title'],
-                            "link": result['href'],
-                            "body": result.get('body', ''),
-                            "query": query,
-                        })
+                    if "title" in result and "href" in result:
+                        arr.append(
+                            {
+                                "title": result["title"],
+                                "link": result["href"],
+                                "body": result.get("body", ""),
+                                "query": query,
+                            }
+                        )
                 return arr
             else:
                 time.sleep(delay_after_req)
@@ -44,6 +52,7 @@ def fetch_duckduckgo_results(query: str, max_results: int = 5, max_retries: int 
             attempt += 1
 
     return []
+
 
 def fetch_duckduckgo_references(query: str, max_results: int = 5):
     """
@@ -63,19 +72,21 @@ def fetch_duckduckgo_references(query: str, max_results: int = 5):
     """
 
     ddgs = DDGS()
-    arr=[]
+    arr = []
     try:
         results = list(ddgs.text(query, max_results=max_results))
 
         if results and isinstance(results, list):
             for result in results:
-                if 'title' in result and 'href' in result:
-                    arr.append({
-                        "Title": result['title'],
-                        "Link": result['href'],
-                        "Description": result.get('body', ''),
-                        "Tag": "google",
-                    })
+                if "title" in result and "href" in result:
+                    arr.append(
+                        {
+                            "Title": result["title"],
+                            "Link": result["href"],
+                            "Description": result.get("body", ""),
+                            "Tag": "google",
+                        }
+                    )
             return arr
         else:
             return
