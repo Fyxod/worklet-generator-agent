@@ -72,7 +72,7 @@ uvicorn app.main:app
         └── 📁utils
             └── generate_references.py
             └── generate_worklets.py
-            └── generatepdf.py
+            └── make_files.py
             └── link_extractor.py
             └── llm_response_parser.py
             └── parser.py
