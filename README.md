@@ -22,7 +22,7 @@ Install required dependencies
 ```
 pip install -r requirements.txt
 ```
- - It you are on linux use droplet-req.txt 
+  - If you are on linux use droplet-req.txt 
   - toml files are present if u use poetry as your venv manager(for windows)
 
 
