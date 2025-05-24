@@ -49,8 +49,12 @@ async def extract_document(name, sid):
 
     if ext not in SUPPORTED_EXTENSIONS:
         raise ValueError(f"Unsupported file type: {ext}")
-
-    result: ExtractionResult = await extract_file(file_path)
+    
+    try:
+        result: ExtractionResult = await extract_file(file_path)
+    except Exception as e:
+        # await sio.emit("progress", {"message": f"Error extracting file: {str(e)}"}, to=sid)
+        return ""
 
     if result.content is None:
         result.content = ""
