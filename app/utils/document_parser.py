@@ -7,6 +7,7 @@ from pathlib import Path
 from PIL import Image
 from kreuzberg import ExtractionResult, extract_file
 from app.socket import sio
+import asyncio
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
@@ -53,7 +54,8 @@ async def extract_document(name, sid):
     try:
         result: ExtractionResult = await extract_file(file_path)
     except Exception as e:
-        # await sio.emit("progress", {"message": f"Error extracting file: {str(e)}"}, to=sid)
+        await sio.emit("progress", {"message": f"Error extracting file: Failed to load document (PDFium: Data format error)"}, to=sid)
+        await asyncio.sleep(5)  
         return ""
 
     if result.content is None:
