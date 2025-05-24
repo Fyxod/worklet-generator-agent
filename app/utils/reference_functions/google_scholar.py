@@ -56,7 +56,7 @@ def get_google_scholar_references(keyword):
 
 def slice_to_100_words(text):
     words = text.split()
-    if len(words) <= 100:
+    if len(words) <= 500:
         return text
     else:
-        return " ".join(words[:100])
+        return " ".join(words[:500])
