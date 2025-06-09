@@ -54,7 +54,7 @@ async def extract_document(name, sid):
     try:
         result: ExtractionResult = await extract_file(file_path)
     except Exception as e:
-        await sio.emit("progress", {"message": f"Error extracting file: Failed to load document (PDFium: Data format error)"}, to=sid)
+        await sio.emit("progress", {"message": f"Error extracting file: Failed to load document (Corrupt file)"}, to=sid)
         await asyncio.sleep(5)  
         return ""
 
