@@ -5,15 +5,10 @@ It combines the power of LLMs, web search, and scholarly references to help rese
 
 ### What it does:
 - Takes previous research ideas as context.
-
 - Extracts keywords and domain concepts
-
 - Performs web search to expand context using real-time info.
-
 - Uses LLMs to generate structured new research ideas (in JSON format).
-
 - Converts structured ideas into PPTs and PDFs.
-
 - Scrapes relevant references from Google Scholar and GitHub.
   - Falls back to regular web search if Google Scholar fails.
   - All references are ranked by relevance using an LLM.
@@ -34,7 +29,6 @@ Activate the virtual environment
 
 ```
 .\my_env\Scripts\activate
-
 ```
 
 Install required dependencies
