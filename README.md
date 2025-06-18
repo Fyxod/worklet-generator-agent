@@ -1,10 +1,30 @@
-
 # Worklet Generator 
-## Clone the repo from GitHub 
+Worklet Generator is an AI-powered agent system designed to generate structured research project ideas from past work and web knowledge, and automatically convert those into presentable formats like PPTs and PDFs with relevant citations.
+
+It combines the power of LLMs, web search, and scholarly references to help researchers, students, and innovation teams generate new project ideas quickly.
+
+### What it does:
+- Takes previous research ideas as context.
+
+- Extracts keywords and domain concepts
+
+- Performs web search to expand context using real-time info.
+
+- Uses LLMs to generate structured new research ideas (in JSON format).
+
+- Converts structured ideas into PPTs and PDFs.
+
+- Scrapes relevant references from Google Scholar and GitHub.
+  - Falls back to regular web search if Google Scholar fails.
+  - All references are ranked by relevance using an LLM.
+
+## Getting Started
+
+### Clone the repo from GitHub 
 ```
 git clone https://github.com/bedrockSp/Backend.git
 ```
-## Create a virtual environment
+### Create a virtual environment
 Make sure Python is installed and added to your system PATH.
 ```
 python -m venv my_env
@@ -26,12 +46,12 @@ pip install -r requirements.txt
   - toml files are present if u use poetry as your venv manager(for windows)
 
 
-## Make env file
+### Setup .env file
 
-copy the content of env.example and past it into .env 
+copy the content of .env.example and past it into .env 
 then fill it up 
 
-## Download TeseractOCR
+### Install Tesseract OCR
 
 
 ``` 
@@ -41,9 +61,8 @@ https://github.com/tesseract-ocr/tesseract/releases
 from the  link download latest model and install it 
 
 
-## Test it out
-Your are all set to go!
-Run the following **command from the Worklet Generator Folder** to start the server
+### Run the Server
+Run this command from the worklet-generator-agent root folder:
 
 ```
 uvicorn app.main:app 
@@ -53,7 +72,7 @@ uvicorn app.main:app
 
 
 ```
-└── 📁worklet-generator
+└── 📁worklet-generator-agent
     └── 📁app
         └── __init__.py
         └── llm.py
@@ -115,6 +134,9 @@ uvicorn app.main:app
 - **utils**: Contains utility functions for generating references, worklets, PDFs, and parsing LLM responses.
 - **templates**: Contains templates for rendering HTML pages.
 
-#### Start reading from app/routers/root.py and follow the imports to understand the flow of the code.
-#### The main.py file is the entry point of the application, where the FastAPI app is created and configured.
-#### The app is run using Uvicorn, which is an ASGI server for running FastAPI applications.
+## Developer Notes
+- Start reading from app/routers/root.py to understand the flow.
+
+- main.py is the app entrypoint.
+
+- Worklet flow: Input → Context + Search → LLM → Structured Output → PPT/PDF + References.
