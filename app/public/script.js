@@ -269,7 +269,7 @@ form.addEventListener("submit", async (e) => {
 
     const downloadAllPdf = document.createElement("button");
     downloadAllPdf.classList.add("generate-btn");
-    downloadAllPdf.textContent = "Download zip of PDF";
+    downloadAllPdf.textContent = "Download zip of PDFs";
     downloadAllPdf.style.fontWeight = "700";
     downloadAllPdf.style.width = "auto";
     downloadAllPdf.style.minWidth = "160px";
@@ -277,7 +277,7 @@ form.addEventListener("submit", async (e) => {
 
     const downloadAllPpt = document.createElement("button");
     downloadAllPpt.classList.add("generate-btn");
-    downloadAllPpt.textContent = "Download zip of PPT";
+    downloadAllPpt.textContent = "Download zip of PPTs";
     downloadAllPpt.style.fontWeight = "700";
     downloadAllPpt.style.width = "auto";
     downloadAllPpt.style.minWidth = "160px";
